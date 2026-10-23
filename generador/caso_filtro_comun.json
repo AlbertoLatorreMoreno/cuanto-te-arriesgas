@@ -1,0 +1,128 @@
+{
+  "descripcion": "Modelo filtro, seis preguntas y las probabilidades que deben salir (las calculó la versión en R del modelo, retirada en la fase 13). Lo comprueban generador/test_generador.py y analisis/test_calibracion.py.",
+  "modelo": {
+    "formato": 1,
+    "caracteristicas": [
+      "exactitud",
+      "ambiguedad",
+      "claridad",
+      "desvio_nivel",
+      "longitud",
+      "numerica"
+    ],
+    "intercepto": -3.40183531553068,
+    "pesos": [
+      -2.00662171081664,
+      1.81661856248898,
+      0.175276586128096,
+      0.148443140537384,
+      -0.303850630976717,
+      0.241109219661793
+    ],
+    "medias": [
+      4.044,
+      2.036,
+      3.944,
+      0.8,
+      0.63028,
+      0.284
+    ],
+    "desviaciones": [
+      1.01101563313421,
+      1.04261795919471,
+      0.731439687236246,
+      0.831121562834725,
+      0.241357276541974,
+      0.45184139094408
+    ],
+    "umbral": 0.5
+  },
+  "preguntas": [
+    {
+      "id": "cie-cue-11",
+      "nivel": 6,
+      "pregunta": "¿Cuál es el hueso más pequeño del cuerpo humano?",
+      "respuesta": "El estribo",
+      "juez": {
+        "exactitud": 2,
+        "ambiguedad": 4,
+        "claridad": 4,
+        "nivel_estimado": 8,
+        "comentario": ""
+      }
+    },
+    {
+      "id": "cie-fis-15",
+      "nivel": 8,
+      "pregunta": "¿A cuántos grados centígrados está el cero absoluto?",
+      "respuesta": "−273,15 °C",
+      "juez": {
+        "exactitud": 4,
+        "ambiguedad": 1,
+        "claridad": 3,
+        "nivel_estimado": 8,
+        "comentario": ""
+      }
+    },
+    {
+      "id": "his-pai-20",
+      "nivel": 10,
+      "pregunta": "¿Cuál es la capital de Bután?",
+      "respuesta": "Timbu",
+      "juez": {
+        "exactitud": 4,
+        "ambiguedad": 1,
+        "claridad": 5,
+        "nivel_estimado": 10,
+        "comentario": ""
+      }
+    },
+    {
+      "id": "ent-cin-17",
+      "nivel": 9,
+      "pregunta": "¿Qué palabra pronuncia el protagonista de «Ciudadano Kane» justo antes de morir?",
+      "respuesta": "Rosebud",
+      "juez": {
+        "exactitud": 3,
+        "ambiguedad": 3,
+        "claridad": 4,
+        "nivel_estimado": 10,
+        "comentario": ""
+      }
+    },
+    {
+      "id": "mat-pro-19",
+      "nivel": 10,
+      "pregunta": "¿Cuántas combinaciones distintas hay en la Primitiva, donde se eligen 6 números del 1 al 49?",
+      "respuesta": "13 983 816",
+      "juez": {
+        "exactitud": 5,
+        "ambiguedad": 3,
+        "claridad": 3,
+        "nivel_estimado": 10,
+        "comentario": ""
+      }
+    },
+    {
+      "id": "mat-log-19",
+      "nivel": 10,
+      "pregunta": "Le digo a un amigo: «si me das una oveja, tendremos las mismas; si yo te doy una, tendrás el doble que yo». ¿Cuántas ovejas tengo yo?",
+      "respuesta": "5",
+      "juez": {
+        "exactitud": 5,
+        "ambiguedad": 1,
+        "claridad": 3,
+        "nivel_estimado": 10,
+        "comentario": ""
+      }
+    }
+  ],
+  "esperado": {
+    "cie-cue-11": 0.987161712185741,
+    "cie-fis-15": 0.00691043118272385,
+    "his-pai-20": 0.00872684484592116,
+    "ent-cin-17": 0.508454008101888,
+    "mat-pro-19": 0.0184985382224716,
+    "mat-log-19": 0.000344774152363199
+  }
+}

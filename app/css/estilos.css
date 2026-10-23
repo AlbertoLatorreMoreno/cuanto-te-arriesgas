@@ -1,0 +1,1477 @@
+/* ¿Cuánto te arriesgas? — estilos
+   Móvil primero, letra grande (las preguntas se leen en voz alta), tema claro y oscuro. */
+
+:root {
+  --fondo: #f5f2ea;
+  --superficie: #ffffff;
+  --superficie-2: #ece8de;
+  --texto: #1c1a16;
+  --texto-suave: #635e55;
+  --borde: #dcd6c9;
+  --primario: #1c1a16;
+  --sobre-primario: #ffffff;
+  --ok: #1d7a45;
+  --mal: #b3362a;
+  /* Fondos con texto blanco encima: iguales en los dos temas para mantener el contraste
+     (en el tema oscuro, --ok y --mal son claros porque se usan como color de texto). */
+  --ok-fondo: #1d7a45;
+  --mal-fondo: #b3362a;
+  --aviso: #8a5a00;
+  /* Rondas divertidas: fondo con letra blanca, igual en los dos temas (contraste 7,4). */
+  --ronda: #6b3fa0;
+  /* Preguntas finales propias (sin categoría): bronce, también con letra blanca (contraste 6,9). */
+  --final: #854d0e;
+  --foco: #2f5fc4;
+  --sombra: 0 1px 2px rgb(0 0 0 / 6%), 0 4px 16px rgb(0 0 0 / 6%);
+  --radio: 16px;
+  --radio-sm: 10px;
+  --cat: #635e55;
+  /* Mapa de Geohistoria: mar, tierra, fronteras y las dos marcas (la de quien juega y la correcta). */
+  --mar: #cfe2ee;
+  --tierra: #f4f0e3;
+  --frontera: #9d9584;
+  --marca: #c2410c;
+  --marca-ok: #1d7a45;
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --fondo: #14130f;
+    --superficie: #1f1d18;
+    --superficie-2: #2a2721;
+    --texto: #f3efe6;
+    --texto-suave: #b2ab9e;
+    --borde: #3a362e;
+    --primario: #f3efe6;
+    --sobre-primario: #14130f;
+    --ok: #4cc283;
+    --mal: #f07466;
+    --aviso: #e0b04f;
+    --foco: #8fb0ff;
+    --sombra: 0 1px 2px rgb(0 0 0 / 40%);
+    --mar: #12283a;
+    --tierra: #39443a;
+    --frontera: #7d8b79;
+    --marca: #ff8a3d;
+    --marca-ok: #4cc283;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --fondo: #14130f;
+  --superficie: #1f1d18;
+  --superficie-2: #2a2721;
+  --texto: #f3efe6;
+  --texto-suave: #b2ab9e;
+  --borde: #3a362e;
+  --primario: #f3efe6;
+  --sobre-primario: #14130f;
+  --ok: #4cc283;
+  --mal: #f07466;
+  --aviso: #e0b04f;
+  --foco: #8fb0ff;
+  --sombra: 0 1px 2px rgb(0 0 0 / 40%);
+  --mar: #12283a;
+  --tierra: #39443a;
+  --frontera: #7d8b79;
+  --marca: #ff8a3d;
+  --marca-ok: #4cc283;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Sin «deslizar para recargar» (Chrome en Android): al marcar una lista larga o subir del todo,
+     recargaba la página sin querer y el cronómetro volvía a empezar. */
+  overscroll-behavior-y: contain;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 1.0625rem; /* 17 px con la letra normal; crece si el usuario la agranda en el navegador */
+  line-height: 1.45;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cargando {
+  margin: auto;
+  color: var(--texto-suave);
+}
+
+/* ---------- Cabecera ---------- */
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+}
+
+.cabecera h1 {
+  font-size: 1.15rem;
+  flex: 1;
+}
+
+.volver {
+  border: 0;
+  background: none;
+  min-height: 44px;
+  padding: 10px 12px 10px 0;
+  font-size: 1rem;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+/* ---------- Botones ---------- */
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-weight: 600;
+  font-size: 1.02rem;
+  cursor: pointer;
+  text-align: center;
+  touch-action: manipulation;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.boton:active {
+  transform: scale(0.98);
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.boton-primario {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: var(--sobre-primario);
+}
+
+.boton-ok {
+  background: var(--ok-fondo);
+  border-color: var(--ok-fondo);
+  color: #fff;
+}
+
+.boton-mal {
+  background: var(--mal-fondo);
+  border-color: var(--mal-fondo);
+  color: #fff;
+}
+
+.boton-texto {
+  border: 0;
+  background: none;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--texto-suave);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.boton-ancho {
+  width: 100%;
+}
+
+.boton-grande {
+  min-height: 64px;
+  font-size: 1.2rem;
+}
+
+.fila-botones {
+  display: flex;
+  gap: 10px;
+}
+
+.fila-botones > .boton {
+  flex: 1;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empuja {
+  margin-top: auto;
+}
+
+/* Acciones principales pegadas abajo: siempre visibles aunque la pregunta sea larga. */
+.acciones-fijas {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: calc(-1 * max(24px, env(safe-area-inset-bottom)));
+  padding: 14px 0 max(16px, env(safe-area-inset-bottom));
+  background: linear-gradient(to bottom, transparent, var(--fondo) 14px);
+  z-index: 2;
+}
+
+.acciones-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Inicio ---------- */
+
+.portada {
+  padding: 32px 0 8px;
+  text-align: center;
+}
+
+.logo {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  border-radius: 24px;
+  overflow: hidden;
+  transform: rotate(-6deg);
+}
+
+.logo span {
+  display: block;
+}
+
+.portada h1 {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.portada p {
+  color: var(--texto-suave);
+  margin-top: 8px;
+}
+
+.pie-version {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+/* ---------- Tarjetas ---------- */
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 18px;
+  box-shadow: var(--sombra);
+}
+
+.tarjeta-cat {
+  border-top: 8px solid var(--cat);
+}
+
+.etiqueta-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--cat);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+}
+
+.subtema {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.nivel-chip {
+  display: inline-grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 2px solid var(--cat);
+  color: var(--texto);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.texto-suave {
+  color: var(--texto-suave);
+}
+
+.pequeno {
+  font-size: 0.88rem;
+}
+
+.centrado {
+  text-align: center;
+}
+
+/* ---------- Marcador y tablero ---------- */
+
+/* Una sola fila deslizable: con 6 nombres largos no empuja la apuesta fuera de la pantalla. */
+.marcador {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 -16px;
+  padding: 2px 16px;
+}
+
+.marcador::-webkit-scrollbar {
+  display: none;
+}
+
+.marcador .jugador > span:not(.ficha) {
+  max-width: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.marcador .jugador {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 6px;
+  border-radius: 999px;
+  background: var(--superficie);
+  border: 1.5px solid var(--borde);
+  font-size: 0.9rem;
+}
+
+.marcador .jugador.activo {
+  border-color: var(--primario);
+  font-weight: 700;
+}
+
+.ficha {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ficha, #888);
+  color: var(--ficha-texto, #fff);
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex: none;
+}
+
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+}
+
+/* En pantallas anchas, casillas más pequeñas y más por fila: con la meta de 50, el tablero de 10
+   columnas ocupaba media pantalla y en 1366×650 había que bajar para apostar del 6 al 10. */
+@media (min-width: 600px) {
+  .tablero {
+    grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
+  }
+}
+
+/* La inicial de la categoría en las casillas libres: con daltonismo, algunos colores (Ciencias y
+   Entretenimiento, Mates y las rondas) apenas se distinguen. */
+.casilla .letra-cat {
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.casilla {
+  position: relative;
+  min-width: 0; /* sin esto, una casilla con muchas fichas ensancha toda la columna */
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: var(--cat);
+  opacity: 0.85;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.casilla.salida {
+  background: var(--superficie-2);
+  border: 1px dashed var(--borde);
+}
+
+.casilla.meta {
+  background: var(--primario);
+}
+
+.casilla .ficha {
+  width: 44%;
+  height: auto;
+  aspect-ratio: 1;
+  max-width: 16px;
+  font-size: 0.5rem;
+  box-shadow: 0 0 0 1.5px var(--superficie);
+}
+
+/* Con más de 4 fichas en una casilla: más pequeñas y solo el color. */
+.casilla.muchas .ficha {
+  width: 30%;
+  font-size: 0;
+  box-shadow: 0 0 0 1px var(--superficie);
+}
+
+.casilla.ocupada {
+  opacity: 1;
+}
+
+.casilla .bandera {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* Casilla de ronda divertida: su propio color y una estrella. */
+.casilla.especial {
+  background: var(--ronda);
+}
+
+.casilla .estrella {
+  color: #fff;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.leyenda span::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--cat);
+  margin-right: 5px;
+  vertical-align: -1px;
+}
+
+.leyenda .leyenda-ronda::before {
+  background: var(--ronda);
+}
+
+/* ---------- Rondas divertidas ---------- */
+
+.tarjeta-ronda {
+  border-top: 8px solid var(--ronda);
+}
+
+.titulo-ronda {
+  font-size: 1.6rem;
+  margin: 6px 0 12px;
+}
+
+.etiqueta-ronda {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--ronda);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.contador-ronda {
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Final propia (pregunta o reto, sin categoría) ---------- */
+
+.tarjeta-final {
+  border-top: 8px solid var(--final);
+}
+
+.etiqueta-final {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--final);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.rejilla-elementos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.elemento {
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-weight: 600;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.elemento small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.elemento[aria-pressed="true"] {
+  background: var(--ok-fondo);
+  border-color: var(--ok-fondo);
+  color: #fff;
+}
+
+.elemento[aria-pressed="true"] small {
+  color: #fff;
+}
+
+.elemento[aria-pressed="true"]::before {
+  content: "✓ ";
+}
+
+.fila-otros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.fila-otros .boton {
+  min-width: 64px;
+}
+
+.pista-rafaga {
+  font-size: 1.35rem;
+}
+
+@media (min-width: 600px) {
+  .rejilla-elementos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Apuesta ---------- */
+
+.rejilla-niveles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.rejilla-niveles .boton {
+  min-height: 60px;
+  padding: 0;
+  border-radius: 14px;
+  font-size: 1.45rem;
+  font-weight: 800;
+  border-color: color-mix(in srgb, var(--cat) 45%, var(--borde));
+}
+
+.rejilla-niveles .boton:active {
+  background: var(--cat);
+  color: #fff;
+}
+
+/* Solo con ratón: en una pantalla táctil, el :hover se queda «pegado» donde se tocó la pantalla
+   anterior y un nivel parecía ya elegido al llegar a la apuesta. */
+@media (hover: hover) {
+  .rejilla-niveles .boton:hover {
+    background: var(--cat);
+    color: #fff;
+  }
+}
+
+.pregunta-apuesta {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+/* ---------- Pasar el móvil ---------- */
+
+.pantalla-pasar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 24px 0;
+}
+
+.icono-pasar {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.pantalla-pasar h2 {
+  font-size: 1.9rem;
+}
+
+/* ---------- Lectura y respuesta ---------- */
+
+.texto-pregunta {
+  font-size: 1.6rem;
+  font-weight: 650;
+  line-height: 1.3;
+  margin: 16px 0 6px;
+  overflow-wrap: anywhere;
+}
+
+.texto-pregunta.reducido {
+  font-size: 1.15rem;
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
+.respuesta {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: var(--radio-sm);
+  background: color-mix(in srgb, var(--cat) 12%, var(--superficie));
+  border: 1.5px solid color-mix(in srgb, var(--cat) 40%, transparent);
+}
+
+.respuesta .valor {
+  font-size: 1.8rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.respuesta .detalle {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--texto-suave);
+}
+
+.nota {
+  padding: 10px 14px;
+  border-radius: var(--radio-sm);
+  background: color-mix(in srgb, var(--aviso) 14%, var(--superficie));
+  color: var(--texto);
+  font-size: 0.92rem;
+}
+
+.meta-linea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* ---------- Cronómetro ---------- */
+
+.boton-reloj {
+  font-variant-numeric: tabular-nums;
+}
+
+/* En una sola fila (cifra, barra y aviso) para no robar sitio a la pregunta en móviles bajos. */
+.reloj {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+}
+
+.reloj-cifra {
+  font-size: 1.7rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.reloj-barra {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--superficie-2);
+  overflow: hidden;
+}
+
+.reloj-barra span {
+  display: block;
+  height: 100%;
+  background: var(--texto);
+  transition: width 0.25s linear;
+}
+
+.reloj-aviso {
+  font-weight: 700;
+}
+
+.reloj-aviso:empty {
+  display: none;
+}
+
+.reloj.agotado {
+  background: var(--mal-fondo);
+  border-color: var(--mal-fondo);
+  color: #fff;
+}
+
+.reloj.agotado .reloj-barra {
+  display: none;
+}
+
+/* ---------- Resultado ---------- */
+
+.resultado {
+  text-align: center;
+  padding: 22px 16px;
+  border-radius: var(--radio);
+  color: #fff;
+}
+
+.resultado.acierto {
+  background: var(--ok-fondo);
+}
+
+.resultado.fallo {
+  background: var(--mal-fondo);
+}
+
+.resultado h2 {
+  font-size: 1.8rem;
+}
+
+.resultado p {
+  margin-top: 6px;
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+.grupo-opciones {
+  display: flex;
+  gap: 8px;
+}
+
+.grupo-opciones .boton {
+  flex: 1;
+  min-height: 48px;
+  padding: 8px 6px;
+  font-size: 0.95rem;
+}
+
+.boton[aria-pressed="true"] {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: var(--sobre-primario);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  min-height: 40px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--mal-fondo);
+  border-color: var(--mal-fondo);
+  color: #fff;
+}
+
+.chip.chip-jugador[aria-pressed="true"] {
+  background: var(--primario);
+  border-color: var(--primario);
+  color: var(--sobre-primario);
+}
+
+/* ---------- Formularios ---------- */
+
+.campo {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.campo input[type="text"] {
+  flex: 1;
+  min-width: 0; /* sin esto, con letra grande el campo no encoge y desborda la pantalla */
+  min-height: 52px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-size: 1.05rem;
+}
+
+.campo .quitar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--superficie-2);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.segmentado {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--superficie-2);
+}
+
+.segmentado button {
+  min-height: 56px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.segmentado button small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+.segmentado button[aria-pressed="true"] {
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+label.titulo-campo,
+.titulo-seccion {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+select {
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  width: 100%;
+}
+
+.error {
+  color: var(--mal);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ---------- Fin de partida ---------- */
+
+.podio {
+  text-align: center;
+  padding: 24px 0 8px;
+}
+
+.podio .trofeo {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.podio h2 {
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.tabla th,
+.tabla td {
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--borde);
+  text-align: right;
+}
+
+.tabla th:first-child,
+.tabla td:first-child {
+  text-align: left;
+}
+
+.tabla th {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.tabla-desplazable {
+  overflow-x: auto;
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+
+.celda-jugador {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nombre-corto {
+  max-width: 7.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabla-fin th {
+  white-space: normal;
+  line-height: 1.2;
+}
+
+.tabla-banco td,
+.tabla-banco th {
+  padding: 6px 2px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.tabla-banco td.vacia {
+  color: var(--mal);
+  font-weight: 800;
+}
+
+.tabla-banco td.escasa {
+  color: var(--aviso);
+  font-weight: 700;
+}
+
+.contadores {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.contador {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  padding: 12px;
+}
+
+.contador strong {
+  display: block;
+  font-size: 1.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.contador span {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+/* Jugadores recordados (pantalla «Datos»): plegada por defecto para no alargar la pantalla. */
+.jugadores-recordados summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.jugadores-recordados summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha propia: con display: flex el navegador no pinta la suya. Apunta abajo plegada y arriba abierta. */
+.jugadores-recordados summary::after {
+  content: "";
+  margin: 0 6px 4px auto;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--texto-suave);
+  border-bottom: 2px solid var(--texto-suave);
+  transform: rotate(45deg);
+}
+
+.jugadores-recordados[open] summary::after {
+  margin-bottom: -4px;
+  transform: rotate(-135deg);
+}
+
+.jugadores-recordados[open] summary {
+  margin-bottom: 6px;
+}
+
+.lista-jugadores {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.lista-jugadores li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--borde);
+}
+
+.lista-jugadores li > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.lista-jugadores li > span {
+  text-align: right;
+}
+
+.boton-pequeno {
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* ---------- Reglas ---------- */
+
+.reglas h2 {
+  font-size: 1.15rem;
+  margin: 18px 0 6px;
+}
+
+.reglas p,
+.reglas li {
+  color: var(--texto);
+}
+
+.reglas ul,
+.reglas ol {
+  margin: 4px 0;
+  padding-left: 20px;
+}
+
+.reglas li + li {
+  margin-top: 4px;
+}
+
+/* ---------- Dos columnas en el ordenador (revisión, nueva partida y datos) ---------- */
+
+.dos-columnas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dos-columnas > .columna {
+  gap: 12px;
+}
+
+.panel-valorar,
+.panel-opciones {
+  flex: 1;
+}
+
+.rejilla-horquilla {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.rejilla-horquilla .boton {
+  min-height: 44px;
+  padding: 0;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* El nivel que tiene la pregunta, para orientarse al elegir. */
+.rejilla-horquilla .actual {
+  border-style: dashed;
+  border-color: var(--texto-suave);
+}
+
+/* Reserva su línea aunque esté vacía: así lo de debajo no salta al tocar un nivel. */
+.texto-horquilla {
+  min-height: 1.45em;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+@media (min-width: 600px) {
+  .rejilla-horquilla {
+    grid-template-columns: repeat(10, 1fr);
+  }
+}
+
+/* Ordenador: dos columnas (en la revisión, la pregunta a la izquierda y la valoración a la derecha), todo a la vista sin desplazarse. */
+@media (min-width: 900px) {
+  .app:has(.dos-columnas) {
+    max-width: 1080px;
+  }
+  .dos-columnas {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  .dos-columnas .acciones-fijas {
+    position: static;
+    margin: 6px 0 0;
+    padding: 0;
+    background: none;
+  }
+}
+
+/* ---------- Diálogos ---------- */
+
+dialog {
+  border: 0;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px max(20px, env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 560px;
+  margin: auto auto 0;
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+dialog h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+/* ---------- Avisos flotantes ---------- */
+
+.avisos {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  padding: 0 16px;
+  z-index: 10;
+}
+
+.aviso {
+  max-width: 520px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--primario);
+  color: var(--sobre-primario);
+  box-shadow: var(--sombra);
+  font-size: 0.95rem;
+  animation: aparecer 0.2s ease;
+}
+
+.aviso.error-aviso {
+  background: var(--mal-fondo);
+  color: #fff;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (min-width: 420px) {
+  .tablero {
+    gap: 4px;
+  }
+}
+
+/* Pantallas bajas (iPhone SE y similares): todo el turno a la vista sin desplazarse. */
+@media (max-height: 720px) {
+  .app {
+    gap: 10px;
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+  .cabecera,
+  .acciones-pie {
+    min-height: 36px;
+  }
+  .boton-texto {
+    min-height: 36px;
+    padding: 4px 8px;
+  }
+  .tarjeta {
+    padding: 14px;
+  }
+  .tarjeta-cat {
+    border-top-width: 6px;
+  }
+  .subtema {
+    font-size: 1.25rem;
+    margin-top: 6px;
+  }
+  .pregunta-apuesta {
+    font-size: 1.05rem;
+    margin: 8px 0;
+  }
+  .rejilla-niveles .boton {
+    min-height: 50px;
+    font-size: 1.3rem;
+  }
+  .leyenda {
+    font-size: 0.72rem;
+  }
+  .texto-pregunta {
+    font-size: 1.4rem;
+  }
+}
+
+/* Móviles estrechos (320–360 px): la clasificación final cabe sin desplazar. */
+@media (max-width: 360px) {
+  .tabla-fin th,
+  .tabla-fin td {
+    padding: 10px 3px;
+  }
+  .nombre-corto {
+    max-width: 6em;
+  }
+}
+
+/* ---------- Mapa (Geohistoria) ---------- */
+
+.mapa {
+  position: relative;
+  height: min(46vh, 480px);
+  min-height: 240px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--mar);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* El mapa en el que se señala ocupa el sitio que queda: con una altura fija, en el móvil la barra de
+   «Es aquí» tapaba su parte de abajo, y arrastrar el mapa no hace bajar la página. */
+.mapa.mapa-juego {
+  flex: 1 1 0;
+  height: auto;
+  max-height: 480px;
+}
+
+.mapa-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.mapa-svg.sin-toque {
+  cursor: grab;
+}
+
+.mapa-mar {
+  fill: var(--mar);
+}
+
+.mapa-tierra {
+  fill: var(--tierra);
+  stroke: var(--frontera);
+  stroke-width: 0.7px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.mapa-marca {
+  stroke: #ffffff;
+  stroke-width: 2.5px;
+  vector-effect: non-scaling-stroke;
+}
+
+.mapa-marca.jugador {
+  fill: var(--marca);
+}
+
+.mapa-marca.correcta {
+  fill: var(--marca-ok);
+}
+
+.mapa-zona {
+  fill: color-mix(in srgb, var(--marca-ok) 14%, transparent);
+  stroke: var(--marca-ok);
+  stroke-width: 1.5px;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.mapa-linea {
+  fill: none;
+  stroke: var(--texto);
+  stroke-width: 2px;
+  stroke-dasharray: 7 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.mapa-botones {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mapa-botones button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  box-shadow: var(--sombra);
+}
+
+.mapa-cargando {
+  padding: 16px;
+}
+
+.mapa-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+}
+
+.mapa-leyenda span::before {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  vertical-align: -1px;
+  background: var(--marca);
+  box-shadow: 0 0 0 1px var(--borde);
+}
+
+.mapa-leyenda span.correcta::before {
+  background: var(--marca-ok);
+}

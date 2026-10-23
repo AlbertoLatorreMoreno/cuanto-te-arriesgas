@@ -1,0 +1,19 @@
+# Exportaciones reales: llevan los nombres de los jugadores. Quita esta línea si quieres versionarlas.
+analisis/datos/*.json
+
+# Salidas que se regeneran
+analisis/salida/
+analisis/simulados/
+generador/candidatas/
+
+# Entornos
+__pycache__/
+*.pyc
+.Rhistory
+.RData
+node_modules/
+.env
+
+# Configuración local de herramientas y la calibración antigua en R (no hacen falta para jugar)
+.claude/
+analisis/r_anterior/

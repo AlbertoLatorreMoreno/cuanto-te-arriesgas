@@ -1,0 +1,116 @@
+{
+  "formato": 1,
+  "nombre": "¿Cuánto te arriesgas?",
+  "niveles": { "min": 1, "max": 10 },
+  "objetivo_acierto": [0.90, 0.80, 0.70, 0.60, 0.50, 0.41, 0.31, 0.21, 0.11, 0.04],
+  "jugadores": { "min": 2, "max": 6, "olvidar_tras_dias": 180 },
+  "metas": [
+    { "id": "corta", "nombre": "Corta", "puntos": 25, "paso_final": 4, "duracion": "~45 min con 4 jugadores" },
+    { "id": "media", "nombre": "Media", "puntos": 50, "paso_final": 8, "duracion": "~70 min con 4 jugadores" }
+  ],
+  "final": { "nivel_base": 8, "nivel_max": 10, "archivo": "data/finales.json", "objetivo_acierto": [0.12, 0.06, 0.03] },
+  "cronometro": { "categorias": ["mates"], "segundos_por_nivel": [45, 45, 45, 60, 60, 60, 60, 90, 90, 90] },
+  "rondas": { "archivo": "data/rondas.json", "cada": 8, "media_aviso": { "baja": 1, "alta": 6, "minimo_jugadas": 3 } },
+  "categorias": [
+    {
+      "id": "ciencias",
+      "nombre": "Ciencias",
+      "color": "#16805a",
+      "archivo": "data/preguntas/ciencias.json",
+      "subtemas": [
+        { "id": "biologia", "nombre": "Biología" },
+        { "id": "cuerpo", "nombre": "Cuerpo humano" },
+        { "id": "quimica", "nombre": "Química" },
+        { "id": "fisica", "nombre": "Física" },
+        { "id": "astronomia", "nombre": "Astronomía" }
+      ]
+    },
+    {
+      "id": "historia",
+      "nombre": "Historia y geografía",
+      "color": "#a85a0c",
+      "archivo": "data/preguntas/historia.json",
+      "subtemas": [
+        { "id": "antigua", "nombre": "Antigüedad y Edad Media" },
+        { "id": "contemporanea", "nombre": "Edad Moderna y Contemporánea" },
+        { "id": "espana", "nombre": "Historia de España" },
+        { "id": "paises", "nombre": "Países y capitales" },
+        { "id": "relieve", "nombre": "Ríos, montañas y mares" }
+      ]
+    },
+    {
+      "id": "entretenimiento",
+      "nombre": "Entretenimiento",
+      "color": "#b0306a",
+      "archivo": "data/preguntas/entretenimiento.json",
+      "subtemas": [
+        { "id": "cine", "nombre": "Cine" },
+        { "id": "series", "nombre": "Series y televisión" },
+        { "id": "musica", "nombre": "Música" },
+        { "id": "videojuegos", "nombre": "Videojuegos" },
+        { "id": "deportes", "nombre": "Deportes" }
+      ]
+    },
+    {
+      "id": "mates",
+      "nombre": "Mates y lógica",
+      "color": "#2f5fc4",
+      "archivo": "data/preguntas/mates.json",
+      "subtemas": [
+        { "id": "calculo", "nombre": "Cálculo" },
+        { "id": "geometria", "nombre": "Geometría" },
+        { "id": "probabilidad", "nombre": "Probabilidad y combinatoria" },
+        { "id": "logica", "nombre": "Acertijos de lógica" },
+        { "id": "series_num", "nombre": "Series numéricas" }
+      ]
+    },
+    {
+      "id": "geohistoria",
+      "nombre": "Geohistoria",
+      "color": "#0e7490",
+      "archivo": "data/preguntas/geohistoria.json",
+      "tipo": "mapa",
+      "subtemas": [
+        { "id": "historia", "nombre": "Historia del mundo", "vista": "mundo" },
+        { "id": "espana", "nombre": "Historia de España", "vista": "espana" },
+        { "id": "lugares", "nombre": "Lugares y curiosidades", "vista": "mundo" }
+      ]
+    }
+  ],
+  "mapa": {
+    "archivo": "data/mapa.json",
+    "vistas": {
+      "mundo": [-170, -56, 190, 75],
+      "europa": [-25, 34, 45, 70],
+      "espana": [-18.5, 27.4, 4.6, 44.1]
+    },
+    "distancias_km": [200, 1000, 3000],
+    "acierto_fraccion": 0.5
+  },
+  "motivos_anulacion": [
+    { "id": "conocida", "nombre": "Ya la conocía", "calidad": false },
+    { "id": "erronea", "nombre": "Es errónea", "calidad": true },
+    { "id": "ambigua", "nombre": "Es ambigua", "calidad": true },
+    { "id": "redaccion", "nombre": "Mal redactada", "calidad": true }
+  ],
+  "motivos_mala": [
+    { "id": "erronea", "nombre": "Errónea" },
+    { "id": "ambigua", "nombre": "Ambigua" },
+    { "id": "redaccion", "nombre": "Mal redactada" },
+    { "id": "aburrida", "nombre": "Aburrida" }
+  ],
+  "retirada": { "marcas_distintas": 2, "motivos_inmediatos": ["erronea"] },
+  "modelo": {
+    "sd_habilidad": 1.0,
+    "sd_ajuste_global": 1.5,
+    "sd_ajuste_categoria": 0.75,
+    "sd_ajuste_pregunta": 1.5,
+    "sd_evaluador": 0.5,
+    "sd_efectos_valoracion": 2.0,
+    "escala_valoracion": 1.5,
+    "sd_log_escala_valoracion": 0,
+    "nivel_suave_min": 0.5,
+    "nivel_suave_max": 10.5,
+    "min_datos_cambio": 3
+  }
+}

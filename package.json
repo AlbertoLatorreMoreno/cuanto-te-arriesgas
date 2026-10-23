@@ -1,0 +1,10 @@
+{
+  "name": "cuanto-te-arriesgas",
+  "private": true,
+  "type": "module",
+  "description": "Juego de preguntas por apuestas de dificultad, para jugar en grupo con un móvil.",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\"",
+    "servir": "py -m http.server 8000 --directory app"
+  }
+}

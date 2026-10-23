@@ -1,0 +1,3 @@
+# Preguntas que la calibración no debe retirar aunque las hayan marcado como malas.
+# Una por línea (el id). Lo que va detrás de # se ignora.
+# Si en cambio arreglas una pregunta, sube su "v" en el banco: las marcas antiguas dejan de contar.
