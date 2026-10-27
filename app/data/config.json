@@ -100,7 +100,7 @@
     { "id": "redaccion", "nombre": "Mal redactada" },
     { "id": "aburrida", "nombre": "Aburrida" }
   ],
-  "retirada": { "marcas_distintas": 2, "motivos_inmediatos": ["erronea"] },
+  "retirada": { "marcas_distintas": 2, "motivos_inmediatos": ["erronea"], "max_por_calibracion": 10 },
   "modelo": {
     "sd_habilidad": 1.0,
     "sd_ajuste_global": 1.5,

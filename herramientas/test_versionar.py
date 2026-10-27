@@ -89,6 +89,30 @@ class TestVersionar(unittest.TestCase):
         (self.app / "js/nuevo.js").write_text("export {};\n", encoding="utf-8")
         self.assertEqual(ver.sin_guardar_en_sw(self.app), ["js/nuevo.js"])
 
+    def test_pone_en_la_csp_las_huellas_de_los_scripts_en_linea(self):
+        csp = "<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; script-src 'self' 'sha256-vieja'; object-src 'none'\" />"
+        html = HTML.replace("<head>", f"<head>\n    {csp}").replace("<body></body>", "<body><script>console.log(1)</script></body>")
+        (self.app / "index.html").write_text(html, encoding="utf-8")
+        html, _ = self.escribir()
+        mapa = re.search(r'<script type="importmap">(.*?)</script>', html, re.S).group(1)
+        politica = re.search(r'Content-Security-Policy" content="([^"]*)"', html).group(1)
+        self.assertIn(f"script-src 'self' {ver.huella_csp(mapa)} {ver.huella_csp('console.log(1)')};", politica)
+        self.assertNotIn("vieja", politica)
+        self.assertIn("object-src 'none'", politica)
+        self.assertEqual(ver.huella_csp("a\r\nb"), ver.huella_csp("a\nb"), "como el navegador: sin distinguir finales de línea")
+        self.assertEqual(self.escribir()[0], html, "idempotente")
+
+    def test_la_app_real_tiene_csp_sin_codigo_en_atributos(self):
+        html = (ver.APP / "index.html").read_text(encoding="utf-8")
+        politica = re.search(r'Content-Security-Policy" content="([^"]*)"', html).group(1)
+        scripts = ver.RE_SCRIPT_EN_LINEA.findall(html)
+        self.assertGreaterEqual(len(scripts), 2, "el mapa de importación y el aviso de carga")
+        for s in scripts:
+            self.assertIn(ver.huella_csp(s), politica)
+        self.assertNotIn("unsafe", politica, "nada de 'unsafe-inline' ni 'unsafe-eval'")
+        self.assertIsNone(re.search(r"\son[a-z]+\s*=", html), "sin código en atributos (onclick=…): la CSP no lo deja ejecutar")
+        self.assertLess(html.index("Content-Security-Policy"), html.index("<script"), "la CSP va antes que cualquier script")
+
     def test_la_app_real_esta_al_dia(self):
         html, sw = ver.aplicar()
         self.assertEqual(html, (ver.APP / "index.html").read_text(encoding="utf-8"), "ejecuta py herramientas/versionar.py")

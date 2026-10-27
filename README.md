@@ -44,7 +44,7 @@ La app queda instalada, funciona sin conexión y, cuando hay red, descarga sola 
 py herramientas/versionar.py
 ```
 
-Pone una versión en las direcciones de los archivos, para que ningún móvil mezcle archivos viejos con nuevos justo después de actualizar. Si cambias solo el banco o los ajustes, no hace falta. Si se te olvida, las pruebas de `herramientas` lo detectan.
+Pone una versión en las direcciones de los archivos, para que ningún móvil mezcle archivos viejos con nuevos justo después de actualizar, y las huellas de los scripts de `index.html` en su política de seguridad (CSP), que no deja ejecutar nada más. Si cambias solo el banco o los ajustes, no hace falta. Si se te olvida, las pruebas de `herramientas` lo detectan.
 
 ---
 
@@ -111,6 +111,7 @@ Mientras `app/data/config.json` no tenga la dirección del script, la app no pre
 - La hoja lleva los nombres de los jugadores: no la compartáis.
 - Si cambias el script, en *Implementar → Gestionar implementaciones* edita la que hay y elige *Nueva versión*: así la dirección no cambia.
 - En «Datos y exportación» se ve cuánto se ha enviado desde ese móvil y si queda algo pendiente, con un botón para reintentar. La exportación a mano sigue funcionando.
+- Como cualquiera podría enviar datos falsos, `descargar.py` descarta lo que no tiene la forma de un registro de la app y enseña cuántos llegan de cada móvil y con qué nombres: si ves uno que no es del grupo, borra sus filas de la hoja antes de calibrar. Y si una calibración retiraría de golpe más de 10 preguntas (`retirada.max_por_calibracion`), no toca `ajustes.json`: mira el informe y, si las retiradas son buenas, repite con `py analisis/calibrar.py --aceptar-retiradas`.
 - Para probarlo sin Google, `py herramientas/script_simulado.py` hace de script en este ordenador: pon `http://127.0.0.1:8011/exec` como dirección en `config.json` (sin publicarla así) y descarga con el código `codigo-de-prueba`. Lo que recibe se pierde al pararlo.
 
 ---

@@ -2,6 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-TDAp5xgJPJeP+WHQXeiQfpBG4aLnsjIzdEe4G/BLFWo=' 'sha256-6KF2kLwoZocHuREeGtvbHcmxZ0n3rrrUTpCBrca9NDw='; style-src 'self'; img-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com http://127.0.0.1:8011; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="Juego de preguntas por apuestas de dificultad para jugar en grupo con un solo móvil." />
     <meta name="theme-color" content="#f5f2ea" media="(prefers-color-scheme: light)" />
@@ -61,7 +62,11 @@
             document.getElementById("app").innerHTML =
               '<div class="pantalla-pasar"><h2>No se ha podido cargar el juego</h2>' +
               '<p class="texto-suave">Puede que se esté actualizando. Recarga la página.</p>' +
-              '<button class="boton boton-primario boton-ancho" onclick="location.reload()">Recargar</button></div>';
+              '<button id="recargar" class="boton boton-primario boton-ancho">Recargar</button></div>';
+            // Sin «onclick» en el HTML: la política de seguridad (CSP) no deja ejecutar código escrito en atributos.
+            document.getElementById("recargar").addEventListener("click", function () {
+              location.reload();
+            });
           },
           true,
         );

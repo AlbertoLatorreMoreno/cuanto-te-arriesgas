@@ -12,6 +12,13 @@ from scipy.stats import norm
 from calibracion import Resultado, contar, suma_por
 
 
+def celda(texto) -> str:
+    """Un texto que viene de los datos (un nombre), seguro dentro de una tabla de Markdown: sin barras ni saltos de
+    línea que la rompan y sin HTML. Los datos de la hoja del grupo los puede haber enviado cualquiera."""
+    return (str(texto).replace("\\", "\\\\").replace("|", "\\|").replace("<", "&lt;").replace(">", "&gt;")
+            .replace("\r", " ").replace("\n", " "))
+
+
 def tabla_niveles(res: Resultado, previos: dict | None = None) -> list[dict]:
     b, d = res.banco, res.datos
     n = len(b)
@@ -224,7 +231,7 @@ def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
         p5 = obj[4]
         for i, jg in enumerate(res.modelo.jugadores):
             ys = [x["y"] for x in d.respuestas if x["jugador"] == jg]
-            add(f"| {jg} | {len(ys)} | {pct(media(ys))} | {pct(float(expit(u['theta'][i] + logit(p5))))} |")
+            add(f"| {celda(jg)} | {len(ys)} | {pct(media(ys))} | {pct(float(expit(u['theta'][i] + logit(p5))))} |")
         add("")
 
     movidas = [f for f in tab if f["nivel_nuevo"] != f["nivel_inicial"]]

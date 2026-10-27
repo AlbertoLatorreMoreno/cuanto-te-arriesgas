@@ -16,6 +16,7 @@ Uso (antes de publicar, después de cambiar JS, CSS o sw.js):
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import re
@@ -31,6 +32,22 @@ def archivos_versionados(app: Path = APP) -> list[Path]:
 
 
 RE_VERSION_SW = re.compile(r'const VERSION = "[^"]*";')
+
+# Política de seguridad (CSP) de index.html: el navegador solo ejecuta los archivos de la app y los scripts en
+# línea cuya huella está en `script-src`. El mapa de importación cambia con cada versión, así que su huella también.
+RE_SCRIPT_EN_LINEA = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", re.S)
+RE_SCRIPT_SRC_CSP = re.compile(r"(script-src 'self')[^;\"]*")
+
+
+def huella_csp(texto: str) -> str:
+    """Huella de un script en línea tal como la calcula el navegador (con los saltos de línea normalizados)."""
+    resumen = hashlib.sha256(texto.replace("\r\n", "\n").encode("utf-8")).digest()
+    return f"'sha256-{base64.b64encode(resumen).decode('ascii')}'"
+
+
+def con_huellas_csp(html: str) -> str:
+    huellas = " ".join(huella_csp(s) for s in RE_SCRIPT_EN_LINEA.findall(html))
+    return RE_SCRIPT_SRC_CSP.sub(lambda m: f"{m.group(1)} {huellas}".rstrip(), html, count=1)
 
 
 def calcular_version(app: Path = APP) -> str:
@@ -71,6 +88,7 @@ def aplicar(app: Path = APP) -> tuple[str, str]:
     else:
         # El mapa tiene que ir antes que cualquier módulo.
         html = html.replace('    <link rel="stylesheet"', f"    {mapa}\n    <link rel=\"stylesheet\"", 1)
+    html = con_huellas_csp(html)
     sw = (app / "sw.js").read_text(encoding="utf-8")
     sw = RE_VERSION_SW.sub(f'const VERSION = "cta-{version}";', sw, count=1)
     return html, sw

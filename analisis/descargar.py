@@ -16,9 +16,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
+import re
 import sys
 import urllib.error
 import urllib.request
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -28,9 +31,61 @@ CONFIG = RAIZ / "analisis" / "envio.json"
 NOMBRE = "arriesga-hoja.json"
 POR_PETICION = 2000
 
+# Forma de un registro de la app (docs/esquema_datos.md). Lo que llega de la hoja lo puede haber enviado
+# cualquiera (la dirección del script es pública): lo que no tenga esta forma se descarta antes de calibrar.
+TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada"}
+ID_VALIDO = re.compile(r"^[A-Za-z0-9][\w.-]{0,99}$")
+TS_VALIDO = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
+LOGICOS = {"es_final", "acierto", "tiempo_agotado"}
+ENTEROS = {"turno", "v", "nivel_inicial", "nivel_mostrado", "apuesta", "nivel_desde", "nivel_hasta", "cronometro", "puntos", "nivel",
+           "nivel_pedido", "ventaja", "rebaja", "ronda_oro", "aciertos", "minimo", "total", "leidos", "extra", "segundos"}
+NUMEROS = {"lat_senalada", "lon_senalada", "distancia_km", "distancia_max_km"}
+LISTAS_DE_ENTEROS = {"marcados"}
+MAX_TEXTO = 200
+
 
 class ErrorDescarga(Exception):
     pass
+
+
+def registro_valido(r) -> bool:
+    """Si tiene la forma de un registro de la app: id, tipo y fecha válidos, cada campo de su tipo y textos cortos, sin
+    objetos anidados. Uno con otra forma (una lista donde va un nombre, un texto enorme) haría fallar la calibración."""
+    if not isinstance(r, dict) or not isinstance(r.get("id"), str) or not ID_VALIDO.match(r["id"]) or r.get("tipo") not in TIPOS:
+        return False
+    if not isinstance(r.get("ts"), str) or not TS_VALIDO.match(r["ts"]):
+        return False
+    for clave, valor in r.items():
+        if valor is None:
+            continue
+        if clave in LOGICOS:
+            bien = isinstance(valor, bool)
+        elif clave in ENTEROS:
+            bien = isinstance(valor, int) and not isinstance(valor, bool) and abs(valor) < 10**6
+        elif clave in NUMEROS:
+            bien = isinstance(valor, (int, float)) and not isinstance(valor, bool) and math.isfinite(valor) and abs(valor) < 10**6
+        elif clave in LISTAS_DE_ENTEROS:
+            bien = isinstance(valor, list) and len(valor) <= 100 and all(isinstance(x, int) and not isinstance(x, bool) for x in valor)
+        else:
+            bien = isinstance(valor, str) and len(valor) <= MAX_TEXTO
+        if not bien:
+            return False
+    return True
+
+
+def resumen_por_movil(registros: list[dict]) -> list[tuple[str, int, list[str], str, str]]:
+    """Por cada móvil (`dispositivo`): cuántos registros, los nombres que salen (jugadores, lectores, quien revisa) y
+    entre qué fechas. Sirve para ver de un vistazo si llegan datos de un móvil que no es del grupo."""
+    por: dict[str, dict] = {}
+    for r in registros:
+        d = por.setdefault(str(r.get("dispositivo") or "?"), {"n": 0, "nombres": Counter(), "ts": []})
+        d["n"] += 1
+        d["ts"].append(r["ts"])
+        for campo in ("jugador", "lector", "evaluador"):
+            if isinstance(r.get(campo), str):
+                d["nombres"][r[campo]] += 1
+    filas = [(m, d["n"], [n for n, _ in d["nombres"].most_common(6)], min(d["ts"])[:10], max(d["ts"])[:10]) for m, d in por.items()]
+    return sorted(filas, key=lambda f: -f[1])
 
 
 def pedir(url: str, cuerpo: dict, espera: float = 120) -> dict:
@@ -128,13 +183,22 @@ def principal(argv=None) -> int:
     except ErrorDescarga as e:
         print(f"No se ha podido descargar: {e}", file=sys.stderr)
         return 1
-    if not registros:
-        print("La hoja todavía no tiene registros: no se ha escrito nada.")
+    validos = [r for r in registros if registro_valido(r)]
+    raros = len(registros) - len(validos)
+    if not validos:
+        print("La hoja todavía no tiene registros válidos: no se ha escrito nada." + (f" ({raros} con una forma rara, descartados.)" if raros else ""))
         return 0
-    destino = escribir_exportacion(registros, args.datos)
-    print(f"Descargados {len(registros)} registros en {destino.relative_to(RAIZ) if destino.is_relative_to(RAIZ) else destino}.")
+    destino = escribir_exportacion(validos, args.datos)
+    print(f"Descargados {len(validos)} registros en {destino.relative_to(RAIZ) if destino.is_relative_to(RAIZ) else destino}.")
     if ilegibles:
         print(f"Aviso: {ilegibles} filas de la hoja no se han podido leer (¿se tocaron a mano?).")
+    if raros:
+        print(f"Aviso: {raros} registros no tienen la forma de los de la app y se han descartado. Si son muchos, alguien está enviando basura a la hoja.")
+    # La dirección del script es pública: que se vea si llegan datos de un móvil que no es del grupo.
+    print("Por móvil (registros · nombres · fechas):")
+    for movil, n, nombres, desde, hasta in resumen_por_movil(validos):
+        print(f"  {movil[:8]} · {n} · {', '.join(nombres) or '—'} · {desde} → {hasta}")
+    print("Si hay un móvil que no reconoces, borra sus filas de la hoja antes de calibrar.")
     print("Ahora: py analisis/calibrar.py")
     return 0
 

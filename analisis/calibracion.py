@@ -539,6 +539,18 @@ def retiradas_por_marcas(marcas: list[dict], config: dict, restaurar=()) -> dict
     return salida
 
 
+def freno_retiradas(retiradas: dict, previas: dict, marcas: list[dict], maximo: int | None) -> dict | None:
+    """Si esta calibración retira de golpe más preguntas nuevas que `maximo` (`retirada.max_por_calibracion`), las
+    nuevas y de dónde vienen sus marcas (los cinco orígenes con más); si no, None. Cualquiera puede enviar datos a la
+    hoja del grupo, y una sola marca de «errónea» retira una pregunta: con marcas falsas se podría vaciar el banco.
+    Por encima del máximo, calibrar.py no escribe los ajustes sin que se confirme."""
+    nuevas = [q for q in retiradas if q not in previas]
+    if maximo is None or len(nuevas) <= maximo:
+        return None
+    origen = Counter(m["quien"] for m in marcas if m["pregunta"] in set(nuevas))
+    return {"nuevas": nuevas, "origen": origen.most_common(5)}
+
+
 def leer_restaurar(raiz: Path) -> list[str]:
     ruta = raiz / "analisis" / "restaurar.txt"
     if not ruta.exists():

@@ -121,6 +121,59 @@ class TestDescargar(unittest.TestCase):
             descargar.descargar("x", CODIGO, pedir=lambda url, cuerpo: ["no es un objeto"])
 
 
+class TestLoQueLlegaDeLaHoja(unittest.TestCase):
+    """La dirección del script es pública: lo que se descarga lo puede haber enviado cualquiera."""
+
+    def test_solo_pasan_los_registros_con_la_forma_de_la_app(self):
+        bueno = registro(1)
+        self.assertTrue(descargar.registro_valido(bueno))
+        self.assertTrue(descargar.registro_valido({**bueno, "tipo": "final", "marcados": [0, 2], "nivel": 8, "ronda_oro": None}))
+        self.assertTrue(descargar.registro_valido({**bueno, "lat_senalada": 40.4, "distancia_km": 12, "nota": "texto corto"}))
+        raros = [
+            "no es un objeto",
+            {**bueno, "id": "=IMPORTXML(1)"},
+            {**bueno, "tipo": "otra_cosa"},
+            {**bueno, "ts": 5},
+            {**bueno, "ts": "ayer"},
+            {**bueno, "jugador": ["ana"]},  # una lista donde va un nombre: rompía la calibración
+            {**bueno, "jugador": "x" * 500},
+            {**bueno, "acierto": "sí"},
+            {**bueno, "v": True},
+            {**bueno, "apuesta": 10**9},
+            {**bueno, "lat_senalada": float("nan")},
+            {**bueno, "marcados": [1, "dos"]},
+            {**bueno, "extra_raro": {"anidado": 1}},
+        ]
+        self.assertEqual([descargar.registro_valido(r) for r in raros], [False] * len(raros))
+
+    def test_resumen_por_movil(self):
+        regs = [{**registro(i), "dispositivo": "aaaa1111-x", "jugador": "ana", "lector": "luis"} for i in range(3)]
+        regs += [{**registro(9), "id": "otro", "dispositivo": "bbbb2222-y", "tipo": "revision", "jugador": None, "evaluador": "eva"}]
+        filas = descargar.resumen_por_movil(regs)
+        self.assertEqual([(m, n, nombres) for m, n, nombres, _, _ in filas], [("aaaa1111-x", 3, ["ana", "luis"]), ("bbbb2222-y", 1, ["eva"])])
+        self.assertEqual(filas[0][3:], ("2026-10-26", "2026-10-26"))
+
+    def test_los_nombres_no_rompen_el_informe(self):
+        from informe import celda
+        self.assertEqual(celda("ana | luis\n<b>"), "ana \\| luis &lt;b&gt;")
+
+
+class TestFrenoDeRetiradas(unittest.TestCase):
+    """Una sola marca de «errónea» retira una pregunta: con marcas falsas en la hoja se podría vaciar el banco."""
+
+    def test_frena_si_se_retiran_de_golpe_mas_del_maximo(self):
+        from calibracion import freno_retiradas
+        marcas = [{"pregunta": f"q{i}", "quien": "evaluador:intruso", "motivo": "erronea"} for i in range(12)]
+        marcas.append({"pregunta": "q0", "quien": "partida:p1", "motivo": "ambigua"})
+        retiradas = {f"q{i}": "erronea" for i in range(12)}
+        freno = freno_retiradas(retiradas, {}, marcas, 10)
+        self.assertEqual(len(freno["nuevas"]), 12)
+        self.assertEqual(freno["origen"][0], ("evaluador:intruso", 12))
+        self.assertIsNone(freno_retiradas(retiradas, {f"q{i}": "erronea" for i in range(5)}, marcas, 10), "las ya retiradas no cuentan")
+        self.assertIsNone(freno_retiradas({"q1": "erronea"}, {}, marcas, 10))
+        self.assertIsNone(freno_retiradas(retiradas, {}, marcas, None), "sin máximo en la configuración, no frena")
+
+
 class SinRedirecciones(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         return None
