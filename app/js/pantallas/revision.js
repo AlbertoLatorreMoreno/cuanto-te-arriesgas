@@ -2,8 +2,25 @@
 
 import { barajar, rngReal, uuid } from "../azar.js";
 import { aviso, cabecera, h, montar } from "../dom.js";
+import { revisionesSinDecidir } from "../envio.js";
 import { alternarHorquilla, normalizarNombre, textoHorquilla } from "../util.js";
-import { MAX_CHIPS_JUGADORES, estiloCat, etiquetaCat } from "./comun.js";
+import { MAX_CHIPS_JUGADORES, enviarAhora, estiloCat, etiquetaCat, preguntarEnvio } from "./comun.js";
+
+// Al volver al inicio: si hay valoraciones por las que aún no se ha preguntado, ¿se envían a la hoja del grupo?
+async function salir(app) {
+  const nuevas = app.urlEnvio() ? revisionesSinDecidir(await app.almacen.todosLosRegistros(), app.almacen.decisionesRevisiones()) : [];
+  if (nuevas.length) {
+    const si = await preguntarEnvio(
+      nuevas.length === 1 ? "¿Enviamos esta valoración?" : `¿Enviamos estas ${nuevas.length} valoraciones?`,
+      "Sirven para ajustar el nivel de las preguntas. Se envía lo que habéis valorado, con el nombre de quien revisa, a la hoja de cálculo del grupo. Nada más.",
+    );
+    if (si !== undefined) app.almacen.decidirRevisiones(nuevas.map((r) => r.id), si);
+    app.ir("inicio");
+    if (si) enviarAhora(app);
+    return;
+  }
+  app.ir("inicio");
+}
 
 export function pantallaRevision(app) {
   const conocidos = app.almacen.jugadoresConocidos();
@@ -25,7 +42,7 @@ export function pantallaRevision(app) {
     const opciones = conocidos.slice(0, MAX_CHIPS_JUGADORES);
     if (estado.evaluador && !opciones.some((j) => j.clave === estado.evaluador.clave)) opciones.unshift(estado.evaluador);
     montar(
-      cabecera("Revisar preguntas", () => app.ir("inicio")),
+      cabecera("Revisar preguntas", () => salir(app)),
       h(
         "p",
         { class: "texto-suave" },
@@ -112,7 +129,7 @@ export function pantallaRevision(app) {
     const q = estado.actual;
     if (!q) {
       return montar(
-        cabecera("Revisar preguntas", () => app.ir("inicio")),
+        cabecera("Revisar preguntas", () => salir(app)),
         h(
           "section",
           { class: "pantalla-pasar" },

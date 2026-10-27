@@ -1,4 +1,4 @@
-// Mapa para las preguntas de Geohistoria: el contorno de los países en SVG, que se mueve
+// Mapa para las preguntas de Localízalo: el contorno de los países en SVG, que se mueve
 // arrastrando, se acerca pellizcando, con la rueda o con los botones, y se toca para señalar.
 // El mapa (data/mapa.json) lo genera herramientas/generar_mapa.py y se descarga una sola vez.
 

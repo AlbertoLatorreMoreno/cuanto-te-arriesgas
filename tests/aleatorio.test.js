@@ -11,7 +11,7 @@ import * as M from "../app/js/motor.js";
 import { Sesion, almacenEnMemoria } from "../app/js/sesion.js";
 import { bancoSintetico, config, contexto, finalesSinteticas, rondasSinteticas } from "./ayudas.js";
 
-const PREGUNTAS = bancoSintetico(4); // como el banco real: con menos, una partida larga agota los 3 subtemas de Geohistoria
+const PREGUNTAS = bancoSintetico(4); // como el banco real: con menos, una partida larga agota los 3 subtemas de Localízalo
 const RONDAS = rondasSinteticas(60); // de sobra: en una partida no debería repetirse ninguna
 const FINALES = finalesSinteticas(24); // como las reales: con finales difíciles hay muchos intentos
 const VERSIONES = { banco: "prueba", ajustes: "inicial" };
@@ -27,14 +27,20 @@ async function comprobar(s, almacen, donde) {
   for (const j of p.jugadores) assert.ok(j.pos >= 0 && j.pos <= p.meta, `${donde}: ${j.clave} fuera del tablero (${j.pos})`);
   assert.equal(new Set(p.usadas).size, p.usadas.length, `${donde}: pregunta repetida en la partida`);
   if (p.ganador) {
-    // El ganador se apunta al acertar la final (fase de resultado) y la partida termina al cerrar ese turno.
+    // El ganador se decide al cerrar el turno, cuando ya no queda nadie que pueda empatar.
     const ganador = p.jugadores.find((j) => j.clave === p.ganador);
     assert.ok(ganador && ganador.pos === p.meta, `${donde}: el ganador no está en la meta`);
-    assert.ok(p.turno.fase === M.FASE.FIN || (p.turno.fase === M.FASE.RESULTADO && p.turno.esFinal && p.turno.acierto),
-      `${donde}: hay ganador sin haber acertado la final`);
-  } else {
-    assert.notEqual(p.turno.fase, M.FASE.FIN, `${donde}: partida terminada sin ganador`);
+    assert.equal(p.turno.fase, M.FASE.FIN, `${donde}: hay ganador y la partida sigue`);
+    assert.ok((p.oro ? p.oro.aciertos : p.acertantes).includes(p.ganador), `${donde}: gana alguien que no ha acertado la final`);
+  } else if (p.turno.fase === M.FASE.FIN) {
+    assert.ok(p.empate?.length > 1 && p.empate.every((c) => p.jugadores.find((j) => j.clave === c).pos === p.meta),
+      `${donde}: partida terminada sin ganador ni empate`);
   }
+  // Quien ha acertado la final ya no vuelve a jugar mientras se completa la ronda.
+  if (p.acertantes?.length && !p.oro && p.turno.fase !== M.FASE.FIN) {
+    assert.ok(p.turno.esFinal && p.jugadores.findIndex((j) => j.clave === p.acertantes[0]) <= p.idx, `${donde}: turno de más tras acertar la final`);
+  }
+  if (p.oro) assert.ok(p.oro.vivos.includes(p.turno.jugador) && p.turno.esFinal, `${donde}: en la ronda de oro juega alguien que no está empatado`);
   const registros = await almacen.todosLosRegistros();
   const respuestas = registros.filter((r) => r.tipo === "respuesta");
   const rondas = registros.filter((r) => r.tipo === "ronda");
@@ -85,7 +91,10 @@ async function jugar(semilla) {
   for (let paso = 0; paso < 3000; paso++) {
     const t = s.turno;
     if (t.fase === M.FASE.FIN && azar() < 0.7) break;
-    if (s.puedeDeshacer() && azar() < 0.12) {
+    if (t.fase === M.FASE.FIN && s.partida.empate && !s.partida.ganador && azar() < 0.8) {
+      await s.ejecutar("rondaDeOro");
+      cuenta.oro = (cuenta.oro ?? 0) + 1;
+    } else if (s.puedeDeshacer() && azar() < 0.12) {
       await s.deshacer();
       cuenta.deshacer++;
     } else if (azar() < 0.04) {
@@ -155,11 +164,12 @@ async function jugar(semilla) {
 }
 
 test("200 partidas con acciones al azar, deshacer y reanudar mantienen las reglas", async () => {
-  const total = { deshacer: 0, reanudar: 0, anular: 0, mala: 0, narrador: 0, rondas: 0, cambiarRonda: 0, retos: 0 };
+  const total = { deshacer: 0, reanudar: 0, anular: 0, mala: 0, narrador: 0, rondas: 0, cambiarRonda: 0, retos: 0, oro: 0 };
   for (let semilla = 1; semilla <= 200; semilla++) {
     const cuenta = await jugar(semilla);
-    for (const k in total) total[k] += cuenta[k];
+    for (const k in total) total[k] += cuenta[k] ?? 0;
   }
-  // Que la prueba de verdad haya pasado por todos los caminos.
-  for (const [k, n] of Object.entries(total)) assert.ok(n > (["narrador", "cambiarRonda", "retos"].includes(k) ? 50 : 100), `pocas acciones de tipo ${k}: ${n}`);
+  // Que la prueba de verdad haya pasado por todos los caminos (los empates son raros: unos pocos).
+  const minimo = (k) => (k === "oro" ? 2 : ["narrador", "cambiarRonda", "retos"].includes(k) ? 50 : 100);
+  for (const [k, n] of Object.entries(total)) assert.ok(n > minimo(k), `pocas acciones de tipo ${k}: ${n}`);
 });

@@ -1,4 +1,4 @@
-// Preguntas de mapa (Geohistoria): distancia, puntos, proyección y el turno en el motor.
+// Preguntas de mapa (Localízalo): distancia, puntos, proyección y el turno en el motor.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -8,6 +8,7 @@ import { aciertoMapa, desproyectar, distanciaKm, pasoKm, proyectar, puntosMapa }
 import { JUGADORES, config, contexto } from "./ayudas.js";
 
 const MAPA = config.categorias.find((c) => c.tipo === "mapa");
+const FRACCION = config.mapa.acierto_fraccion; // la zona de acierto, en fracción de la distancia máxima
 
 test("distancia sobre la Tierra (haversine)", () => {
   const madrid = { lat: 40.4168, lon: -3.7038 };
@@ -20,26 +21,28 @@ test("distancia sobre la Tierra (haversine)", () => {
 });
 
 test("puntos: lo arriesgado menos uno por cada paso, y nada fuera de la zona de acierto", () => {
-  // La zona de acierto es la mitad de la distancia máxima (500 km de 1000), repartida entre lo arriesgado.
-  assert.equal(pasoKm(1000, 5), 100);
+  // Con una zona de la mitad de la distancia máxima (500 km de 1000), repartida entre lo arriesgado.
+  assert.equal(pasoKm(1000, 5, 0.5), 100);
   assert.equal(pasoKm(1000, 5, 0.25), 50, "la fracción sale de la configuración");
-  assert.deepEqual([0, 99, 100, 199, 499, 500, 5000].map((d) => puntosMapa(d, 5, 1000)), [5, 5, 4, 4, 1, 0, 0]);
+  assert.equal(pasoKm(1000, 5), 150, "por defecto, tres cuartos (750 km de 1000)");
+  assert.deepEqual([0, 99, 100, 199, 499, 500, 5000].map((d) => puntosMapa(d, 5, 1000, 0.5)), [5, 5, 4, 4, 1, 0, 0]);
   // Cuanto más se arriesga, más corto es el paso: a la misma distancia se pierden más puntos.
-  assert.equal(puntosMapa(300, 1, 1000), 1);
-  assert.equal(puntosMapa(300, 10, 1000), 4);
+  assert.equal(puntosMapa(300, 1, 1000, 0.5), 1);
+  assert.equal(puntosMapa(300, 10, 1000, 0.5), 4);
   // Fuera de la zona no se suma nada, se arriesgue lo que se arriesgue: antes, con 10 y a 1900 km de
   // un sitio del resto del mundo (3000 km), se sumaban 4 puntos sin tener ni idea.
-  assert.equal(puntosMapa(1900, 10, 3000), 0);
-  assert.equal(aciertoMapa(499, 1000), true);
-  assert.equal(aciertoMapa(500, 1000), false, "en el borde de la zona ya no se suma nada: no es acierto");
+  assert.equal(puntosMapa(1900, 10, 3000, 0.5), 0);
+  assert.equal(aciertoMapa(499, 1000, 0.5), true);
+  assert.equal(aciertoMapa(500, 1000, 0.5), false, "en el borde de la zona ya no se suma nada: no es acierto");
   assert.equal(aciertoMapa(300, 1000, 0.25), false, "la fracción sale de la configuración");
+  assert.equal(aciertoMapa(700, 1000), true, "por defecto, la zona es de tres cuartos");
 });
 
 test("acertar una de mapa es lo mismo que sumar al menos un punto", () => {
   for (const max of [200, 1000, 3000]) {
     for (let apuesta = 1; apuesta <= 10; apuesta++) {
       for (let d = 0; d <= max; d += max / 400) {
-        assert.equal(puntosMapa(d, apuesta, max) > 0, aciertoMapa(d, max), `${d} km de ${max}, arriesgando ${apuesta}`);
+        assert.equal(puntosMapa(d, apuesta, max, FRACCION) > 0, aciertoMapa(d, max, FRACCION), `${d} km de ${max}, arriesgando ${apuesta}`);
       }
     }
   }
@@ -80,11 +83,12 @@ test("turno de mapa: se señala en vez de ver la respuesta, y se avanza lo que s
   assert.throws(() => M.senalar(p, { lat: 95, lon: 0 }, ctx), /mapa/);
 
   const D = q.distancia_max_km;
+  const R = D * FRACCION; // la zona de acierto; arriesgando 5, cada paso es R / 5
   const casos = [
     [0, 5, true],
-    [0.13 * D, 4, true], // un paso de 100 km con D = 1000 (zona de 500 entre 5): pierde uno
-    [0.35 * D, 2, true],
-    [0.7 * D, 0, false], // fuera de la zona de acierto: no avanza nada
+    [0.26 * R, 4, true], // algo más de un paso: pierde uno
+    [0.7 * R, 2, true],
+    [1.2 * R, 0, false], // fuera de la zona de acierto: no avanza nada
     [3 * D, 0, false],
   ];
   for (const [km, puntos, acierto] of casos) {
@@ -132,10 +136,11 @@ test("una final de mapa (sin finales propias) se gana si cuenta como acierto", (
   p = M.empezarLectura(M.apostar(p, p.turno.nivelFinal, ctx).partida).partida;
   const q = p.turno.preguntaDatos;
   assert.equal(q.tipo, "mapa");
-  const lejos = M.senalar(p, aDistancia(q, 0.6 * q.distancia_max_km), ctx).partida;
+  const lejos = M.senalar(p, aDistancia(q, 1.2 * FRACCION * q.distancia_max_km), ctx).partida;
   assert.equal(lejos.ganador, null);
   assert.equal(lejos.turno.mapa.puntos, null, "en la final no se suman puntos");
   assert.equal(lejos.jugadores[1].finalesFalladas, 1);
-  const cerca = M.senalar(p, aDistancia(q, 0.4 * q.distancia_max_km), ctx).partida;
-  assert.equal(cerca.ganador, JUGADORES[1].clave);
+  const cerca = M.senalar(p, aDistancia(q, 0.8 * FRACCION * q.distancia_max_km), ctx).partida;
+  assert.deepEqual(cerca.acertantes, [JUGADORES[1].clave]);
+  assert.equal(M.cerrarTurno(cerca, ctx).partida.ganador, JUGADORES[1].clave, "Ana, que va antes, no juega otra vez: gana Luis");
 });

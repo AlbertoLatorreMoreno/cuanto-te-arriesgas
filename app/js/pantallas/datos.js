@@ -2,7 +2,38 @@
 
 import { estaRetirada, resumenBanco } from "../banco.js";
 import { cabecera, confirmar, h, haceCuanto, montar, aviso } from "../dom.js";
-import { clavesEnPartida } from "../motor.js";
+import { porEnviar } from "../envio.js";
+import { clavesEnPartida, partidaAMedias } from "../motor.js";
+import { enviarAhora } from "./comun.js";
+
+// Envío a la hoja del grupo: solo lo que el grupo aceptó enviar al acabar cada partida o al salir de
+// «Revisar preguntas». Sin la dirección del script en config.json, no hay nada que enseñar.
+function seccionEnvio(app, registros) {
+  if (!app.urlEnvio()) return null;
+  const ultimo = app.almacen.preferencia("ultimoEnvio", null);
+  const decisiones = { enviados: app.almacen.idsEnviados(), partidas: app.almacen.decisionesPartidas(), revisiones: app.almacen.decisionesRevisiones() };
+  const guardada = app.almacen.cargarPartida()?.partida;
+  const pendientes = porEnviar(registros, decisiones, partidaAMedias(guardada) ? guardada.id : null).length;
+  const enviados = registros.filter((r) => decisiones.enviados.has(r.id)).length;
+  const reintentar = async (e) => {
+    e.currentTarget.disabled = true;
+    await enviarAhora(app);
+    if (app.pantalla === "datos") app.ir("datos");
+  };
+  return h(
+    "section",
+    { class: "tarjeta columna" },
+    h("p", { class: "titulo-seccion" }, "Envío a la hoja del grupo"),
+    h(
+      "p",
+      { class: "texto-suave pequeno" },
+      "Al acabar cada partida, y al salir de «Revisar preguntas», la app pregunta si enviáis los datos. Solo se envía lo que aceptáis.",
+    ),
+    h("p", { class: "texto-suave pequeno" }, `Enviados desde este móvil: ${enviados}. Aceptados y aún por enviar: ${pendientes}.`),
+    ultimo && !ultimo.ok && pendientes ? h("p", { class: "nota", role: "alert" }, `El último intento (${haceCuanto(ultimo.ts)}) ha fallado. ${ultimo.error}`) : null,
+    pendientes ? h("button", { class: "boton boton-ancho", onClick: reintentar }, "Reintentar ahora") : null,
+  );
+}
 
 // Nombres que recuerda este móvil (para sugerirlos y no repetirles preguntas), con un botón para olvidar
 // a cada uno. Olvidar borra el nombre y sus preguntas vistas en este móvil, nunca sus registros.
@@ -109,6 +140,7 @@ export async function pantallaDatos(app, params = {}) {
           h("button", { class: "boton boton-primario boton-ancho", disabled: registros.length === 0, onClick: () => app.exportar().then(() => app.pantalla === "datos" && app.ir("datos")) }, "Exportar datos"),
           h("p", { class: "texto-suave pequeno" }, "El archivo incluye los nombres de los jugadores. Si vais a compartirlo, usad apodos."),
         ),
+        seccionEnvio(app, registros),
       ),
       h(
         "div",

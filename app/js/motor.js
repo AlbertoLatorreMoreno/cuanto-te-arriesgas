@@ -76,6 +76,8 @@ export function partidaReanudable(p) {
   if (!Number.isInteger(p.meta) || !Number.isInteger(p.idx) || !p.jugadores[p.idx]) return false;
   if (p.narrador != null && (typeof p.narrador.clave !== "string" || !p.narrador.clave)) return false;
   if (p.especiales != null && !Array.isArray(p.especiales)) return false;
+  if ((p.acertantes != null && !Array.isArray(p.acertantes)) || (p.empate != null && !Array.isArray(p.empate))) return false;
+  if (p.oro != null && (!Number.isInteger(p.oro.ronda) || !Array.isArray(p.oro.vivos) || !p.oro.vivos.length || !Array.isArray(p.oro.aciertos))) return false;
   const t = p.turno;
   if (!t || !Object.values(FASE).includes(t.fase)) return false;
   if (t.ronda) {
@@ -159,11 +161,15 @@ function prepararTurno(partida, ctx) {
     reto: false,
     // Pregunta de mapa: el punto señalado, a cuántos km quedó y cuántos puntos sumó.
     mapa: null,
+    oro: null, // en la ronda de oro, cuál (1, 2…)
   };
   partida.turno = turno;
   if (j.pos >= partida.meta) {
-    const { nivel, ventaja, rebaja } = calcularFinal(partida.jugadores, partida.idx, partida.pasoFinal, ctx.config.final);
-    Object.assign(turno, { esFinal: true, nivelFinal: nivel, ventaja, rebajaFinal: rebaja });
+    // En la ronda de oro, todos los empatados responden una final del nivel base: sin ventajas ni rebajas.
+    const { nivel, ventaja, rebaja } = partida.oro
+      ? { nivel: ctx.config.final.nivel_base, ventaja: 0, rebaja: 0 }
+      : calcularFinal(partida.jugadores, partida.idx, partida.pasoFinal, ctx.config.final);
+    Object.assign(turno, { esFinal: true, nivelFinal: nivel, ventaja, rebajaFinal: rebaja, oro: partida.oro?.ronda ?? null });
     // Con finales propias, la final no tiene categoría y se elige al empezar (como las preguntas, tras la apuesta).
     if (ctx.finales?.length) return;
     turno.categoria = elegir(categorias, ctx.rng);
@@ -260,7 +266,10 @@ export function nuevaPartida({ id, jugadores, metaId, narrador = null, cronometr
     idx: 0,
     n: 1,
     usadas: [],
+    acertantes: [], // quienes han acertado la final (la partida acaba al completar la ronda: ver quienSigue)
     ganador: null,
+    empate: null, // si acaba en empate, quienes empataron
+    oro: null, // ronda de oro tras un empate: { ronda, vivos, aciertos }
     turno: null,
   };
   prepararTurno(partida, ctx);
@@ -370,7 +379,7 @@ export function senalar(partida0, punto, ctx) {
   const { lat, lon } = punto ?? {};
   exigir(Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180, "Ese punto no está en el mapa.");
   const distancia = distanciaKm({ lat, lon }, q);
-  const fraccion = ctx.config.mapa?.acierto_fraccion ?? 0.5;
+  const fraccion = ctx.config.mapa?.acierto_fraccion ?? 0.75;
   const acierto = aciertoMapa(distancia, q.distancia_max_km, fraccion);
   const puntos = t.esFinal ? null : puntosMapa(distancia, t.apuesta, q.distancia_max_km, fraccion);
   const redondear = (x) => Math.round(x * 10000) / 10000;
@@ -379,7 +388,8 @@ export function senalar(partida0, punto, ctx) {
   return { partida, registros: [], vistas: [] };
 }
 
-// El resultado de una pregunta (o de un reto final): avanza, o gana si era la final. Una pregunta
+// El resultado de una pregunta (o de un reto final): avanza o, si era la final y la acierta, se apunta
+// entre los que la han acertado (quién gana se decide al cerrar el turno: ver quienSigue). Una pregunta
 // de mapa avanza lo que haya puntuado (`avance`), aunque no llegue a contar como acierto.
 function aplicarJuicio(partida, acierto, avance = acierto ? partida.turno.apuesta : 0) {
   const t = partida.turno;
@@ -394,7 +404,7 @@ function aplicarJuicio(partida, acierto, avance = acierto ? partida.turno.apuest
   if (acierto) {
     j.aciertos++;
     j.mejorAcierto = Math.max(j.mejorAcierto, t.apuesta);
-    if (t.esFinal) partida.ganador = j.clave;
+    if (t.esFinal) (partida.oro ? partida.oro.aciertos : (partida.acertantes ??= [])).push(j.clave);
   } else {
     j.fallos++;
     if (t.esFinal) j.finalesFalladas = (j.finalesFalladas ?? 0) + 1;
@@ -565,6 +575,7 @@ function registroFinal(partida, t, ctx) {
     nivel_pedido: t.nivelFinal, // el que tocaba por la ventaja y la rebaja (puede no haber quedado ninguna nueva de ese nivel)
     ventaja: t.ventaja,
     rebaja: t.rebajaFinal ?? 0, // escalones que bajó por las finales que ya había fallado
+    ronda_oro: t.oro ?? null, // en la ronda de oro (desempate), cuál
 
     alternativa: t.alternativa,
     cronometro: t.cronometro ?? null,
@@ -597,6 +608,7 @@ export function cerrarTurno(partida0, ctx) {
     subtema_anunciado: t.subtema,
     apuesta: t.apuesta,
     es_final: t.esFinal,
+    ...(t.esFinal ? { ronda_oro: t.oro ?? null } : {}),
     alternativa: t.alternativa,
     cronometro: t.cronometro ?? null,
     tiempo_agotado: t.tiempoAgotado ?? null,
@@ -608,13 +620,60 @@ export function cerrarTurno(partida0, ctx) {
       ? { lat_senalada: t.mapa.lat, lon_senalada: t.mapa.lon, distancia_km: t.mapa.distancia_km, distancia_max_km: t.preguntaDatos.distancia_max_km, puntos: t.mapa.puntos }
       : {}),
   };
-  if (partida.ganador) {
+  const sigue = quienSigue(partida);
+  if (!sigue) {
+    // Se decide: quien acertó (la final o la ronda de oro) o, si la acertaron varios, empate.
+    const acertaron = partida.oro ? partida.oro.aciertos : partida.acertantes;
+    if (!partida.ganador) {
+      if (acertaron.length === 1) partida.ganador = acertaron[0];
+      else partida.empate = [...acertaron];
+    }
     t.fase = FASE.FIN;
     partida.terminada = ctx.ahora();
   } else {
-    partida.idx = (partida.idx + 1) % partida.jugadores.length;
+    if (sigue.vivos) partida.oro = { ronda: partida.oro.ronda + 1, vivos: sigue.vivos, aciertos: [] };
+    partida.idx = sigue.idx;
     partida.n++;
     prepararTurno(partida, ctx);
   }
   return { partida, registros: [registro], vistas: [] };
+}
+
+// ---------------------------------------------------------------- final, empate y ronda de oro
+// Quien acierta la final no gana en el acto: la ronda se completa. Los que van detrás en el orden
+// (llevan un turno menos) y ya están en la meta juegan su final, y si la aciertan, empatan; los que no
+// han llegado no pueden ganar en un turno y no juegan. Tras un empate se puede jugar la ronda de oro:
+// en cada ronda, cada empatado responde una final; si la acierta uno solo, gana; si la aciertan varios,
+// siguen solo ellos, y si no la acierta nadie, otra ronda.
+
+// Quién juega después del turno actual, ya juzgado: { idx } y, si empieza otra ronda de oro, sus
+// `vivos`. null si la partida se decide en este turno.
+export function quienSigue(partida) {
+  const { jugadores, idx, oro } = partida;
+  // Una partida guardada por una versión anterior apuntaba al ganador nada más acertar la final.
+  if (partida.ganador) return null;
+  const detras = (juega) => jugadores.findIndex((j, i) => i > idx && juega(j));
+  if (oro) {
+    const i = detras((j) => oro.vivos.includes(j.clave));
+    if (i >= 0) return { idx: i };
+    if (oro.aciertos.length === 1) return null;
+    const vivos = oro.aciertos.length ? [...oro.aciertos] : [...oro.vivos];
+    return { idx: jugadores.findIndex((j) => vivos.includes(j.clave)), vivos };
+  }
+  if (partida.acertantes?.length) {
+    const i = detras((j) => j.pos >= partida.meta);
+    return i >= 0 ? { idx: i } : null;
+  }
+  return { idx: (idx + 1) % jugadores.length };
+}
+
+export function rondaDeOro(partida0, ctx) {
+  const partida = clonar(partida0);
+  exigir(partida.turno.fase === FASE.FIN && !partida.ganador && partida.empate?.length > 1, "La ronda de oro solo se juega tras un empate.");
+  partida.oro = { ronda: 1, vivos: [...partida.empate], aciertos: [] };
+  partida.terminada = null;
+  partida.idx = partida.jugadores.findIndex((j) => partida.oro.vivos.includes(j.clave));
+  partida.n++;
+  prepararTurno(partida, ctx);
+  return { partida, registros: [], vistas: [] };
 }

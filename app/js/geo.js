@@ -12,24 +12,24 @@ export function distanciaKm(a, b) {
   return 2 * RADIO_TIERRA_KM * Math.asin(Math.min(1, Math.sqrt(h)));
 }
 
-// Cada pregunta tiene una zona de acierto: un radio que es una fracción (la mitad) de su distancia
+// Cada pregunta tiene una zona de acierto: un radio que es una fracción (tres cuartos) de su distancia
 // máxima. Ese radio, repartido entre lo que se arriesga, da los kilómetros que cuesta cada punto:
 // cuanto más arriesgas, más preciso hay que ser, y fuera de la zona no se suma nada.
-export function pasoKm(distanciaMax, apuesta, fraccion = 0.5) {
+export function pasoKm(distanciaMax, apuesta, fraccion = 0.75) {
   return (distanciaMax * fraccion) / apuesta;
 }
 
 // Lo arriesgado menos un punto por cada paso de distancia (nunca menos de 0). Antes los puntos
 // llegaban hasta la distancia máxima, y quien no sabía dónde estaba el sitio sumaba igualmente varios
 // puntos con las apuestas altas: arriesgar 10 en una de mapa rendía casi como un 5 normal.
-export function puntosMapa(distancia, apuesta, distanciaMax, fraccion = 0.5) {
+export function puntosMapa(distancia, apuesta, distanciaMax, fraccion = 0.75) {
   // d · N / radio, y no d / (radio / N): así, justo en el borde de la zona sale N exacto (0 puntos).
   return Math.max(0, apuesta - Math.floor((distancia * apuesta) / (distanciaMax * fraccion)));
 }
 
 // Para el modelo de niveles (que solo entiende acierto o fallo) y para ganar la final: haber quedado
 // dentro de la zona de acierto, que es lo mismo que sumar al menos un punto.
-export function aciertoMapa(distancia, distanciaMax, fraccion = 0.5) {
+export function aciertoMapa(distancia, distanciaMax, fraccion = 0.75) {
   return distancia < distanciaMax * fraccion;
 }
 

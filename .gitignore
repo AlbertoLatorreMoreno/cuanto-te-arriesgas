@@ -1,5 +1,9 @@
 # Exportaciones reales: llevan los nombres de los jugadores. Quita esta línea si quieres versionarlas.
 analisis/datos/*.json
+analisis/datos/*.parcial
+
+# Dirección y código de la hoja del grupo (envío automático): el código es su contraseña.
+analisis/envio.json
 
 # Salidas que se regeneran
 analisis/salida/

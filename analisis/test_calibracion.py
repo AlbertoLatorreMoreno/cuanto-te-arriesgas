@@ -357,6 +357,24 @@ class TestRetiradaYRondas(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+class TestMapa(unittest.TestCase):
+    def test_el_acierto_de_mapa_se_recalcula_con_la_zona_actual(self):
+        """Las respuestas de mapa guardan si se acertó con la zona de entonces (hasta el 26 de octubre, la mitad de la
+        distancia máxima): la calibración lo recalcula con la de ahora."""
+        mapa = [i for i in range(len(BANCO)) if BANCO.categoria[i] == "geohistoria"][:3]
+        fraccion = CONFIG["mapa"]["acierto_fraccion"]
+        # A 0,4, 0,6 y 0,8 veces la distancia máxima: con la zona de la mitad, solo la primera era acierto.
+        distancias = [400, 600, 800]
+        regs = [{"id": f"mapa-{k}", "tipo": "respuesta", "ts": f"2026-10-24T10:0{k}:00.000Z", "partida": "pm", "turno": k, "jugador": f"j{k}",
+                 "lector": f"l{k}", "pregunta": BANCO.id[i], "v": int(BANCO.v[i]), "nivel_mostrado": int(BANCO.nivel[i]), "apuesta": int(BANCO.nivel[i]),
+                 "es_final": False, "acierto": d < 500, "distancia_km": d, "distancia_max_km": 1000, "puntos": 0}
+                for k, (i, d) in enumerate(zip(mapa, distancias), start=1)]
+        datos = preparar_datos(regs, BANCO, CONFIG)
+        self.assertEqual([x["y"] for x in datos.respuestas], [int(d < 1000 * fraccion) for d in distancias])
+        self.assertEqual([x["y"] for x in datos.respuestas], [1, 1, 0], "con la zona de tres cuartos, a 600 km de 1000 ya es acierto")
+        self.assertEqual([r["acierto"] for r in regs], [True, False, False], "los registros originales no cambian")
+
+
 class TestFinales(unittest.TestCase):
     def test_finales(self):
         tmp = Path(tempfile.mkdtemp(prefix="finales-"))

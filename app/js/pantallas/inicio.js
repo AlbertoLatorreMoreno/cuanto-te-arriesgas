@@ -9,7 +9,11 @@ export async function pantallaInicio(app) {
   const hayPartida = partidaAMedias(guardada?.partida);
   const ultimaExportacion = app.almacen.preferencia("ultimaExportacion", null);
   const registros = await app.almacen.todosLosRegistros();
-  const sinExportar = registros.filter((r) => !ultimaExportacion || r.ts > ultimaExportacion).length;
+  // Los que ya están en la hoja del grupo tampoco están solo en el móvil.
+  const enviados = app.almacen.idsEnviados();
+  const sinExportar = registros.filter((r) => (!ultimaExportacion || r.ts > ultimaExportacion) && !enviados.has(r.id)).length;
+  const ultimoEnvio = app.almacen.preferencia("ultimoEnvio", null);
+  const envioFallido = Boolean(app.urlEnvio() && ultimoEnvio && !ultimoEnvio.ok);
   if (!vigente()) return;
 
   montar(
@@ -44,13 +48,20 @@ export async function pantallaInicio(app) {
     ),
     // Los datos solo están en este móvil y el navegador puede borrarlos (Safari, tras 7 días sin abrir
     // una web no instalada): se avisa ya tras una partida, para que se exporten al acabar la quedada.
-    sinExportar >= 20
-      ? h(
-          "p",
-          { class: "nota" },
-          `Tienes ${sinExportar} respuestas y valoraciones sin exportar (última exportación: ${haceCuanto(ultimaExportacion)}). Solo están en este móvil: expórtalas en «Datos y exportación».`,
-        )
-      : null,
+    envioFallido
+      ? h("p", { class: "nota" }, `No se han podido enviar los datos que aceptasteis enviar. ${ultimoEnvio.error} Se volverá a intentar solo; también desde «Datos y exportación».`)
+      : sinExportar >= 20
+        ? h(
+            "p",
+            { class: "nota" },
+            `Tienes ${sinExportar} respuestas y valoraciones sin exportar (última exportación: ${haceCuanto(ultimaExportacion)}). Solo están en este móvil: expórtalas en «Datos y exportación».`,
+          )
+        : null,
     h("p", { class: "pie-version empuja" }, `${app.indice.porId.size} preguntas · banco ${app.versiones.banco} · ajustes ${app.versiones.ajustes} · v${app.version}`),
   );
+  // Lo aceptado que falte, a la hoja del grupo. Se repinta si cambia el aviso: si se ha enviado algo, o
+  // si falla y aún no se avisaba (si ya se avisaba, no: se volvería a intentar sin parar).
+  app.sincronizar().then((r) => {
+    if (vigente() && (r?.enviados.length || (r && !r.ok && !envioFallido))) app.ir("inicio");
+  });
 }

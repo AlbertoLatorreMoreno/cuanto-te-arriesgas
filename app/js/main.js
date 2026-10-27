@@ -4,8 +4,9 @@ import { PREFIJO, crearAlmacen, pedirAlmacenamientoPersistente } from "./almacen
 import { rngReal } from "./azar.js";
 import { crearIndice } from "./banco.js";
 import { aviso, h, montar } from "./dom.js";
+import { enviarRegistros, errorDireccion, porEnviar } from "./envio.js";
 import { construirExportacion, exportarArchivo, nombreArchivo } from "./exportar.js";
-import { ErrorJuego, clavesEnPartida, partidaReanudable } from "./motor.js";
+import { ErrorJuego, FASE, clavesEnPartida, partidaAMedias, partidaReanudable } from "./motor.js";
 import { Sesion } from "./sesion.js";
 import { versionBanco } from "./util.js";
 import { pantallaDatos } from "./pantallas/datos.js";
@@ -59,6 +60,22 @@ async function arrancar() {
   almacen.olvidarInactivos({ ahora: new Date(), dias: config.jugadores.olvidar_tras_dias, protegidos: clavesEnPartida(almacen.cargarPartida()?.partida) });
 
   const categorias = new Map(config.categorias.map((c) => [c.id, c]));
+
+  // Envía lo que el grupo ha aceptado enviar y aún no está en la hoja (envio.js).
+  async function enviarPendientes(url) {
+    try {
+      const guardada = almacen.cargarPartida()?.partida;
+      const decisiones = { enviados: almacen.idsEnviados(), partidas: almacen.decisionesPartidas(), revisiones: almacen.decisionesRevisiones() };
+      const pendientes = porEnviar(await almacen.todosLosRegistros(), decisiones, partidaAMedias(guardada) ? guardada.id : null);
+      if (!pendientes.length) return null;
+      const r = await enviarRegistros(pendientes, { url, dispositivo: almacen.dispositivo, versiones: app.versiones });
+      almacen.marcarEnviados(r.enviados);
+      almacen.guardarPreferencia("ultimoEnvio", { ts: new Date().toISOString(), ok: r.ok, nuevos: r.nuevos, error: r.error });
+      return r;
+    } catch (e) {
+      return { ok: false, enviados: [], nuevos: 0, error: e.message };
+    }
+  }
 
   const app = {
     version: VERSION,
@@ -157,6 +174,26 @@ async function arrancar() {
         aviso("El navegador no deja guardar las respuestas (¿almacenamiento lleno?). La partida sigue, pero estas respuestas no servirán para calibrar.", { error: true, ms: 7000 });
       }
       if (app.pantalla === "juego") app.ir("juego");
+      // Tras la ronda de oro de una partida que ya se aceptó enviar, lo nuevo también se envía.
+      if (nombre === "cerrarTurno" && app.sesion?.turno.fase === FASE.FIN) app.sincronizar();
+    },
+
+    // Dirección del script de la hoja del grupo (config.json). Sin ella no se pregunta ni se envía nada.
+    urlEnvio() {
+      const url = app.config.envio?.url;
+      return url && !errorDireccion(url) ? url.trim() : null;
+    },
+
+    // Envía a la hoja del grupo lo aceptado que falte. Devuelve el resultado, o null si no había nada que
+    // enviar. Sin conexión, los envíos automáticos ni lo intentan; `siempre` (cuando alguien acaba de decir
+    // que sí, o pulsa «Reintentar») lo intenta igual, para poder decir qué ha pasado.
+    enviando: null,
+    sincronizar({ siempre = false } = {}) {
+      const url = app.urlEnvio();
+      if (!url || (!siempre && navigator.onLine === false)) return Promise.resolve(null);
+      // Un envío cada vez: si ya hay uno en marcha, se espera a ese.
+      app.enviando ??= enviarPendientes(url).finally(() => (app.enviando = null));
+      return app.enviando;
     },
 
     async deshacer() {
@@ -193,6 +230,7 @@ async function arrancar() {
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && app.pantalla === "juego") mantenerPantalla(true);
   });
+  window.addEventListener("online", () => app.sincronizar());
   // La app abierta dos veces (en dos pestañas, o instalada y en el navegador): si la otra cambia la
   // partida guardada, esta deja de jugarla para no pisarla, y «Continuar» carga lo último.
   window.addEventListener("storage", (e) => {

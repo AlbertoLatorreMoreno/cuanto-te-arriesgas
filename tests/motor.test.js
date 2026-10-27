@@ -203,9 +203,10 @@ test("final: se juega en el turno siguiente a llegar, fallarla obliga a repetirl
   assert.equal(p.turno.nivelFinal, 8, "la ventaja ha bajado a 5 (8 + 1), y como ya falló una, un escalón menos");
 
   p = jugarHastaResultado(p, ctx, { acierto: true });
-  assert.equal(p.ganador, "ana");
+  assert.deepEqual(p.acertantes, ["ana"]);
   r = M.cerrarTurno(p, ctx);
   assert.equal(r.partida.turno.fase, M.FASE.FIN);
+  assert.equal(r.partida.ganador, "ana", "Luis no está en la meta: gana Ana al cerrar el turno");
   assert.ok(r.partida.terminada);
 });
 

@@ -1,6 +1,6 @@
 // Pantalla de partida: una vista por cada fase del turno.
 
-import { FASE } from "../motor.js";
+import { FASE, quienSigue } from "../motor.js";
 import { confirmar, dialogo, h, montarPantalla } from "../dom.js";
 import { etiquetaCat, estiloCat, marcador, nombreJugador, tablero, textoAlternativa } from "./comun.js";
 import { pantallaFin } from "./fin.js";
@@ -121,10 +121,16 @@ function vistaAnuncioFinal(app, p, t) {
   const rebaja = t.rebajaFinal
     ? ` Baja ${t.rebajaFinal} por ${falladas === 1 ? "la final que ya ha fallado" : `las ${falladas} finales que ya ha fallado`}.`
     : "";
-  const explicacion =
-    (t.ventaja > 0
-      ? `Le saca ${t.ventaja} puntos a ${unirNombres(ultimos)}, que ${ultimos.length > 1 ? "van" : "va"} en último lugar: ${nivel_base} + 1 por cada ${p.pasoFinal} puntos de ventaja${tope}.`
-      : "No le saca ventaja al último: nivel base.") + rebaja;
+  const acertantes = p.acertantes ?? [];
+  const explicacion = p.oro
+    ? `Empate entre ${nombres(p, p.oro.vivos)}. Cada uno responde una final de nivel ${nivel_base}: si solo la acierta uno, gana; si la aciertan varios, siguen solo ellos, y si no la acierta nadie, otra ronda.`
+    : (t.ventaja > 0
+        ? `Le saca ${t.ventaja} puntos a ${unirNombres(ultimos)}, que ${ultimos.length > 1 ? "van" : "va"} en último lugar: ${nivel_base} + 1 por cada ${p.pasoFinal} puntos de ventaja${tope}.`
+        : "No le saca ventaja al último: nivel base.") + rebaja;
+  // Alguien ya ha acertado la final en esta ronda: quien juega lleva un turno menos y aún puede empatar.
+  const empatar = !p.oro && acertantes.length
+    ? `${nombres(p, acertantes)} ya ${acertantes.length > 1 ? "han" : "ha"} acertado la final, y ${jugador} lleva un turno menos: si acierta, empate.`
+    : null;
   // Con finales propias aún no se sabe qué saldrá (se elige al pasar el móvil): de tema libre, pregunta o reto.
   const tiempo = t.categoria
     ? p.cronometro && segundosCronometro(app.config, t.categoria, t.nivelFinal)
@@ -138,8 +144,13 @@ function vistaAnuncioFinal(app, p, t) {
     h(
       "section",
       { class: "tarjeta tarjeta-cat centrado", style: estiloCat(app, t.categoria) },
-      h("p", { class: "texto-suave" }, "🏁 Pregunta final"),
-      h("h2", { style: { "font-size": "1.7rem", margin: "6px 0 14px" } }, `${jugador}, si aciertas, ganas`),
+      h("p", { class: "texto-suave" }, p.oro ? `🥇 ${p.oro.ronda > 1 ? `${p.oro.ronda}.ª ronda` : "Ronda"} de oro` : "🏁 Pregunta final"),
+      h(
+        "h2",
+        { style: { "font-size": "1.7rem", margin: "6px 0 14px" } },
+        p.oro ? `${jugador}, a por el desempate` : empatar ? `${jugador}, si aciertas, empatas` : `${jugador}, si aciertas, ganas`,
+      ),
+      empatar ? h("p", { class: "nota" }, empatar) : null,
       t.categoria
         ? etiquetaCat(app, t.categoria, t.subtema)
         : h("p", { class: "texto-suave" }, "Tema libre: puede ser una pregunta difícil o un reto «acierta tantos de…»."),
@@ -263,9 +274,9 @@ function vistaInicial(app, q) {
 
 function reglaMapa(app, t) {
   const q = t.preguntaDatos;
-  const radio = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.5);
-  if (t.esFinal) return `Gana si queda a menos de ${formatoKm(radio)} del sitio.`;
-  const paso = pasoKm(q.distancia_max_km, t.apuesta, app.config.mapa.acierto_fraccion ?? 0.5);
+  const radio = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75);
+  if (t.esFinal) return `Acierta la final si queda a menos de ${formatoKm(radio)} del sitio.`;
+  const paso = pasoKm(q.distancia_max_km, t.apuesta, app.config.mapa.acierto_fraccion ?? 0.75);
   return `Se juega ${t.apuesta}: −1 punto por cada ${formatoKm(paso)} de error; a más de ${formatoKm(radio)}, nada.`;
 }
 
@@ -312,7 +323,7 @@ function mapaDelResultado(app, p, t) {
   const q = t.preguntaDatos;
   const clave = `${p.id}|${p.n}|${t.pregunta}|resultado`;
   if (mapaResultado?.clave !== clave) mapaResultado = { clave, punto: { lat: t.mapa.lat, lon: t.mapa.lon }, vb: null };
-  const radioKm = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.5);
+  const radioKm = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75);
   // Encuadre: los dos puntos y la zona de acierto, con margen. La longitud del punto señalado se
   // acerca a la correcta por el camino corto (por si están a los dos lados del Pacífico).
   let lon2 = t.mapa.lon;
@@ -487,21 +498,90 @@ function vistaRespuesta(app, p, t) {
 
 // ---------------------------------------------------------------- resultado
 
+// ---------------------------------------------------------------- final: empate y ronda de oro
+
+const nombres = (p, claves) => unirNombres(claves.map((c) => nombreJugador(p, c)));
+
+// Quienes van detrás en el orden y ya están en la meta: si alguien acierta la final, aún pueden empatar.
+const puedenEmpatar = (p) => p.jugadores.filter((j, i) => i > p.idx && j.pos >= p.meta).map((j) => j.clave);
+
+// Título y consecuencia del resultado de una final ya juzgada (pregunta, reto o de mapa): si gana, si
+// aún pueden empatar otros, si hay empate o cómo sigue la ronda de oro. `detalle` puede quedar vacío
+// (quien gana sin más): cada vista antepone lo que ha pasado (la distancia, los aciertos del reto…).
+function desenlaceFinal(app, p, t, fallada = "Final fallada") {
+  const jugador = nombreJugador(p, t.jugador);
+  const sigue = quienSigue(p);
+  const bien = t.acierto ? "¡Acierto!" : fallada;
+  if (p.oro) {
+    const { aciertos } = p.oro;
+    if (!sigue) {
+      return aciertos[0] === t.jugador
+        ? { titulo: `¡${jugador} gana!`, detalle: "Nadie más la ha acertado en esta ronda de oro." }
+        : { titulo: fallada, detalle: `${nombreJugador(p, aciertos[0])} gana la ronda de oro.` };
+    }
+    if (sigue.vivos) {
+      return aciertos.length
+        ? { titulo: bien, detalle: `La han acertado ${nombres(p, aciertos)}: otra ronda de oro, solo entre ${aciertos.length === 2 ? "los dos" : "ellos"}.` }
+        : { titulo: fallada, detalle: "No la ha acertado nadie: otra ronda de oro." };
+    }
+    if (!aciertos.length) return { titulo: fallada, detalle: "De momento no la ha acertado nadie en esta ronda." };
+    return { titulo: bien, detalle: aciertos.length === 1 ? `Si los demás fallan, gana ${nombres(p, aciertos)}.` : `De momento la han acertado ${nombres(p, aciertos)}.` };
+  }
+  const acertantes = p.acertantes ?? [];
+  if (!acertantes.length) {
+    const rebaja = t.nivelFinal > app.config.final.nivel_base ? ", con una final un escalón más fácil" : "";
+    return { titulo: fallada, detalle: `${jugador} sigue en la meta y lo volverá a intentar en su próximo turno${rebaja}.` };
+  }
+  if (sigue) {
+    const quedan = puedenEmpatar(p);
+    const varios = quedan.length > 1;
+    if (!t.acierto) return { titulo: fallada, detalle: `${jugador} no consigue empatar. Aún ${varios ? "pueden" : "puede"} hacerlo ${nombres(p, quedan)}.` };
+    return acertantes.length === 1
+      ? {
+          titulo: `¡${jugador} acierta la final!`,
+          detalle: `Pero ${nombres(p, quedan)} ${varios ? "llevan" : "lleva"} un turno menos y ya ${varios ? "están" : "está"} en la meta: si ${varios ? "aciertan" : "acierta"} su final, empate.`,
+        }
+      : { titulo: `¡${jugador} empata!`, detalle: `Aún ${varios ? "pueden" : "puede"} empatar ${nombres(p, quedan)}.` };
+  }
+  if (acertantes.length === 1) {
+    return acertantes[0] === t.jugador
+      ? { titulo: `¡${jugador} gana!`, detalle: "" }
+      : { titulo: fallada, detalle: `${jugador} no consigue empatar: gana ${nombreJugador(p, acertantes[0])}.` };
+  }
+  return { titulo: t.acierto ? `¡${jugador} empata!` : fallada, detalle: `Empate entre ${nombres(p, acertantes)}.` };
+}
+
+// Cierra el turno: «Siguiente turno: …» o, si la partida se decide en este, «Ver resultados».
+function botonCerrarTurno(app, p) {
+  const sigue = quienSigue(p);
+  return h(
+    "div",
+    { class: "acciones-fijas" },
+    h(
+      "button",
+      { class: "boton boton-primario boton-grande boton-ancho", onClick: () => app.accion("cerrarTurno") },
+      sigue ? `Siguiente turno: ${p.jugadores[sigue.idx].nombre}` : "Ver resultados",
+    ),
+  );
+}
+
 function vistaResultado(app, p, t) {
   const jugador = nombreJugador(p, t.jugador);
-  const siguiente = p.jugadores[(p.idx + 1) % p.jugadores.length].nombre;
   const q = t.preguntaDatos;
 
   let titulo;
   let detalle;
   const esMapa = q.tipo === "mapa" && t.mapa;
-  const radioMapa = esMapa ? q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.5) : 0;
-  if (esMapa && p.ganador) {
-    titulo = `¡${jugador} gana!`;
-    detalle = `Ha señalado a ${formatoKm(t.mapa.distancia_km)} del sitio, dentro de los ${formatoKm(radioMapa)} que hacían falta.`;
-  } else if (esMapa && t.esFinal) {
-    titulo = "Final fallada";
-    detalle = `Ha señalado a ${formatoKm(t.mapa.distancia_km)} y hacía falta quedar a menos de ${formatoKm(radioMapa)}. Lo volverá a intentar en su próximo turno${t.nivelFinal > app.config.final.nivel_base ? ", con una final un escalón más fácil" : ""}.`;
+  const radioMapa = esMapa ? q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75) : 0;
+  if (t.esFinal) {
+    const d = desenlaceFinal(app, p, t);
+    const distancia = !esMapa
+      ? null
+      : t.acierto
+        ? `Ha señalado a ${formatoKm(t.mapa.distancia_km)} del sitio, dentro de los ${formatoKm(radioMapa)} que hacían falta.`
+        : `Ha señalado a ${formatoKm(t.mapa.distancia_km)} y hacía falta quedar a menos de ${formatoKm(radioMapa)}.`;
+    titulo = d.titulo;
+    detalle = [distancia, d.detalle || (distancia ? "" : "Ha acertado la pregunta final.")].filter(Boolean).join(" ");
   } else if (esMapa) {
     const n = t.mapa.puntos;
     titulo = n ? (n === t.apuesta ? `¡Clavado! +${n}` : `+${n} de ${t.apuesta}`) : "Demasiado lejos";
@@ -511,12 +591,6 @@ function vistaResultado(app, p, t) {
         ? `${jugador} llega a la meta. En su próximo turno, la pregunta final.`
         : `${jugador} avanza de ${t.posAntes} a ${t.posDespues}.`;
     detalle = `A ${formatoKm(t.mapa.distancia_km)} del sitio. ${avance}`;
-  } else if (p.ganador) {
-    titulo = `¡${jugador} gana!`;
-    detalle = "Ha acertado la pregunta final.";
-  } else if (t.esFinal) {
-    titulo = "Final fallada";
-    detalle = `${jugador} sigue en la meta y lo volverá a intentar en su próximo turno${t.nivelFinal > app.config.final.nivel_base ? ", con una final un escalón más fácil" : ""}.`;
   } else if (t.acierto) {
     titulo = "¡Acierto!";
     detalle = t.posDespues >= p.meta ? `${jugador} llega a la meta. En su próximo turno, la pregunta final.` : `${jugador} avanza de ${t.posAntes} a ${t.posDespues}.`;
@@ -559,15 +633,7 @@ function vistaResultado(app, p, t) {
       ),
     ),
     marcador(p),
-    h(
-      "div",
-      { class: "acciones-fijas" },
-      h(
-        "button",
-        { class: "boton boton-primario boton-grande boton-ancho", onClick: () => app.accion("cerrarTurno") },
-        p.ganador ? "Ver resultados" : `Siguiente turno: ${siguiente}`,
-      ),
-    ),
+    botonCerrarTurno(app, p),
   ];
 }
 
@@ -734,7 +800,6 @@ async function pedirOtraRonda(app) {
 function vistaResultadoRonda(app, p, t) {
   const r = t.rondaDatos;
   const jugador = nombreJugador(p, t.jugador);
-  const siguiente = p.jugadores[(p.idx + 1) % p.jugadores.length].nombre;
   const n = t.aciertos;
   const detalle = !n
     ? `${jugador} se queda en ${t.posAntes}.`
@@ -768,16 +833,12 @@ function vistaResultadoRonda(app, p, t) {
       ),
     ),
     marcador(p),
-    h(
-      "div",
-      { class: "acciones-fijas" },
-      h("button", { class: "boton boton-primario boton-grande boton-ancho", onClick: () => app.accion("cerrarTurno") }, `Siguiente turno: ${siguiente}`),
-    ),
+    botonCerrarTurno(app, p),
   ];
 }
 
 // ---------------------------------------------------------------- reto final
-// «Acierta al menos k de n»: se juega como una ráfaga, pero quien lo consigue gana la partida.
+// «Acierta al menos k de n»: se juega como una ráfaga, y llegar al mínimo es acertar la final.
 
 function vistaLecturaReto(app, p, t) {
   const f = t.finalDatos;
@@ -787,7 +848,7 @@ function vistaLecturaReto(app, p, t) {
   const puesto = relojPuesto(p, t);
   const cerrado =
     aciertos >= f.minimo
-      ? `¡Ya tiene ${f.minimo}! Termina el reto: ${jugador} gana.`
+      ? `¡Ya tiene ${f.minimo}! Termina el reto: ${jugador} lo ha superado.`
       : pasadas > f.elementos.length - f.minimo
         ? `Ya no puede llegar a ${f.minimo}: termina el reto.`
         : null;
@@ -826,23 +887,14 @@ function vistaLecturaReto(app, p, t) {
 
 function vistaResultadoReto(app, p, t) {
   const f = t.finalDatos;
-  const jugador = nombreJugador(p, t.jugador);
-  const siguiente = p.jugadores[(p.idx + 1) % p.jugadores.length].nombre;
   const pasadas = f.elementos.filter((_, i) => !t.marcados.includes(i) && i < t.indice).map((e) => e.respuesta);
   const sinLeer = f.elementos.length - t.indice;
+  const d = desenlaceFinal(app, p, t, "Reto fallado");
+  const cuantas = t.acierto
+    ? `Ha acertado ${t.aciertos} de ${f.elementos.length} (necesitaba ${f.minimo}).`
+    : `Ha acertado ${t.aciertos} de ${f.elementos.length} y necesitaba ${f.minimo}.`;
   return [
-    h(
-      "section",
-      { class: `resultado ${t.acierto ? "acierto" : "fallo"}` },
-      h("h2", {}, t.acierto ? `¡${jugador} gana!` : "Reto fallado"),
-      h(
-        "p",
-        {},
-        t.acierto
-          ? `Ha acertado ${t.aciertos} de ${f.elementos.length} (necesitaba ${f.minimo}).`
-          : `Ha acertado ${t.aciertos} de ${f.elementos.length} y necesitaba ${f.minimo}. Sigue en la meta y lo volverá a intentar en su próximo turno${t.nivelFinal > app.config.final.nivel_base ? ", con una final un escalón más fácil" : ""}.`,
-      ),
-    ),
+    h("section", { class: `resultado ${t.acierto ? "acierto" : "fallo"}` }, h("h2", {}, d.titulo), h("p", {}, [cuantas, d.detalle].filter(Boolean).join(" "))),
     h(
       "section",
       { class: "tarjeta columna" },
@@ -861,14 +913,6 @@ function vistaResultadoReto(app, p, t) {
       ),
     ),
     marcador(p),
-    h(
-      "div",
-      { class: "acciones-fijas" },
-      h(
-        "button",
-        { class: "boton boton-primario boton-grande boton-ancho", onClick: () => app.accion("cerrarTurno") },
-        p.ganador ? "Ver resultados" : `Siguiente turno: ${siguiente}`,
-      ),
-    ),
+    botonCerrarTurno(app, p),
   ];
 }

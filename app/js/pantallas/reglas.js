@@ -34,7 +34,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
       ...app.config.categorias
         .filter((c) => c.tipo === "mapa" && app.config.mapa)
         .map((c) => {
-          const fraccion = app.config.mapa.acierto_fraccion ?? 0.5;
+          const fraccion = app.config.mapa.acierto_fraccion ?? 0.75;
           const [espana, europa, mundo] = [...app.config.mapa.distancias_km].sort((a, b) => a - b).map((d) => d * fraccion);
           return [
             h("h2", {}, `${c.nombre}: preguntas de mapa 🗺`),
@@ -44,7 +44,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
               `En las casillas de ${c.nombre} te dicen un hecho («¿dónde fue la batalla de Waterloo?») y lo señalas tocando el mapa; puedes moverlo y acercarte antes de confirmar. ` +
                 `Quien lee la lee en voz alta y te devuelve el móvil. Cada pregunta tiene una zona de acierto alrededor del sitio (${espana} km en España, ${europa} km en Europa, el Mediterráneo y Oriente Próximo, y ${mundo} km en el resto del mundo). ` +
                 `Si tocas dentro, sumas lo que arriesgaste menos 1 punto por cada «paso» que te alejes del sitio; fuera, nada. El paso es la zona repartida entre lo que arriesgues, así que es más corto cuanto más arriesgas: ` +
-                `con una de Europa y arriesgando 5, pierdes un punto cada ${europa / 5} km. Si es tu final, ganas si tocas dentro de la zona.`,
+                `con una de Europa y arriesgando 5, pierdes un punto cada ${europa / 5} km. Si es tu final, la aciertas si tocas dentro de la zona.`,
             ),
           ];
         }),
@@ -73,7 +73,15 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
         {},
         `La partida corta acaba en ${corta.puntos} puntos y la media en ${media.puntos}. Al llegar a la meta no ganas todavía: en tu siguiente turno respondes la pregunta final. ` +
           `Su nivel es ${nivel_base}, más 1 por cada ${corta.paso_final} puntos que le saques al último (${media.paso_final} en la partida media), hasta un máximo de ${nivel_max}. ` +
-          `Si la fallas, lo vuelves a intentar en tu siguiente turno, y cada final fallada baja un escalón la siguiente (nunca por debajo de ${nivel_base}); además, mientras los demás se acercan, la ventaja se reduce. Gana el primero que la acierta.`,
+          `Si la fallas, lo vuelves a intentar en tu siguiente turno, y cada final fallada baja un escalón la siguiente (nunca por debajo de ${nivel_base}); además, mientras los demás se acercan, la ventaja se reduce.`,
+      ),
+      h("h2", {}, "Quién gana, empates y ronda de oro 🥇"),
+      h(
+        "p",
+        {},
+        "Si aciertas la final, la ronda se termina antes de darte por ganador: los que van detrás de ti en el orden llevan un turno menos, así que, si ya están en la meta, responden su final, y si la aciertan, empatáis. " +
+          "Si nadie más la acierta, ganas tú. Con empate, ninguno gana ni pierde, salvo que juguéis la ronda de oro: " +
+          `cada empatado responde una final de nivel ${nivel_base}; si solo la acierta uno, gana; si la aciertan varios, siguen solo ellos, y si no la acierta nadie, otra ronda.`,
       ),
       app.finales?.length
         ? h(

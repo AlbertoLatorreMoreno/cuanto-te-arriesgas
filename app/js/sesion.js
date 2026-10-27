@@ -25,6 +25,8 @@ const ACCIONES = {
   cambiarRonda: (p, ctx, motivo) => M.cambiarRonda(p, motivo, ctx),
   // Reto final («acierta k de n»): se marca con marcarRafaga y se cierra con terminarReto.
   terminarReto: (p, ctx, opciones) => M.terminarReto(p, opciones),
+  // Desempate tras acabar en empate.
+  rondaDeOro: (p, ctx) => M.rondaDeOro(p, ctx),
 };
 
 export class Sesion {

@@ -32,7 +32,7 @@ Si el móvil no la abre, suele ser el cortafuegos de Windows con la wifi marcada
 ### En el móvil, publicada en GitHub Pages (recomendado)
 
 1. Crea un repositorio en GitHub (*New repository*). Con una cuenta gratuita, Pages solo funciona en repositorios públicos: el banco de preguntas y los ajustes serán visibles, pero no las exportaciones de partidas.
-   Sube los archivos: en el repositorio vacío, *uploading an existing file*, y arrastra **el contenido** de la carpeta del proyecto (no la carpeta entera, para que `index.html` quede arriba del todo). Son unos 90 archivos, por debajo del límite de 100 por subida (por poco: no arrastres nada de lo que sigue). Si subes así, a mano, `.gitignore` no actúa, así que **no arrastres**: las exportaciones de `analisis/datos/` (los `.json`) ni la carpeta `analisis/salida/`, porque llevan los nombres de los jugadores (el informe de calibración tiene una tabla por jugador); tampoco hace falta `.claude/`, `analisis/r_anterior/` (la calibración en R, ya retirada), ni `analisis/simulados/`, `generador/candidatas/` o las carpetas `__pycache__` si las tienes.
+   Sube los archivos: en el repositorio vacío, *uploading an existing file*, y arrastra **el contenido** de la carpeta del proyecto (no la carpeta entera, para que `index.html` quede arriba del todo). Son unos 100 archivos, justo el límite de una subida: si la web no los admite todos, súbelos en dos veces (por ejemplo, primero la carpeta `app` y después el resto). Si subes así, a mano, `.gitignore` no actúa, así que **no arrastres**: las exportaciones de `analisis/datos/` (los `.json`), `analisis/envio.json` (el código de descarga de la hoja del grupo) ni la carpeta `analisis/salida/`, porque llevan los nombres de los jugadores (el informe de calibración tiene una tabla por jugador); tampoco hace falta `.claude/`, `analisis/r_anterior/` (la calibración en R, ya retirada), ni `analisis/simulados/`, `generador/candidatas/` o las carpetas `__pycache__` si las tienes.
 2. En el repositorio: *Settings → Pages → Deploy from a branch*, rama `main`, carpeta `/ (root)`.
 3. Abre `https://<usuario>.github.io/<repositorio>/` en el móvil y usa «Añadir a pantalla de inicio».
 
@@ -56,6 +56,7 @@ jugar y valorar → exportar → calibrar → publicar ajustes → jugar con niv
 
 1. **Jugar.** Tras cada pregunta, si queréis, decid si encajaba con su nivel o marcadla como mala. «Revisar preguntas» sirve para valorar sin jugar, y ahí también podéis decir qué nivel le pondríais (o una horquilla: «entre un 4 y un 5»).
 2. **Exportar.** En «Datos y exportación» → «Exportar datos». Envíate el archivo y cópialo en `analisis/datos/`. Hazlo al acabar cada quedada: hasta entonces los datos solo están en el móvil, y en iPhone Safari borra los de las webs no instaladas que no se abren en 7 días.
+   Con el [envío a la hoja del grupo](#envío-de-datos-a-la-hoja-del-grupo) en marcha no hace falta: al acabar cada partida, la app pregunta si se envían sus datos, y `py analisis/descargar.py` los trae a `analisis/datos/`.
 3. **Calibrar.**
    ```bash
    py analisis/calibrar.py
@@ -63,7 +64,7 @@ jugar y valorar → exportar → calibrar → publicar ajustes → jugar con niv
    Escribe `app/data/ajustes.json` (niveles corregidos y preguntas retiradas) y un informe en `analisis/salida/informe.md`. Con `--seco` solo genera el informe.
 4. **Publicar.** Sube el nuevo `ajustes.json` a GitHub, en `app/data/`, sustituyendo al anterior (en la web: entra en esa carpeta y *Add file → Upload files*). El móvil lo recogerá en la siguiente apertura con conexión.
 
-Qué hace el modelo y por qué: [PLAN.md, sección 3](PLAN.md#3-cómo-mejora-el-modelo-con-el-tiempo).
+Qué hace el modelo y por qué: [PLAN.md, sección 3](PLAN.md#3-cómo-mejora-el-modelo-con-el-tiempo). Si conviene exportar sin tocar nada y si bastaría con las valoraciones en vez de la regresión: [docs/informe_exportacion_y_niveles.md](docs/informe_exportacion_y_niveles.md).
 
 ### Practicar sin datos reales
 
@@ -73,6 +74,44 @@ py analisis/calibrar.py --datos analisis/simulados --seco
 ```
 
 La simulación genera partidas con niveles reales conocidos (en `analisis/simulados/verdad.csv`) para ver cómo los recupera la calibración. Nunca escribe en `analisis/datos/`. Ojo: `--seco` no toca `ajustes.json`, pero sí sustituye el informe de `analisis/salida/`; vuelve a calibrar con tus datos para recuperarlo.
+
+---
+
+## Envío de datos a la hoja del grupo
+
+Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
+
+Mientras `app/data/config.json` no tenga la dirección del script, la app no pregunta nada y todo sigue como antes (exportar a mano).
+
+**Ponerlo en marcha (una vez, unos 10 minutos):**
+
+1. Con la cuenta de Google de la app, crea una hoja de cálculo nueva (<https://sheets.new>). Si en el navegador tienes abiertas varias cuentas de Google, hazlo en una ventana privada con solo esa: Apps Script se lía con varias cuentas a la vez.
+2. En la hoja: *Extensiones → Apps Script*. Borra lo que haya y pega el contenido de [`herramientas/apps_script.gs`](herramientas/apps_script.gs).
+3. Cambia `const CODIGO_DESCARGA = "";` por un código secreto, de al menos 8 caracteres (por ejemplo, tres palabras con guiones), y guarda. Solo sirve para descargar los datos desde el ordenador: no va en la app.
+4. *Implementar → Nueva implementación*, tipo *Aplicación web*. *Ejecutar como*: tú (tiene que salir la cuenta de la app). *Quién tiene acceso*: *Cualquier usuario* (no *Cualquier usuario con una cuenta de Google*: con eso, los móviles recibirían la página de inicio de sesión). Pulsa *Implementar* y autoriza el acceso. Google avisará de que la aplicación no está verificada (es tuya, nadie la ha revisado): *Configuración avanzada* → *Ir a… (no seguro)*. Solo pide permiso para esa hoja, no para el resto de tu Drive.
+5. Copia la dirección de la aplicación web (acaba en `/exec`). Para comprobarla, ábrela en el navegador: tiene que decir «El script funciona».
+6. Pon esa dirección en `app/data/config.json`, en `"envio": { "url": "…" }`, y publica la app. Desde ese momento, todos los móviles preguntan al acabar cada partida.
+7. En el ordenador, crea `analisis/envio.json` con el código de descarga (`.gitignore` lo excluye):
+
+   ```json
+   {"codigo": "…"}
+   ```
+
+   y, antes de calibrar:
+
+   ```bash
+   py analisis/descargar.py
+   ```
+
+   Deja en `analisis/datos/arriesga-hoja.json` todo lo que hay en la hoja (cada vez sustituye al anterior). Puede convivir con las exportaciones a mano: la calibración descarta los registros repetidos.
+
+**A tener en cuenta:**
+
+- La dirección del script va en la app, que es pública: quien la mire podría enviar datos a la hoja. Por eso el script solo acepta registros con la forma de los de la app, como mucho 500 por envío y 3000 al día, y leer la hoja exige el código, que no está en ningún sitio público.
+- La hoja lleva los nombres de los jugadores: no la compartáis.
+- Si cambias el script, en *Implementar → Gestionar implementaciones* edita la que hay y elige *Nueva versión*: así la dirección no cambia.
+- En «Datos y exportación» se ve cuánto se ha enviado desde ese móvil y si queda algo pendiente, con un botón para reintentar. La exportación a mano sigue funcionando.
+- Para probarlo sin Google, `py herramientas/script_simulado.py` hace de script en este ordenador: pon `http://127.0.0.1:8011/exec` como dirección en `config.json` (sin publicarla así) y descarga con el código `codigo-de-prueba`. Lo que recibe se pierde al pararlo.
 
 ---
 
@@ -111,9 +150,9 @@ Esto escribe `generador/filtro.json`, que el generador usa en adelante. Hacen fa
 
 ---
 
-## Geohistoria: preguntas de mapa
+## Localízalo: preguntas de mapa
 
-La quinta categoría se responde tocando un mapa. Cada pregunta tiene una zona de acierto alrededor del sitio: dentro, sumas lo que arriesgaste menos un punto por cada «paso» que te alejes (el paso es más corto cuanto más arriesgas); fuera, nada (las reglas exactas, en «Cómo se juega» y en [docs/esquema_datos.md](docs/esquema_datos.md)). Las preguntas están en `app/data/preguntas/geohistoria.json` y llevan `lat`, `lon` y `distancia_max_km`; el generador con IA no las hace.
+La quinta categoría (hasta el 26 de octubre se llamaba Geohistoria; en los datos su id sigue siendo `geohistoria`) se responde tocando un mapa. Cada pregunta tiene una zona de acierto alrededor del sitio: dentro, sumas lo que arriesgaste menos un punto por cada «paso» que te alejes (el paso es más corto cuanto más arriesgas); fuera, nada (las reglas exactas, en «Cómo se juega» y en [docs/esquema_datos.md](docs/esquema_datos.md)). Las preguntas están en `app/data/preguntas/geohistoria.json` y llevan `lat`, `lon` y `distancia_max_km`; el generador con IA no las hace.
 
 El mapa (`app/data/mapa.json`, unos 240 KB) sale de los países de [Natural Earth](https://www.naturalearthdata.com/) 1:50m, de dominio público. Para regenerarlo (por ejemplo, con otra simplificación), descarga `ne_50m_admin_0_countries.geojson` de su repositorio en GitHub y:
 
@@ -142,11 +181,11 @@ Las preguntas están en `app/data/preguntas/<categoría>.json`, una por línea. 
 
 | Qué | Orden |
 |---|---|
-| Motor del juego (reglas, selección, deshacer, preguntas de mapa, 350 partidas simuladas y 200 con acciones al azar) | `node --test "tests/**/*.test.js"` |
+| Motor del juego (reglas, selección, deshacer, preguntas de mapa, empates, 350 partidas simuladas y 200 con acciones al azar), envío a la hoja del grupo y el script de Google (con una hoja simulada) | `node --test "tests/**/*.test.js"` |
 | Validador del banco y versionado de archivos | `py -m unittest discover -s herramientas` |
 | Banco de preguntas, rondas y finales | `py herramientas/validar_banco.py` |
 | Generador (con un cliente simulado: no gasta API) | `py -m unittest discover -s generador` |
-| Calibración, simulador y modelo filtro | `py -m unittest discover -s analisis` |
+| Calibración, simulador, modelo filtro y descarga de la hoja del grupo | `py -m unittest discover -s analisis` |
 
 Todo es Python (con numpy y scipy) salvo la app, que es JavaScript. R ya no hace falta: la calibración se pasó a Python en la fase 13, comprobando antes que daba los mismos resultados.
 
@@ -158,15 +197,16 @@ Todo es Python (con numpy y scipy) salvo la app, que es JavaScript. R ya no hace
 app/                 la app (lo que se publica)
   js/motor.js          reglas del juego (puro, con tests)
   js/geo.js            distancias, puntos y proyección de las preguntas de mapa
-  js/mapa.js           el mapa interactivo de Geohistoria
+  js/mapa.js           el mapa interactivo de Localízalo
   js/banco.js          selección de preguntas y alternativas
   js/sesion.js         deshacer y guardado
   js/almacen.js        localStorage + IndexedDB
+  js/envio.js          envío de datos a la hoja del grupo (con permiso, al acabar cada partida)
   js/pantallas/        una por pantalla
   data/                configuración, banco, rondas, finales, ajustes y control de versiones
 tests/               tests del motor (Node)
-herramientas/        validador del banco, versionado de archivos, generador del mapa y de los iconos
-analisis/            calibración, informe, simulador y modelo filtro (datos/ para las exportaciones)
+herramientas/        validador del banco, versionado de archivos, generador del mapa y de los iconos, y el script de Google de la hoja del grupo (con un sustituto local para probar)
+analisis/            calibración, informe, simulador, modelo filtro y descarga de la hoja del grupo (datos/ para las exportaciones)
 generador/           generación de preguntas con IA (Python)
 docs/                rúbrica, formato de datos y guías de las primeras partidas y de la prueba en el móvil
 ```

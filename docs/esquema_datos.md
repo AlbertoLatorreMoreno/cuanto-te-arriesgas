@@ -44,20 +44,22 @@ Todos los archivos son JSON en UTF-8. Las fechas van en ISO 8601 UTC (`2026-10-1
 | `origen` | sí | `semilla`, `generada` o `manual`. |
 | `tipo` | en las categorías de mapa | `"mapa"`: se responde señalando un punto (ver «Preguntas de mapa»). Solo en las categorías con `"tipo": "mapa"` en `config.json`, y en ellas, en todas. |
 | `lat`, `lon` | en las de mapa | El punto correcto, en grados (latitud entre −80 y 80, porque el mapa no llega a los polos). |
-| `distancia_max_km` | en las de mapa | El doble del radio de la zona de acierto (que es `distancia_max_km × config.mapa.acierto_fraccion`, la mitad): una de `config.mapa.distancias_km` (200 en España; 1000 en Europa, el Mediterráneo y Oriente Próximo; 3000 en el resto), es decir, zonas de 100, 500 y 1500 km. |
+| `distancia_max_km` | en las de mapa | La distancia de referencia de la pregunta, una de `config.mapa.distancias_km` (200 en España; 1000 en Europa, el Mediterráneo y Oriente Próximo; 3000 en el resto). El radio de la zona de acierto es `distancia_max_km × config.mapa.acierto_fraccion` (tres cuartos): 150, 750 y 2250 km. |
 | `vista` | no | Encuadre inicial del mapa (`config.mapa.vistas`); si falta, el de su subtema. |
 | `juez` | no | Puntuaciones del juez IA (fase 6): `{"exactitud": 1-5, "ambiguedad": 1-5, "claridad": 1-5, "nivel_estimado": 1-10, "comentario": "…"}`. No cambian la versión de la pregunta. |
 
-### Preguntas de mapa (Geohistoria)
+### Preguntas de mapa (Localízalo, categoría `geohistoria`)
 
 Quien lee dice un hecho («¿dónde fue la batalla de Waterloo?») y quien juega lo señala en el mapa (`app/data/mapa.json`, generado con `herramientas/generar_mapa.py` a partir de los países de Natural Earth 1:50m, de dominio público; proyección de Mercator). La app mide la distancia `d` al punto correcto (fórmula del haversine) y:
 
-- **Zona de acierto:** un círculo de radio `R = distancia_max_km × config.mapa.acierto_fraccion` (la mitad) alrededor del sitio.
+- **Zona de acierto:** un círculo de radio `R = distancia_max_km × config.mapa.acierto_fraccion` (tres cuartos) alrededor del sitio.
 - **Puntos:** quien arriesga `N` suma `N − ⌊d · N / R⌋`, nunca menos de 0. Es decir, pierde un punto por cada «paso» de distancia (`R / N`, más corto cuanto más arriesga), y fuera de la zona no suma nada. Avanza esas casillas.
 - **Acierto** (para el modelo de niveles, que solo entiende acierto o fallo, y para ganar la final): `d < R`, que es lo mismo que sumar al menos un punto.
-- **Nivel:** igual que en las demás, cuánta gente del grupo «acierta» así. Por eso las difíciles no dicen el país: con 3000 km de margen, saber el país casi siempre basta.
+- **Nivel:** igual que en las demás, cuánta gente del grupo «acierta» así. Por eso las difíciles no dicen el país: con 2250 km de margen, saber el país casi siempre basta.
 
 Hasta la fase 19, los puntos llegaban hasta `distancia_max_km`: quien no sabía dónde estaba el sitio sumaba igualmente varios puntos con las apuestas altas (arriesgar 10 rendía unos 2 puntos de media, frente a 0,4 en una pregunta normal). Con la zona, los puntos esperados de cada apuesta quedan cerca de los de la tabla, y la calibración mantiene la probabilidad de acierto.
+
+El 26 de octubre la zona pasó de la mitad a tres cuartos de `distancia_max_km` (de 100, 500 y 1500 km a 150, 750 y 2250), porque en las primeras partidas costaba mucho puntuar: con las 11 respuestas de mapa de esa semana se habrían sumado 16 puntos en vez de 11 (preguntas normales de esos niveles habrían dado unos 17 de media). La calibración no se fía del `acierto` guardado en las respuestas de mapa: lo recalcula con `distancia_km` y la zona actual, para que las antiguas y las nuevas digan lo mismo.
 
 El generador con IA no hace preguntas de mapa (necesitan coordenadas comprobadas): se escriben a mano. Si cambias el punto, la distancia, el texto o la respuesta de una, sube su `v`.
 
@@ -112,9 +114,10 @@ Campos comunes a todos los registros: `id`, `tipo`, `ts`, `dispositivo`, `versio
 | `subtema_anunciado` | Subtema que se anunció antes de apostar. Puede no coincidir con `subtema` (el de la pregunta) si no quedaban preguntas de ese subtema y nivel. |
 | `apuesta` | Número elegido (en la final, el nivel calculado). |
 | `es_final` | `true` si era la pregunta final. |
+| `ronda_oro` | Solo en la final (`es_final: true`): en qué ronda de oro se jugó (1, 2…), o `null` si no era de desempate. |
 | `cronometro`, `tiempo_agotado` | Segundos que hubo para responder y si se acabaron antes de ver la respuesta. Los dos `null` si la pregunta no llevaba cronómetro (otra categoría, o partida sin él). |
 | `alternativa` | `null` o el motivo por el que la pregunta no es exactamente la pedida: `otro_subtema`, `otro_nivel`, `repetida`. Una respuesta `repetida` (quien responde ya la había visto) no entra en la calibración, aunque su marca de «pregunta mala» sí cuenta. La calibración deja fuera también las que la app no pudo marcar (ver «Preguntas ya vistas» en las reglas de los registros). Si una pregunta es de otro nivel y además ya la había visto, queda como `repetida`. |
-| `acierto` | `true` / `false`. En una pregunta de mapa, si quedó a menos de la mitad de `distancia_max_km`. |
+| `acierto` | `true` / `false`. En una pregunta de mapa, si quedó dentro de la zona de acierto (`distancia_max_km × config.mapa.acierto_fraccion`). |
 | `valoracion` | `"facil"` (más fácil de lo que dice su nivel), `"justa"`, `"dificil"` o `null`. |
 | `mala` | `null` o id del motivo (`config.motivos_mala`). |
 | `lat_senalada`, `lon_senalada`, `distancia_km`, `distancia_max_km`, `puntos` | Solo en las preguntas de mapa: el punto que se señaló, a cuántos km quedó del correcto, la distancia máxima de la pregunta y los puntos que sumó (`null` en la final, donde no se suman puntos). |
@@ -164,9 +167,10 @@ Como las rondas, no entra en el modelo de niveles: el informe la cuenta aparte (
 | `nivel` | El de la final que salió. |
 | `nivel_pedido`, `ventaja` | El nivel que tocaba por la ventaja sobre el último y por las finales ya falladas, y esa ventaja. |
 | `rebaja` | Escalones que bajó la final porque quien jugaba ya había fallado otras (una por cada final fallada, sin bajar de `final.nivel_base`). `0` en los registros anteriores a esta regla. |
+| `ronda_oro` | En qué ronda de oro (desempate) se jugó, o `null`. En la ronda de oro el nivel pedido es siempre `final.nivel_base`, sin ventaja ni rebaja. Falta en los registros anteriores al 26 de octubre. |
 | `alternativa` | `null`, `"otro_nivel"` (no quedaban nuevas del nivel pedido) o `"repetida"` (quien jugaba ya la había visto; el informe no la cuenta). |
 | `cronometro`, `tiempo_agotado` | Segundos que hubo y si se acabaron. En un reto siempre hay tiempo; en una pregunta de cálculo, solo si la partida lleva cronómetro. |
-| `acierto` | Si la ganó. En un reto, `aciertos >= minimo`. |
+| `acierto` | Si la acertó. En un reto, `aciertos >= minimo`. Acertarla no siempre es ganar: quien va detrás y está en la meta aún puede empatar. |
 | `aciertos`, `minimo`, `total`, `leidos`, `marcados` | Solo en un reto (si no, `null`): cuántas acertó, cuántas necesitaba, de cuántas, a cuántas dio tiempo y cuáles (índices desde 0). |
 | `valoracion` | Como en una respuesta (solo en las preguntas; en un reto, `null`). |
 | `mala` | Marca de «final mala», con los motivos de `config.motivos_mala`, o `null`. |
@@ -256,6 +260,29 @@ Etiquetas de entrenamiento: **mala** si la pregunta está retirada o tiene algun
 
 `generador/caso_filtro_comun.json` fija un modelo, seis preguntas y sus probabilidades (las calculó la versión en R, antes de retirarla en la fase 13); las pruebas del generador y de `analisis` comprueban que el cálculo sigue dando lo mismo. Si cambias una característica a propósito, recalcula las probabilidades de ese archivo.
 
+## Envío de datos — hoja del grupo
+
+Un Apps Script de Google (`herramientas/apps_script.gs`), dentro de una hoja de cálculo de la cuenta de la app y publicado como aplicación web, recibe los registros de los móviles (`app/js/envio.js`) y se los da a `analisis/descargar.py`. Su dirección va en `app/data/config.json` (`envio.url`); vacía, la app no pregunta ni envía nada. Cómo crearlo: README, «Envío de datos a la hoja del grupo».
+
+**Permiso.** Solo se envía lo que el grupo acepta. Al mostrarse la pantalla final de una partida, la app pregunta «¿Enviamos los datos de esta partida?» una vez; la respuesta se guarda por partida (`cta.envio.partidas`) y cubre también lo que se juegue después en su ronda de oro. Si se cierra el diálogo sin contestar o se dice que no, la pantalla final deja un botón para enviarlos. Al salir de «Revisar preguntas», lo mismo con las valoraciones por las que aún no se ha preguntado (`cta.envio.revisiones`, por registro). Una partida que se abandona con «Terminar esta partida» no se pregunta.
+
+**Peticiones.** Todas son `POST` a la dirección `/exec` con el cuerpo en JSON como texto plano (`Content-Type: text/plain`: así el navegador no hace consulta previa de CORS, que Apps Script no contesta). Apps Script responde con una redirección a otra dirección que da la respuesta, y el navegador y `urllib` la siguen solos. Un `GET` a `/exec` solo dice si el script funciona, sin datos.
+
+| `accion` | Cuerpo | Respuesta |
+|---|---|---|
+| `enviar` | `{ accion, exportacion }`, sin código (la dirección es pública), con `exportacion` como una exportación normal de hasta 500 registros (la app manda tandas de 250) | `{ ok: true, nuevos, repetidos }` |
+| `descargar` | `{ codigo, accion, desde, cuantos }`, con el código de descarga (`CODIGO_DESCARGA` en el script); `desde` empieza en 0 y `cuantos` llega a 2000 | `{ ok: true, total, registros, ilegibles, siguiente }`, con `siguiente` en `null` en la última tanda |
+
+Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no coincide), `sin_codigo` (falta ponerlo en el script), `formato`, `tamano`, `cupo` o `accion`.
+
+**Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
+
+**La hoja** (pestaña `registros`) tiene una fila por registro, sin repetidos por `id`: `recibido`, `id`, `tipo`, `ts`, `dispositivo` y `registro` (el registro entero en JSON). Todo se escribe como texto.
+
+**Qué se envía y cuándo.** Lo aceptado que no consta en `cta.enviados`, salvo lo de la partida a medias (espera a que acabe, porque «Deshacer» puede borrar el registro de un turno ya cerrado). Se envía al decir que sí, al cerrar el último turno de una partida aceptada (tras su ronda de oro), al volver al inicio y al recuperar la conexión, y con «Reintentar ahora» en «Datos y exportación». Uno cada vez; si una tanda falla, lo anterior ya queda enviado.
+
+**`analisis/descargar.py`** toma la dirección de `app/data/config.json` y el código de `analisis/envio.json` (o de `--url` y `--codigo`), descarga la hoja entera por tandas y la escribe como una exportación más en `analisis/datos/arriesga-hoja.json` (con `dispositivo: "hoja-del-grupo"`), cada vez sustituyendo al anterior.
+
 ## Reglas de los registros
 
 - Deshacer un turno cerrado **borra** su registro, así que no llega a exportarse.
@@ -273,7 +300,9 @@ Además del registro, cada móvil guarda en `localStorage`, con el prefijo `cta.
 | `cta.jugadores` | Jugadores recordados: `[{ clave, nombre, ultima }]`, donde `ultima` es la última vez que empezó una partida (jugando o narrando) o una revisión. Sirve para sugerir nombres. |
 | `cta.vistas` | Preguntas vistas por cada jugador: `{ clave: { idPregunta: fecha } }`. Sirve para no repetirle preguntas. |
 | `cta.revisadas` | Preguntas revisadas por cada evaluador, con el mismo formato. |
-| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa y fecha de la última exportación. |
+| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error }`). |
+| `cta.envio.partidas`, `cta.envio.revisiones` | Lo que se respondió a «¿Enviamos los datos?»: `{ idPartida: true/false }` y, para las valoraciones de «Revisar preguntas», `{ idRegistro: true/false }`. |
+| `cta.enviados` | Ids de los registros que ya están en la hoja del grupo. Si se pierde, se reenvía lo aceptado, sin duplicar nada. |
 | `cta.dispositivo` | Identificador del móvil, que va en cada registro. |
 
 Si algo de esto tiene una forma inesperada (una versión anterior, una escritura a medias), se lee como vacío: nunca impide abrir la app. Con la app abierta dos veces en el mismo móvil (dos pestañas, o instalada y en el navegador), las preguntas vistas se combinan en vez de pisarse, y si una ventana cambia la partida, la otra deja de jugarla y vuelve al inicio.

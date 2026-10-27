@@ -1,10 +1,16 @@
 {
   "formato": 1,
-  "version": "2026-10-18T15:56:12Z",
-  "generado_por": "analisis/calibrar.R",
-  "n_respuestas": 20,
-  "n_valoraciones": 66,
-  "niveles": {},
+  "version": "2026-10-26T10:39:27Z",
+  "generado_por": "analisis/calibrar.py",
+  "n_respuestas": 61,
+  "n_valoraciones": 90,
+  "niveles": {
+    "cie-bio-08": 3,
+    "mat-cal-15": 6
+  },
   "retiradas": {},
-  "versiones": {}
+  "versiones": {
+    "cie-bio-08": 1,
+    "mat-cal-15": 1
+  }
 }

@@ -11,6 +11,7 @@
   "final": { "nivel_base": 8, "nivel_max": 10, "archivo": "data/finales.json", "objetivo_acierto": [0.12, 0.06, 0.03] },
   "cronometro": { "categorias": ["mates"], "segundos_por_nivel": [45, 45, 45, 60, 60, 60, 60, 90, 90, 90] },
   "rondas": { "archivo": "data/rondas.json", "cada": 8, "media_aviso": { "baja": 1, "alta": 6, "minimo_jugadas": 3 } },
+  "envio": { "url": "https://script.google.com/macros/s/AKfycbwmEaJsXS577ocwJ9Pzo_9MFXNa_qoUW04XRjGSRxGY3dumoKUZ2ubep6eeDwzc0u0NIA/exec" },
   "categorias": [
     {
       "id": "ciencias",
@@ -66,7 +67,7 @@
     },
     {
       "id": "geohistoria",
-      "nombre": "Geohistoria",
+      "nombre": "Localízalo",
       "color": "#0e7490",
       "archivo": "data/preguntas/geohistoria.json",
       "tipo": "mapa",
@@ -85,7 +86,7 @@
       "espana": [-18.5, 27.4, 4.6, 44.1]
     },
     "distancias_km": [200, 1000, 3000],
-    "acierto_fraccion": 0.5
+    "acierto_fraccion": 0.75
   },
   "motivos_anulacion": [
     { "id": "conocida", "nombre": "Ya la conocía", "calidad": false },

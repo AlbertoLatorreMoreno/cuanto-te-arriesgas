@@ -26,7 +26,7 @@
   --radio: 16px;
   --radio-sm: 10px;
   --cat: #635e55;
-  /* Mapa de Geohistoria: mar, tierra, fronteras y las dos marcas (la de quien juega y la correcta). */
+  /* Mapa de Localízalo: mar, tierra, fronteras y las dos marcas (la de quien juega y la correcta). */
   --mar: #cfe2ee;
   --tierra: #f4f0e3;
   --frontera: #9d9584;
@@ -884,7 +884,8 @@ p {
   align-items: center;
 }
 
-.campo input[type="text"] {
+.campo input[type="text"],
+.campo input[type="url"] {
   flex: 1;
   min-width: 0; /* sin esto, con letra grande el campo no encoge y desborda la pantalla */
   min-height: 52px;
@@ -1349,7 +1350,7 @@ dialog h2 {
   }
 }
 
-/* ---------- Mapa (Geohistoria) ---------- */
+/* ---------- Mapa (Localízalo) ---------- */
 
 .mapa {
   position: relative;

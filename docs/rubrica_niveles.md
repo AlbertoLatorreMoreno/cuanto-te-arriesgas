@@ -31,7 +31,7 @@ En **Mates y lógica**, la dificultad viene del número de pasos y de lo fácil 
 | 7–8 | Hay que plantear algo: probabilidad de sacar dos seises con dos dados. |
 | 9–10 | Combinatoria o razonamiento con trampa, de los que casi todo el mundo falla aun con tiempo: cuántos caminos distintos hay por una cuadrícula, cuántos números de 4 cifras tienen todas distintas. |
 
-En **Geohistoria** (preguntas de mapa), el nivel es la probabilidad de señalar a menos de la mitad de la distancia máxima de la pregunta (100 km en España, 500 en Europa, el Mediterráneo y Oriente Próximo, 1500 en el resto):
+En **Localízalo** (preguntas de mapa), el nivel es la probabilidad de señalar dentro de la zona de acierto, que es tres cuartos de la distancia máxima de la pregunta (150 km en España, 750 en Europa, el Mediterráneo y Oriente Próximo, 2250 en el resto):
 
 | Nivel | Ejemplo |
 |---|---|
@@ -40,7 +40,7 @@ En **Geohistoria** (preguntas de mapa), el nivel es la probabilidad de señalar 
 | 7–8 | ¿Dónde se libró la batalla de Stalingrado? · ¿Dónde fueron derrotados los comuneros? |
 | 9–10 | ¿Dónde se libró la batalla del río Talas? · ¿Dónde se fundó la primera universidad de la península? |
 
-Una pregunta de mapa difícil no dice el país ni la región: con 1500 km de margen, saberlo suele bastar para acertar. Fuera de esa mitad no se suma ningún punto; dentro, se pierde uno por cada paso.
+Una pregunta de mapa difícil no dice el país ni la región: con 2250 km de margen, saberlo suele bastar para acertar. Fuera de la zona no se suma ningún punto; dentro, se pierde uno por cada paso.
 
 ## Normas de redacción
 

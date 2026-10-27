@@ -243,6 +243,14 @@ def preparar_datos(registros: list[dict], banco: Banco, config: dict) -> Datos:
             descartes["vista_antes"] += 1
         else:
             resp.append(x)
+    # Pregunta de mapa: el acierto se recalcula con la zona de acierto actual (`config.mapa.acierto_fraccion`),
+    # para que las respuestas jugadas con otra zona (hasta el 26 de octubre, la mitad) digan lo mismo que las nuevas.
+    fraccion = (config.get("mapa") or {}).get("acierto_fraccion", 0.75)
+    for x in resp:
+        d, maxima = x.get("distancia_km"), x.get("distancia_max_km")
+        if isinstance(d, (int, float)) and isinstance(maxima, (int, float)):
+            x["acierto"] = d < maxima * fraccion
+
     # `cronometro`: segundos que hubo para responder (None si la pregunta no llevaba); solo para el informe.
     respuestas = [{"q": x["q"], "jugador": x.get("jugador"), "y": int(bool(x["acierto"])), "nivel": _entero(x.get("nivel_mostrado")),
                    "apuesta": _entero(x.get("apuesta")), "es_final": bool(x.get("es_final") or False),

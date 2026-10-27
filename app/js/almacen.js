@@ -182,6 +182,32 @@ export async function crearAlmacen() {
     preferencia: (clave, porDefecto) => leer(`pref.${clave}`, porDefecto),
     guardarPreferencia: (clave, valor) => escribir(`pref.${clave}`, valor),
 
+    // --- envío de datos a la hoja del grupo (envio.js): qué ha aceptado enviar el grupo y qué se ha enviado ya
+    idsEnviados() {
+      const x = leer("enviados", []);
+      return new Set(Array.isArray(x) ? x : []);
+    },
+    marcarEnviados(ids) {
+      if (!ids.length) return true;
+      const todos = this.idsEnviados();
+      for (const id of ids) todos.add(id);
+      return escribir("enviados", [...todos]);
+    },
+    // { idPartida: true | false }: lo que se respondió al acabarla («¿Enviar los datos?»). Sin respuesta, no está.
+    decisionesPartidas: () => leerMapa("envio.partidas"),
+    decidirPartida(id, enviar) {
+      const todas = leerMapa("envio.partidas");
+      todas[id] = Boolean(enviar);
+      return escribir("envio.partidas", todas);
+    },
+    // { idRegistro: true | false }: lo mismo con las valoraciones de «Revisar preguntas», que no tienen partida.
+    decisionesRevisiones: () => leerMapa("envio.revisiones"),
+    decidirRevisiones(ids, enviar) {
+      const todas = leerMapa("envio.revisiones");
+      for (const id of ids) todas[id] = Boolean(enviar);
+      return escribir("envio.revisiones", todas);
+    },
+
     // --- registro de eventos (IndexedDB)
     async guardarRegistro(reg) {
       if (memoria) return void memoria.set(reg.id, reg);

@@ -55,10 +55,11 @@ test("una final que es una pregunta se juega como las demás y deja un registro 
   const lectura = M.empezarLectura(p);
   assert.deepEqual(lectura.vistas, [["ana", PREGUNTA.id], ["luis", PREGUNTA.id]]);
   p = M.juzgar(M.revelar(lectura.partida).partida, true).partida;
-  assert.equal(p.ganador, "ana");
+  assert.deepEqual(p.acertantes, ["ana"]);
   p = M.valorar(p, "facil").partida;
   const r = M.cerrarTurno(p, ctx);
   assert.equal(r.partida.turno.fase, M.FASE.FIN);
+  assert.equal(r.partida.ganador, "ana", "Luis no está en la meta: no puede empatar");
   const reg = r.registros[0];
   assert.equal(reg.tipo, "final");
   assert.equal(reg.final, PREGUNTA.id);
@@ -91,7 +92,7 @@ test("un reto final se gana si se llega al mínimo de aciertos", () => {
     p = M.terminarReto(p, { tiempoAgotado: true }).partida;
     assert.equal(p.turno.fase, M.FASE.RESULTADO);
     assert.equal(p.turno.aciertos, marcas.filter(Boolean).length);
-    assert.equal(p.ganador, gana ? "ana" : null);
+    assert.deepEqual(p.acertantes, gana ? ["ana"] : []);
     assert.equal(p.jugadores[0].pos, 25, "en la final no se avanza");
     assert.throws(() => M.valorar(p, "justa"), /no toca valorar/);
     const reg = M.cerrarTurno(p, ctx).registros[0];
@@ -179,8 +180,9 @@ test("la sesión registra, guarda y deshace un reto final", async () => {
   assert.deepEqual(s.turno.marcados, [0, 1]);
   await s.ejecutar("marcarRafaga", true);
   await s.ejecutar("terminarReto", { tiempoAgotado: false });
-  assert.equal(s.partida.ganador, "ana");
+  assert.deepEqual(s.partida.acertantes, ["ana"]);
   await s.ejecutar("cerrarTurno");
+  assert.equal(s.partida.ganador, "ana");
   const regs = await almacen.todosLosRegistros();
   assert.equal(regs.length, 1);
   assert.equal(regs[0].tipo, "final");

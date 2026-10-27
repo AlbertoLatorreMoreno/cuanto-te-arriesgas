@@ -1,7 +1,29 @@
 // Piezas de interfaz compartidas entre pantallas.
 
-import { h } from "../dom.js";
+import { aviso, dialogo, h } from "../dom.js";
 import { letrasFichas } from "../util.js";
+
+// «¿Enviamos los datos?»: lo que se pregunta al acabar una partida y al salir de «Revisar preguntas».
+// Devuelve true (sí), false (no) o undefined (se cerró sin contestar: se puede volver a preguntar).
+export function preguntarEnvio(titulo, texto) {
+  return dialogo(titulo, (cerrar) => [
+    h("p", { class: "texto-suave", style: { "margin-bottom": "16px" } }, texto),
+    h(
+      "div",
+      { class: "columna" },
+      h("button", { class: "boton boton-ancho boton-primario", onClick: () => cerrar(true) }, "Sí, enviar"),
+      h("button", { class: "boton boton-ancho", onClick: () => cerrar(false) }, "No"),
+    ),
+  ]);
+}
+
+// Envía en el momento lo aceptado y dice cómo ha ido. Si no se puede, se queda pendiente y se envía solo más adelante.
+export async function enviarAhora(app) {
+  const r = await app.sincronizar({ siempre: true });
+  if (r && !r.ok) aviso(`Todavía no se han enviado. ${r.error} Se enviarán solos más adelante.`, { error: true, ms: 6000 });
+  else aviso("Datos enviados. ¡Gracias!");
+  return r;
+}
 
 // Colores de la paleta Okabe-Ito, pensada para distinguirse también con daltonismo.
 // Entre estos seis, la distancia mínima de color con protanopía o deuteranopía simuladas es 34 (antes, 18).

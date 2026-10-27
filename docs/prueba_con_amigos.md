@@ -27,7 +27,7 @@ Objetivo: comprobar que el juego funciona y es divertido, y reunir los primeros 
 | ¿La final es demasiado dura o demasiado fácil? | ¿Cuántos intentos hacen falta para acertarla? |
 | ¿Los niveles se corresponden con los aciertos? | Informe: aciertos por nivel frente al objetivo |
 | ¿Qué categorías os parecen más difíciles? | Informe: ajuste por categoría |
-| ¿Las de mapa dan demasiados puntos, o casi ninguno? | En la partida, los «+N de M» del resultado; en el informe, el ajuste de Geohistoria |
+| ¿Las de mapa dan demasiados puntos, o casi ninguno? | En la partida, los «+N de M» del resultado; en el informe, el ajuste de Localízalo |
 | ¿Alguna ronda divertida da demasiadas casillas (o casi ninguna)? | Informe: sección «Rondas divertidas», con su aviso; se ajusta su tiempo en `app/data/rondas.json` (y se sube su `v`) |
 
 ## Después de 3–5 partidas
