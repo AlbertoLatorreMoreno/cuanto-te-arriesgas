@@ -91,6 +91,10 @@ export function pantallaRevision(app) {
         { "aria-label": "Categoría", onChange: (e) => (estado.categoria = e.target.value) },
         h("option", { value: "" }, "Todas las categorías"),
         app.config.categorias.map((c) => h("option", { value: c.id, selected: estado.categoria === c.id }, c.nombre)),
+        // Los temas, aparte: sus niveles son para quien elige el tema, así que mejor que los valoren sus fans.
+        app.temas.length
+          ? h("optgroup", { label: "Temas que elige cada jugador" }, app.temas.map((t) => h("option", { value: t.id, selected: estado.categoria === t.id }, t.nombre)))
+          : null,
       ),
       h(
         "select",
@@ -110,8 +114,13 @@ export function pantallaRevision(app) {
     app.almacen.recordarJugadores([estado.evaluador], new Date().toISOString());
 
     const revisadas = app.almacen.revisadasDe(estado.evaluador.clave);
+    // «Todas las categorías» son las del tablero: un tema solo sale si se elige.
+    const delTablero = new Set(app.config.categorias.map((c) => c.id));
     const candidatas = [...app.indice.porId.values()].filter(
-      (q) => (!estado.categoria || q.categoria === estado.categoria) && (!estado.nivel || q.nivelEfectivo === Number(estado.nivel)) && !(q.id in revisadas),
+      (q) =>
+        (estado.categoria ? q.categoria === estado.categoria : delTablero.has(q.categoria)) &&
+        (!estado.nivel || q.nivelEfectivo === Number(estado.nivel)) &&
+        !(q.id in revisadas),
     );
     estado.cola = barajar(candidatas, rngReal());
     siguiente();

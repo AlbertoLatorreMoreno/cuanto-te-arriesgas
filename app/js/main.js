@@ -2,13 +2,13 @@
 
 import { PREFIJO, crearAlmacen, pedirAlmacenamientoPersistente } from "./almacen.js";
 import { rngReal } from "./azar.js";
-import { crearIndice } from "./banco.js";
+import { crearIndice, hayPreguntas } from "./banco.js";
 import { aviso, h, montar } from "./dom.js";
 import { enviarRegistros, errorDireccion, porEnviar } from "./envio.js";
 import { construirExportacion, exportarArchivo, nombreArchivo } from "./exportar.js";
 import { ErrorJuego, FASE, clavesEnPartida, partidaAMedias, partidaReanudable } from "./motor.js";
 import { Sesion } from "./sesion.js";
-import { versionBanco } from "./util.js";
+import { categoriasDelBanco, versionBanco } from "./util.js";
 import { pantallaDatos } from "./pantallas/datos.js";
 import { pantallaInicio } from "./pantallas/inicio.js";
 import { pantallaJuego } from "./pantallas/juego.js";
@@ -47,8 +47,12 @@ async function mantenerPantalla(activar) {
 
 async function arrancar() {
   const config = await cargarJSON("data/config.json");
-  const archivos = await Promise.all(config.categorias.map((c) => cargarJSON(c.archivo)));
-  const preguntas = archivos.flatMap((a) => a.preguntas);
+  // Sin el archivo de un tema se juega igual: ese tema no se ofrece al crear la partida.
+  const [archivos, archivosTemas] = await Promise.all([
+    Promise.all(config.categorias.map((c) => cargarJSON(c.archivo))),
+    Promise.all((config.temas?.lista ?? []).map((t) => cargarJSON(t.archivo).catch(() => ({ preguntas: [] })))),
+  ]);
+  const preguntas = [...archivos, ...archivosTemas].flatMap((a) => (Array.isArray(a.preguntas) ? a.preguntas : []));
   const ajustes = await cargarJSON("data/ajustes.json").catch(() => null);
   // Sin el archivo de rondas se juega igual, solo con preguntas.
   const rondas = config.rondas ? await cargarJSON(config.rondas.archivo).then((d) => (Array.isArray(d.rondas) ? d.rondas : [])).catch(() => []) : [];
@@ -59,7 +63,8 @@ async function arrancar() {
   // Los nombres que llevan mucho sin jugar se olvidan solos (nunca sus respuestas registradas).
   almacen.olvidarInactivos({ ahora: new Date(), dias: config.jugadores.olvidar_tras_dias, protegidos: clavesEnPartida(almacen.cargarPartida()?.partida) });
 
-  const categorias = new Map(config.categorias.map((c) => [c.id, c]));
+  const categorias = new Map(categoriasDelBanco(config).map((c) => [c.id, c]));
+  const indice = crearIndice(preguntas, config, ajustes);
 
   // Envía lo que el grupo ha aceptado enviar y aún no está en la hoja (envio.js).
   async function enviarPendientes(url) {
@@ -84,13 +89,16 @@ async function arrancar() {
     ajustes,
     rondas,
     finales,
-    indice: crearIndice(preguntas, config, ajustes),
+    indice,
+    // Los temas que se pueden elegir: los que tienen preguntas.
+    temas: (config.temas?.lista ?? []).filter((t) => hayPreguntas(indice, t.id)),
     almacen,
     versiones: { banco: versionBanco(preguntas), ajustes: ajustes?.version ?? "ninguno" },
     sesion: null,
     pantalla: "inicio",
 
     nombreCategoria: (id) => categorias.get(id)?.nombre ?? id,
+    nombreCorto: (id) => categorias.get(id)?.corto ?? (categorias.get(id)?.nombre ?? id).split(" ")[0],
     colorCategoria: (id) => categorias.get(id)?.color ?? "#888",
     nombreSubtema: (cat, sub) => categorias.get(cat)?.subtemas.find((s) => s.id === sub)?.nombre ?? sub,
 

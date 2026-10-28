@@ -42,6 +42,17 @@ En **Localízalo** (preguntas de mapa), el nivel es la probabilidad de señalar 
 
 Una pregunta de mapa difícil no dice el país ni la región: con 2250 km de margen, saberlo suele bastar para acertar. Fuera de la zona no se suma ningún punto; dentro, se pierde uno por cada paso.
 
+En los **temas** que elige cada jugador (fase 23), el jugador de referencia no es el medio, sino **quien elige el tema**: ha visto las películas o leído los libros, o le interesa de verdad la Segunda Guerra Mundial, sin ser un experto. Una de nivel 5 de Harry Potter la acierta la mitad de los fans, no la mitad de todos, así que es bastante más difícil que una de nivel 5 de Entretenimiento. **Sorpresa** es la excepción: se elige por variedad, así que sus niveles son los del jugador medio.
+
+| Nivel | Harry Potter | Star Wars | Segunda Guerra Mundial |
+|---|---|---|---|
+| 1–2 | ¿Qué actor interpretó a Severus Snape? → Alan Rickman | ¿Cómo se llama el wookiee copiloto del Halcón Milenario? → Chewbacca | ¿Qué país invadieron los alemanes el 1 de septiembre de 1939? → Polonia |
+| 4–5 | ¿Cómo se llama el viejo elfo doméstico de la familia Black? → Kreacher | ¿En qué planeta volcánico luchan Obi-Wan y Anakin? → Mustafar | ¿En qué batalla de 1942 hundió la flota estadounidense cuatro portaaviones japoneses? → Midway |
+| 7–8 | ¿Cómo se llama la madre de Voldemort? → Merope Gaunt | ¿Cómo se llama el cazarrecompensas al que Han Solo mata en la cantina? → Greedo | ¿Qué nombre en clave tuvo el desembarco aliado en el norte de África? → Operación Torch |
+| 9–10 | ¿Qué número tiene la cámara de Harry en Gringotts? → 687 | ¿En qué celda tienen encerrada a la princesa Leia? → 2187 | ¿En qué ciudad del Elba se encontraron soldados estadounidenses y soviéticos? → Torgau |
+
+En un tema, una respuesta no debería ser un nombre que salga en muchas otras preguntas del mismo tema (Harry, Voldemort, Darth Vader): cada vez que se lea una de esas, el motor la bloquearía durante el resto de la partida. Y sus datos no pueden repetir los del banco, las rondas o las finales, porque un jugador podría encontrárselos dos veces. Los temas delicados (terrorismo, el Holocausto, las matanzas de una guerra) van con datos históricos y tono sobrio, nunca con un número de víctimas como respuesta; y en Medicamentos, historia y curiosidades, nunca dosis ni usos que puedan tomarse por un consejo.
+
 ## Normas de redacción
 
 1. **Una sola respuesta correcta y corta:** de 1 a 4 palabras, o un número.

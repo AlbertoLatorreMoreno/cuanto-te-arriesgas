@@ -51,6 +51,12 @@ export function unirNombres(nombres) {
   return `${nombres.slice(0, -1).join(", ")} ${y} ${ultimo}`;
 }
 
+// Todo lo que tiene preguntas: las categorías del tablero y los temas que cada jugador puede elegir
+// (config.temas). Los temas nunca van en el tablero: solo salen a quien los ha elegido.
+export function categoriasDelBanco(config) {
+  return [...config.categorias, ...(config.temas?.lista ?? [])];
+}
+
 // Segundos de cronómetro para una pregunta, o null si su categoría no lleva (config.cronometro).
 export function segundosCronometro(config, categoria, nivel) {
   const c = config.cronometro;

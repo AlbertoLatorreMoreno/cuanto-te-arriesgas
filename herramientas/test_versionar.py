@@ -102,6 +102,20 @@ class TestVersionar(unittest.TestCase):
         self.assertEqual(ver.huella_csp("a\r\nb"), ver.huella_csp("a\nb"), "como el navegador: sin distinguir finales de línea")
         self.assertEqual(self.escribir()[0], html, "idempotente")
 
+    def test_la_csp_solo_deja_conectar_con_el_script_de_la_app(self):
+        """Con `https://script.google.com` a secas, un código colado en la página (o en otro proyecto del mismo
+        usuario.github.io) podría mandar los datos a un script de Google suyo. Solo vale la dirección de config.json."""
+        html = (ver.APP / "index.html").read_text(encoding="utf-8")
+        politica = re.search(r'Content-Security-Policy" content="([^"]*)"', html).group(1)
+        conectar = next(d.split()[1:] for d in politica.split(";") if d.split()[:1] == ["connect-src"])
+        url = json.loads((ver.APP / "data" / "config.json").read_text(encoding="utf-8"))["envio"]["url"]
+        if url:
+            self.assertIn(url, conectar, "si cambias la dirección del script en config.json, cámbiala también en la CSP de index.html")
+        for fuente in conectar:
+            self.assertNotIn(fuente, {"https://script.google.com", "https:", "*", "https://*.google.com"}, f"demasiado abierto: {fuente}")
+            if fuente.startswith("https://script.google.com"):
+                self.assertEqual(fuente, url)
+
     def test_la_app_real_tiene_csp_sin_codigo_en_atributos(self):
         html = (ver.APP / "index.html").read_text(encoding="utf-8")
         politica = re.search(r'Content-Security-Policy" content="([^"]*)"', html).group(1)

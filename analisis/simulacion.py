@@ -20,14 +20,16 @@ def simular_exportacion(config: dict, banco: Banco, archivo: Path, semilla: int 
     efecto = [0, 0.5, -0.7, 0.3] + [0] * max(0, len(cats) - 4)
     verdad_cat = dict(zip(cats, efecto))
     Q = len(banco)
-    nivel_real = np.clip(banco.nivel + np.array([verdad_cat[c] for c in banco.categoria]) + rng.normal(0, 1.2, Q), 0.6, 10.4)
+    # Solo se juegan y revisan las categorías del tablero: los temas (config.temas) solo los responde quien los elige.
+    en_tablero = np.array([c in verdad_cat for c in banco.categoria])
+    nivel_real = np.clip(banco.nivel + np.array([verdad_cat.get(c, 0.0) for c in banco.categoria]) + rng.normal(0, 1.2, Q), 0.6, 10.4)
     jugadores = [f"jugador {k + 1}" for k in range(n_jugadores)]
     habilidad = rng.normal(0, 0.8, n_jugadores)
     habilidad -= habilidad.mean()
     sesgo = rng.normal(0, 0.3, n_jugadores)
     b_fallo, b_revision, escala = 0.6, -0.3, 0.8
     # Preguntas «malas» de niveles intermedios (las que más salen), para que se lleguen a jugar.
-    intermedias = [banco.id[i] for i in range(Q) if 4 <= banco.nivel[i] <= 7]
+    intermedias = [banco.id[i] for i in range(Q) if 4 <= banco.nivel[i] <= 7 and en_tablero[i]]
     malas = [str(x) for x in rng.choice(intermedias, 6, replace=False)]
     erronea = malas[0]
     p_obj = TablaObjetivo(config).p
@@ -66,7 +68,7 @@ def simular_exportacion(config: dict, banco: Banco, archivo: Path, semilla: int 
             j = int(en_mesa[(t - 1) % len(en_mesa)])
             lector = int(en_mesa[t % len(en_mesa)])
             apuesta = int(rng.choice(10, p=pesos_apuesta)) + 1
-            candidatas = [i for i in range(Q) if banco.nivel[i] == apuesta and i not in usadas]
+            candidatas = [i for i in range(Q) if banco.nivel[i] == apuesta and en_tablero[i] and i not in usadas]
             if not candidatas:
                 continue
             nuevas = [i for i in candidatas if i not in vistas[j]]
@@ -95,7 +97,7 @@ def simular_exportacion(config: dict, banco: Banco, archivo: Path, semilla: int 
             })
 
     for j in range(n_jugadores):
-        for q in rng.choice(Q, revisiones_por_jugador, replace=False):
+        for q in rng.choice(np.flatnonzero(en_tablero), revisiones_por_jugador, replace=False):
             q = int(q)
             k += 1
             percibido = nivel_real[q] + sesgo[j] + b_revision + rng.logistic(0, escala)

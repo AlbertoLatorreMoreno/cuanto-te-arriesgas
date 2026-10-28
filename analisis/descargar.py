@@ -88,6 +88,22 @@ def resumen_por_movil(registros: list[dict]) -> list[tuple[str, int, list[str], 
     return sorted(filas, key=lambda f: -f[1])
 
 
+def error_direccion(url: str) -> str | None:
+    """None si es la dirección de una aplicación web de Apps Script (o el sustituto local de las pruebas); si no, qué
+    falla. El código de descarga es la llave de todos los datos: no se manda a ningún otro sitio, aunque alguien
+    cambie la dirección de config.json o se pegue una equivocada."""
+    partes = urlparse(url)
+    if partes.scheme == "http" and partes.hostname in ("127.0.0.1", "localhost"):
+        return None
+    if partes.scheme != "https":
+        return "la dirección del script tiene que empezar por https://."
+    if (partes.hostname != "script.google.com" or partes.port or partes.username or partes.password or partes.query or partes.fragment
+            or not re.fullmatch(r"/macros/s/[A-Za-z0-9_-]+/exec", partes.path)):
+        return ("la dirección no es la de una aplicación web de Apps Script (https://script.google.com/macros/s/…/exec), "
+                "y el código de descarga no se envía a ningún otro sitio.")
+    return None
+
+
 def pedir(url: str, cuerpo: dict, espera: float = 120) -> dict:
     """POST como el de la app (texto plano). Apps Script contesta con una redirección, que urllib sigue con un GET."""
     peticion = urllib.request.Request(url, data=json.dumps(cuerpo).encode("utf-8"), method="POST",
@@ -176,9 +192,8 @@ def principal(argv=None) -> int:
             raise ErrorDescarga("falta la dirección del script: ponla en app/data/config.json («envio» → «url») o con --url.")
         if not codigo:
             raise ErrorDescarga(f"falta el código de descarga: ponlo en {args.config.name} o con --codigo.")
-        partes = urlparse(url)
-        if partes.scheme != "https" and not (partes.scheme == "http" and partes.hostname in ("127.0.0.1", "localhost")):
-            raise ErrorDescarga("la dirección del script tiene que empezar por https://.")
+        if error := error_direccion(url):
+            raise ErrorDescarga(error)
         registros, ilegibles = descargar(url, codigo)
     except ErrorDescarga as e:
         print(f"No se ha podido descargar: {e}", file=sys.stderr)

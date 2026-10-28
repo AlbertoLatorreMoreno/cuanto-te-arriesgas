@@ -170,6 +170,11 @@ export async function crearAlmacen() {
       }
       if (leer("pref.evaluador", null)?.clave === clave) escribir("pref.evaluador", undefined);
       if (normalizarNombre(leer("pref.narrador", "")) === clave) escribir("pref.narrador", undefined);
+      const temas = leerMapa("pref.temas");
+      if (clave in temas) {
+        delete temas[clave];
+        escribir("pref.temas", temas);
+      }
     },
     // Olvida a los que llevan más de `dias` sin jugar; devuelve a quiénes.
     olvidarInactivos({ ahora, dias, protegidos }) {

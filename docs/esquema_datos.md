@@ -4,7 +4,7 @@ Todos los archivos son JSON en UTF-8. Las fechas van en ISO 8601 UTC (`2026-10-1
 
 ## Configuración — `app/data/config.json`
 
-Única fuente de verdad para la app (JavaScript) y las herramientas (Python): categorías y subtemas (ids, nombres, colores y archivo de preguntas), metas y paso de la final, tabla de aciertos objetivo, motivos de anulación y de «pregunta mala», reglas de retirada y parámetros del modelo (penalizaciones, ruido fijo de las valoraciones y mínimo de datos para cambiar un nivel). Si cambias categorías o subtemas, el validador comprobará que el banco sigue cubriéndolos. El cronómetro (`cronometro`) dice qué categorías lo llevan y cuántos segundos hay en cada nivel (`segundos_por_nivel`, del 1 al 10); cambiando esa lista se ajustan los tiempos sin tocar el código. La final va de `final.nivel_base` (8) a `final.nivel_max` (10); sus preguntas propias están en `final.archivo` (ver «Finales propias»), y `final.objetivo_acierto` (12, 6 y 3 %) es cuánto se busca que se acierten en cada nivel: lo usan el informe y las simulaciones. `metas[].duracion` es el texto que se ve al elegir la meta: si cambias la final o los puntos, conviene volver a simular la duración. `jugadores.olvidar_tras_dias` (180) es el plazo tras el que el móvil olvida solo a un jugador que no ha vuelto a jugar (ver «Datos del móvil»). `rondas` configura las rondas divertidas (ver su apartado). `retirada.max_por_calibracion` (10) es un freno: si una calibración retiraría de golpe más preguntas nuevas, `calibrar.py` no escribe los ajustes sin `--aceptar-retiradas` (ver «Envío de datos»).
+Única fuente de verdad para la app (JavaScript) y las herramientas (Python): categorías y subtemas (ids, nombres, colores y archivo de preguntas), metas y paso de la final, tabla de aciertos objetivo, motivos de anulación y de «pregunta mala», reglas de retirada y parámetros del modelo (penalizaciones, ruido fijo de las valoraciones y mínimo de datos para cambiar un nivel). Si cambias categorías o subtemas, el validador comprobará que el banco sigue cubriéndolos. El cronómetro (`cronometro`) dice qué categorías lo llevan y cuántos segundos hay en cada nivel (`segundos_por_nivel`, del 1 al 10); cambiando esa lista se ajustan los tiempos sin tocar el código. La final va de `final.nivel_base` (8) a `final.nivel_max` (10); sus preguntas propias están en `final.archivo` (ver «Finales propias»), y `final.objetivo_acierto` (12, 6 y 3 %) es cuánto se busca que se acierten en cada nivel: lo usan el informe y las simulaciones. `metas[].duracion` es el texto que se ve al elegir la meta: si cambias la final o los puntos, conviene volver a simular la duración. `jugadores.olvidar_tras_dias` (180) es el plazo tras el que el móvil olvida solo a un jugador que no ha vuelto a jugar (ver «Datos del móvil»). `rondas` configura las rondas divertidas (ver su apartado). `retirada.max_por_calibracion` (10) es un freno: si una calibración retiraría de golpe más preguntas nuevas, `calibrar.py` no escribe los ajustes sin `--aceptar-retiradas` (ver «Envío de datos»). `temas` son los temas que cada jugador puede elegir al crear la partida (ver «Temas»), y `modelo.sd_ajuste_tema` (1,5), el margen del ajuste de cada tema en la calibración.
 
 ## Pregunta — `app/data/preguntas/<categoria>.json`
 
@@ -63,6 +63,17 @@ El 26 de octubre la zona pasó de la mitad a tres cuartos de `distancia_max_km` 
 
 El generador con IA no hace preguntas de mapa (necesitan coordenadas comprobadas): se escriben a mano. Si cambias el punto, la distancia, el texto o la respuesta de una, sube su `v`.
 
+## Temas — `app/data/temas/<tema>.json`
+
+Preguntas de un tema que elige cada jugador al crear la partida (fase 23): Harry Potter, Star Wars, Marvel, Juego de tronos, Segunda Guerra Mundial y Sorpresa. Tienen el mismo formato que las del banco, y su `categoria` es el id del tema. En `config.json`, `temas.lista` tiene la misma forma que `categorias` (id, nombre, color, archivo y subtemas), más `corto` (el nombre en la tabla de «Datos») y `referencia`: `fan` si el nivel está pensado para quien elige el tema (ha visto las películas o leído los libros, sin ser experto) o `medio` si es el del jugador medio (Sorpresa, que se elige por variedad). Ver la rúbrica.
+
+- **Cuándo salen.** Nunca en el tablero. En cada tanda de `temas.cada` (5) turnos normales de un jugador (ni final ni ronda ★), uno al azar entre el 2.º y el penúltimo es de su tema: así nunca salen dos seguidos ni en el primer turno, y todos tienen las mismas por partida. Se anuncia como cualquier pregunta, con su subtema, y se arriesga y se puntúa igual. Las ★ y las finales no cuentan como turnos normales: la pregunta de tema espera al siguiente.
+- **En la partida guardada**, cada jugador lleva `tema` (id o `null`), `turnosNormales` (los que lleva) y `turnoTema` (en cuál le toca la siguiente); el turno, `tema` (el id, si es de tema). Deshacer y reanudar funcionan igual, porque todo va en la partida. Una partida de antes de la fase 23, sin esos campos, se juega sin temas.
+- **En los registros**, la `categoria` de una respuesta de tema es el tema, y cada turno (`respuesta`, `ronda` y `final`) lleva `tema_elegido`: el tema que eligió quien juega, o `null` si va sin tema. Con él, el informe de calibración cuenta cuántas veces se elige cada tema, para saber a cuáles escribir más preguntas. Es un texto, así que no hubo que cambiar el script de la hoja ni `descargar.py` (que descarta un registro con un campo lógico que no conoce).
+- **Cobertura:** el validador pide al menos una pregunta por subtema y nivel (`MIN_CELDA_TEMA`), no las dos del tablero; con una, la selección ya tira de otro subtema o de otro nivel si hace falta. Los ids siguen la misma regla: `har-pel-04` es Harry Potter, «Películas y actores», nivel 4.
+- **Calibración:** cada tema es una categoría más del modelo, con su propio ajuste (con más margen: `sd_ajuste_tema`). El informe los da aparte, en «Temas», y la tabla de aciertos por nivel los deja fuera, porque solo los responde quien los elige.
+- **Si un archivo de tema no carga**, ese tema no se ofrece y, en una partida ya empezada, su jugador juega la pregunta de la casilla.
+
 ## Control de versiones — `app/data/preguntas.lock.json`
 
 Lo mantiene `herramientas/validar_banco.py --actualizar`. Guarda `{id: {"v": n, "huella": "..."}}`. Si una huella cambia sin que suba `v`, el validador da error, porque mezclaría datos de dos preguntas distintas. Una pregunta borrada del banco se queda con `"eliminada": true`, para que su id no se vuelva a usar.
@@ -120,6 +131,7 @@ Campos comunes a todos los registros: `id`, `tipo`, `ts`, `dispositivo`, `versio
 | `acierto` | `true` / `false`. En una pregunta de mapa, si quedó dentro de la zona de acierto (`distancia_max_km × config.mapa.acierto_fraccion`). |
 | `valoracion` | `"facil"` (más fácil de lo que dice su nivel), `"justa"`, `"dificil"` o `null`. |
 | `mala` | `null` o id del motivo (`config.motivos_mala`). |
+| `tema_elegido` | El tema que eligió quien juega para la partida (id de `config.temas`), o `null` si iba sin tema; va en todos sus turnos, aunque no le haya tocado ninguna pregunta de su tema. Falta en los registros anteriores a la fase 23. |
 | `lat_senalada`, `lon_senalada`, `distancia_km`, `distancia_max_km`, `puntos` | Solo en las preguntas de mapa: el punto que se señaló, a cuántos km quedó del correcto, la distancia máxima de la pregunta y los puntos que sumó (`null` en la final, donde no se suman puntos). |
 
 ### `tipo: "anulacion"`: el lector pidió otra pregunta
@@ -150,6 +162,7 @@ No llevan `pregunta`, `categoria` ni niveles: no entran en el modelo de niveles,
 | `alternativa` | `"repetida"` si quien jugaba ya conocía la ronda (no quedaban nuevas); la calibración no la cuenta. |
 | `tiempo_agotado` | Si se acabó el tiempo antes de terminarla. |
 | `mala` | Marca de «ronda mala», con los motivos de `config.motivos_mala`, o `null`. |
+| `tema_elegido` | Como en una respuesta. |
 
 ### `tipo: "ronda_anulada"`: quien lee cambió la ronda
 
@@ -174,6 +187,7 @@ Como las rondas, no entra en el modelo de niveles: el informe la cuenta aparte (
 | `aciertos`, `minimo`, `total`, `leidos`, `marcados` | Solo en un reto (si no, `null`): cuántas acertó, cuántas necesitaba, de cuántas, a cuántas dio tiempo y cuáles (índices desde 0). |
 | `valoracion` | Como en una respuesta (solo en las preguntas; en un reto, `null`). |
 | `mala` | Marca de «final mala», con los motivos de `config.motivos_mala`, o `null`. |
+| `tema_elegido` | Como en una respuesta. |
 
 ### `tipo: "final_anulada"`: quien lee cambió la final
 
@@ -273,7 +287,9 @@ Un Apps Script de Google (`herramientas/apps_script.gs`), dentro de una hoja de 
 | `enviar` | `{ accion, exportacion }`, sin código (la dirección es pública), con `exportacion` como una exportación normal de hasta 500 registros (la app manda tandas de 250) | `{ ok: true, nuevos, repetidos }` |
 | `descargar` | `{ codigo, accion, desde, cuantos }`, con el código de descarga (`CODIGO_DESCARGA` en el script); `desde` empieza en 0 y `cuantos` llega a 2000 | `{ ok: true, total, registros, ilegibles, siguiente }`, con `siguiente` en `null` en la última tanda |
 
-Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no coincide), `sin_codigo` (falta ponerlo en el script), `formato`, `tamano`, `cupo` o `accion`.
+Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no coincide), `cerrada` (demasiados intentos fallidos, ver abajo), `sin_codigo` (falta ponerlo en el script), `formato`, `tamano`, `cupo` o `accion`.
+
+**Quién puede leer los datos.** Solo quien tenga el código de descarga, y la hoja solo la puede abrir la cuenta de la app (acceso «Restringido»). Ninguna respuesta sin el código lleva datos: ni el `GET`, ni los errores, ni `enviar` (que solo dice cuántos registros eran nuevos). Para que nadie pueda adivinar el código a base de probar, tras 10 intentos con un código equivocado (`MAX_FALLOS`) la descarga se cierra durante una hora (`CIERRE_SEGUNDOS`), también para el código bueno; la cuenta se lleva en la caché del script, con el cerrojo puesto, y enviar sigue abierto. Si alguna vez `descargar.py` dice que está cerrada sin que hayas fallado tú, alguien está probando códigos.
 
 **Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
 
@@ -283,11 +299,11 @@ Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no
 
 **Datos falsos.** Enviar está abierto, así que alguien podría mandar registros falsos. El daño más grave sería marcar muchas preguntas como «errónea» (una sola marca así retira una pregunta) y vaciar el banco en la siguiente calibración: lo para el freno de `retirada.max_por_calibracion`. `descargar.py` descarta además lo que no tiene la forma de un registro de la app (id, tipo y fecha válidos, cada campo de su tipo, textos de hasta 200 caracteres, nada anidado), porque uno raro haría fallar la calibración, y resume por móvil cuántos registros llegan, con qué nombres y entre qué fechas. El informe escapa los nombres que vienen de los datos.
 
-**`analisis/descargar.py`** toma la dirección de `app/data/config.json` y el código de `analisis/envio.json` (o de `--url` y `--codigo`), descarga la hoja entera por tandas y la escribe como una exportación más en `analisis/datos/arriesga-hoja.json` (con `dispositivo: "hoja-del-grupo"`), cada vez sustituyendo al anterior.
+**`analisis/descargar.py`** toma la dirección de `app/data/config.json` y el código de `analisis/envio.json` (o de `--url` y `--codigo`; mejor el archivo, porque `--codigo` se queda en el historial de la consola). Solo manda el código a una dirección de aplicación web de Apps Script (`https://script.google.com/macros/s/…/exec`, o el sustituto local de las pruebas): si alguien cambiara la de `config.json`, o se pegara mal, no sale de este ordenador. Después descarga la hoja entera por tandas y la escribe como una exportación más en `analisis/datos/arriesga-hoja.json` (con `dispositivo: "hoja-del-grupo"`), cada vez sustituyendo al anterior.
 
 ## Seguridad de la app (`app/index.html`)
 
-Lleva una política de seguridad de contenido (CSP) en una etiqueta `<meta>` (GitHub Pages no deja poner cabeceras): solo se ejecutan los archivos de la propia app y los dos scripts en línea de `index.html` (el mapa de importación y el aviso de carga), por su huella `sha256`, que `herramientas/versionar.py` actualiza en cada versión; nada de código en atributos (`onclick`). Solo se conecta con la propia app, con el script de la hoja del grupo (`script.google.com`, que responde desde `script.googleusercontent.com`) y con el sustituto local para pruebas (`127.0.0.1:8011`). Los estilos solo pueden venir de `estilos.css` (los que pone el código, por CSSOM, sí valen). Las pruebas de `herramientas` comprueban que las huellas están al día y que no hay `unsafe-inline`.
+Lleva una política de seguridad de contenido (CSP) en una etiqueta `<meta>` (GitHub Pages no deja poner cabeceras): solo se ejecutan los archivos de la propia app y los dos scripts en línea de `index.html` (el mapa de importación y el aviso de carga), por su huella `sha256`, que `herramientas/versionar.py` actualiza en cada versión; nada de código en atributos (`onclick`). Solo se conecta con la propia app, con la dirección exacta del script de la hoja del grupo (la de `config.json`, que responde desde `script.googleusercontent.com`: no con cualquier script de Google, para que un código colado no pudiera mandar los datos a uno suyo) y con el sustituto local para pruebas (`127.0.0.1:8011`). Si cambia la dirección del script, hay que cambiarla también aquí; las pruebas de `herramientas` lo vigilan. Los estilos solo pueden venir de `estilos.css` (los que pone el código, por CSSOM, sí valen). Las pruebas de `herramientas` comprueban que las huellas están al día y que no hay `unsafe-inline`.
 
 ## Reglas de los registros
 
@@ -306,13 +322,13 @@ Además del registro, cada móvil guarda en `localStorage`, con el prefijo `cta.
 | `cta.jugadores` | Jugadores recordados: `[{ clave, nombre, ultima }]`, donde `ultima` es la última vez que empezó una partida (jugando o narrando) o una revisión. Sirve para sugerir nombres. |
 | `cta.vistas` | Preguntas vistas por cada jugador: `{ clave: { idPregunta: fecha } }`. Sirve para no repetirle preguntas. |
 | `cta.revisadas` | Preguntas revisadas por cada evaluador, con el mismo formato. |
-| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error }`). |
+| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa, el último tema de cada jugador (`cta.pref.temas`: `{ clave: idTema }`) y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error }`). |
 | `cta.envio.partidas`, `cta.envio.revisiones` | Lo que se respondió a «¿Enviamos los datos?»: `{ idPartida: true/false }` y, para las valoraciones de «Revisar preguntas», `{ idRegistro: true/false }`. |
 | `cta.enviados` | Ids de los registros que ya están en la hoja del grupo. Si se pierde, se reenvía lo aceptado, sin duplicar nada. |
 | `cta.dispositivo` | Identificador del móvil, que va en cada registro. |
 
 Si algo de esto tiene una forma inesperada (una versión anterior, una escritura a medias), se lee como vacío: nunca impide abrir la app. Con la app abierta dos veces en el mismo móvil (dos pestañas, o instalada y en el navegador), las preguntas vistas se combinan en vez de pisarse, y si una ventana cambia la partida, la otra deja de jugarla y vuelve al inicio.
 
-**Olvidar a un jugador** (pantalla «Datos», con confirmación) borra su entrada en `cta.jugadores`, `cta.vistas` y `cta.revisadas`, y las preferencias de narrador o de quién revisa si lo nombran. Nunca toca el registro de IndexedDB: sus respuestas y valoraciones se siguen exportando y R las sigue usando. Si vuelve a jugar, le pueden salir preguntas que ya vio en ese móvil; R las reconoce en los registros y no usa esas respuestas para calcular niveles (ver «Preguntas ya vistas»). Lo mismo pasa si alguien juega en varios móviles.
+**Olvidar a un jugador** (pantalla «Datos», con confirmación) borra su entrada en `cta.jugadores`, `cta.vistas` y `cta.revisadas`, y las preferencias de narrador, de quién revisa o de su tema si lo nombran. Nunca toca el registro de IndexedDB: sus respuestas y valoraciones se siguen exportando y R las sigue usando. Si vuelve a jugar, le pueden salir preguntas que ya vio en ese móvil; R las reconoce en los registros y no usa esas respuestas para calcular niveles (ver «Preguntas ya vistas»). Lo mismo pasa si alguien juega en varios móviles.
 
 **Olvido automático.** Al abrir la app se olvida a quien lleve más de `jugadores.olvidar_tras_dias` días (180, unos 6 meses) sin jugar ni revisar, salvo a quien esté en la partida a medias. El plazo es largo a propósito: un grupo que queda cada pocos meses no pierde sus nombres, y en cambio desaparecen solos los de prueba («yo», «tú») y los invitados de un día; tras medio año, además, volver a ver una pregunta importa poco, porque ya no se recuerda. Con 0 no se olvida a nadie.

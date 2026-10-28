@@ -2,13 +2,14 @@ import { readFileSync } from "node:fs";
 import { rngConSemilla } from "../app/js/azar.js";
 import { crearIndice } from "../app/js/banco.js";
 import * as M from "../app/js/motor.js";
+import { categoriasDelBanco } from "../app/js/util.js";
 
 export const config = JSON.parse(readFileSync(new URL("../app/data/config.json", import.meta.url), "utf8"));
 
-// Banco sintético: `porCelda` preguntas en cada (categoría, subtema, nivel).
+// Banco sintético: `porCelda` preguntas en cada (categoría o tema, subtema, nivel).
 export function bancoSintetico(porCelda = 2, cfg = config) {
   const preguntas = [];
-  for (const c of cfg.categorias) {
+  for (const c of categoriasDelBanco(cfg)) {
     for (const s of c.subtemas) {
       for (let nivel = cfg.niveles.min; nivel <= cfg.niveles.max; nivel++) {
         for (let k = 0; k < porCelda; k++) {
@@ -97,11 +98,20 @@ export function finalesSinteticas(porNivel = 6) {
   return salida;
 }
 
+// El índice solo depende de las preguntas y los ajustes, y calcular las fugas lleva su tiempo: con el mismo banco
+// (las pruebas que juegan cientos de partidas), se calcula una sola vez. El motor no lo modifica.
+const indices = new WeakMap();
+function indiceDe(preguntas, ajustes) {
+  if (ajustes) return crearIndice(preguntas, config, ajustes);
+  if (!indices.has(preguntas)) indices.set(preguntas, crearIndice(preguntas, config, null));
+  return indices.get(preguntas);
+}
+
 export function contexto({ semilla = 1, preguntas = bancoSintetico(), ajustes = null, vistas = {}, rondas = [], finales = [] } = {}) {
   let reloj = 0;
   return {
     config,
-    indice: crearIndice(preguntas, config, ajustes),
+    indice: indiceDe(preguntas, ajustes),
     rondas,
     finales,
     rng: rngConSemilla(semilla),

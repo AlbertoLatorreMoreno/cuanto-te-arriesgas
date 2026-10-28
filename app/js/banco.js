@@ -2,6 +2,7 @@
 // con cadena de alternativas. Funciones puras: no tocan el navegador.
 
 import { elegir } from "./azar.js";
+import { categoriasDelBanco } from "./util.js";
 
 // Un ajuste vale para la versión de la pregunta con la que se calculó. Si después se reescribe
 // (sube su `v`), vuelve a su nivel inicial y deja de estar retirada hasta la siguiente calibración.
@@ -86,7 +87,8 @@ export function crearIndice(preguntas, config, ajustes = null) {
   const { min, max } = config.niveles;
   const porId = new Map();
   const celdas = new Map();
-  const subtemas = new Map(config.categorias.map((c) => [c.id, c.subtemas.map((s) => s.id)]));
+  // Los temas entran como una categoría más: la selección por subtema y nivel, las alternativas y las fugas valen igual.
+  const subtemas = new Map(categoriasDelBanco(config).map((c) => [c.id, c.subtemas.map((s) => s.id)]));
 
   for (const p of preguntas) {
     if (estaRetirada(p, ajustes)) continue;
@@ -103,6 +105,14 @@ export function crearIndice(preguntas, config, ajustes = null) {
 
 function celda(indice, cat, sub, nivel) {
   return indice.celdas.get(claveCelda(cat, sub, nivel)) ?? [];
+}
+
+// Si una categoría (o un tema) tiene alguna pregunta activa: un tema cuyo archivo no cargó no se juega.
+export function hayPreguntas(indice, categoria) {
+  for (const s of indice.subtemas.get(categoria) ?? []) {
+    for (let l = indice.min; l <= indice.max; l++) if (celda(indice, categoria, s, l).length) return true;
+  }
+  return false;
 }
 
 // ctx: { vistas: {id: ts} del jugador que responde, usadas: Set de ids de esta partida, rng }

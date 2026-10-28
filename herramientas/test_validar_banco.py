@@ -105,6 +105,27 @@ class TestValidarPregunta(unittest.TestCase):
         self.assertTrue(any("id" in e for e in errores))
         self.assertTrue(any("«¿»" in e for e in errores))
 
+    def test_pregunta_de_un_tema(self):
+        tema = {"id": "har-pel-01", "categoria": "harry_potter", "subtema": "peliculas", "pregunta": "¿Qué actor interpretó a Severus Snape?",
+                "respuesta": "Alan Rickman", "verificacion": None, "_archivo": "harry_potter.json"}
+        self.assertEqual(self.errores(self.base(**tema)), [])
+        self.assertTrue(any("id" in e for e in self.errores(self.base(**{**tema, "id": "hp-pel-01"}))))
+        self.assertTrue(any("subtema desconocido" in e for e in self.errores(self.base(**{**tema, "subtema": "actores"}))))
+
+
+class TestCoberturaDeTemas(unittest.TestCase):
+    """Los temas tienen una pregunta por casilla a propósito; las categorías del tablero, al menos --min-celda."""
+
+    def test_una_por_casilla_basta_en_un_tema_pero_no_en_el_tablero(self):
+        config = cargar_config()
+        tema = config["temas"]["lista"][0]
+        preguntas = [{"categoria": tema["id"], "subtema": s["id"], "nivel": n} for s in tema["subtemas"] for n in range(1, 11)]
+        preguntas += [{"categoria": "ciencias", "subtema": "fisica", "nivel": n} for n in range(1, 11)]
+        matriz = vb.matriz_cobertura(preguntas, config)
+        self.assertTrue(all(k == 1 for s in tema["subtemas"] for k in matriz[(tema["id"], s["id"])].values()))
+        self.assertGreaterEqual(1, vb.MIN_CELDA_TEMA)
+        self.assertTrue(all(k < 2 for k in matriz[("ciencias", "fisica")].values()))
+
 
 class TestControlDeVersiones(unittest.TestCase):
     """El archivo de control detecta textos cambiados sin subir la versión."""

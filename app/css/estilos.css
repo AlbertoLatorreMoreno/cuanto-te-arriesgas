@@ -338,6 +338,15 @@ p {
   letter-spacing: 0.01em;
 }
 
+/* «Tu tema»: la pregunta del tema que eligió el jugador, en vez de la de la casilla. */
+.etiqueta-tema {
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--cat);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 .subtema {
   font-size: 1.5rem;
   font-weight: 700;
@@ -894,6 +903,23 @@ p {
   border: 1.5px solid var(--borde);
   background: var(--superficie);
   font-size: 1.05rem;
+}
+
+/* El tema de cada jugador, al lado de su nombre: estrecho, para que quepa en 320 px. */
+.campo .select-tema {
+  flex: 0 1 8.5rem;
+  width: auto;
+  min-width: 0;
+  min-height: 52px;
+  padding: 8px 6px;
+  font-size: 0.95rem;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 360px) {
+  .campo .select-tema {
+    flex-basis: 7rem;
+  }
 }
 
 .campo .quitar {

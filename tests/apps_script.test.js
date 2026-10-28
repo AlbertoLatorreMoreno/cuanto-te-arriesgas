@@ -34,9 +34,17 @@ function hojaFalsa() {
   };
 }
 
+// Caché del script simulada: guarda texto, sin caducar (para «caducar», se vacía a mano).
+function cacheFalsa() {
+  const datos = new Map();
+  return { datos, get: (k) => datos.get(k) ?? null, put: (k, v) => void datos.set(k, String(v)) };
+}
+
 function cargar({ codigo = CODIGO } = {}) {
   const libro = { hojas: new Map() };
+  const cache = cacheFalsa();
   const servicios = {
+    CacheService: { getScriptCache: () => cache },
     SpreadsheetApp: {
       getActiveSpreadsheet: () => ({
         getSheetByName: (n) => libro.hojas.get(n) ?? null,
@@ -55,7 +63,7 @@ function cargar({ codigo = CODIGO } = {}) {
   const fuente = FUENTE.replace(linea, `const CODIGO_DESCARGA = ${JSON.stringify(codigo)};`);
   const script = vm.runInNewContext(`${fuente}\n;({ doGet, doPost })`, servicios);
   const post = (cuerpo) => JSON.parse(script.doPost({ postData: { contents: typeof cuerpo === "string" ? cuerpo : JSON.stringify(cuerpo) } }).texto);
-  return { post, get: () => JSON.parse(script.doGet().texto), libro, hoja: () => libro.hojas.get("registros") };
+  return { post, get: () => JSON.parse(script.doGet().texto), libro, cache, hoja: () => libro.hojas.get("registros") };
 }
 
 const registro = (id, extra = {}) => ({ id, tipo: "respuesta", ts: "2026-10-26T10:00:00.000Z", dispositivo: "movil-prueba-1", jugador: "ana", acierto: true, ...extra });
@@ -87,6 +95,23 @@ test("descargar sí pide el código, que tiene que estar puesto en el script", (
   for (const codigo of ["", "corto"]) assert.equal(cargar({ codigo }).post({ accion: "descargar", codigo }).error, "sin_codigo");
   assert.equal(s.post("no es json").error, "formato");
   assert.equal(s.post({ accion: "borrar" }).error, "accion");
+});
+
+test("probar códigos a ciegas cierra la descarga una hora, también para el código bueno; enviar sigue abierto", () => {
+  const s = cargar();
+  enviar(s, [registro("a1")]);
+  for (let i = 0; i < 9; i++) assert.equal(s.post({ accion: "descargar", codigo: `intento-${i}` }).error, "codigo");
+  assert.ok(s.post({ accion: "descargar", codigo: CODIGO }).ok, "con 9 fallos, el código bueno aún vale");
+  assert.equal(s.post({ accion: "descargar", codigo: "intento-9" }).error, "codigo");
+  const cerrada = s.post({ accion: "descargar", codigo: CODIGO });
+  assert.equal(cerrada.error, "cerrada");
+  assert.equal(cerrada.registros, undefined, "cerrada no enseña nada");
+  // Un código que no es texto (una lista, un objeto) es un fallo más, no un error del script.
+  assert.equal(cargar().post({ accion: "descargar", codigo: [CODIGO] }).error, "codigo");
+  assert.deepEqual(enviar(s, [registro("a2")]), { ok: true, nuevos: 1, repetidos: 0 });
+  // Pasada la hora (la caché caduca), vuelve a abrirse.
+  s.cache.datos.clear();
+  assert.deepEqual(s.post({ accion: "descargar", codigo: CODIGO }).registros.map((r) => r.id), ["a1", "a2"]);
 });
 
 test("enviar está abierto, así que rechaza lo raro: otra app, tipos desconocidos, fórmulas y tamaños", () => {

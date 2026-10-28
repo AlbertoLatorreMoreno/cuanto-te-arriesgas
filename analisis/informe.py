@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -78,8 +79,12 @@ def plural(n: int, singular: str, plural_: str | None = None) -> str:
     return f"{n} {singular if n == 1 else (plural_ or singular + 's')}"
 
 
+def temas(cfg: dict) -> list[dict]:
+    return cfg.get("temas", {}).get("lista", [])
+
+
 def nombre_categoria(cfg: dict, id_: str) -> str:
-    return next((c["nombre"] for c in cfg["categorias"] if c["id"] == id_), id_)
+    return next((c["nombre"] for c in cfg["categorias"] + temas(cfg) if c["id"] == id_), id_)
 
 
 def media(xs) -> float | None:
@@ -127,6 +132,48 @@ def seccion_glm(res: Resultado) -> list[str]:
     return L + [""]
 
 
+# ------------------------------------------------------------------ temas
+
+def seccion_temas(res: Resultado) -> list[str]:
+    """Qué temas se eligen y cuánto se ha gastado ya de cada uno, para saber a cuáles escribir más preguntas."""
+    cfg, d = res.config, res.datos
+    lista = temas(cfg)
+    if not lista:
+        return []
+    obj = list(cfg["objetivo_acierto"])
+    # Lo que eligió cada jugador en cada partida: lo lleva cada registro de sus turnos (desde la fase 23).
+    eleccion = {}
+    for r in res.exportaciones.registros:
+        if r.get("tipo") in ("respuesta", "ronda", "final") and "tema_elegido" in r and r.get("partida") and r.get("jugador"):
+            eleccion[(r["partida"], r["jugador"])] = r["tema_elegido"]
+    veces = Counter(eleccion.values())
+    # Las que ya han salido de cada tema, jugadas o cambiadas, por cualquiera.
+    salidas = {t["id"]: set() for t in lista}
+    for r in res.exportaciones.registros:
+        if r.get("tipo") in ("respuesta", "anulacion") and r.get("categoria") in salidas:
+            salidas[r["categoria"]].add(r.get("pregunta"))
+    jugadas = {t["id"]: [x for x in d.respuestas if res.banco.categoria[x["q"]] == t["id"]] for t in lista}
+    if not eleccion and not any(salidas.values()):
+        return []
+    total = Counter(res.banco.categoria)
+    L = ["## Temas", "",
+         "Cuántas veces se ha elegido cada tema (un jugador en una partida cuenta una vez), cuántas de sus preguntas han salido ya y cómo se aciertan. "
+         "A los más elegidos conviene escribirles más preguntas antes de que se agoten. Sus niveles son para quien elige el tema: si se aciertan mucho "
+         "más de lo esperado, la calibración les baja el nivel con el ajuste de ese tema (en «Parámetros del modelo»).", "",
+         "| Tema | Elegido | Ya salidas | Respuestas | Aciertos | Esperado por su nivel | Apuesta media |",
+         "|---|---|---|---|---|---|---|"]
+    for t in sorted(lista, key=lambda t: (-veces.get(t["id"], 0), -len(salidas[t["id"]]))):
+        xs = jugadas[t["id"]]
+        aciertos = pct(media(x["y"] for x in xs)) if xs else "—"
+        esperado = pct(media(obj[x["nivel"] - 1] for x in xs)) if xs else "—"
+        apuesta = media(x["apuesta"] for x in xs if not x["es_final"])
+        L.append(f"| {t['nombre']} | {veces.get(t['id'], 0)} | {len(salidas[t['id']])} de {total.get(t['id'], 0)} | {len(xs)} | {aciertos} | {esperado} | "
+                 f"{num(apuesta) if apuesta is not None else '—'} |")
+    if eleccion:
+        L.append(f"| Sin tema | {veces.get(None, 0)} | — | — | — | — | — |")
+    return L + [""]
+
+
 # ------------------------------------------------------------------ informe
 
 def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
@@ -164,17 +211,21 @@ def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
         add(f"**Archivos ignorados** ({len(ign)}): {lista} Si es una exportación de la app que se cortó, vuelve a exportar desde el móvil: el archivo nuevo lo incluye todo.")
         add("")
 
+    ids_temas = {t["id"] for t in temas(cfg)}
+    de_tema = lambda x: res.banco.categoria[x["q"]] in ids_temas  # noqa: E731
     if d.respuestas:
         add("## Aciertos por nivel mostrado")
         add("")
-        add("Si el banco está bien calibrado, el porcentaje observado se parece al objetivo.")
+        add("Si el banco está bien calibrado, el porcentaje observado se parece al objetivo."
+            + (" Sin las preguntas de los temas, que solo responde quien los elige (están en «Temas»)." if any(de_tema(x) for x in d.respuestas) else ""))
         add("")
         add("| Nivel | Preguntas | Aciertos | Objetivo |")
         add("|---|---|---|---|")
         for n in range(1, len(obj) + 1):
-            ys = [x["y"] for x in d.respuestas if x["nivel"] == n]
+            ys = [x["y"] for x in d.respuestas if x["nivel"] == n and not de_tema(x)]
             add(f"| {n} | {len(ys)} | {pct(media(ys))} | {pct(obj[n - 1])} |")
         add("")
+        L += seccion_temas(res)
         ap = [x["apuesta"] for x in d.respuestas if not x["es_final"]]
         if ap:
             add("## Apuestas (sin contar finales)")
@@ -269,16 +320,18 @@ def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
     add("## Huecos en el banco tras la calibración")
     add("")
     huecos = []
-    for cat in cfg["categorias"]:
+    for cat in cfg["categorias"] + temas(cfg):
+        # Los temas llevan una pregunta por casilla a propósito: solo es hueco una casilla vacía.
+        minimo = 1 if cat in temas(cfg) else 2
         for sub in cat["subtemas"]:
             for n in range(1, len(obj) + 1):
                 k = sum(1 for f in activas if f["categoria"] == cat["id"] and f["subtema"] == sub["id"] and f["nivel_nuevo"] == n)
-                if k < 2:
+                if k < minimo:
                     # El generador no hace preguntas de mapa: esas se escriben a mano.
                     a_mano = " (de mapa: a mano)" if cat.get("tipo") == "mapa" else ""
                     huecos.append(f"- {cat['nombre']} / {sub['nombre']}, nivel {n}: {plural(k, 'pregunta')}{a_mano}")
     if huecos:
-        add("Combinaciones con menos de 2 preguntas (el generador debería rellenarlas; las de mapa se escriben a mano):")
+        add("Combinaciones con menos de 2 preguntas, o vacías en los temas (el generador debería rellenarlas; las de mapa se escriben a mano):")
         add("")
         L += huecos
     else:

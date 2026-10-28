@@ -109,7 +109,10 @@ Mientras `app/data/config.json` no tenga la dirección del script, la app no pre
 
 - La dirección del script va en la app, que es pública: quien la mire podría enviar datos a la hoja. Por eso el script solo acepta registros con la forma de los de la app, como mucho 500 por envío y 3000 al día, y leer la hoja exige el código, que no está en ningún sitio público.
 - La hoja lleva los nombres de los jugadores: no la compartáis.
-- Si cambias el script, en *Implementar → Gestionar implementaciones* edita la que hay y elige *Nueva versión*: así la dirección no cambia.
+- Si cambias el script, en *Implementar → Gestionar implementaciones* edita la que hay y elige *Nueva versión*: así la dirección no cambia. Al pegar la versión nueva de `herramientas/apps_script.gs`, vuelve a poner tu código en la línea de `CODIGO_DESCARGA` (en el repositorio va vacía).
+- Tras 10 intentos con un código equivocado, la descarga se cierra una hora (también con el bueno), para que nadie lo adivine probando. Enviar no se cierra.
+- La app solo puede conectarse con el script de `config.json`: la dirección está también en la CSP de `app/index.html`. Si la cambias, cámbiala en los dos sitios (las pruebas de `herramientas` lo vigilan).
+- Todo lo que se publica en `<usuario>.github.io` comparte origen con la app: otra web tuya publicada ahí podría leer los datos que la app guarda en cada móvil. Si algún día publicas otro proyecto en GitHub Pages, hazlo desde otra cuenta u organización, o con un dominio propio.
 - En «Datos y exportación» se ve cuánto se ha enviado desde ese móvil y si queda algo pendiente, con un botón para reintentar. La exportación a mano sigue funcionando.
 - Como cualquiera podría enviar datos falsos, `descargar.py` descarta lo que no tiene la forma de un registro de la app y enseña cuántos llegan de cada móvil y con qué nombres: si ves uno que no es del grupo, borra sus filas de la hoja antes de calibrar. Y si una calibración retiraría de golpe más de 10 preguntas (`retirada.max_por_calibracion`), no toca `ajustes.json`: mira el informe y, si las retiradas son buenas, repite con `py analisis/calibrar.py --aceptar-retiradas`.
 - Para probarlo sin Google, `py herramientas/script_simulado.py` hace de script en este ordenador: pon `http://127.0.0.1:8011/exec` como dirección en `config.json` (sin publicarla así) y descarga con el código `codigo-de-prueba`. Lo que recibe se pierde al pararlo.
@@ -163,6 +166,15 @@ py herramientas/generar_mapa.py ruta/ne_50m_admin_0_countries.geojson
 
 ---
 
+## Temas: la pregunta de cada jugador
+
+Al crear la partida, cada jugador puede elegir un tema (Harry Potter, Star Wars, Marvel, Juego de tronos, Segunda Guerra Mundial o Sorpresa) y, en una de cada 5 de sus preguntas normales, le toca una de su tema en vez de la de la casilla. Las preguntas están en `app/data/temas/<tema>.json`, con el mismo formato que el banco, y los temas, en `config.json` (`temas`). Sus niveles son para quien elige el tema (salvo en Sorpresa): ver la rúbrica. Por qué así y cuántas hacen falta: [docs/informe_temas.md](docs/informe_temas.md).
+
+- Para añadir preguntas a un tema, escríbelas en su archivo con un id nuevo de su subtema (`har-pel-11`…) y valida con `py herramientas/validar_banco.py --actualizar`. Basta con una por subtema y nivel, pero si un tema se elige mucho conviene llegar a dos.
+- Para un tema nuevo: añádelo a `config.json` (`temas.lista`), crea su archivo y súmalo a `ARCHIVOS` en `app/sw.js` (si no, no se podrá jugar sin conexión).
+- Con cada partida se envía (o se exporta) el tema que eligió cada jugador. El informe de calibración tiene una sección «Temas» con cuántas veces se elige cada uno y cuántas de sus preguntas han salido ya: los más elegidos son los primeros a los que conviene escribir más.
+- El generador no rellena los temas solo (`--seco` solo lista los huecos del tablero), pero se le puede pedir uno: `py generador/generar.py --celda harry_potter/peliculas/6 --cantidad 3` (gasta API).
+
 ## Editar el banco a mano
 
 Las preguntas están en `app/data/preguntas/<categoría>.json`, una por línea. Normas de redacción y niveles: [docs/rubrica_niveles.md](docs/rubrica_niveles.md). Formato: [docs/esquema_datos.md](docs/esquema_datos.md).
@@ -204,7 +216,7 @@ app/                 la app (lo que se publica)
   js/almacen.js        localStorage + IndexedDB
   js/envio.js          envío de datos a la hoja del grupo (con permiso, al acabar cada partida)
   js/pantallas/        una por pantalla
-  data/                configuración, banco, rondas, finales, ajustes y control de versiones
+  data/                configuración, banco, temas, rondas, finales, ajustes y control de versiones
 tests/               tests del motor (Node)
 herramientas/        validador del banco, versionado de archivos, generador del mapa y de los iconos, y el script de Google de la hoja del grupo (con un sustituto local para probar)
 analisis/            calibración, informe, simulador, modelo filtro y descarga de la hoja del grupo (datos/ para las exportaciones)

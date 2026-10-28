@@ -15,6 +15,7 @@ const PREGUNTAS = bancoSintetico(4); // como el banco real: con menos, una parti
 const RONDAS = rondasSinteticas(60); // de sobra: en una partida no debería repetirse ninguna
 const FINALES = finalesSinteticas(24); // como las reales: con finales difíciles hay muchos intentos
 const VERSIONES = { banco: "prueba", ajustes: "inicial" };
+const TEMAS = new Set(config.temas.lista.map((t) => t.id));
 
 function elegir(azar, lista) {
   return lista[Math.floor(azar() * lista.length)];
@@ -41,7 +42,18 @@ async function comprobar(s, almacen, donde) {
     assert.ok(p.turno.esFinal && p.jugadores.findIndex((j) => j.clave === p.acertantes[0]) <= p.idx, `${donde}: turno de más tras acertar la final`);
   }
   if (p.oro) assert.ok(p.oro.vivos.includes(p.turno.jugador) && p.turno.esFinal, `${donde}: en la ronda de oro juega alguien que no está empatado`);
+  // La pregunta de un tema solo le sale a quien lo eligió, en un turno normal (ni final ni ronda).
+  const temaDe = new Map(p.jugadores.map((j) => [j.clave, j.tema]));
+  if (p.turno.tema) {
+    assert.equal(temaDe.get(p.turno.jugador), p.turno.tema, `${donde}: pregunta de un tema que no eligió`);
+    assert.ok(!p.turno.esFinal && !p.turno.ronda && p.turno.categoria === p.turno.tema, `${donde}: tema en una final, en una ronda o con otra categoría`);
+  }
   const registros = await almacen.todosLosRegistros();
+  const temaAjeno = registros.find((x) => x.tipo === "respuesta" && TEMAS.has(x.categoria) && (temaDe.get(x.jugador) !== x.categoria || x.es_final));
+  assert.ok(!temaAjeno, `${donde}: respuesta de tema de quien no lo eligió, o en la final (${temaAjeno?.id})`);
+  // Cada turno registrado lleva el tema que eligió quien jugaba (o null).
+  const malElegido = registros.find((x) => ["respuesta", "ronda", "final"].includes(x.tipo) && x.tema_elegido !== (temaDe.get(x.jugador) ?? null));
+  assert.ok(!malElegido, `${donde}: tema elegido mal registrado (${malElegido?.id})`);
   const respuestas = registros.filter((r) => r.tipo === "respuesta");
   const rondas = registros.filter((r) => r.tipo === "ronda");
   const finales = registros.filter((r) => r.tipo === "final");
@@ -80,7 +92,9 @@ async function jugar(semilla) {
   const azar = rngConSemilla(semilla * 104729);
   const almacen = almacenEnMemoria();
   const nJugadores = 2 + (semilla % 5);
-  const jugadores = Array.from({ length: nJugadores }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}` }));
+  // Cada jugador con un tema o sin él (uno de cada siete, sin tema), a veces dos con el mismo.
+  const temas = [null, ...config.temas.lista.map((t) => t.id)];
+  const jugadores = Array.from({ length: nJugadores }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}`, tema: temas[(semilla * 3 + i * 2) % temas.length] }));
   const narrador = semilla % 3 === 0 ? { clave: "narra", nombre: "Narra" } : null;
   const conRondas = semilla % 5 !== 0;
   // Una de cada cuatro, sin finales propias (como si su archivo no cargara): la final sale del banco.
@@ -105,6 +119,7 @@ async function jugar(semilla) {
     } else if (t.fase === M.FASE.ANUNCIO && t.ronda) {
       await s.ejecutar("empezarRonda");
     } else if (t.fase === M.FASE.ANUNCIO) {
+      if (t.tema) cuenta.tema = (cuenta.tema ?? 0) + 1;
       await s.ejecutar("apostar", t.esFinal ? t.nivelFinal : 1 + Math.floor(azar() * 10));
     } else if (t.fase === M.FASE.PASAR) {
       await s.ejecutar("empezarLectura");
@@ -164,7 +179,7 @@ async function jugar(semilla) {
 }
 
 test("200 partidas con acciones al azar, deshacer y reanudar mantienen las reglas", async () => {
-  const total = { deshacer: 0, reanudar: 0, anular: 0, mala: 0, narrador: 0, rondas: 0, cambiarRonda: 0, retos: 0, oro: 0 };
+  const total = { deshacer: 0, reanudar: 0, anular: 0, mala: 0, narrador: 0, rondas: 0, cambiarRonda: 0, retos: 0, oro: 0, tema: 0 };
   for (let semilla = 1; semilla <= 200; semilla++) {
     const cuenta = await jugar(semilla);
     for (const k in total) total[k] += cuenta[k] ?? 0;

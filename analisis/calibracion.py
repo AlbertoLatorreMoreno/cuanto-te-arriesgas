@@ -78,8 +78,16 @@ class Banco:
         return len(self.id)
 
 
+def categorias_del_banco(config: dict) -> list[dict]:
+    """Las categorías del tablero y los temas que elige cada jugador (config.temas): para el modelo, un tema es
+    una categoría más, con su propio ajuste."""
+    return config["categorias"] + config.get("temas", {}).get("lista", [])
+
+
 def leer_banco(raiz: Path, config: dict) -> Banco:
-    preguntas = [p for cat in config["categorias"] for p in leer_json(raiz / "app" / cat["archivo"])["preguntas"]]
+    # Un tema cuyo archivo aún no existe no tiene preguntas: no impide calibrar el resto.
+    archivos = [raiz / "app" / cat["archivo"] for cat in categorias_del_banco(config)]
+    preguntas = [p for ruta in archivos if ruta.exists() for p in leer_json(ruta)["preguntas"]]
     return Banco(id=[p["id"] for p in preguntas], v=np.array([int(p["v"]) for p in preguntas]),
                  categoria=[p["categoria"] for p in preguntas], subtema=[p["subtema"] for p in preguntas],
                  nivel=np.array([int(p["nivel"]) for p in preguntas]))
@@ -376,7 +384,7 @@ class Modelo:
         m = config["modelo"]
         self.lo, self.hi = m["nivel_suave_min"], m["nivel_suave_max"]
         self.tabla = TablaObjetivo(config)
-        self.categorias = [c["id"] for c in config["categorias"]]
+        self.categorias = [c["id"] for c in categorias_del_banco(config)]
         self.cat_q = np.array([self.categorias.index(c) for c in banco.categoria])
         self.n0 = banco.nivel.astype(float)
         Q, C = len(banco), len(self.categorias)
@@ -398,7 +406,10 @@ class Modelo:
 
         self.sd_h = m["sd_habilidad"]
         self.sd_g = m.get("sd_ajuste_global", 1.5)
-        self.sd_c = m["sd_ajuste_categoria"]
+        # Un tema solo lo responde quien lo elige (un fan): su desvío puede ser mayor que el de una categoría.
+        temas = {t["id"] for t in config.get("temas", {}).get("lista", [])}
+        self.sd_c = np.array([m.get("sd_ajuste_tema", m["sd_ajuste_categoria"]) if c in temas else m["sd_ajuste_categoria"]
+                              for c in self.categorias], dtype=float)
         self.sd_d = m["sd_ajuste_pregunta"]
         self.sd_e = m["sd_evaluador"]
         self.sd_b = m["sd_efectos_valoracion"]
@@ -440,7 +451,7 @@ class Modelo:
             nll_b = -float(np.sum(log_prob_valoracion(self._U(u, ts), math.exp(u["ls"]), self.ciB, self.csB)))
         th = u["theta"]
         pen = (np.sum(th ** 2) / (2 * self.sd_h ** 2) + K_CENTRO * np.sum(th) ** 2 + u["global"] ** 2 / (2 * self.sd_g ** 2)
-               + np.sum(u["cat"] ** 2) / (2 * self.sd_c ** 2) + np.sum(u["d"] ** 2) / (2 * self.sd_d ** 2)
+               + np.sum(u["cat"] ** 2 / (2 * self.sd_c ** 2)) + np.sum(u["d"] ** 2) / (2 * self.sd_d ** 2)
                + np.sum(u["rho"] ** 2) / (2 * self.sd_e ** 2) + (u["beta"] ** 2 + u["gamma"] ** 2) / (2 * self.sd_b ** 2)
                + ((u["ls"] - self.ls0) ** 2 / (2 * self.sd_ls ** 2) if self.estimar_ls else 0.0))
         return nll_a + nll_b + float(pen)

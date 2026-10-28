@@ -163,7 +163,7 @@ export async function pantallaDatos(app, params = {}) {
                   h(
                     "tr",
                     {},
-                    h("td", { style: { "text-align": "left" } }, app.nombreCategoria(fila.categoria).split(" ")[0]),
+                    h("td", { style: { "text-align": "left" } }, app.nombreCorto(fila.categoria)),
                     fila.porNivel.map((c) =>
                       h("td", { class: c.total === 0 ? "vacia" : c.sinVer <= 1 ? "escasa" : "", title: `${c.sinVer} sin ver de ${c.total}` }, String(c.sinVer)),
                     ),

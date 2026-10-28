@@ -6,12 +6,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { rngConSemilla } from "../app/js/azar.js";
 import * as M from "../app/js/motor.js";
+import { categoriasDelBanco } from "../app/js/util.js";
 import { bancoSintetico, config, contexto, finalesSinteticas, rondasSinteticas } from "./ayudas.js";
 
-function simular(semilla, nJugadores, metaId, preguntas, vistas = {}, rondas = [], finales = []) {
+function simular(semilla, nJugadores, metaId, preguntas, vistas = {}, rondas = [], finales = [], temas = []) {
   const ctx = contexto({ semilla, preguntas, vistas, rondas, finales });
   const azar = rngConSemilla(semilla * 7919);
-  const jugadores = Array.from({ length: nJugadores }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}` }));
+  const jugadores = Array.from({ length: nJugadores }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}`, tema: temas[i] ?? null }));
   let p = M.nuevaPartida({ id: `sim${semilla}`, jugadores, metaId, rondas: rondas.length > 0 }, ctx).partida;
   const registros = [];
   const aplicar = (r) => {
@@ -83,21 +84,32 @@ function simular(semilla, nJugadores, metaId, preguntas, vistas = {}, rondas = [
 const leer = (ruta) => JSON.parse(readFileSync(new URL(`../app/${ruta}`, import.meta.url), "utf8"));
 
 test("el banco real funciona con el motor: 50 partidas seguidas con las mismas vistas", () => {
-  const preguntas = config.categorias.flatMap((c) => leer(c.archivo).preguntas);
+  const preguntas = categoriasDelBanco(config).flatMap((c) => leer(c.archivo).preguntas);
   const finales = leer(config.final.archivo).finales;
   assert.ok(preguntas.length >= 400, `el banco tiene ${preguntas.length} preguntas`);
   const vistas = {}; // los mismos 4 amigos jugando 50 partidas: el banco se agota y entran las alternativas
   const alternativas = {};
   const deFinales = {};
+  // Tres eligen siempre el mismo tema (dos, el mismo): sus 40 o 50 preguntas también se agotan.
+  const temas = ["harry_potter", "harry_potter", "sorpresa", null];
+  const deTema = {};
   for (let s = 1; s <= 50; s++) {
-    const { p, registros } = simular(s, 4, "media", preguntas, vistas, [], finales);
+    const { p, registros } = simular(s, 4, "media", preguntas, vistas, [], finales, temas);
+    for (const r of registros) if (r.tipo === "respuesta" && config.temas.lista.some((t) => t.id === r.categoria)) deTema[r.alternativa ?? "ninguna"] = (deTema[r.alternativa ?? "ninguna"] ?? 0) + 1;
     assert.ok(p.ganador);
-    assert.equal(new Set(p.usadas).size, p.usadas.length);
+    // Nada se repite en una partida, salvo una final cuando ya han salido todas (el último recurso de elegirFinal):
+    // con estas semillas, una partida tiene 34 rondas de oro seguidas y juega 83 finales.
+    const repetidas = p.usadas.filter((id, i) => p.usadas.indexOf(id) !== i);
+    const finalesUsadas = new Set(p.usadas.filter((id) => finales.some((f) => f.id === id)));
+    assert.ok(!repetidas.length || (repetidas.every((id) => finalesUsadas.has(id)) && finalesUsadas.size === finales.length),
+      `partida ${s}: repetidas ${repetidas.slice(0, 5)}`);
     for (const r of registros) if (r.tipo === "respuesta") alternativas[r.alternativa ?? "ninguna"] = (alternativas[r.alternativa ?? "ninguna"] ?? 0) + 1;
     for (const r of registros) if (r.tipo === "final") deFinales[r.alternativa ?? "ninguna"] = (deFinales[r.alternativa ?? "ninguna"] ?? 0) + 1;
     assert.equal(registros.at(-1).tipo, "final", "la partida acaba con una final propia");
   }
   assert.ok(alternativas.repetida > 0, "con el banco agotado se repiten preguntas vistas hace tiempo");
+  // En las primeras partidas, nuevas; después, ya vistas (tras 50 partidas medias, casi todas).
+  assert.ok(deTema.ninguna > 30 && deTema.repetida > deTema.ninguna, `preguntas de tema: ${JSON.stringify(deTema)}`);
   assert.ok(deFinales.ninguna > 0 && deFinales.repetida > 0, `finales: ${JSON.stringify(deFinales)}`);
 });
 

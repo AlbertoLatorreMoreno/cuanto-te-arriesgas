@@ -78,6 +78,96 @@
       ]
     }
   ],
+  "temas": {
+    "cada": 5,
+    "lista": [
+      {
+        "id": "harry_potter",
+        "nombre": "Harry Potter",
+        "corto": "Harry Potter",
+        "color": "#7f1d1d",
+        "archivo": "data/temas/harry_potter.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "libros", "nombre": "Los libros" },
+          { "id": "peliculas", "nombre": "Películas y actores" },
+          { "id": "magia", "nombre": "Hechizos, pociones y criaturas" },
+          { "id": "mundo", "nombre": "Hogwarts y el mundo mágico" }
+        ]
+      },
+      {
+        "id": "star_wars",
+        "nombre": "Star Wars",
+        "corto": "Star Wars",
+        "color": "#1e3a5f",
+        "archivo": "data/temas/star_wars.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "original", "nombre": "La trilogía original (IV–VI)" },
+          { "id": "precuelas", "nombre": "Las precuelas (I–III)" },
+          { "id": "secuelas", "nombre": "Las secuelas (VII–IX)" },
+          { "id": "series", "nombre": "Series, spin-offs y rodajes" }
+        ]
+      },
+      {
+        "id": "marvel",
+        "nombre": "Marvel",
+        "corto": "Marvel",
+        "color": "#b91c1c",
+        "archivo": "data/temas/marvel.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "peliculas", "nombre": "Películas y series" },
+          { "id": "personajes", "nombre": "Héroes y villanos" },
+          { "id": "actores", "nombre": "Actores" },
+          { "id": "comics", "nombre": "Cómics y creadores" }
+        ]
+      },
+      {
+        "id": "juego_de_tronos",
+        "nombre": "Juego de tronos",
+        "corto": "Tronos",
+        "color": "#44403c",
+        "archivo": "data/temas/juego_de_tronos.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "casas", "nombre": "Casas y personajes" },
+          { "id": "serie", "nombre": "La serie" },
+          { "id": "actores", "nombre": "Actores y rodaje" },
+          { "id": "libros", "nombre": "Libros y «La casa del dragón»" }
+        ]
+      },
+      {
+        "id": "segunda_guerra",
+        "nombre": "Segunda Guerra Mundial",
+        "corto": "2.ª Guerra",
+        "color": "#4d5d2a",
+        "archivo": "data/temas/segunda_guerra.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "europa", "nombre": "Europa y África" },
+          { "id": "pacifico", "nombre": "El Pacífico" },
+          { "id": "personajes", "nombre": "Personajes" },
+          { "id": "armas", "nombre": "Armas, espías y tecnología" }
+        ]
+      },
+      {
+        "id": "sorpresa",
+        "nombre": "Sorpresa",
+        "corto": "Sorpresa",
+        "color": "#a21caf",
+        "archivo": "data/temas/sorpresa.json",
+        "referencia": "medio",
+        "subtemas": [
+          { "id": "samurais", "nombre": "Samuráis y Japón feudal" },
+          { "id": "medicamentos", "nombre": "Medicamentos" },
+          { "id": "lego", "nombre": "LEGO" },
+          { "id": "vietnam", "nombre": "Guerra de Vietnam" },
+          { "id": "terrorismo", "nombre": "Terrorismo en la historia" }
+        ]
+      }
+    ]
+  },
   "mapa": {
     "archivo": "data/mapa.json",
     "vistas": {
@@ -105,6 +195,7 @@
     "sd_habilidad": 1.0,
     "sd_ajuste_global": 1.5,
     "sd_ajuste_categoria": 0.75,
+    "sd_ajuste_tema": 1.5,
     "sd_ajuste_pregunta": 1.5,
     "sd_evaluador": 0.5,
     "sd_efectos_valoracion": 2.0,

@@ -41,6 +41,9 @@ PALABRAS_CADUCAN = [
 ]
 PALABRAS_PROHIBIDAS = ["verdadero o falso", "cuál de estas", "cual de estas", "√"]
 SIMILITUD_AVISO = 0.82
+# Los temas (config.temas) tienen una pregunta por casilla a propósito: son muchos y solo le salen a quien
+# los elige (unas 2 por jugador en la partida corta). Las categorías del tablero piden más (--min-celda).
+MIN_CELDA_TEMA = 1
 
 
 # ---------------------------------------------------------------- utilidades
@@ -234,9 +237,18 @@ def cargar_config() -> dict:
     return json.loads(CONFIG.read_text(encoding="utf-8"))
 
 
+def categorias_del_banco(config: dict) -> list[dict]:
+    """Las categorías del tablero y los temas que elige cada jugador, que tienen el mismo formato."""
+    return config["categorias"] + config.get("temas", {}).get("lista", [])
+
+
+def ids_temas(config: dict) -> set[str]:
+    return {t["id"] for t in config.get("temas", {}).get("lista", [])}
+
+
 def cargar_banco(config: dict, inf: Informe) -> list[dict]:
     preguntas = []
-    for cat in config["categorias"]:
+    for cat in categorias_del_banco(config):
         ruta = APP / cat["archivo"]
         if not ruta.exists():
             inf.error(str(ruta.relative_to(RAIZ)), "no existe")
@@ -252,7 +264,7 @@ def cargar_banco(config: dict, inf: Informe) -> list[dict]:
 
 def validar_pregunta(p: dict, config: dict, inf: Informe):
     donde = p.get("id") or f"{p.get('_archivo')}:(sin id)"
-    cats = {c["id"]: c for c in config["categorias"]}
+    cats = {c["id"]: c for c in categorias_del_banco(config)}
     nmin, nmax = config["niveles"]["min"], config["niveles"]["max"]
 
     for campo, tipo in [("id", str), ("v", int), ("categoria", str), ("subtema", str), ("nivel", int),
@@ -392,7 +404,7 @@ def validar_duplicados(preguntas: list[dict], inf: Informe):
 def matriz_cobertura(preguntas: list[dict], config: dict) -> dict:
     nmin, nmax = config["niveles"]["min"], config["niveles"]["max"]
     matriz = {}
-    for cat in config["categorias"]:
+    for cat in categorias_del_banco(config):
         for sub in cat["subtemas"]:
             matriz[(cat["id"], sub["id"])] = {n: 0 for n in range(nmin, nmax + 1)}
     for p in preguntas:
@@ -431,13 +443,15 @@ def validar_lock(preguntas: list[dict], inf: Informe, ruta: Path | None = None, 
 
 
 def imprimir_cobertura(matriz: dict, minimo: int, config: dict):
+    temas = ids_temas(config)
     nmin, nmax = config["niveles"]["min"], config["niveles"]["max"]
     print("\nCobertura (preguntas por subtema y nivel):")
     print(f"{'':28}" + "".join(f"{n:>4}" for n in range(nmin, nmax + 1)) + "  total")
     for (cat, sub), celdas in matriz.items():
-        fila = "".join(f"{celdas[n]:>4}" if celdas[n] >= minimo else f"{'*' + str(celdas[n]):>4}" for n in range(nmin, nmax + 1))
+        tope = MIN_CELDA_TEMA if cat in temas else minimo
+        fila = "".join(f"{celdas[n]:>4}" if celdas[n] >= tope else f"{'*' + str(celdas[n]):>4}" for n in range(nmin, nmax + 1))
         print(f"{cat + '/' + sub:28}{fila}  {sum(celdas.values()):>5}")
-    print(f"(* = menos de {minimo})")
+    print(f"(* = menos de {minimo}; en los temas, menos de {MIN_CELDA_TEMA})")
 
 
 def principal(argv=None) -> int:
@@ -455,7 +469,7 @@ def principal(argv=None) -> int:
     if args.candidatas:
         datos = json.loads(args.candidatas.read_text(encoding="utf-8"))
         candidatas = datos.get("preguntas", [])
-        cats = {c["id"]: c for c in config["categorias"]}
+        cats = {c["id"]: c for c in categorias_del_banco(config)}
         for p in candidatas:
             p["_archivo"] = Path(cats.get(p.get("categoria"), {}).get("archivo", "?")).name
             validar_pregunta(p, config, inf)
@@ -470,10 +484,12 @@ def principal(argv=None) -> int:
             validar_pregunta(p, config, inf)
         validar_duplicados(banco, inf)
         matriz = matriz_cobertura(banco, config)
+        temas = ids_temas(config)
         for (cat, sub), celdas in matriz.items():
-            vacias = [n for n, k in celdas.items() if k < args.min_celda]
+            minimo = MIN_CELDA_TEMA if cat in temas else args.min_celda
+            vacias = [n for n, k in celdas.items() if k < minimo]
             if vacias:
-                inf.error(f"{cat}/{sub}", f"menos de {args.min_celda} preguntas en los niveles {vacias}")
+                inf.error(f"{cat}/{sub}", f"menos de {minimo} preguntas en los niveles {vacias}")
         actuales = validar_lock(banco, inf)
         # Rondas divertidas: su propio formato y su propio archivo de control.
         import validar_finales as vf

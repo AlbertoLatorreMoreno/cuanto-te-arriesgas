@@ -11,8 +11,8 @@ let preguntada = null;
 async function pedirPermiso(app, p) {
   const si = await preguntarEnvio(
     "¿Enviamos los datos de esta partida?",
-    "Sirven para ajustar el nivel de las preguntas. Se envían las respuestas (acierto o fallo), las valoraciones y las preguntas marcadas como malas, " +
-      "con los nombres de los jugadores, a la hoja de cálculo del grupo. Nada más.",
+    "Sirven para ajustar el nivel de las preguntas. Se envían las respuestas (acierto o fallo), las valoraciones, las preguntas marcadas como malas " +
+      "y el tema que eligió cada uno, con los nombres de los jugadores, a la hoja de cálculo del grupo. Nada más.",
   );
   if (si === undefined) return;
   app.almacen.decidirPartida(p.id, si);

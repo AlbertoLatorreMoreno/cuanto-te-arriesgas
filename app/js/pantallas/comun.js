@@ -127,7 +127,8 @@ export function textoAlternativa(app, turno) {
   const p = turno.preguntaDatos;
   if (!p || !turno.alternativa) return null;
   if (turno.alternativa === "otro_nivel") {
-    return `No quedaban preguntas de nivel ${turno.apuesta} en esta categoría; esta es de nivel ${p.nivelEfectivo}. Si se acierta, suma ${turno.apuesta} igualmente.`;
+    const donde = turno.tema ? "en este tema" : "en esta categoría";
+    return `No quedaban preguntas de nivel ${turno.apuesta} ${donde}; esta es de nivel ${p.nivelEfectivo}. Si se acierta, suma ${turno.apuesta} igualmente.`;
   }
   if (turno.alternativa === "otro_subtema") {
     return `No quedaban preguntas de ${app.nombreSubtema(turno.categoria, turno.subtema)} de este nivel; esta es de ${app.nombreSubtema(p.categoria, p.subtema)}.`;

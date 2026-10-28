@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { rngConSemilla } from "../app/js/azar.js";
 import { clavesRespuesta, crearIndice, elegirPregunta, elegirSubtema, estaRetirada, nivelEfectivo, resumenBanco } from "../app/js/banco.js";
 import { readFileSync } from "node:fs";
+import { categoriasDelBanco } from "../app/js/util.js";
 import { bancoSintetico, config } from "./ayudas.js";
 
 const rng = () => rngConSemilla(7);
@@ -194,7 +195,8 @@ test("al tener que repetir, no elige una pregunta cuya respuesta ya ha salido en
 });
 
 test("en el banco real, las fugas que quedan las bloquea el motor", () => {
-  const preguntas = config.categorias.flatMap((c) => JSON.parse(readFileSync(new URL(`../app/${c.archivo}`, import.meta.url), "utf8")).preguntas);
+  // Con los temas: comparten índice con el tablero, así que una pregunta de tema también puede delatar a otra.
+  const preguntas = categoriasDelBanco(config).flatMap((c) => JSON.parse(readFileSync(new URL(`../app/${c.archivo}`, import.meta.url), "utf8")).preguntas);
   const indice = crearIndice(preguntas, config);
   // La serie Breaking Bad acepta «Heisenberg», que es la respuesta de la pregunta de física.
   assert.ok(indice.revela.get("ent-ser-05")?.has("cie-fis-13"));

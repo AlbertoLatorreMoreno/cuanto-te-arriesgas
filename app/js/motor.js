@@ -8,7 +8,7 @@
 // Contexto: { indice, config, rng, vistasDe(clave) -> {id: ts}, ahora() -> ISO }
 
 import { barajar, elegir } from "./azar.js";
-import { elegirFinal, elegirPregunta, elegirRonda, elegirSubtema } from "./banco.js";
+import { elegirFinal, elegirPregunta, elegirRonda, elegirSubtema, hayPreguntas } from "./banco.js";
 import { aciertoMapa, distanciaKm, puntosMapa } from "./geo.js";
 import { clonar, segundosCronometro } from "./util.js";
 
@@ -51,6 +51,28 @@ export function generarEspeciales(meta, cada, rng) {
     especiales.push(desde + Math.floor(rng() * (hasta - desde + 1)));
   }
   return especiales;
+}
+
+// Tema de cada jugador (config.temas): en cada tanda de `cada` turnos normales suyos (ni final ni ronda),
+// en uno al azar le toca una pregunta de su tema en vez de la categoría de la casilla. Nunca el primero
+// ni el último de la tanda: así nunca salen dos seguidas ni en el primer turno. Con un 1/cada en cada
+// turno, la media sería la misma, pero uno de cada ocho jugadores no tendría ninguna en la partida corta.
+// Devuelve el número de turno normal (1, 2…) de la pregunta de tema de la tanda `tanda` (0, 1…).
+export function turnoDeTema(tanda, cada, rng) {
+  const desde = Math.min(2, cada);
+  const hasta = Math.max(desde, cada - 1);
+  return tanda * cada + desde + Math.floor(rng() * (hasta - desde + 1));
+}
+
+// Cuenta el turno normal del jugador y, si le toca la pregunta de su tema, cambia la categoría del turno.
+function asignarTema(partida, j, ctx) {
+  const n = (j.turnosNormales ?? 0) + 1;
+  j.turnosNormales = n;
+  if (!j.tema || !(n >= j.turnoTema)) return;
+  const cada = ctx.config.temas?.cada ?? 5;
+  j.turnoTema = turnoDeTema(Math.floor((n - 1) / cada) + 1, cada, ctx.rng);
+  // Si su archivo no ha cargado, esta vez juega la de la casilla.
+  if (hayPreguntas(ctx.indice, j.tema)) Object.assign(partida.turno, { tema: j.tema, categoria: j.tema });
 }
 
 // Nivel de la final: el base, más 1 por cada `pasoFinal` puntos de ventaja sobre el último (hasta el
@@ -137,6 +159,7 @@ function prepararTurno(partida, ctx) {
     rebajaFinal: 0, // escalones que baja la final por las ya falladas
     categoria: null,
     subtema: null,
+    tema: null, // si es la pregunta del tema del jugador, su id (entonces también es la categoría)
     apuesta: null,
     pregunta: null,
     preguntaDatos: null,
@@ -178,8 +201,15 @@ function prepararTurno(partida, ctx) {
     Object.assign(turno, { salida: enCasilla == null, categoria: enCasilla ?? elegir(categorias, ctx.rng) });
     // En una casilla especial toca ronda; si no hay ninguna (archivo sin cargar), pregunta normal.
     if (partida.especiales?.includes(j.pos) && asignarRonda(partida, ctx)) return;
+    asignarTema(partida, j, ctx);
   }
   turno.subtema = elegirSubtema(ctx.indice, turno.categoria, contextoSeleccion(partida, ctx));
+}
+
+// El tema que eligió un jugador para la partida (o null), en cada registro de sus turnos: así se sabe qué
+// temas se juegan más (y a cuáles conviene escribirles preguntas), aunque no le haya llegado a tocar ninguna.
+function temaElegido(partida, clave) {
+  return partida.jugadores.find((j) => j.clave === clave)?.tema ?? null;
 }
 
 // El turno guarda una copia de la ronda, como de la pregunta: la partida guardada no depende del archivo.
@@ -247,6 +277,9 @@ export function nuevaPartida({ id, jugadores, metaId, narrador = null, cronometr
   }
   const meta = config.metas.find((m) => m.id === metaId);
   exigir(meta, `Meta desconocida: ${metaId}`);
+  const temas = new Set((config.temas?.lista ?? []).map((t) => t.id));
+  for (const j of jugadores) exigir(!j.tema || temas.has(j.tema), `Tema desconocido: ${j.tema}`);
+  const cada = config.temas?.cada ?? 5;
 
   const partida = {
     formato: 1,
@@ -259,7 +292,11 @@ export function nuevaPartida({ id, jugadores, metaId, narrador = null, cronometr
     tablero: generarTablero(meta.puntos, config.categorias.map((c) => c.id), ctx.rng),
     // Casillas con ronda divertida (si se han activado y hay rondas que jugar).
     especiales: rondas && ctx.rondas?.length ? generarEspeciales(meta.puntos, config.rondas?.cada, ctx.rng) : [],
-    jugadores: jugadores.map((j) => ({ clave: j.clave, nombre: j.nombre, pos: 0, aciertos: 0, fallos: 0, sumaApuestas: 0, nApuestas: 0, mejorAcierto: 0, rondas: 0, casillasRonda: 0, finalesFalladas: 0 })),
+    jugadores: jugadores.map((j) => ({
+      clave: j.clave, nombre: j.nombre, pos: 0, aciertos: 0, fallos: 0, sumaApuestas: 0, nApuestas: 0, mejorAcierto: 0, rondas: 0, casillasRonda: 0, finalesFalladas: 0,
+      // Su tema (o null), cuántos turnos normales lleva y en cuál le toca la siguiente pregunta de su tema.
+      tema: j.tema || null, turnosNormales: 0, turnoTema: j.tema ? turnoDeTema(0, cada, ctx.rng) : null,
+    })),
     narrador: narrador ? { clave: narrador.clave, nombre: narrador.nombre } : null,
     cronometro: Boolean(cronometro), // cronómetro en las categorías de config.cronometro
     rondas: Boolean(rondas),
@@ -554,6 +591,7 @@ function registroRonda(partida, t, ctx) {
     alternativa: t.alternativa,
     tiempo_agotado: t.tiempoAgotado,
     mala: t.mala,
+    tema_elegido: temaElegido(partida, t.jugador),
   };
 }
 
@@ -589,6 +627,7 @@ function registroFinal(partida, t, ctx) {
     marcados: t.reto ? [...t.marcados].sort((a, b) => a - b) : null,
     valoracion: t.valoracion,
     mala: t.mala,
+    tema_elegido: temaElegido(partida, t.jugador),
   };
 }
 
@@ -615,6 +654,7 @@ export function cerrarTurno(partida0, ctx) {
     acierto: t.acierto,
     valoracion: t.valoracion,
     mala: t.mala,
+    tema_elegido: temaElegido(partida, t.jugador),
     // Pregunta de mapa: el punto señalado, la distancia al correcto, la máxima y los puntos sumados.
     ...(t.mapa
       ? { lat_senalada: t.mapa.lat, lon_senalada: t.mapa.lon, distancia_km: t.mapa.distancia_km, distancia_max_km: t.preguntaDatos.distancia_max_km, puntos: t.mapa.puntos }

@@ -39,6 +39,14 @@ def usuario_generador(proyecto: Proyecto, cat: str, sub: str, pedidos: dict[int,
     ]
     if (cat, sub) in SUBTEMAS_VERIFICABLES:
         lineas += ["En este subtema `verificacion` es obligatoria.", ""]
+    if proyecto.es_tema(cat):
+        # Un tema solo le sale a quien lo ha elegido (sección «Temas» de la rúbrica).
+        lineas += [
+            "Es un tema que el jugador elige porque lo conoce: el nivel es para un fan (ha visto las películas o leído los libros, sin ser experto), no para el jugador medio."
+            if c.get("referencia") == "fan"
+            else "Es el tema Sorpresa: lo elige quien quiere variedad, así que el nivel es el del jugador medio.",
+            "",
+        ]
     con_ejemplos = {n: e for n, e in ejemplos.items() if e}
     if con_ejemplos:
         lineas.append("Preguntas de referencia de cada nivel (de otros subtemas), para calibrar la dificultad:")

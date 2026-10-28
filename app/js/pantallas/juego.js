@@ -85,9 +85,18 @@ function vistaAnuncio(app, p, t) {
     h(
       "section",
       { class: "tarjeta tarjeta-cat", style: estiloCat(app, t.categoria) },
-      h("div", { class: "meta-linea" }, etiquetaCat(app, t.categoria), t.salida ? h("span", { class: "texto-suave pequeno" }, "Salida: categoría al azar") : null),
+      h(
+        "div",
+        { class: "meta-linea" },
+        etiquetaCat(app, t.categoria),
+        t.tema
+          ? h("span", { class: "etiqueta-tema" }, "🎯 Tu tema")
+          : t.salida
+            ? h("span", { class: "texto-suave pequeno" }, "Salida: categoría al azar")
+            : null,
+      ),
       h("div", { class: "subtema" }, app.nombreSubtema(t.categoria, t.subtema)),
-      h("p", { class: "pregunta-apuesta" }, `${jugador}, ¿hasta cuánto te arriesgas?`),
+      h("p", { class: "pregunta-apuesta" }, t.tema ? `${jugador}, te toca tu tema: ¿hasta cuánto te arriesgas?` : `${jugador}, ¿hasta cuánto te arriesgas?`),
       h(
         "div",
         { class: "rejilla-niveles", role: "group", "aria-label": "Elige la dificultad" },

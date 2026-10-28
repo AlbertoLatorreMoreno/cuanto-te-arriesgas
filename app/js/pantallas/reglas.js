@@ -3,6 +3,28 @@
 import { cabecera, h, montar } from "../dom.js";
 import { rangoCronometro, unirNombres } from "../util.js";
 
+// El tema de cada jugador (config.temas): solo si hay alguno que elegir.
+function seccionTemas(app) {
+  if (!app.temas?.length) return [];
+  const deFans = app.temas.filter((t) => t.referencia !== "medio");
+  const variados = app.temas.filter((t) => t.referencia === "medio");
+  return [
+    h("h2", {}, "Tu tema 🎯"),
+    h(
+      "p",
+      {},
+      `Al crear la partida, cada uno puede elegir un tema: ${unirNombres(app.temas.map((t) => t.nombre))}. ` +
+        `En una de cada ${app.config.temas.cada} de tus preguntas (al azar, nunca dos seguidas ni en la final), en vez de la categoría de la casilla te toca una de tu tema, y la app anuncia de qué irá: «Harry Potter: películas y actores». Se arriesga y se puntúa igual.`,
+    ),
+    h(
+      "p",
+      {},
+      (deFans.length ? `Los niveles de ${unirNombres(deFans.map((t) => t.nombre))} están pensados para quien elige el tema: una de nivel 5 la acierta la mitad de los que lo conocen bien, no la mitad de todos. ` : "") +
+        variados.map((t) => `${t.nombre} mezcla temas curiosos (${t.subtemas.map((s) => s.nombre).join(", ")}), con los niveles de siempre.`).join(" "),
+    ),
+  ];
+}
+
 export function pantallaReglas(app, { volverA = "inicio" } = {}) {
   const [corta, media] = app.config.metas;
   const { nivel_base, nivel_max } = app.config.final;
@@ -18,7 +40,12 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
       h(
         "ol",
         {},
-        h("li", {}, "La casilla en la que estás decide la categoría, y la app anuncia un tema: «Ciencias: astronomía». En la salida, la categoría es al azar."),
+        h(
+          "li",
+          {},
+          "La casilla en la que estás decide la categoría, y la app anuncia de qué irá: «Ciencias: astronomía». En la salida, la categoría es al azar." +
+            (app.temas?.length ? " Y de vez en cuando te toca tu tema, si has elegido uno (más abajo)." : ""),
+        ),
         h("li", {}, "Dices hasta cuánto te arriesgas, del 1 al 10."),
         h("li", {}, "Pasas el móvil al siguiente jugador, que lee la pregunta en voz alta sin enseñar la respuesta."),
         h("li", {}, "Contestas. Quien lee mira la respuesta y el grupo decide si vale. En caso de duda, decide quien lee."),
@@ -31,6 +58,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
         {},
         "Si lo elegís al empezar, una persona que no juega se queda el móvil toda la partida: pregunta a cada uno hasta cuánto se arriesga, lee su pregunta en voz alta, mira la respuesta y marca si ha acertado. El móvil no se pasa.",
       ),
+      ...seccionTemas(app),
       ...app.config.categorias
         .filter((c) => c.tipo === "mapa" && app.config.mapa)
         .map((c) => {

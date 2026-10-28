@@ -28,8 +28,15 @@ class Proyecto:
         cat = self.categoria(cat_id)
         return self.app / cat["archivo"]
 
+    def categorias(self) -> list[dict]:
+        """Las categorías del tablero y los temas que elige cada jugador (config.temas), que tienen el mismo formato."""
+        return self.config["categorias"] + self.config.get("temas", {}).get("lista", [])
+
+    def es_tema(self, cat_id: str) -> bool:
+        return any(t["id"] == cat_id for t in self.config.get("temas", {}).get("lista", []))
+
     def categoria(self, cat_id: str) -> dict:
-        for c in self.config["categorias"]:
+        for c in self.categorias():
             if c["id"] == cat_id:
                 return c
         raise KeyError(f"Categoría desconocida: {cat_id}")
@@ -42,8 +49,11 @@ class Proyecto:
 
     def banco(self) -> list[dict]:
         preguntas = []
-        for c in self.config["categorias"]:
-            datos = json.loads(self.ruta_categoria(c["id"]).read_text(encoding="utf-8"))
+        for c in self.categorias():
+            ruta = self.ruta_categoria(c["id"])
+            if self.es_tema(c["id"]) and not ruta.exists():
+                continue  # un tema sin archivo todavía no tiene preguntas (las categorías del tablero, sí o sí)
+            datos = json.loads(ruta.read_text(encoding="utf-8"))
             preguntas.extend(datos["preguntas"])
         return preguntas
 
@@ -124,6 +134,7 @@ def huecos(proyecto: Proyecto, objetivo: int) -> list[tuple[str, str, int, int]]
     c = cobertura(proyecto)
     nmin, nmax = proyecto.config["niveles"]["min"], proyecto.config["niveles"]["max"]
     salida = []
+    # Solo las del tablero: los temas tienen una por casilla a propósito y se piden de una en una (--celda).
     for cat in proyecto.config["categorias"]:
         if cat.get("tipo") == "mapa":
             continue  # las preguntas de mapa necesitan coordenadas: se escriben a mano

@@ -14,8 +14,8 @@ from pathlib import Path
 
 import numpy as np
 
-from calibracion import (RAIZ, Modelo, calibrar, contar, cortes_valoracion, leer_banco, leer_config, leer_exportaciones,
-                         log_prob_valoracion, preparar_datos, retiradas_por_marcas, vista_antes)
+from calibracion import (RAIZ, Banco, Modelo, TablaObjetivo, ajustar, calibrar, contar, cortes_valoracion, leer_banco, leer_config,
+                         leer_exportaciones, log_prob_valoracion, preparar_datos, retiradas_por_marcas, vista_antes)
 from informe import escribir_csv, escribir_informe, tabla_niveles
 from modelo_filtro import CARACTERISTICAS, caracteristicas_de, entrenar_logistica_ridge, filtro_generador, prob_mala
 from simulacion import simular_exportacion
@@ -417,6 +417,92 @@ class TestFinales(unittest.TestCase):
             self.assertIn("Fuera de estas cuentas: 1 jugada en que quien jugaba ya conocía la final y 1 jugada de una versión anterior.", texto)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestTemas(unittest.TestCase):
+    """Un tema solo lo responde quien lo elige: si un fan acierta sus preguntas mucho más de lo que dice su nivel,
+    lo absorbe el ajuste de ese tema (con más margen que el de una categoría), sin mover las del tablero."""
+
+    @staticmethod
+    def _ajustar(config, sd_tema=None, con_tema=True):
+        config = copy.deepcopy(config)
+        if sd_tema is not None:
+            config["modelo"]["sd_ajuste_tema"] = sd_tema
+        tema = config["temas"]["lista"][0]
+        en_tablero = [i for i, c in enumerate(BANCO.categoria) if c in {x["id"] for x in config["categorias"]}]
+        ids_tema = [f"{tema['id'][:3]}-{s['id'][:3]}-{n:02d}" for s in tema["subtemas"] for n in range(1, 11)]
+        banco = Banco(id=[BANCO.id[i] for i in en_tablero] + ids_tema,
+                      v=np.array([int(BANCO.v[i]) for i in en_tablero] + [1] * len(ids_tema)),
+                      categoria=[BANCO.categoria[i] for i in en_tablero] + [tema["id"]] * len(ids_tema),
+                      subtema=[BANCO.subtema[i] for i in en_tablero] + [s["id"] for s in tema["subtemas"] for _ in range(10)],
+                      nivel=np.array([int(BANCO.nivel[i]) for i in en_tablero] + list(range(1, 11)) * len(tema["subtemas"])))
+        rng = np.random.default_rng(4)
+        p_obj = TablaObjetivo(config).p
+        registros, k = [], 0
+
+        def responder(jugador, q, nivel_real):
+            nonlocal k
+            k += 1
+            registros.append({
+                "id": f"tema-{k:05d}", "tipo": "respuesta", "ts": f"2026-10-28T18:{k // 60 % 60:02d}:{k % 60:02d}.000Z", "dispositivo": "prueba",
+                "partida": f"p{k // 50}", "turno": k, "jugador": jugador, "lector": "narra", "pregunta": banco.id[q], "v": int(banco.v[q]),
+                "categoria": banco.categoria[q], "subtema": banco.subtema[q], "nivel_inicial": int(banco.nivel[q]),
+                "nivel_mostrado": int(banco.nivel[q]), "subtema_anunciado": banco.subtema[q], "apuesta": int(banco.nivel[q]),
+                "es_final": False, "alternativa": None, "acierto": bool(rng.random() < p_obj(np.array([nivel_real]))[0]),
+                "valoracion": None, "mala": None, "version_banco": "prueba", "version_ajustes": "inicial",
+            })
+
+        for jugador in ("fan", "otro"):
+            for q in rng.choice(len(en_tablero), 200, replace=False):
+                responder(jugador, int(q), float(banco.nivel[q]))  # las del tablero, como dice su nivel
+        for q in range(len(en_tablero), len(banco) if con_tema else 0):
+            responder("fan", q, float(banco.nivel[q]) - 3)  # las de su tema le parecen tres niveles más fáciles
+        datos = preparar_datos(registros, banco, config)
+        modelo = Modelo(datos, banco, config)
+        u = ajustar(modelo, avisar=callado).u
+        return len(datos.respuestas), len(registros), dict(zip(modelo.categorias, u["cat"])), tema["id"]
+
+    def test_el_ajuste_del_tema_recoge_lo_que_sabe_quien_lo_elige(self):
+        n, total, cat, tema = self._ajustar(CONFIG)
+        self.assertEqual(n, total, "ninguna respuesta de tema se descarta")
+        self.assertLess(cat[tema], -1.0, f"ajuste del tema {cat[tema]:.2f}")
+        # Las categorías del tablero quedan como sin esas respuestas.
+        _, _, sin_tema, _ = self._ajustar(CONFIG, con_tema=False)
+        for c in CONFIG["categorias"]:
+            self.assertLess(abs(cat[c["id"]] - sin_tema[c["id"]]), 0.15, f"{c['id']}: {cat[c['id']]:.2f} frente a {sin_tema[c['id']]:.2f}")
+        # Con el margen de una categoría (0,75), el tema se movería bastante menos.
+        _, _, estrecho, _ = self._ajustar(CONFIG, sd_tema=CONFIG["modelo"]["sd_ajuste_categoria"])
+        self.assertLess(cat[tema], estrecho[tema] - 0.2)
+
+    def test_el_informe_cuenta_los_temas_elegidos(self):
+        hp, sw = (t["id"] for t in CONFIG["temas"]["lista"][:2])
+        de_hp = BANCO.categoria.index(hp)
+        normal = BANCO.categoria.index(CONFIG["categorias"][0]["id"])
+
+        def respuesta(k, partida, jugador, q, elegido):
+            return {"id": f"te-{k}", "tipo": "respuesta", "ts": f"2026-10-28T18:00:{k:02d}.000Z", "dispositivo": "prueba", "partida": partida,
+                    "turno": k, "jugador": jugador, "lector": "narra", "pregunta": BANCO.id[q], "v": int(BANCO.v[q]), "categoria": BANCO.categoria[q],
+                    "subtema": BANCO.subtema[q], "nivel_inicial": int(BANCO.nivel[q]), "nivel_mostrado": int(BANCO.nivel[q]),
+                    "subtema_anunciado": BANCO.subtema[q], "apuesta": 5, "es_final": False, "alternativa": None, "acierto": True,
+                    "valoracion": None, "mala": None, "tema_elegido": elegido, "version_banco": "prueba", "version_ajustes": "inicial"}
+
+        # Ana elige Harry Potter en una partida (y le sale una) y Star Wars en otra (y no le sale ninguna); Luis juega sin tema.
+        registros = [respuesta(1, "p1", "ana", normal, hp), respuesta(2, "p1", "ana", de_hp, hp), respuesta(3, "p1", "luis", normal + 1, None),
+                     respuesta(4, "p2", "ana", normal + 2, sw)]
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            escribir_exportacion(tmp / "datos" / "temas.json", registros)
+            texto = leer_informe(calibrar_callado(tmp / "datos"), tmp, "informe.md")
+        inicio = texto.index("## Temas")
+        fin = next(i for i in range(inicio + 1, len(texto)) if texto[i].startswith("## "))
+        filas = {linea.split("|")[1].strip(): [c.strip() for c in linea.split("|")[2:-1]]
+                 for linea in texto[inicio:fin] if linea.startswith("| ") and not linea.startswith("| Tema")}
+        nombres = {t["id"]: t["nombre"] for t in CONFIG["temas"]["lista"]}
+        self.assertEqual(filas[nombres[hp]][:3], ["1", "1 de 40", "1"])
+        self.assertEqual(filas[nombres[sw]][:3], ["1", "0 de 40", "0"])
+        self.assertEqual(filas["Sin tema"][0], "1")
+        # Los más elegidos, primero (a igualdad, el que más se ha gastado).
+        self.assertEqual(list(filas)[:2], [nombres[hp], nombres[sw]])
 
 
 class TestModeloFiltro(unittest.TestCase):

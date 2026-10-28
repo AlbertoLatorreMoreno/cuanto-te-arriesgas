@@ -100,6 +100,27 @@ class TestDescargar(unittest.TestCase):
         self.assertEqual(codigo, 0, salida.getvalue())
         self.assertTrue((self.tmp / "datos" / descargar.NOMBRE).exists())
 
+    def test_el_codigo_solo_va_a_una_direccion_de_apps_script(self):
+        buenas = ["https://script.google.com/macros/s/AKfycb-x_1/exec", "http://127.0.0.1:8011/exec", "http://localhost:8011/exec"]
+        malas = ["http://script.google.com/macros/s/AKfycb/exec",           # sin https
+                 "https://script.google.com.ataque.com/macros/s/AKfycb/exec",  # otro dominio que lo imita
+                 "https://ataque.com/macros/s/AKfycb/exec",
+                 "https://alguien@script.google.com/macros/s/AKfycb/exec",
+                 "https://script.google.com:8443/macros/s/AKfycb/exec",
+                 "https://script.google.com/macros/s/AKfycb/exec?siguiente=https://ataque.com",
+                 "https://script.google.com/macros/s/AKfycb/dev",              # la versión de pruebas, que pide iniciar sesión
+                 "https://script.google.com/a/macros/s/AKfycb/exec",
+                 "ftp://script.google.com/macros/s/AKfycb/exec"]
+        self.assertEqual([descargar.error_direccion(u) for u in buenas], [None] * len(buenas))
+        self.assertTrue(all(descargar.error_direccion(u) for u in malas))
+        # Y la descarga ni lo intenta: no llega a mandar el código.
+        (self.tmp / "envio.json").write_text(json.dumps({"codigo": CODIGO}), encoding="utf-8")
+        salida = io.StringIO()
+        with redirect_stdout(salida), redirect_stderr(salida):
+            codigo = descargar.principal(["--url", malas[1], "--config", str(self.tmp / "envio.json"), "--datos", str(self.tmp / "datos")])
+        self.assertEqual(codigo, 1)
+        self.assertIn("no se envía a ningún otro sitio", salida.getvalue())
+
     def test_enviar_no_pide_codigo_y_descargar_si(self):
         exp = {"formato": 1, "app": "cuanto-te-arriesgas", "registros": [registro(1)]}
         self.assertEqual(descargar.pedir(self.url, {"accion": "enviar", "exportacion": exp})["nuevos"], 1)
@@ -129,6 +150,9 @@ class TestLoQueLlegaDeLaHoja(unittest.TestCase):
         self.assertTrue(descargar.registro_valido(bueno))
         self.assertTrue(descargar.registro_valido({**bueno, "tipo": "final", "marcados": [0, 2], "nivel": 8, "ronda_oro": None}))
         self.assertTrue(descargar.registro_valido({**bueno, "lat_senalada": 40.4, "distancia_km": 12, "nota": "texto corto"}))
+        # El tema que eligió quien juega (fase 23): un texto corto, o null si iba sin tema.
+        self.assertTrue(descargar.registro_valido({**bueno, "tema_elegido": "harry_potter"}))
+        self.assertTrue(descargar.registro_valido({**bueno, "tema_elegido": None}))
         raros = [
             "no es un objeto",
             {**bueno, "id": "=IMPORTXML(1)"},

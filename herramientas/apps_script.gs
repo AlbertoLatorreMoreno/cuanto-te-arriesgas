@@ -19,6 +19,10 @@ const MAX_REGISTROS_POR_ENVIO = 500;
 const MAX_CARACTERES_REGISTRO = 20000; // una celda admite 50 000
 const MAX_FILAS_AL_DIA = 3000; // un grupo deja unos cientos en una quedada: más sería un abuso
 const MAX_DESCARGA = 2000;
+// Contra quien pruebe códigos a ciegas para leer los datos: tras MAX_FALLOS intentos con un código equivocado,
+// la descarga se cierra durante CIERRE_SEGUNDOS, también para el código bueno. Enviar no se cierra.
+const MAX_FALLOS = 10;
+const CIERRE_SEGUNDOS = 3600;
 
 // Lo que se escribe en las columnas de texto: nada que la hoja pueda tomar por una fórmula.
 const ID_VALIDO = /^[A-Za-z0-9][\w.-]{0,99}$/;
@@ -40,10 +44,31 @@ function doPost(e) {
   if (peticion.accion === "enviar") return responder(guardar(peticion.exportacion));
   if (peticion.accion === "descargar") {
     if (!CODIGO_DESCARGA || CODIGO_DESCARGA.length < 8) return responder({ ok: false, error: "sin_codigo", mensaje: "Falta poner el código de descarga en el script." });
-    if (peticion.codigo !== CODIGO_DESCARGA) return responder({ ok: false, error: "codigo", mensaje: "El código de descarga no coincide con el del script." });
+    const rechazo = comprobarCodigo(peticion.codigo);
+    if (rechazo) return responder(rechazo);
     return responder(descargar(peticion.desde, peticion.cuantos));
   }
   return responder({ ok: false, error: "accion", mensaje: "Acción desconocida." });
+}
+
+// null si el código vale y la descarga está abierta; si no, la respuesta de error. Cada fallo se apunta con
+// el cerrojo puesto, para que muchas peticiones a la vez no se salten la cuenta. Mientras está cerrada no se
+// apuntan más fallos: se abre una hora después del último que contó.
+function comprobarCodigo(codigo) {
+  const cache = CacheService.getScriptCache();
+  const cerrojo = LockService.getScriptLock();
+  cerrojo.waitLock(30000);
+  try {
+    const fallos = Number(cache.get("fallos_descarga")) || 0;
+    if (fallos >= MAX_FALLOS) {
+      return { ok: false, error: "cerrada", mensaje: "Ha habido demasiados intentos con un código equivocado: la descarga está cerrada durante una hora." };
+    }
+    if (typeof codigo === "string" && codigo === CODIGO_DESCARGA) return null;
+    cache.put("fallos_descarga", String(fallos + 1), CIERRE_SEGUNDOS);
+    return { ok: false, error: "codigo", mensaje: "El código de descarga no coincide con el del script." };
+  } finally {
+    cerrojo.releaseLock();
+  }
 }
 
 // Guarda los registros que aún no estén en la hoja (por su id): reenviar no duplica nada.

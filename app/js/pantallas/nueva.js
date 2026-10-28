@@ -8,8 +8,17 @@ import { MAX_CHIPS_JUGADORES } from "./comun.js";
 
 export function pantallaNueva(app, params = {}) {
   const { min, max } = app.config.jugadores;
+  // El último tema que eligió cada jugador en este móvil (si sigue disponible), para no elegirlo cada vez.
+  const guardados = app.almacen.preferencia("temas", {});
+  const temasRecordados = guardados && typeof guardados === "object" && !Array.isArray(guardados) ? guardados : {};
+  const temaDe = (nombre) => {
+    const t = temasRecordados[normalizarNombre(nombre)];
+    return app.temas.some((x) => x.id === t) ? t : "";
+  };
+  const nombresIniciales = params.jugadores?.length ? [...params.jugadores] : ["", ""];
   const estado = {
-    nombres: params.jugadores?.length ? [...params.jugadores] : ["", ""],
+    nombres: nombresIniciales,
+    temas: nombresIniciales.map(temaDe), // el tema de cada fila ("" = sin tema)
     metaId: params.metaId ?? app.almacen.preferencia("metaId", app.config.metas[0].id),
     sortear: app.almacen.preferencia("sortear", true),
     // Con narrador: una persona que no juega lee todas las preguntas y el móvil no se pasa.
@@ -41,6 +50,20 @@ export function pantallaNueva(app, params = {}) {
             estado.nombres[i] = e.target.value;
           },
         }),
+        app.temas.length
+          ? h(
+              "select",
+              {
+                class: "select-tema",
+                "aria-label": `Tema del jugador ${i + 1}`,
+                onChange: (e) => {
+                  estado.temas[i] = e.target.value;
+                },
+              },
+              h("option", { value: "" }, "Sin tema"),
+              app.temas.map((t) => h("option", { value: t.id, selected: estado.temas[i] === t.id }, t.nombre)),
+            )
+          : null,
         estado.nombres.length > min
           ? h(
               "button",
@@ -49,6 +72,7 @@ export function pantallaNueva(app, params = {}) {
                 "aria-label": `Quitar jugador ${i + 1}`,
                 onClick: () => {
                   estado.nombres.splice(i, 1);
+                  estado.temas.splice(i, 1);
                   pintar();
                 },
               },
@@ -68,6 +92,9 @@ export function pantallaNueva(app, params = {}) {
           { class: "columna" },
           h("p", { class: "titulo-seccion" }, `Jugadores (${min} a ${max})`),
           h("div", { class: "columna" }, filas),
+          app.temas.length
+            ? h("p", { class: "texto-suave pequeno" }, `🎯 Con un tema, una de cada ${app.config.temas?.cada ?? 5} preguntas de ese jugador será de su tema.`)
+            : null,
           estado.nombres.length < max
             ? h(
                 "button",
@@ -75,6 +102,7 @@ export function pantallaNueva(app, params = {}) {
                   class: "boton boton-ancho",
                   onClick: () => {
                     estado.nombres.push("");
+                    estado.temas.push("");
                     pintar(estado.nombres.length - 1);
                   },
                 },
@@ -96,8 +124,13 @@ export function pantallaNueva(app, params = {}) {
                         class: "chip chip-jugador",
                         onClick: () => {
                           const vacio = estado.nombres.findIndex((n) => !n.trim());
-                          if (vacio >= 0) estado.nombres[vacio] = j.nombre;
-                          else if (estado.nombres.length < max) estado.nombres.push(j.nombre);
+                          if (vacio >= 0) {
+                            estado.nombres[vacio] = j.nombre;
+                            estado.temas[vacio] = temaDe(j.nombre) || estado.temas[vacio];
+                          } else if (estado.nombres.length < max) {
+                            estado.nombres.push(j.nombre);
+                            estado.temas.push(temaDe(j.nombre));
+                          }
                           pintar();
                         },
                       },
@@ -233,8 +266,11 @@ export function pantallaNueva(app, params = {}) {
   }
 
   async function empezar() {
-    // Un nombre sin nada visible (solo caracteres invisibles) cuenta como vacío.
-    const nombres = estado.nombres.map((n) => n.trim().replace(/\s+/g, " ")).filter((n) => normalizarNombre(n));
+    // Un nombre sin nada visible (solo caracteres invisibles) cuenta como vacío. Cada nombre va con el tema de su fila.
+    const filas = estado.nombres
+      .map((n, i) => ({ nombre: n.trim().replace(/\s+/g, " "), tema: estado.temas[i] || null }))
+      .filter((f) => normalizarNombre(f.nombre));
+    const nombres = filas.map((f) => f.nombre);
     const claves = nombres.map(normalizarNombre);
     if (nombres.length < min) return fallar(`Hacen falta al menos ${min} jugadores.`);
     if (new Set(claves).size !== claves.length) return fallar("Hay dos jugadores con el mismo nombre. Usad apodos distintos.");
@@ -249,8 +285,9 @@ export function pantallaNueva(app, params = {}) {
       if (!ok) return;
     }
 
-    let jugadores = nombres.map((nombre, i) => ({ clave: claves[i], nombre }));
+    let jugadores = filas.map((f, i) => ({ clave: claves[i], nombre: f.nombre, tema: f.tema }));
     if (estado.sortear) jugadores = barajar(jugadores, rngReal());
+    if (app.temas.length) app.almacen.guardarPreferencia("temas", { ...temasRecordados, ...Object.fromEntries(jugadores.map((j) => [j.clave, j.tema ?? ""])) });
     app.almacen.guardarPreferencia("metaId", estado.metaId);
     app.almacen.guardarPreferencia("sortear", estado.sortear);
     app.almacen.guardarPreferencia("conNarrador", estado.conNarrador);
