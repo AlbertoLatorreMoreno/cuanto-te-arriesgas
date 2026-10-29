@@ -359,6 +359,16 @@ test("cronómetro: solo en las categorías de la configuración, con el tiempo d
   assert.equal(r.registros[0].cronometro, segundos_por_nivel[nivel - 1]);
   assert.equal(r.registros[0].tiempo_agotado, true);
 
+  // Las series numéricas tienen su propia tabla: en los niveles altos, más tiempo que el resto.
+  const series = structuredClone(r.partida);
+  series.turno.categoria = categorias[0];
+  series.turno.subtema = "series_num";
+  const s = M.apostar(series, 9, ctx).partida.turno;
+  assert.equal(s.preguntaDatos.subtema, "series_num");
+  assert.ok(s.preguntaDatos.nivelEfectivo >= 8, "una serie de nivel alto");
+  assert.equal(s.cronometro, ctx.config.cronometro.por_subtema.series_num[s.preguntaDatos.nivelEfectivo - 1]);
+  assert.ok(s.cronometro > segundos_por_nivel[s.preguntaDatos.nivelEfectivo - 1]);
+
   p = r.partida;
   r = M.apostar(conCategoria(p, sinReloj), 4, ctx);
   assert.equal(r.partida.turno.cronometro, null, "las demás categorías no llevan cronómetro");

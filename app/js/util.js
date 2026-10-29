@@ -58,10 +58,11 @@ export function categoriasDelBanco(config) {
 }
 
 // Segundos de cronómetro para una pregunta, o null si su categoría no lleva (config.cronometro).
-export function segundosCronometro(config, categoria, nivel) {
+// Un subtema con tabla propia (`por_subtema`, como las series numéricas) usa la suya.
+export function segundosCronometro(config, categoria, nivel, subtema = null) {
   const c = config.cronometro;
   if (!c?.categorias?.includes(categoria)) return null;
-  const s = c.segundos_por_nivel?.[nivel - config.niveles.min];
+  const s = (c.por_subtema?.[subtema] ?? c.segundos_por_nivel)?.[nivel - config.niveles.min];
   return Number.isFinite(s) && s > 0 ? s : null;
 }
 
@@ -73,11 +74,25 @@ export function duracionLegible(segundos) {
   return s ? `${min} min ${s} s` : `${min} min`;
 }
 
-// «De 45 s (nivel 1) a 1 min 30 s (nivel 10)», para explicar el cronómetro.
+// «De 45 s (nivel 1) a 1 min (nivel 10), y 1 min 15 s en series numéricas de nivel 8 a 10», para explicar el cronómetro.
 export function rangoCronometro(config) {
   const tiempos = config.cronometro?.segundos_por_nivel ?? [];
   if (!tiempos.length) return "";
-  return `de ${duracionLegible(tiempos[0])} (nivel ${config.niveles.min}) a ${duracionLegible(tiempos[tiempos.length - 1])} (nivel ${config.niveles.max})`;
+  const min = config.niveles.min;
+  const texto = `de ${duracionLegible(tiempos[0])} (nivel ${min}) a ${duracionLegible(tiempos[tiempos.length - 1])} (nivel ${config.niveles.max})`;
+  // Los subtemas con tabla propia, solo donde cambia: cada tramo seguido de niveles con el mismo tiempo.
+  const aparte = [];
+  for (const [id, propios] of Object.entries(config.cronometro.por_subtema ?? {})) {
+    const nombre = (config.categorias.flatMap((c) => c.subtemas ?? []).find((s) => s.id === id)?.nombre ?? id).toLowerCase();
+    for (let i = 0; i < propios.length; i++) {
+      if (propios[i] === tiempos[i]) continue;
+      let j = i;
+      while (j + 1 < propios.length && propios[j + 1] === propios[i] && propios[j + 1] !== tiempos[j + 1]) j++;
+      aparte.push(`${duracionLegible(propios[i])} en ${nombre} de nivel ${i === j ? min + i : `${min + i} a ${min + j}`}`);
+      i = j;
+    }
+  }
+  return aparte.length ? `${texto}, y ${unirNombres(aparte)}` : texto;
 }
 
 // 75 → «1:15»; 45 → «0:45».

@@ -336,8 +336,8 @@ function asignarPregunta(partida, ctx, excluir = new Set()) {
   t.pregunta = r.pregunta.id;
   t.preguntaDatos = Object.fromEntries(CAMPOS_COPIADOS.map((k) => [k, r.pregunta[k] ?? null]));
   t.alternativa = r.alternativa;
-  // Una pregunta nueva (también al cambiarla) trae su propio tiempo, según su nivel.
-  t.cronometro = partida.cronometro ? segundosCronometro(ctx.config, r.pregunta.categoria, r.pregunta.nivelEfectivo) : null;
+  // Una pregunta nueva (también al cambiarla) trae su propio tiempo, según su nivel y su subtema.
+  t.cronometro = partida.cronometro ? segundosCronometro(ctx.config, r.pregunta.categoria, r.pregunta.nivelEfectivo, r.pregunta.subtema) : null;
   t.tiempoAgotado = null;
   partida.usadas.push(r.pregunta.id);
 }

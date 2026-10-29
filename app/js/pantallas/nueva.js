@@ -232,7 +232,7 @@ export function pantallaNueva(app, params = {}) {
                   "span",
                   {},
                   `Cronómetro en ${unirNombres(app.config.cronometro.categorias.map((c) => app.nombreCategoria(c)))}`,
-                  h("small", { class: "texto-suave", style: { display: "block" } }, `${rangoCronometro(app.config)}, según el nivel`),
+                  h("small", { class: "texto-suave", style: { display: "block" } }, rangoCronometro(app.config)),
                 ),
               )
             : null,

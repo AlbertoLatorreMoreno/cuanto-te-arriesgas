@@ -15,7 +15,7 @@ Objetivo: comprobar que el juego funciona y es divertido, y reunir los primeros 
 - Valorad el nivel cuando lo tengáis claro, sobre todo si una pregunta parecía mucho más fácil o difícil de lo que decía.
 - Si una pregunta está mal, «Cambiar pregunta» con el motivo. Si ya se ha jugado, marcadla como mala.
 - Apuntad aparte lo que chirríe: reglas confusas, pantallas lentas, botones que se tocan sin querer, preguntas que dan pie a discusiones.
-- Fijaos en el cronómetro de Mates y lógica: si los tiempos se quedan cortos o sobran, se cambian en `app/data/config.json` (`cronometro.segundos_por_nivel`, un número por nivel del 1 al 10). También se puede quitar al crear la partida.
+- Fijaos en el cronómetro de Mates y lógica: si los tiempos se quedan cortos o sobran, se cambian en `app/data/config.json` (`cronometro.segundos_por_nivel`, un número por nivel del 1 al 10, y `cronometro.por_subtema` para los subtemas con tiempos propios, como las series numéricas). También se puede quitar al crear la partida.
 - Al acabar la quedada, exportad los datos («Datos y exportación»): mientras no se exportan, solo están en ese móvil.
 
 ## Qué observar

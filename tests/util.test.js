@@ -64,10 +64,17 @@ test("la horquilla de niveles: un toque elige, el segundo extiende, y se puede q
 });
 
 test("tiempo del cronómetro por categoría y nivel, y su formato", () => {
-  // Decidido el 19 de octubre: 45 s en los niveles 1–3 (las fáciles necesitan su tiempo), 1 min en los 4–7 y 1,5 min en los 8–10.
-  assert.deepEqual(config.cronometro.segundos_por_nivel, [45, 45, 45, 60, 60, 60, 60, 90, 90, 90]);
+  // Decidido el 19 de octubre: 45 s en los niveles 1–3 (las fáciles necesitan su tiempo) y 1 min en los 4–7.
+  // El 29 de octubre, los 8–10 bajan de 1,5 min a 1 min, salvo las series numéricas, más largas: 1 min 15 s.
+  assert.deepEqual(config.cronometro.segundos_por_nivel, [45, 45, 45, 60, 60, 60, 60, 60, 60, 60]);
+  assert.deepEqual(config.cronometro.por_subtema, { series_num: [45, 45, 45, 60, 60, 60, 60, 75, 75, 75] });
   assert.equal(segundosCronometro(config, "mates", 1), config.cronometro.segundos_por_nivel[0]);
   assert.equal(segundosCronometro(config, "mates", 10), config.cronometro.segundos_por_nivel[9]);
+  assert.equal(segundosCronometro(config, "mates", 8, "calculo"), 60);
+  assert.equal(segundosCronometro(config, "mates", 8, "series_num"), 75);
+  assert.equal(segundosCronometro(config, "mates", 10, "series_num"), 75);
+  assert.equal(segundosCronometro(config, "mates", 7, "series_num"), 60);
+  assert.equal(segundosCronometro(config, "mates", 2, "series_num"), 45);
   assert.equal(segundosCronometro(config, "historia", 5), null);
   assert.equal(segundosCronometro({ ...config, cronometro: undefined }, "mates", 5), null);
   assert.equal(formatoTiempo(75), "1:15");
@@ -79,5 +86,10 @@ test("duración del cronómetro en palabras", () => {
   assert.equal(duracionLegible(30), "30 s");
   assert.equal(duracionLegible(60), "1 min");
   assert.equal(duracionLegible(90), "1 min 30 s");
-  assert.equal(rangoCronometro(config), `de ${duracionLegible(config.cronometro.segundos_por_nivel[0])} (nivel 1) a ${duracionLegible(config.cronometro.segundos_por_nivel[9])} (nivel 10)`);
+  assert.equal(rangoCronometro(config), "de 45 s (nivel 1) a 1 min (nivel 10), y 1 min 15 s en series numéricas de nivel 8 a 10");
+  const { por_subtema, ...sinSubtemas } = config.cronometro;
+  assert.equal(rangoCronometro({ ...config, cronometro: sinSubtemas }), "de 45 s (nivel 1) a 1 min (nivel 10)");
+  // Varios tramos: cada uno con su tiempo, y un nivel suelto sin «a».
+  const tramos = { ...config.cronometro, por_subtema: { logica: [45, 45, 45, 60, 60, 60, 90, 75, 75, 60] } };
+  assert.equal(rangoCronometro({ ...config, cronometro: tramos }), "de 45 s (nivel 1) a 1 min (nivel 10), y 1 min 30 s en acertijos de lógica de nivel 7 y 1 min 15 s en acertijos de lógica de nivel 8 a 9");
 });

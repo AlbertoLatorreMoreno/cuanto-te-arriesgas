@@ -142,8 +142,8 @@ function vistaAnuncioFinal(app, p, t) {
     : null;
   // Con finales propias aún no se sabe qué saldrá (se elige al pasar el móvil): de tema libre, pregunta o reto.
   const tiempo = t.categoria
-    ? p.cronometro && segundosCronometro(app.config, t.categoria, t.nivelFinal)
-      ? `⏱ Tendrá ${duracionLegible(segundosCronometro(app.config, t.categoria, t.nivelFinal))} para responder.`
+    ? p.cronometro && segundosCronometro(app.config, t.categoria, t.nivelFinal, t.subtema)
+      ? `⏱ Tendrá ${duracionLegible(segundosCronometro(app.config, t.categoria, t.nivelFinal, t.subtema))} para responder.`
       : null
     : p.cronometro
       ? "⏱ Si es un reto o de cálculo, irá con tiempo."

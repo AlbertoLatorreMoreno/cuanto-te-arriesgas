@@ -4,7 +4,7 @@
 
 ---
 
-## Estado (28 de octubre de 2026)
+## Estado (29 de octubre de 2026)
 
 | Fase | Estado | Comprobado con |
 |---|---|---|
@@ -33,6 +33,7 @@
 | 22 · Revisión de seguridad | ✅ Hecha | Repositorio, historial, web publicada y hoja revisados: nada privado a la vista. Arreglados un freno a las retiradas masivas con datos falsos, el filtro de lo que se descarga de la hoja, los nombres en el informe y una CSP estricta en la app. Pruebas nuevas y comprobado en el navegador |
 | 23 · Temas nicho y tema de cada jugador | ✅ Hecha | Seis temas y 250 preguntas escritas a mano y revisadas una a una; cada jugador elige el suyo y le sale en uno de cada 5 turnos normales. 8 pruebas nuevas del motor, las 200 partidas al azar y las 50 con el banco real juegan con temas, prueba de calibración con un tema y del validador; probado en el navegador a 375×812 y 320×640, en claro y oscuro. Informe y simulaciones en `docs/informe_temas.md` |
 | 24 · Seguridad: quién puede leer los datos | ✅ Hecha (falta publicar el script nuevo) | Móvil, hoja de Google, ordenador y repositorio revisados. Arreglados tres accesos posibles: probar códigos de descarga a ciegas, el código saliendo hacia otra dirección y la CSP abierta a cualquier script de Google. Pruebas de ataque nuevas y comprobado en el navegador; 30 partidas simuladas seguidas con temas |
+| 25 · Rondas divertidas más difíciles | ⏳ Pendiente (hecho el tiempo de Mates) | Pedida el 29 de octubre: que conseguir k aciertos cueste como una pregunta de nivel k, contenido más difícil y formatos de ordenar. Hecho: Mates de nivel 8 a 10 con 1 min, y 1 min 15 s en las series numéricas |
 
 **Cambios respecto al plan, decididos al construir:**
 
@@ -46,7 +47,7 @@
 
 - **Horquilla de nivel en «Revisar preguntas».** Además de «más fácil / sí / más difícil», se puede tocar el nivel que le pondrías, o dos para una horquilla («entre un 4 y un 5»). La calibración lo usa como un intervalo del nivel percibido (sección 3.2). En partida se mantienen los tres botones, para no alargar el turno.
 - **Modo narrador.** Al crear la partida se elige «Pasando el móvil» o «Con narrador»: una persona que no juega se queda el móvil, pregunta las apuestas, lee todas las preguntas y marca el resultado. No hay pantalla de pasar el móvil; las preguntas leídas cuentan como vistas por el narrador, para que no le salgan si otro día juega.
-- **Cronómetro en Mates y lógica** (opción de la partida, activada por defecto). De 30 s en los niveles 1–2 a 2 min en los 9–10 (`config.cronometro`); desde la fase 14, 45 s en los niveles 1–3, 1 min en los 4–7 y 1 min 30 s en los 8–10. Quien lee lo pone al terminar de leer; al acabarse suena, vibra si el móvil puede y se pone en rojo: hay que responder ya. Cada respuesta guarda si había cronómetro y si se agotó, y el informe de calibración compara aciertos con y sin él. Los niveles se siguen calibrando con todas las respuestas juntas: si alternáis con y sin cronómetro, los de Mates quedan entre medias.
+- **Cronómetro en Mates y lógica** (opción de la partida, activada por defecto). De 30 s en los niveles 1–2 a 2 min en los 9–10 (`config.cronometro`); desde la fase 14, 45 s en los niveles 1–3, 1 min en los 4–7 y 1 min 30 s en los 8–10; desde la fase 25, 1 min también en los 8–10, salvo las series numéricas, con 1 min 15 s (`config.cronometro.por_subtema`). Quien lee lo pone al terminar de leer; al acabarse suena, vibra si el móvil puede y se pone en rojo: hay que responder ya. Cada respuesta guarda si había cronómetro y si se agotó, y el informe de calibración compara aciertos con y sin él. Los niveles se siguen calibrando con todas las respuestas juntas: si alternáis con y sin cronómetro, los de Mates quedan entre medias.
 - **Tamaños para ordenador.** Con pantalla ancha, «Revisar preguntas», «Nueva partida» y «Datos» se ven en dos columnas (en la revisión, la pregunta a la izquierda y la valoración a la derecha) y caben sin desplazarse en 1366×650. En el móvil, «Guardar y seguir» y «Empezar» quedan siempre a la vista, abajo.
 
 **Segunda revisión (mismo día): lo que se encontró y se corrigió**
@@ -98,7 +99,7 @@ Un juego que se pueda jugar de verdad con amigos y que, mientras se juega, recoj
 | Rondas divertidas | Si se activan al crear la partida (por defecto, sí), una casilla de cada bloque de 8 lleva una estrella ★ (3 en la corta y 6 en la media, nunca seguidas). Quien empieza su turno en una juega una ronda en vez de una pregunta, sin apuesta: una lista («los doce apóstoles») o una ráfaga de descripciones («¿de qué país es esta bandera?»), con su tiempo. Quien lee marca los aciertos y se avanza una casilla por cada uno (como mucho, hasta la meta). En la final no hay rondas. Quien lee puede cambiar la ronda, como una pregunta. |
 | Victoria | Quien acierta su final, si nadie más la acierta en esa ronda: los que van detrás en el orden (llevan un turno menos) y ya están en la meta juegan su final, y si la aciertan, empatan. Con empate, ninguno gana ni pierde, salvo que se juegue la **ronda de oro**: cada empatado responde una final de nivel 8; si solo la acierta uno, gana; si la aciertan varios, siguen solo ellos, y si nadie, otra ronda. |
 | Deshacer | Cualquier paso se puede deshacer, también de turnos ya cerrados (hasta 30 pasos atrás), mientras no se pase a los resultados finales. Al deshacer, los registros de esos pasos se borran. |
-| Otros | Cronómetro opcional en Mates y lógica (de 45 s a 1 min 30 s según el nivel; también en las finales de cálculo), papel y boli permitidos en mates, sin repetir preguntas mientras queden sin ver. Solo puede haber una partida guardada: empezar otra pide confirmación. |
+| Otros | Cronómetro opcional en Mates y lógica (de 45 s a 1 min según el nivel, y 1 min 15 s en las series numéricas de nivel 8 a 10; también en las finales de cálculo), papel y boli permitidos en mates, sin repetir preguntas mientras queden sin ver. Solo puede haber una partida guardada: empezar otra pide confirmación. |
 
 ### Tabla de aciertos objetivo
 
@@ -448,6 +449,13 @@ Pedido por el usuario el 28 de octubre, antes de publicar los temas: «céntrate
 - **Pruebas:** el ataque de códigos a ciegas contra el script (con la caché simulada), las direcciones a las que no sale el código y la CSP.
 - *Pendiente (le toca al usuario):* pegar `herramientas/apps_script.gs` en el editor de Apps Script, con su código en la línea de `CODIGO_DESCARGA`, y publicarlo como *Nueva versión*. Hasta entonces sigue el script anterior: funciona igual, pero sin el cierre tras los intentos fallidos.
 
+### Fase 25 — Rondas divertidas más difíciles ⏳
+Pedido por el usuario el 29 de octubre: las rondas ★ son demasiado fáciles. Acertar 8 o 9 banderas es muy sencillo si son de Europa o conocidas, y alguna ronda más era demasiado fácil.
+- **Que la dificultad escale.** Conseguir 5 aciertos tendría que ser tan difícil como acertar una pregunta de nivel 5, y 7 como una de nivel 7: la probabilidad de llegar a k aciertos, cerca de la de la tabla de aciertos objetivo (5 → 50 %, 7 → 31 %, 9 → 11 %). Ahora la dificultad apenas crece de un acierto al siguiente.
+- **Contenido más difícil.** Banderas de fuera de Europa y poco conocidas, elementos cada vez más raros dentro de una misma ronda y revisar una a una las 34 rondas para cambiar o endurecer las fáciles.
+- **Formatos nuevos**, como «ordena por altura» (o por año, población, distancia…).
+- **Menos tiempo en Mates alta** ✅ (pedido el mismo día). Los niveles 8, 9 y 10 tenían 1 min 30 s, más que los 4–7 (1 min). Decidido con el usuario: 1 min 15 s en las series numéricas, las más largas, y 1 min en el resto. `config.cronometro.por_subtema` da a un subtema su propia tabla de tiempos; «Cómo se juega» y el anuncio del turno lo explican solos («y 1 min 15 s en series numéricas de nivel 8 a 10»). Con la misma regla, las dos finales de cálculo que tenían 1 min 30 s (111 111 111² y los cuadrados del tablero de ajedrez, de patrón) pasan a 1 min 15 s y suben de versión; las demás ya tenían 1 min. Pruebas nuevas del tiempo por subtema y del texto.
+
 ---
 
 ## 6. Revisión de huecos
@@ -559,3 +567,4 @@ Cada vuelta ejecuta todas las pruebas y revisa una parte distinta del proyecto.
 | 52 | 28-10-2026 | Fase 23: el tema elegido en los datos de cada turno y su recuento en el informe | Las pruebas de partidas al azar se habían vuelto lentas (de 46 a 71 s): el banco sintético incluye ahora los temas y cada partida recalculaba el índice. Las pruebas reutilizan el índice con el mismo banco: ahora tardan 38 s, y las 50 partidas con el banco real, 1,5 s en vez de 17. Al revisar el informe salió que la sección «Temas» decía que la calibración «sube» los niveles de un tema que se acierta de más, cuando los baja: corregido | Todas en verde (Node 125, análisis 37, herramientas 48, generador 22) |
 | 53 | 28-10-2026 | Fase 24: quién puede leer los datos (móvil, hoja de Google, ordenador, repositorio y CSP) | Tres arreglos: cierre de la descarga tras 10 códigos equivocados, el código solo sale hacia una dirección de Apps Script y la CSP solo deja conectar con el script de la app. Nada privado en lo publicable. Al probarlo se vio que una petición bloqueada por la CSP no llega a salir del navegador | Todas en verde (Node 126, análisis 38, herramientas 49, generador 22) |
 | 54 | 28-10-2026 | Fase 23: contraste con fuentes de las preguntas de los temas | Diez preguntas corregidas, tres de ellas con versión nueva (Gigamesh, «Endgame» y Edimburgo) y siete solo en la explicación (detalle en la fase 23). Fugas: 473 relaciones para 1170 preguntas, como mucho 14 para una | Validador sin errores; Node (banco, simulación y temas) 25, análisis 38, herramientas 49 |
+| 55 | 29-10-2026 | Fase 25 (parte): menos tiempo en Mates de nivel 8 a 10, y la fase apuntada | Decidido con el usuario: 1 min en los niveles 8–10 (antes 1 min 30 s) y 1 min 15 s en las series numéricas, con una tabla por subtema (`cronometro.por_subtema`). Las dos finales de cálculo con 1 min 30 s, a 1 min 15 s y con versión nueva. En el navegador, a 375×812: serie de nivel 9 con 1 min 15 s y cálculo de nivel 9 con 1 min, y los textos de «Cómo se juega», «Nueva partida» y el anuncio. Corregido: «Nueva partida» añadía «, según el nivel» al texto, que ya lo dice. Datos de prueba borrados. Pendiente de la fase: rondas más difíciles | Todas en verde (Node 126, herramientas 49, análisis 38, generador 22); validador sin errores |

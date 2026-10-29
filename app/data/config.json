@@ -9,7 +9,7 @@
     { "id": "media", "nombre": "Media", "puntos": 50, "paso_final": 8, "duracion": "~70 min con 4 jugadores" }
   ],
   "final": { "nivel_base": 8, "nivel_max": 10, "archivo": "data/finales.json", "objetivo_acierto": [0.12, 0.06, 0.03] },
-  "cronometro": { "categorias": ["mates"], "segundos_por_nivel": [45, 45, 45, 60, 60, 60, 60, 90, 90, 90] },
+  "cronometro": { "categorias": ["mates"], "segundos_por_nivel": [45, 45, 45, 60, 60, 60, 60, 60, 60, 60], "por_subtema": { "series_num": [45, 45, 45, 60, 60, 60, 60, 75, 75, 75] } },
   "rondas": { "archivo": "data/rondas.json", "cada": 8, "media_aviso": { "baja": 1, "alta": 6, "minimo_jugadas": 3 } },
   "envio": { "url": "https://script.google.com/macros/s/AKfycbwmEaJsXS577ocwJ9Pzo_9MFXNa_qoUW04XRjGSRxGY3dumoKUZ2ubep6eeDwzc0u0NIA/exec" },
   "categorias": [
