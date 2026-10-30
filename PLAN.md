@@ -467,7 +467,7 @@ Pedido por el usuario el 30 de octubre: en «Revisar preguntas» la respuesta sa
 - **Vistas al ver la respuesta** ✅. La pregunta cuenta como vista para quien revisa en cuanto ve la respuesta (o señala), aunque la salte sin valorarla: antes, saltarla después de verla dejaba que le saliera en partida.
 - **Datos:** el registro `revision` lleva `acierto` y, en las de mapa, el punto señalado y la distancia (`docs/esquema_datos.md`). `descargar.py` y el script de Google ya aceptaban esos campos. La calibración no los usa todavía.
 - **Código:** el mapa del resultado, el encuadre inicial, la zona de acierto y el bloque de la respuesta pasan de `juego.js` a `comun.js`, para usarlos en las dos pantallas. Cada fase de la revisión es una pantalla (`montarPantalla` con clave): al marcar una valoración ya no sube la página.
-- **Probado en el navegador** (puerto 8010, a 375×812 y 1280×800): una de Ciencias (acertada, corregida a fallada, valorada «sí») y una de Localízalo (señalada a 500 km, horquilla 9–10), con los registros guardados como se esperaba; las dos columnas en el ordenador. Datos de prueba borrados.
+- **Probado en el navegador** (puerto 8010, a 375×812 y 1280×800): una de Ciencias (acertada, corregida a fallada, valorada «sí») y una de Localízalo (señalada a 500 km, horquilla 9–10), con los registros guardados como se esperaba; las dos columnas en el ordenador. Datos de prueba borrados. Publicada el 30 de octubre (957ff5c), tras revisar lo que se subía.
 
 ---
 
