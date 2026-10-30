@@ -349,24 +349,33 @@ def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
         else:
             aviso = cfg["rondas"].get("media_aviso") or {}
             minimo = aviso.get("minimo_jugadas", 3)
-            add("| Ronda | Tipo | Veces | Aciertos de media | Máximo | De | Tiempo | Cambiada | Mala | |")
-            add("|---|---|---|---|---|---|---|---|---|---|")
+            desvio = aviso.get("prevista")
+            add("| Ronda | Tipo | Veces | Aciertos de media | Prevista | Máximo | De | Tiempo | Cambiada | Mala | |")
+            add("|---|---|---|---|---|---|---|---|---|---|---|")
             for f in ro["tabla"]:
-                tipo = "ráfaga" if f["tipo"] == "rafaga" else ("lista" if f["cerrada"] else "lista abierta")
+                tipo = {"rafaga": "ráfaga", "ordenar": "ordenar"}.get(f["tipo"]) or ("lista" if f["cerrada"] else "lista abierta")
+                prevista = f.get("prevista")
                 if f["veces"] < minimo:
                     nota = "pocos datos"
                 elif aviso.get("alta") is not None and f["media"] > aviso["alta"]:
                     nota = "da muchas casillas: baja su tiempo"
                 elif aviso.get("baja") is not None and f["media"] < aviso["baja"]:
                     nota = "da muy pocas: sube su tiempo"
+                elif desvio is not None and prevista is not None and f["media"] > prevista + desvio:
+                    nota = "más fácil de lo previsto: sube el nivel de sus elementos o baja el tiempo"
+                elif desvio is not None and prevista is not None and f["media"] < prevista - desvio:
+                    nota = "más difícil de lo previsto: baja el nivel de sus elementos o sube el tiempo"
                 else:
                     nota = ""
                 maximo = "—" if f["maximo"] is None else f"{f['maximo']:g}"
                 de = "—" if tipo == "lista abierta" else f["total"]
-                add(f"| {f['titulo']} | {tipo} | {f['veces']} | {num(f['media'], 1)} | {maximo} | {de} | {f['segundos']} s | {f['cambiada']} | {f['malas']} | {nota} |")
+                add(f"| {f['titulo']} | {tipo} | {f['veces']} | {num(f['media'], 1)} | {num(prevista, 1)} | {maximo} | {de} | {f['segundos']} s | "
+                    f"{f['cambiada']} | {f['malas']} | {nota} |")
             add("")
-            add(f"Media de referencia: una pregunta bien apostada da unos 2,8 puntos por turno. Avisa si una ronda da de media más de "
-                f"{num(aviso.get('alta'), 0)} casillas o menos de {num(aviso.get('baja'), 0)} (con al menos {minimo} jugadas). "
+            add(f"Media de referencia: una pregunta bien apostada da unos 2,8 puntos por turno. «Prevista» son los aciertos que debería "
+                "dar la ronda con los niveles de sus elementos (fase 25: sacar k cuesta como acertar una pregunta de nivel k, así que "
+                f"rondan los 4,5). Avisa si una ronda da de media más de {num(aviso.get('alta'), 0)} casillas o menos de "
+                f"{num(aviso.get('baja'), 0)}, o se separa de la prevista en más de {num(desvio, 1)} (con al menos {minimo} jugadas). "
                 "Si cambias el tiempo o los elementos de una ronda, sube su `v`: sus datos anteriores dejan de contar aquí.")
             fuera = []
             if ro["repetidas"]:

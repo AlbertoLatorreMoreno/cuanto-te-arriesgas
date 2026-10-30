@@ -460,6 +460,7 @@ def principal(argv=None) -> int:
     ap.add_argument("--min-celda", type=int, default=2, help="mínimo de preguntas por subtema y nivel (2)")
     ap.add_argument("--candidatas", type=Path, help="valida un archivo de candidatas contra el banco")
     ap.add_argument("--silencioso", action="store_true", help="no muestra avisos ni la tabla de cobertura")
+    ap.add_argument("--curvas", action="store_true", help="muestra lo difícil que es cada ronda divertida")
     args = ap.parse_args(argv)
 
     config = cargar_config()
@@ -503,6 +504,9 @@ def principal(argv=None) -> int:
         actuales_finales = validar_lock(finales, inf, vf.LOCK_FINALES, vf.huella_final)
         print(f"Preguntas en el banco: {len(banco)}")
         print(vr.resumen(rondas))
+        if args.curvas:
+            for linea in vr.curvas(rondas, config):
+                print("  ·", linea)
         print(vf.resumen(finales))
         if not args.silencioso:
             imprimir_cobertura(matriz, args.min_celda, config)

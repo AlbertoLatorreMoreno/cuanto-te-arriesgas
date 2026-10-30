@@ -1,87 +1,126 @@
 {
  "ron-apostoles": {
-  "v": 1,
-  "huella": "33535bc78528"
+  "v": 2,
+  "huella": "1f749f345d74"
  },
  "ron-banderas-europa": {
-  "v": 1,
-  "huella": "19eb3b2bc479"
+  "v": 2,
+  "huella": "6c8dfd3efb98"
  },
  "ron-banderas-mundo": {
-  "v": 1,
-  "huella": "05eb93831b40"
+  "v": 2,
+  "huella": "86836c33d433"
  },
  "ron-calculo-mental": {
-  "v": 2,
-  "huella": "481112da9c3b"
+  "v": 3,
+  "huella": "1bf695523c05"
  },
  "ron-campeones-eurocopa": {
-  "v": 1,
-  "huella": "a03a4b1535cd"
+  "v": 2,
+  "huella": "65e801bf8a32"
  },
  "ron-canarias": {
-  "v": 1,
-  "huella": "d22e33693632"
+  "v": 2,
+  "huella": "fc96aea2c800"
  },
  "ron-capitales-autonomias": {
   "v": 1,
-  "huella": "d0230ba53cfd"
+  "huella": "d0230ba53cfd",
+  "eliminada": true
  },
  "ron-capitales-europa": {
-  "v": 2,
-  "huella": "d5e1d8c4d400"
+  "v": 3,
+  "huella": "3ffc337526d7"
+ },
+ "ron-capitales-sudamerica": {
+  "v": 1,
+  "huella": "cd44ab69f44a"
  },
  "ron-comunidades-autonomas": {
   "v": 1,
-  "huella": "b669c4ed985a"
+  "huella": "b669c4ed985a",
+  "eliminada": true
+ },
+ "ron-comunidades-sin-mar": {
+  "v": 1,
+  "huella": "6525a4c1b87b"
  },
  "ron-deportes-pelota": {
-  "v": 1,
-  "huella": "f96c89879694"
+  "v": 2,
+  "huella": "e144ba1e3c75"
  },
  "ron-dioses-olimpo": {
-  "v": 1,
-  "huella": "b94cf5c37626"
+  "v": 2,
+  "huella": "0e509bd00f4a"
  },
  "ron-elementos-una-letra": {
-  "v": 1,
-  "huella": "b8bcf1a7b17d"
+  "v": 2,
+  "huella": "5815511a437b"
  },
  "ron-episodios-star-wars": {
-  "v": 1,
-  "huella": "83a01e459d68"
+  "v": 2,
+  "huella": "aa9973bb43d0"
  },
  "ron-fronteras-alemania": {
   "v": 1,
-  "huella": "3fbb8837bce6"
+  "huella": "3fbb8837bce6",
+  "eliminada": true
+ },
+ "ron-fronteras-austria": {
+  "v": 1,
+  "huella": "213021fedb60"
  },
  "ron-gases-nobles": {
   "v": 1,
   "huella": "34a2426c4edb"
  },
  "ron-gentilicios": {
-  "v": 1,
-  "huella": "f341ee79315f"
+  "v": 2,
+  "huella": "e9ddb6bf7d89"
  },
  "ron-horoscopo-chino": {
-  "v": 1,
-  "huella": "5fb8e0a74bc4"
+  "v": 2,
+  "huella": "79344261f7b2"
  },
  "ron-libros-harry-potter": {
-  "v": 1,
-  "huella": "9287ebd93bb6"
+  "v": 2,
+  "huella": "ffe81dfb2f7a"
  },
  "ron-logos-coches": {
-  "v": 1,
-  "huella": "a4d69390f01f"
+  "v": 2,
+  "huella": "2f049c2b12c3"
  },
  "ron-maravillas-antiguas": {
   "v": 1,
   "huella": "da2fda2764c1"
  },
  "ron-monumentos-pais": {
+  "v": 2,
+  "huella": "3476ffc7e3bb"
+ },
+ "ron-ordenar-astros": {
   "v": 1,
-  "huella": "66f0a9dc3532"
+  "huella": "1912d8fc13a2"
+ },
+ "ron-ordenar-distancias": {
+  "v": 1,
+  "huella": "bbc8841912b2"
+ },
+ "ron-ordenar-historia": {
+  "v": 1,
+  "huella": "8f54c2016b1f"
+ },
+ "ron-ordenar-montanas": {
+  "v": 1,
+  "huella": "e5eec124e25b"
+ },
+ "ron-ordenar-peliculas": {
+  "v": 1,
+  "huella": "61c07790891d"
+ },
+ "ron-ordenar-poblacion": {
+  "v": 1,
+  "huella": "2651fb389db9"
  },
  "ron-paises-centroamerica": {
   "v": 1,
@@ -89,50 +128,60 @@
  },
  "ron-paises-sudamerica": {
   "v": 1,
-  "huella": "6b2253eaf1ca"
+  "huella": "6b2253eaf1ca",
+  "eliminada": true
  },
  "ron-pecados-capitales": {
-  "v": 1,
-  "huella": "8a3ccf3fe698"
+  "v": 2,
+  "huella": "f38397916b78"
  },
  "ron-personajes-rosas": {
   "v": 1,
   "huella": "f85e676e8e5e"
  },
  "ron-pokemon-fuego": {
-  "v": 1,
-  "huella": "6da432695ddf"
+  "v": 2,
+  "huella": "189bce013281"
  },
  "ron-provincias-castilla-leon": {
   "v": 1,
-  "huella": "f02291a65db9"
+  "huella": "f02291a65db9",
+  "eliminada": true
+ },
+ "ron-provincias-portugal": {
+  "v": 1,
+  "huella": "0a76fefef6cb"
  },
  "ron-que-animal": {
-  "v": 2,
-  "huella": "9ad3cd664a3c"
+  "v": 3,
+  "huella": "efd560f77ee3"
  },
  "ron-que-deporte": {
-  "v": 2,
-  "huella": "c3ab62c80d22"
+  "v": 3,
+  "huella": "2c6bab1211fd"
  },
  "ron-que-pelicula": {
-  "v": 1,
-  "huella": "0a3477d74e79"
+  "v": 2,
+  "huella": "a952580dc51e"
  },
  "ron-reyes-borbones": {
+  "v": 2,
+  "huella": "69d85856b396"
+ },
+ "ron-rios-ciudades": {
   "v": 1,
-  "huella": "2aa9189dfe8d"
+  "huella": "5c877603009a"
  },
  "ron-siete-enanitos": {
   "v": 1,
   "huella": "1dc414634bee"
  },
  "ron-simbolos-quimicos": {
-  "v": 2,
-  "huella": "40ac94854161"
+  "v": 3,
+  "huella": "13d3c4bb8605"
  },
  "ron-superheroes-marvel": {
-  "v": 1,
-  "huella": "0efbaca4bc2f"
+  "v": 2,
+  "huella": "5c37753ab78a"
  }
 }

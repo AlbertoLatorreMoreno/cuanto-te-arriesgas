@@ -91,8 +91,10 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
             "p",
             {},
             `Si las activáis al empezar, una de cada ${app.config.rondas.cada} casillas lleva una estrella. Quien empieza su turno en una juega una ronda en vez de una pregunta, y sin apuesta: ` +
-              "o nombra todos los que pueda de una lista («los doce apóstoles»), o acierta las descripciones que le van leyendo («¿de qué país es esta bandera?»). " +
-              "Quien lee pone el tiempo y marca los aciertos, y se avanza una casilla por cada uno. En las listas abiertas, como «personajes rosas», decide el grupo.",
+              "o nombra todos los que pueda de una lista («los doce apóstoles»), o acierta las descripciones que le van leyendo («¿de qué país es esta bandera?»), " +
+              "o coloca en su sitio lo que le van diciendo («¿el Mont Blanc es más alto o más bajo que el Teide?»), hasta el primer fallo. " +
+              "Quien lee pone el tiempo y marca los aciertos, y se avanza una casilla por cada uno. En las listas abiertas, como «personajes rosas», decide el grupo. " +
+              "Cada acierto cuesta más que el anterior: sacar 5 es tan difícil como acertar una pregunta de nivel 5, y sacar 9, como una de nivel 9.",
           )
         : null,
       h("h2", {}, "La meta y la pregunta final"),

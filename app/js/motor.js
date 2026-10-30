@@ -21,8 +21,9 @@ export const FASE = Object.freeze({
   FIN: "fin",
 });
 
-// Rondas divertidas: «lista» (nombra todos los que puedas) y «rafaga» (descripciones seguidas).
-export const TIPOS_RONDA = ["lista", "rafaga"];
+// Rondas divertidas: «lista» (nombra todos los que puedas), «rafaga» (descripciones seguidas) y
+// «ordenar» (colocar cada elemento entre los ya colocados, por altura, por año…, hasta el primer fallo).
+export const TIPOS_RONDA = ["lista", "rafaga", "ordenar"];
 
 export class ErrorJuego extends Error {}
 
@@ -176,7 +177,7 @@ function prepararTurno(partida, ctx) {
     rondaDatos: null,
     marcados: [], // índices de los elementos acertados
     extra: 0, // en una lista abierta: respuestas que valen y no están en la lista de referencia
-    indice: 0, // en una ráfaga: la descripción que toca
+    indice: 0, // en una ráfaga: la descripción que toca; en una de ordenar, el elemento que hay que colocar
     aciertos: null,
     // Final propia (app/data/finales.json): una pregunta o un reto «acierta k de n», sin categoría.
     final: null,
@@ -213,7 +214,7 @@ function temaElegido(partida, clave) {
 }
 
 // El turno guarda una copia de la ronda, como de la pregunta: la partida guardada no depende del archivo.
-const CAMPOS_RONDA = ["id", "v", "tipo", "titulo", "enunciado", "segundos", "cerrada", "nota", "elementos"];
+const CAMPOS_RONDA = ["id", "v", "tipo", "titulo", "enunciado", "segundos", "cerrada", "orden", "nota", "elementos"];
 
 function asignarRonda(partida, ctx, excluir = new Set()) {
   const t = partida.turno;
@@ -226,10 +227,14 @@ function asignarRonda(partida, ctx, excluir = new Set()) {
   t.tiempoAgotado = null;
   t.marcados = [];
   t.extra = 0;
-  t.indice = 0;
+  // En una de ordenar, el primero se da colocado: se empieza por el segundo.
+  t.indice = r.ronda.tipo === "ordenar" ? 1 : 0;
   partida.usadas.push(r.ronda.id);
   return true;
 }
+
+// En una de ordenar, la ronda se acaba al primer fallo: todos los colocados hasta ahora, bien.
+export const falloAlOrdenar = (t) => t.rondaDatos?.tipo === "ordenar" && t.marcados.length < t.indice - 1;
 
 // La copia de la final propia que guarda el turno.
 const CAMPOS_FINAL = ["id", "v", "nivel", "tipo", "titulo", "pregunta", "respuesta", "tambien_vale", "criterio", "explicacion", "enunciado", "minimo", "segundos", "nota", "elementos"];
@@ -509,12 +514,14 @@ export function contarOtro(partida0, delta) {
 }
 
 // Ráfaga (o reto final, que se juega igual): la descripción actual, acertada o pasada; se va a la siguiente.
+// En una de ordenar, igual: el elemento que toca, bien o mal colocado; tras uno mal colocado, ya no hay más.
 export function marcarRafaga(partida0, acierto) {
   const partida = clonar(partida0);
   const t = partida.turno;
   if (t.reto) exigir(t.fase === FASE.LECTURA, "Ahora no se puede hacer eso en el reto.");
-  else exigirRonda(t, "rafaga");
+  else exigirRonda(t, t.rondaDatos?.tipo === "ordenar" ? "ordenar" : "rafaga");
   exigir(typeof acierto === "boolean", "Acertada o pasada.");
+  exigir(!falloAlOrdenar(t), "Al primer fallo se acaba la ronda.");
   exigir(t.indice < (t.reto ? t.finalDatos : t.rondaDatos).elementos.length, "No quedan más descripciones.");
   if (acierto) t.marcados = [...t.marcados, t.indice];
   t.indice++;
@@ -583,8 +590,11 @@ function registroRonda(partida, t, ctx) {
     v: r.v,
     tipo_ronda: r.tipo,
     segundos: r.segundos,
-    total: r.elementos.length, // elementos de la lista o descripciones de la ráfaga
-    leidos: r.tipo === "rafaga" ? t.indice : null, // descripciones a las que dio tiempo
+    // Elementos de la lista, descripciones de la ráfaga o, en una de ordenar, los que había que colocar
+    // (todos menos el primero, que se da colocado).
+    total: r.tipo === "ordenar" ? r.elementos.length - 1 : r.elementos.length,
+    // Descripciones a las que dio tiempo; en una de ordenar, los que se intentaron colocar.
+    leidos: r.tipo === "rafaga" ? t.indice : r.tipo === "ordenar" ? t.indice - 1 : null,
     marcados: [...t.marcados].sort((a, b) => a - b),
     extra: t.extra,
     aciertos: t.aciertos,

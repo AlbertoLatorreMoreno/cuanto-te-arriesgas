@@ -181,7 +181,7 @@ Las preguntas están en `app/data/preguntas/<categoría>.json`, una por línea. 
 
 - **Si cambias el texto, la respuesta, «también vale» o el criterio de una pregunta, sube su `v`.** Así sus datos antiguos no se mezclan con los nuevos.
 - No borres preguntas: retíralas desde la calibración o deja que la marquen como mala.
-- Las rondas divertidas (listas y ráfagas) están en `app/data/rondas.json`. Cada una lleva su fuente, y si cambias su tiempo o sus elementos, sube también su `v`. El informe de calibración dice cuántas casillas da de media cada ronda, por si hay que ajustar su tiempo.
+- Las rondas divertidas (listas, ráfagas y de ordenar) están en `app/data/rondas.json`. Cada una lleva su fuente, y si cambias su tiempo o sus elementos, sube también su `v`. Cada elemento lleva su nivel, y el validador comprueba que sacar k aciertos cueste como acertar una pregunta de nivel k (`py herramientas/validar_banco.py --curvas` enseña la dificultad de cada ronda). El informe de calibración dice cuántas casillas da de media cada ronda frente a las previstas, por si hay que ajustar su tiempo o sus niveles.
 - Las preguntas finales tienen su propio archivo, `app/data/finales.json`: más difíciles, de tema libre, de nivel 8, 9 o 10, y algunas son retos «acierta 4 de 5». Llevan fuente y la misma regla de la `v`. El informe dice cuánto se acierta cada una, por si hay que subirla de nivel.
 - Después de editar (valida a la vez el banco, las rondas y las finales):
   ```bash

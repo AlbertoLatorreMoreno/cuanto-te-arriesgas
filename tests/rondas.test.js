@@ -13,6 +13,7 @@ const RONDAS = rondasSinteticas();
 const LISTA = RONDAS.find((r) => r.tipo === "lista" && r.cerrada);
 const ABIERTA = RONDAS.find((r) => r.tipo === "lista" && !r.cerrada);
 const RAFAGA = RONDAS.find((r) => r.tipo === "rafaga");
+const ORDENAR = RONDAS.find((r) => r.tipo === "ordenar");
 
 // Partida corta con rondas en la que Luis empieza su turno en una casilla especial.
 function enRonda({ rondas = RONDAS, narrador = null, vistas = {}, jugadores = JUGADORES.slice(0, 2) } = {}) {
@@ -142,6 +143,35 @@ test("ráfaga: cada descripción se acierta o se pasa, y no se pasa de la últim
   assert.equal(reg.aciertos, 2);
 });
 
+test("ordenar: el primero se da colocado, cada uno bien colocado es un acierto y al primer fallo se acaba", () => {
+  let { p, ctx } = enRonda({ rondas: [ORDENAR] });
+  assert.equal(p.turno.indice, 1, "se empieza por el segundo");
+  assert.equal(p.turno.rondaDatos.orden, ORDENAR.orden, "el turno guarda también el orden de la fila");
+  p = hastaLectura(p);
+  assert.equal(M.falloAlOrdenar(p.turno), false);
+  for (const a of [true, true, false]) p = M.marcarRafaga(p, a).partida;
+  assert.deepEqual(p.turno.marcados, [1, 2], "los marcados son los elementos bien colocados");
+  assert.equal(p.turno.indice, 4);
+  assert.equal(M.falloAlOrdenar(p.turno), true);
+  assert.throws(() => M.marcarRafaga(p, true), /primer fallo/);
+  assert.throws(() => M.marcarElemento(p, 0), /no se puede/);
+  const pos = p.jugadores[1].pos;
+  p = M.terminarRonda(p, { tiempoAgotado: false }).partida;
+  assert.equal(p.turno.aciertos, 2);
+  assert.equal(p.jugadores[1].pos, pos + 2);
+  const reg = M.cerrarTurno(p, ctx).registros[0];
+  assert.equal(reg.tipo_ronda, "ordenar");
+  assert.equal(reg.total, ORDENAR.elementos.length - 1, "el total son los que había que colocar");
+  assert.equal(reg.leidos, 3, "se intentaron colocar tres");
+  assert.deepEqual(reg.marcados, [1, 2]);
+  // Sin fallos se puede llegar al último, y no más allá.
+  ({ p } = enRonda({ rondas: [ORDENAR] }));
+  p = hastaLectura(p);
+  while (p.turno.indice < ORDENAR.elementos.length) p = M.marcarRafaga(p, true).partida;
+  assert.throws(() => M.marcarRafaga(p, true), /No quedan/);
+  assert.equal(M.terminarRonda(p).partida.turno.aciertos, ORDENAR.elementos.length - 1);
+});
+
 test("una ronda no lleva más allá de la meta, y después toca la final", () => {
   let { p, ctx } = enRonda({ rondas: [LISTA] });
   p.jugadores[1].pos = p.meta - 2;
@@ -162,7 +192,7 @@ test("cambiar la ronda la anula, con su motivo, y saca otra distinta", () => {
   p = hastaLectura(p);
   const primera = p.turno.ronda;
   p = p.turno.rondaDatos.tipo === "lista" ? M.marcarElemento(p, 0).partida : M.marcarRafaga(p, true).partida;
-  assert.deepEqual(p.turno.marcados, [0]);
+  assert.deepEqual(p.turno.marcados, [p.turno.rondaDatos.tipo === "ordenar" ? 1 : 0]);
   const r = M.cambiarRonda(p, "conocida", ctx);
   assert.equal(r.registros[0].tipo, "ronda_anulada");
   assert.equal(r.registros[0].ronda, primera);
@@ -231,6 +261,14 @@ test("las rondas reales (app/data/rondas.json) se juegan con el motor", () => {
     assert.equal(p.turno.ronda, ronda.id);
     p = hastaLectura(p);
     const n = ronda.elementos.length;
+    if (ronda.tipo === "ordenar") {
+      // Todos bien colocados, menos el primero, que ya lo está.
+      for (let i = 1; i < n; i++) p = M.marcarRafaga(p, true).partida;
+      p = M.terminarRonda(p).partida;
+      assert.equal(p.turno.aciertos, n - 1, ronda.id);
+      assert.equal(M.cerrarTurno(p, ctx).registros[0].total, n - 1);
+      continue;
+    }
     for (let i = 0; i < n; i += 2) p = ronda.tipo === "lista" ? M.marcarElemento(p, i).partida : M.marcarRafaga(M.marcarRafaga(p, true).partida, false).partida;
     p = M.terminarRonda(p).partida;
     assert.equal(p.turno.aciertos, Math.ceil(n / 2), ronda.id);

@@ -1,6 +1,6 @@
 // Pantalla de partida: una vista por cada fase del turno.
 
-import { FASE, quienSigue } from "../motor.js";
+import { FASE, falloAlOrdenar, quienSigue } from "../motor.js";
 import { confirmar, dialogo, h, montarPantalla } from "../dom.js";
 import { etiquetaCat, estiloCat, marcador, nombreJugador, tablero, textoAlternativa } from "./comun.js";
 import { pantallaFin } from "./fin.js";
@@ -25,13 +25,13 @@ export function pantallaJuego(app) {
         [FASE.RESULTADO]: t.reto ? vistaResultadoReto : vistaResultado,
       };
   // Mientras se marca una lista, es la misma pantalla aunque cambie el contador: ni se bloquean los
-  // toques ni se sube la página. En una ráfaga (o un reto final), cada descripción nueva sí cuenta
-  // como pantalla nueva, para que un doble toque en «Acertó» no marque también la siguiente.
+  // toques ni se sube la página. En una ráfaga (o un reto final, o una de ordenar), cada descripción
+  // nueva sí cuenta como pantalla nueva, para que un doble toque en «Acertó» no marque también la siguiente.
   const clave =
     t.fase !== FASE.LECTURA
       ? null
       : t.ronda
-        ? `ronda|${p.id}|${p.n}|${t.ronda}|${t.rondaDatos.tipo === "rafaga" ? t.indice : ""}`
+        ? `ronda|${p.id}|${p.n}|${t.ronda}|${t.rondaDatos.tipo === "lista" ? "" : t.indice}`
         : t.reto
           ? `reto|${p.id}|${p.n}|${t.final}|${t.indice}`
           : null;
@@ -658,7 +658,19 @@ function vistaAnuncioRonda(app, p, t) {
   const jugador = nombreJugador(p, t.jugador);
   const lector = nombreJugador(p, t.lector);
   const pos = p.jugadores[p.idx].pos;
-  const cuantos = r.tipo === "rafaga" ? ` Son ${r.elementos.length} descripciones.` : r.cerrada ? ` Hay ${r.elementos.length}.` : "";
+  const cuantos =
+    r.tipo === "rafaga"
+      ? ` Son ${r.elementos.length} descripciones.`
+      : r.tipo === "ordenar"
+        ? ` Hay ${r.elementos.length - 1} para colocar.`
+        : r.cerrada
+          ? ` Hay ${r.elementos.length}.`
+          : "";
+  const reto = {
+    lista: `${jugador}, di todos los que puedas en ${duracionLegible(r.segundos)}.`,
+    rafaga: `${jugador}, acierta todas las que puedas en ${duracionLegible(r.segundos)}.`,
+    ordenar: `${jugador}, coloca en su sitio todos los que puedas en ${duracionLegible(r.segundos)}. Al primer fallo, se acaba.`,
+  }[r.tipo];
   return [
     marcador(p),
     tablero(app, p),
@@ -667,13 +679,7 @@ function vistaAnuncioRonda(app, p, t) {
       { class: "tarjeta tarjeta-ronda centrado" },
       h("p", { class: "texto-suave" }, "★ Ronda divertida"),
       h("h2", { class: "titulo-ronda" }, r.titulo),
-      h(
-        "p",
-        {},
-        r.tipo === "lista"
-          ? `${jugador}, di todos los que puedas en ${duracionLegible(r.segundos)}.`
-          : `${jugador}, acierta todas las que puedas en ${duracionLegible(r.segundos)}.`,
-      ),
+      h("p", {}, reto),
       h("p", { class: "texto-suave pequeno" }, `Sin apuesta: avanzas una casilla por cada acierto.${cuantos} Vas por ${pos} de ${p.meta}.`),
       t.alternativa === "repetida" ? h("p", { class: "nota" }, `Ya no quedaban rondas nuevas para ${jugador}: esta ya la ha visto.`) : null,
     ),
@@ -712,12 +718,14 @@ function vistaLecturaRonda(app, p, t) {
           r.nota ? h("p", { class: "texto-suave pequeno", style: { "margin-top": "8px" } }, r.nota) : null,
           h("button", { class: "boton-texto", onClick: () => pedirOtraRonda(app) }, "Cambiar ronda"),
         ),
-    r.tipo === "lista" ? cuerpoLista(app, t) : cuerpoRafaga(app, p, t),
+    r.tipo === "lista" ? cuerpoLista(app, t) : r.tipo === "ordenar" ? cuerpoOrdenar(app, p, t) : cuerpoRafaga(app, p, t),
     puesto ? h("button", { class: "boton-texto", onClick: () => pedirOtraRonda(app) }, "Cambiar ronda") : null,
     h(
       "div",
       { class: "columna acciones-fijas" },
-      bloqueReloj(app, p, t, { alAcabar: r.tipo === "lista" ? "¡Tiempo! Ya no vale decir más." : "¡Tiempo! Marca la última y termina." }),
+      bloqueReloj(app, p, t, {
+        alAcabar: { lista: "¡Tiempo! Ya no vale decir más.", rafaga: "¡Tiempo! Marca la última y termina.", ordenar: "¡Tiempo! Marca el que estaba colocando y termina." }[r.tipo],
+      }),
       h(
         "button",
         { class: "boton boton-primario boton-ancho", onClick: () => app.accion("terminarRonda", { tiempoAgotado: tiempoAgotado(p, t) }) },
@@ -793,6 +801,93 @@ function cuerpoRafaga(app, p, t, r = t.rondaDatos, { termina = "termina la ronda
   );
 }
 
+// De ordenar: la fila, de arriba abajo, en el orden de la ronda (de menor a mayor o al revés).
+const enOrden = (r, elementos) => [...elementos].sort((a, b) => (r.orden === "desc" ? b.valor - a.valor : a.valor - b.valor));
+
+// Dónde va `e` entre los ya colocados: lo que quien lee tiene que oír para darlo por bueno.
+function dondeVa(r, colocados, e) {
+  const fila = enOrden(r, colocados);
+  const i = enOrden(r, [...colocados, e]).indexOf(e);
+  if (i === 0) return `arriba del todo, antes de ${fila[0].texto}`;
+  if (i === fila.length) return `abajo del todo, después de ${fila[fila.length - 1].texto}`;
+  return `entre ${fila[i - 1].texto} y ${fila[i].texto}`;
+}
+
+const filaOrden = (r, elementos) =>
+  h(
+    "ol",
+    { class: "fila-orden" },
+    enOrden(r, elementos).map((e) => h("li", {}, h("span", {}, e.texto), h("small", {}, e.etiqueta))),
+  );
+
+// Quien lee ve lo ya colocado (con sus valores) y el que toca, con dónde va. Al primer fallo, se acaba.
+function cuerpoOrdenar(app, p, t) {
+  const r = t.rondaDatos;
+  const n = r.elementos.length;
+  if (!relojPuesto(p, t) && t.indice === 1) return h("p", { class: "texto-suave pequeno centrado" }, "Al poner el tiempo verás el primero que hay que colocar.");
+  const colocados = r.elementos.filter((_, i) => i === 0 || t.marcados.includes(i));
+  const fila = h("section", { class: "tarjeta columna" }, h("p", { class: "texto-suave pequeno" }, "Ya colocados"), filaOrden(r, colocados));
+  const bloque = (...hijos) => h("div", { class: "columna" }, ...hijos);
+  if (falloAlOrdenar(t)) {
+    const e = r.elementos[t.indice - 1];
+    return bloque(h("p", { class: "nota" }, `${e.texto} (${e.etiqueta}) iba ${dondeVa(r, colocados, e)}. Al primer fallo se acaba: termina la ronda.`), fila);
+  }
+  if (t.indice >= n) return bloque(h("p", { class: "nota" }, "¡Están todos colocados! Termina la ronda."), fila);
+  if (tiempoAgotado(p, t)) return bloque(h("p", { class: "nota" }, "Se acabó el tiempo: termina la ronda."), fila);
+  const e = r.elementos[t.indice];
+  return bloque(
+    h(
+      "section",
+      { class: "tarjeta columna" },
+      h("p", { class: "texto-suave pequeno" }, `Para colocar: ${t.indice} de ${n - 1}. Dile:`),
+      h("p", { class: "texto-pregunta pista-rafaga" }, e.texto),
+      h(
+        "div",
+        { class: "respuesta" },
+        h("p", { class: "texto-suave pequeno" }, `Va ${dondeVa(r, colocados, e)}`),
+        h("p", { class: "valor" }, e.etiqueta),
+      ),
+      h(
+        "div",
+        { class: "fila-botones" },
+        h("button", { class: "boton boton-grande", onClick: () => app.accion("marcarRafaga", false) }, "Mal colocado"),
+        h("button", { class: "boton boton-ok boton-grande", onClick: () => app.accion("marcarRafaga", true) }, "✓ Bien"),
+      ),
+    ),
+    fila,
+  );
+}
+
+// El resultado de una de ordenar: la fila completa de lo que se llegó a ver, y dónde iba el fallado.
+function resultadoOrdenar(app, p, t, n, detalle) {
+  const r = t.rondaDatos;
+  const vistos = r.elementos.slice(0, t.indice);
+  const colocados = r.elementos.filter((_, i) => i === 0 || t.marcados.includes(i));
+  const fallado = falloAlOrdenar(t) ? r.elementos[t.indice - 1] : null;
+  const sinVer = r.elementos.length - t.indice;
+  return [
+    h("section", { class: `resultado ${n ? "acierto" : "fallo"}` }, h("h2", {}, n ? `¡${cuenta(n, "acierto", "aciertos")}!` : "Ningún acierto"), h("p", {}, detalle)),
+    h(
+      "section",
+      { class: "tarjeta columna" },
+      fallado ? h("p", { class: "texto-suave pequeno" }, `${fallado.texto} (${fallado.etiqueta}) iba ${dondeVa(r, colocados, fallado)}.`) : null,
+      sinVer ? h("p", { class: "texto-suave pequeno" }, `Quedaron ${sinVer} por colocar.`) : null,
+      h("p", { class: "texto-suave pequeno" }, "El orden:"),
+      filaOrden(r, vistos),
+      h("p", { class: "titulo-seccion", style: { "margin-top": "6px" } }, "¿Ronda mala?"),
+      h(
+        "div",
+        { class: "chips" },
+        app.config.motivos_mala.map((m) =>
+          h("button", { class: "chip", "aria-pressed": String(t.mala === m.id), onClick: () => app.accion("marcarMala", t.mala === m.id ? null : m.id) }, `⚑ ${m.nombre}`),
+        ),
+      ),
+    ),
+    marcador(p),
+    botonCerrarTurno(app, p),
+  ];
+}
+
 async function pedirOtraRonda(app) {
   const motivo = await dialogo("¿Por qué la cambias?", (cerrar) =>
     h(
@@ -815,6 +910,7 @@ function vistaResultadoRonda(app, p, t) {
     : t.posDespues >= p.meta
       ? `${jugador} llega a la meta. En su próximo turno, la pregunta final.`
       : `${jugador} avanza de ${t.posAntes} a ${t.posDespues}.`;
+  if (r.tipo === "ordenar") return resultadoOrdenar(app, p, t, n, detalle);
   const nombre = (e) => (r.tipo === "lista" ? e.texto : e.respuesta);
   // Lo que no se dijo: en una lista, todo lo no marcado; en una ráfaga, las leídas y pasadas.
   const faltan = r.elementos.filter((_, i) => !t.marcados.includes(i) && (r.tipo === "lista" || i < t.indice));

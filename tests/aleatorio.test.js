@@ -65,9 +65,16 @@ async function comprobar(s, almacen, donde) {
   for (const r of rondas) {
     assert.ok(p.especiales.length, `${donde}: ronda en una partida sin casillas especiales`);
     assert.equal(r.aciertos, r.marcados.length + r.extra, `${donde}: aciertos de la ronda mal contados`);
-    assert.ok(r.marcados.every((i) => i >= 0 && i < r.total) && new Set(r.marcados).size === r.marcados.length, `${donde}: marcados imposibles`);
-    assert.equal(r.leidos === null, r.tipo_ronda === "lista", `${donde}: «leidos» solo en las ráfagas`);
+    // En una de ordenar, el primero se da colocado: se marcan del 1 al total.
+    const [desde, hasta] = r.tipo_ronda === "ordenar" ? [1, r.total] : [0, r.total - 1];
+    assert.ok(r.marcados.every((i) => i >= desde && i <= hasta) && new Set(r.marcados).size === r.marcados.length, `${donde}: marcados imposibles`);
+    assert.equal(r.leidos === null, r.tipo_ronda === "lista", `${donde}: «leidos» solo en las ráfagas y las de ordenar`);
     if (r.tipo_ronda === "rafaga") assert.ok(r.marcados.every((i) => i < r.leidos), `${donde}: acierto en una descripción no leída`);
+    if (r.tipo_ronda === "ordenar") {
+      // Bien colocados seguidos desde el primero; como mucho, uno intentado después (el fallo).
+      assert.deepEqual(r.marcados, r.marcados.map((_, k) => k + 1), `${donde}: un acierto después de un fallo`);
+      assert.ok(r.leidos - r.aciertos <= 1, `${donde}: se siguió colocando tras fallar`);
+    }
   }
   if (p.turno.ronda) assert.equal(p.turno.esFinal, false, `${donde}: ronda en la final`);
   if (p.turno.final) assert.equal(p.turno.esFinal, true, `${donde}: final propia fuera de la final`);
@@ -135,6 +142,8 @@ async function jugar(semilla) {
         await s.ejecutar("contarOtro", azar() < 0.7 ? 1 : -1);
       } else if (t.rondaDatos.tipo === "rafaga" && t.indice < n && r < 0.85) {
         await s.ejecutar("marcarRafaga", azar() < 0.5);
+      } else if (t.rondaDatos.tipo === "ordenar" && t.indice < n && !M.falloAlOrdenar(t) && r < 0.85) {
+        await s.ejecutar("marcarRafaga", azar() < 0.75);
       } else {
         await s.ejecutar("terminarRonda", { tiempoAgotado: azar() < 0.5 });
         cuenta.rondas++;

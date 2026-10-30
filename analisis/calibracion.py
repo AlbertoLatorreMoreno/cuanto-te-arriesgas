@@ -572,7 +572,27 @@ def leer_restaurar(raiz: Path) -> list[str]:
 
 # ------------------------------------------------------------------ rondas divertidas
 # No entran en el modelo de niveles: por cada ronda se cuenta cuántas veces se ha jugado y cuántos
-# aciertos (casillas) da de media, para ajustar su tiempo si da demasiadas o muy pocas.
+# aciertos (casillas) da de media, frente a los que debería dar con los niveles de sus elementos, para
+# ajustar su tiempo o sus elementos si da demasiadas o muy pocas.
+
+def media_prevista(r: dict, config: dict) -> float | None:
+    """Los aciertos que debería dar de media la ronda, con los niveles de sus elementos y el mismo modelo
+    que el validador (`herramientas/validar_rondas.py`): quien juega acierta un elemento de nivel L con
+    logit P = h + logit(objetivo[L]), con la misma h para toda la ronda (desviación `rondas.curva.sd`).
+    En las de ordenar, el primero se da colocado y se para al primer fallo. None si falta algún nivel."""
+    elementos = (r.get("elementos") or [])[1 if r.get("tipo") == "ordenar" else 0:]
+    niveles = [e.get("nivel") for e in elementos if isinstance(e, dict)]
+    obj = np.array(config["objetivo_acierto"], dtype=float)
+    if not niveles or any(not isinstance(n, int) or isinstance(n, bool) or not 1 <= n <= len(obj) for n in niveles):
+        return None
+    sd = ((config.get("rondas") or {}).get("curva") or {}).get("sd", 1.5)
+    xs = np.linspace(-4, 4, 41)
+    pesos = np.exp(-xs ** 2 / 2)
+    pesos /= pesos.sum()
+    p = expit(xs[:, None] * sd + logit(obj[np.array(niveles) - 1])[None, :])
+    aciertos = np.cumprod(p, axis=1).sum(axis=1) if r.get("tipo") == "ordenar" else p.sum(axis=1)
+    return float(pesos @ aciertos)
+
 
 def leer_rondas(raiz: Path, config: dict) -> list[dict]:
     if not config.get("rondas"):
@@ -580,8 +600,10 @@ def leer_rondas(raiz: Path, config: dict) -> list[dict]:
     ruta = raiz / "app" / config["rondas"]["archivo"]
     if not ruta.exists():
         return []
+    # En una de ordenar, el total son los que hay que colocar: el primero se da colocado.
     return [{"id": r["id"], "v": int(r["v"]), "titulo": r["titulo"], "tipo": r["tipo"], "cerrada": bool(r.get("cerrada")),
-             "segundos": int(r["segundos"]), "total": len(r["elementos"])} for r in leer_json(ruta).get("rondas", [])]
+             "segundos": int(r["segundos"]), "total": len(r["elementos"]) - (1 if r["tipo"] == "ordenar" else 0),
+             "prevista": media_prevista(r, config)} for r in leer_json(ruta).get("rondas", [])]
 
 
 def _clave_titulo(titulo: str):
@@ -611,7 +633,7 @@ def estadisticas_rondas(registros: list[dict], rondas: list[dict]) -> dict:
     for id_ in dict.fromkeys([r["ronda"] for r in usar] + [r["ronda"] for r in anul]):
         a = [float(r["aciertos"]) for r in usar if r["ronda"] == id_ and r.get("aciertos") is not None]
         ref = info[id_]
-        tabla.append({**{k: ref[k] for k in ("id", "titulo", "tipo", "cerrada", "segundos", "total")},
+        tabla.append({**{k: ref.get(k) for k in ("id", "titulo", "tipo", "cerrada", "segundos", "total", "prevista")},
                       "veces": len(a), "media": sum(a) / len(a) if a else None, "maximo": max(a) if a else None,
                       "cambiada": sum(1 for r in anul if r["ronda"] == id_),
                       "malas": sum(1 for r in usar if r["ronda"] == id_ and r.get("mala") is not None)})

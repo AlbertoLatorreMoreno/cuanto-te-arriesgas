@@ -637,6 +637,35 @@ p {
   font-size: 1.35rem;
 }
 
+/* De ordenar: la fila con lo ya colocado, cada uno con su valor. */
+.fila-orden {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.fila-orden li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.fila-orden li small {
+  font-weight: 400;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 @media (min-width: 600px) {
   .rejilla-elementos {
     grid-template-columns: repeat(3, minmax(0, 1fr));

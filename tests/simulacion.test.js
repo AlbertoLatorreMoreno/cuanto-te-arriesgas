@@ -39,6 +39,9 @@ function simular(semilla, nJugadores, metaId, preguntas, vistas = {}, rondas = [
       for (let i = 0; i < n; i++) {
         if (p.turno.rondaDatos.tipo === "lista") {
           if (azar() < 0.4) p = aplicar(M.marcarElemento(p, i));
+        } else if (p.turno.rondaDatos.tipo === "ordenar") {
+          // De ordenar: cada uno, bien colocado al 80 %, hasta el primer fallo.
+          if (p.turno.indice < n && !M.falloAlOrdenar(p.turno) && azar() < 0.8) p = aplicar(M.marcarRafaga(p, azar() < 0.8));
         } else if (azar() < 0.8) p = aplicar(M.marcarRafaga(p, azar() < 0.5));
       }
       p = aplicar(M.terminarRonda(p, { tiempoAgotado: true }));

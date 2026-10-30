@@ -8,6 +8,7 @@ import copy
 import json
 import math
 import shutil
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -15,7 +16,8 @@ from pathlib import Path
 import numpy as np
 
 from calibracion import (RAIZ, Banco, Modelo, TablaObjetivo, ajustar, calibrar, contar, cortes_valoracion, leer_banco, leer_config,
-                         leer_exportaciones, log_prob_valoracion, preparar_datos, retiradas_por_marcas, vista_antes)
+                         leer_exportaciones, leer_rondas, log_prob_valoracion, media_prevista, preparar_datos, retiradas_por_marcas,
+                         vista_antes)
 from informe import escribir_csv, escribir_informe, tabla_niveles
 from modelo_filtro import CARACTERISTICAS, caracteristicas_de, entrenar_logistica_ridge, filtro_generador, prob_mala
 from simulacion import simular_exportacion
@@ -325,17 +327,18 @@ class TestRetiradaYRondas(unittest.TestCase):
 
     def test_rondas(self):
         tmp = Path(tempfile.mkdtemp(prefix="rondas-"))
+        reales = {r["id"]: r for r in leer_rondas(RAIZ, CONFIG)}
         try:
-            def ronda(id_, ronda_, aciertos, v=1, alternativa=None, mala=None):
+            def ronda(id_, ronda_, aciertos, v=None, alternativa=None, mala=None):
                 return {"id": id_, "tipo": "ronda", "ts": "2026-10-18T10:00:00.000Z", "partida": "pr", "turno": 1, "jugador": "ana",
-                        "lector": "luis", "ronda": ronda_, "v": v, "tipo_ronda": "lista", "segundos": 45, "total": 12, "leidos": None,
+                        "lector": "luis", "ronda": ronda_, "v": v or reales[ronda_]["v"], "tipo_ronda": "lista", "segundos": 45, "total": 12, "leidos": None,
                         "marcados": list(range(aciertos)), "extra": 0, "aciertos": aciertos, "alternativa": alternativa,
                         "tiempo_agotado": True, "mala": mala}
             regs = [ronda("r1", "ron-apostoles", 9, mala="aburrida"), ronda("r2", "ron-apostoles", 8), ronda("r3", "ron-apostoles", 10),
                     ronda("r4", "ron-apostoles", 12, alternativa="repetida"), ronda("r5", "ron-apostoles", 11, v=99),
                     ronda("r6", "ron-gentilicios", 0),
                     {"id": "r7", "tipo": "ronda_anulada", "ts": "2026-10-18T10:01:00.000Z", "partida": "pr", "turno": 2, "jugador": "luis",
-                     "lector": "ana", "ronda": "ron-gases-nobles", "v": 1, "motivo": "conocida"},
+                     "lector": "ana", "ronda": "ron-gases-nobles", "v": reales["ron-gases-nobles"]["v"], "motivo": "conocida"},
                     {"id": "r8", "tipo": "respuesta", "ts": "2026-10-18T10:02:00.000Z", "partida": "pr", "turno": 3, "jugador": "ana",
                      "lector": "luis", "pregunta": BANCO.id[0], "v": int(BANCO.v[0]), "nivel_mostrado": int(BANCO.nivel[0]),
                      "apuesta": int(BANCO.nivel[0]), "es_final": False, "acierto": True}]
@@ -348,13 +351,34 @@ class TestRetiradaYRondas(unittest.TestCase):
             self.assertEqual(fila["ron-apostoles"]["malas"], 1)
             self.assertEqual((fila["ron-gases-nobles"]["cambiada"], fila["ron-gases-nobles"]["veces"]), (1, 0))
             self.assertEqual((res.rondas["repetidas"], res.rondas["otra_version"]), (1, 1))
+            # Lo previsto con los niveles de sus elementos: un poco más de 5 en los apóstoles, lejos de los 9 que se sacan aquí.
+            self.assertAlmostEqual(fila["ron-apostoles"]["prevista"], 5.3, delta=0.2)
             texto = leer_informe(res, tmp, "informe.md")
             self.assertIn("## Rondas divertidas", texto)
-            self.assertTrue(any(linea.startswith("| Los doce apóstoles | lista | 3 | 9,0 | 10 | 12 | 45 s | 0 | 1 | da muchas casillas") for linea in texto))
+            prevista = f"{fila['ron-apostoles']['prevista']:.1f}".replace(".", ",")
+            self.assertTrue(any(linea.startswith(f"| Los doce apóstoles | lista | 3 | 9,0 | {prevista} | 10 | 12 | 30 s | 0 | 1 | da muchas casillas")
+                                for linea in texto), [linea for linea in texto if "apóstoles" in linea])
             self.assertTrue(any(linea.startswith("| Gentilicios | ráfaga | 1 | 0,0 |") and "pocos datos" in linea for linea in texto))
             self.assertIn("Fuera de estas cuentas: 1 jugada en que quien jugaba ya conocía la ronda y 1 jugada de una versión anterior.", texto)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_la_prevista_de_cada_ronda_es_la_del_validador(self):
+        """La calibración y el validador (`herramientas/validar_rondas.py`) calculan lo mismo: la media
+        prevista es la suma de la curva «llegar a k aciertos». En las de ordenar, el total no cuenta el primero."""
+        sys.path.insert(0, str(RAIZ / "herramientas"))
+        try:
+            import validar_rondas as vr
+        finally:
+            sys.path.pop(0)
+        rondas = json.loads((RAIZ / "app" / CONFIG["rondas"]["archivo"]).read_text(encoding="utf-8"))["rondas"]
+        leidas = {r["id"]: r for r in leer_rondas(RAIZ, CONFIG)}
+        self.assertTrue(any(r["tipo"] == "ordenar" for r in rondas))
+        for r in rondas:
+            with self.subTest(ronda=r["id"]):
+                self.assertAlmostEqual(leidas[r["id"]]["prevista"], sum(vr.curva_de_ronda(r, CONFIG)), places=9)
+                self.assertEqual(leidas[r["id"]]["total"], len(r["elementos"]) - (r["tipo"] == "ordenar"))
+        self.assertIsNone(media_prevista({"tipo": "lista", "elementos": [{"texto": "x"}]}, CONFIG), "sin niveles no hay prevista")
 
 
 class TestMapa(unittest.TestCase):

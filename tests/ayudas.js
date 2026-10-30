@@ -71,14 +71,22 @@ export function sinMapa(p) {
   return q;
 }
 
-// Rondas sintéticas: listas cerradas y abiertas y ráfagas, de 6 a 10 elementos.
+// Rondas sintéticas: listas cerradas y abiertas, ráfagas y de ordenar (una de cada seis), de 6 a 10 elementos.
 export function rondasSinteticas(n = 12) {
   return Array.from({ length: n }, (_, k) => {
-    const tipo = k % 3 === 2 ? "rafaga" : "lista";
+    const tipo = k % 6 === 5 ? "ordenar" : k % 3 === 2 ? "rafaga" : "lista";
     const elementos = Array.from({ length: 6 + (k % 5) }, (_, i) =>
-      tipo === "lista" ? { texto: `Elemento ${k}-${i}`, tambien_vale: [] } : { pista: `Pista ${k}-${i}`, respuesta: `Respuesta ${k}-${i}`, tambien_vale: [] },
+      tipo === "lista"
+        ? { texto: `Elemento ${k}-${i}`, tambien_vale: [] }
+        : tipo === "rafaga"
+          ? { pista: `Pista ${k}-${i}`, respuesta: `Respuesta ${k}-${i}`, tambien_vale: [] }
+          : { texto: `Cosa ${k}-${i}`, valor: (i * 7) % 11, etiqueta: `${(i * 7) % 11} m` },
     );
-    return { id: `ron-prueba-${k}`, v: 1, tipo, titulo: `Ronda ${k}`, enunciado: `Enunciado ${k}`, segundos: 30, cerrada: tipo === "lista" && k % 4 !== 3, nota: null, elementos, fuente: "prueba" };
+    return {
+      id: `ron-prueba-${k}`, v: 1, tipo, titulo: `Ronda ${k}`, enunciado: `Enunciado ${k}`, segundos: 30,
+      cerrada: tipo === "lista" && k % 4 !== 3, ...(tipo === "ordenar" ? { orden: k % 2 ? "asc" : "desc" } : {}),
+      nota: null, elementos, fuente: "prueba",
+    };
   });
 }
 

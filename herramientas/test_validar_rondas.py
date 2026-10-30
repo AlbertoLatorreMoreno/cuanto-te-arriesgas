@@ -14,21 +14,30 @@ LISTA = {
     "id": "ron-apostoles", "v": 1, "tipo": "lista", "titulo": "Los doce apóstoles",
     "enunciado": "Nombra a los doce apóstoles de Jesús.", "segundos": 45, "cerrada": True, "nota": None,
     "fuente": "Mateo 10, 2-4",
-    "elementos": [{"texto": n, "tambien_vale": []} for n in
-                  ("Pedro", "Andrés", "Santiago el Mayor", "Juan", "Felipe", "Bartolomé", "Tomás", "Mateo",
-                   "Santiago el Menor", "Judas Tadeo", "Simón el Zelote", "Judas Iscariote")],
+    "elementos": [{"texto": n, "tambien_vale": [], "nivel": nivel} for n, nivel in
+                  (("Pedro", 1), ("Andrés", 6), ("Santiago el Mayor", 5), ("Juan", 3), ("Felipe", 7), ("Bartolomé", 8), ("Tomás", 5),
+                   ("Mateo", 4), ("Santiago el Menor", 10), ("Judas Tadeo", 9), ("Simón el Zelote", 9), ("Judas Iscariote", 2))],
 }
 RAFAGA = {
     "id": "ron-banderas", "v": 1, "tipo": "rafaga", "titulo": "Banderas", "enunciado": "¿De qué país es cada bandera?",
     "segundos": 50, "nota": None, "fuente": "Banderas oficiales",
     "elementos": [
-        {"pista": "Roja con una cruz blanca de brazos iguales en el centro", "respuesta": "Suiza", "tambien_vale": []},
-        {"pista": "Blanca con un círculo rojo en el centro", "respuesta": "Japón", "tambien_vale": []},
-        {"pista": "Tres franjas verticales: verde, blanca y roja", "respuesta": "Italia", "tambien_vale": []},
-        {"pista": "Tres franjas verticales: azul, blanca y roja", "respuesta": "Francia", "tambien_vale": []},
-        {"pista": "Roja con una cruz blanca desplazada hacia el asta", "respuesta": "Dinamarca", "tambien_vale": []},
-        {"pista": "Tres franjas horizontales: negra, roja y amarilla", "respuesta": "Alemania", "tambien_vale": []},
+        {"pista": "Roja con una cruz blanca de brazos iguales en el centro", "respuesta": "Suiza", "tambien_vale": [], "nivel": 1},
+        {"pista": "Blanca con un círculo rojo en el centro", "respuesta": "Japón", "tambien_vale": [], "nivel": 1},
+        {"pista": "Tres franjas verticales: verde, blanca y roja", "respuesta": "Italia", "tambien_vale": [], "nivel": 2},
+        {"pista": "Tres franjas verticales: azul, blanca y roja", "respuesta": "Francia", "tambien_vale": [], "nivel": 3},
+        {"pista": "Roja con una cruz blanca desplazada hacia el asta", "respuesta": "Dinamarca", "tambien_vale": [], "nivel": 3},
+        {"pista": "Tres franjas horizontales: negra, roja y amarilla", "respuesta": "Alemania", "tambien_vale": [], "nivel": 4},
     ],
+}
+# El primero se da colocado; los demás, cada vez más juntos.
+ORDENAR = {
+    "id": "ron-montanas", "v": 1, "tipo": "ordenar", "titulo": "Montañas", "orden": "desc",
+    "enunciado": "Ordena montañas por su altura. Al primer fallo, se acaba.", "segundos": 60, "nota": None, "fuente": "IGN",
+    "elementos": [{"texto": t, "valor": v, "etiqueta": f"{v} m", **({"nivel": n} if n else {})} for t, v, n in
+                  (("Teide", 3715, None), ("Everest", 8849, 1), ("Mont Blanc", 4806, 1), ("K2", 8611, 2), ("Aneto", 3404, 2),
+                   ("Kilimanjaro", 5895, 3), ("Mulhacén", 3479, 3), ("Aconcagua", 6961, 4), ("Elbrus", 5642, 5),
+                   ("Cervino", 4478, 6), ("Fuji", 3776, 8), ("Denali", 6190, 10))],
 }
 
 
@@ -46,7 +55,78 @@ def con(base, **cambios):
 
 class TestValidarRondas(unittest.TestCase):
     def test_validas(self):
-        self.assertEqual(errores(LISTA, RAFAGA), ([], []))
+        self.assertEqual(errores(LISTA, RAFAGA, ORDENAR), ([], []))
+
+    def test_cada_elemento_lleva_su_nivel(self):
+        r = copy.deepcopy(RAFAGA)
+        del r["elementos"][2]["nivel"]
+        self.assertTrue(any("lleva «nivel»" in e for e in errores(r)[0]))
+        r["elementos"][2]["nivel"] = 11
+        self.assertTrue(any("lleva «nivel»" in e for e in errores(r)[0]))
+        # En una de ordenar, el primero no lo necesita (se da colocado), pero los demás sí.
+        r = copy.deepcopy(ORDENAR)
+        del r["elementos"][3]["nivel"]
+        self.assertTrue(any("(menos el primero)" in e for e in errores(r)[0]))
+
+    def test_las_rafagas_van_de_facil_a_dificil(self):
+        r = copy.deepcopy(RAFAGA)
+        r["elementos"].reverse()
+        self.assertTrue(any("de más fácil a más difícil" in e for e in errores(r)[0]))
+        # Una lista se dice en cualquier orden: el suyo da igual.
+        r = copy.deepcopy(LISTA)
+        r["elementos"].reverse()
+        self.assertEqual(errores(r)[0], [])
+
+    def test_llegar_a_k_aciertos_cuesta_como_un_nivel_k(self):
+        # Diez fáciles: sacar 8 o 9 sería casi seguro. Es lo que se quería evitar (fase 25).
+        r = con(RAFAGA, elementos=[{"pista": f"Descripción {i}", "respuesta": f"País {i}", "tambien_vale": [], "nivel": 2} for i in range(10)])
+        e, _ = errores(r)
+        self.assertTrue(any("más fácil que acertar una pregunta de nivel k" in x for x in e), e)
+        # Todos dificilísimos: no es un error, pero avisa (la ronda da muy pocas casillas).
+        r = con(RAFAGA, elementos=[{**e, "nivel": 10} for e in RAFAGA["elementos"]])
+        e, avisos = errores(r)
+        self.assertEqual(e, [])
+        self.assertTrue(any("más difícil que acertar una pregunta de nivel k" in a for a in avisos), avisos)
+        # Pasar de diez tiene que costar al menos como un nivel 10: una lista de 30 fáciles, no.
+        r = con(LISTA, cerrada=False, elementos=[{"texto": f"Héroe {i}", "tambien_vale": [], "nivel": 5} for i in range(30)])
+        e, _ = errores(r)
+        self.assertTrue(any("11 aciertos" in x for x in e), e)
+
+    def test_la_curva_sigue_al_modelo(self):
+        config = vb.cargar_config()
+        obj = config["objetivo_acierto"]
+        # Una ráfaga con un elemento de cada nivel: sacar 5 es, más o menos, acertar una de nivel 5.
+        c = vr.curva(list(range(1, 11)), obj, 1.5)
+        self.assertAlmostEqual(vr.nivel_equivalente(c[4], obj), 5, delta=0.3)
+        self.assertTrue(all(a > b for a, b in zip(c, c[1:])), "cuantos más aciertos, menos probable")
+        # Sin variación entre jugadores y con un solo elemento, la curva es la tabla.
+        self.assertAlmostEqual(vr.curva([7], obj, 1e-9)[0], obj[6], places=6)
+        # La escalera se para al primer fallo: con dos elementos, el segundo exige los dos.
+        p = vr.curva([3, 3], obj, 1e-9, escalera=True)
+        self.assertAlmostEqual(p[1], obj[2] ** 2, places=6)
+        self.assertAlmostEqual(vr.nivel_equivalente(obj[3], obj), 4)
+
+    def test_ordenar(self):
+        casos = {
+            "orden": con(ORDENAR, orden="arriba"),
+            "valor": con(ORDENAR, elementos=[{**ORDENAR["elementos"][0], "valor": "alto"}, *ORDENAR["elementos"][1:]]),
+            "etiqueta": con(ORDENAR, elementos=[{**ORDENAR["elementos"][0], "etiqueta": ""}, *ORDENAR["elementos"][1:]]),
+            "mismo valor": con(ORDENAR, elementos=[*ORDENAR["elementos"][:-1], {**ORDENAR["elementos"][-1], "valor": 3715}]),
+            "repetido": con(ORDENAR, elementos=[*ORDENAR["elementos"][:-1], {**ORDENAR["elementos"][-1], "texto": "Teide"}]),
+            "pista": con(ORDENAR, elementos=[{**ORDENAR["elementos"][0], "pista": "Volcán"}, *ORDENAR["elementos"][1:]]),
+            "pocos": con(ORDENAR, elementos=ORDENAR["elementos"][:5]),
+        }
+        for caso, r in casos.items():
+            with self.subTest(caso=caso):
+                self.assertTrue(errores(r)[0], f"debería fallar: {caso}")
+        self.assertTrue(errores(con(LISTA, orden="asc"))[0], "«orden» solo va en las de ordenar")
+        self.assertTrue(errores(con(ORDENAR, cerrada=True))[0], "«cerrada» solo va en las listas")
+
+    def test_la_huella_no_cuenta_los_niveles(self):
+        r = copy.deepcopy(RAFAGA)
+        r["elementos"][0]["nivel"] = 2
+        self.assertEqual(vr.huella_ronda(r), vr.huella_ronda(RAFAGA), "creer otra cosa de un elemento no cambia la ronda")
+        self.assertNotEqual(vr.huella_ronda(ORDENAR), vr.huella_ronda(con(ORDENAR, orden="asc")))
 
     def test_campos_obligatorios_y_tipos(self):
         casos = {
@@ -132,7 +212,11 @@ class TestValidarRondas(unittest.TestCase):
         self.assertEqual(inf.errores, [])
         self.assertGreaterEqual(len(rondas), 30, "la fase 11 pide al menos 30 rondas")
         tipos = {r["tipo"] for r in rondas}
-        self.assertEqual(tipos, {"lista", "rafaga"})
+        self.assertEqual(tipos, {"lista", "rafaga", "ordenar"})
+        # Fase 25: de media, una ronda da lo que sumaría una pregunta de cada nivel acertada con la tabla.
+        config = vb.cargar_config()
+        medias = [sum(vr.curva_de_ronda(r, config)) for r in rondas]
+        self.assertLess(sum(medias) / len(medias), 5.5)
 
 
 if __name__ == "__main__":

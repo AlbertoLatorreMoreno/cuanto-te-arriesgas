@@ -252,7 +252,7 @@ export function pantallaNueva(app, params = {}) {
                   "span",
                   {},
                   "Rondas divertidas en las casillas ★",
-                  h("small", { class: "texto-suave", style: { display: "block" } }, "Listas y ráfagas: avanzas una casilla por acierto"),
+                  h("small", { class: "texto-suave", style: { display: "block" } }, "Listas, ráfagas y de ordenar: avanzas una casilla por acierto"),
                 ),
               )
             : null,

@@ -152,11 +152,11 @@ No llevan `pregunta`, `categoria` ni niveles: no entran en el modelo de niveles,
 |---|---|
 | `partida`, `turno`, `jugador`, `lector`, `modo` | Como en una respuesta. |
 | `ronda`, `v` | Id y versión de la ronda. |
-| `tipo_ronda` | `"lista"` o `"rafaga"`. |
+| `tipo_ronda` | `"lista"`, `"rafaga"` u `"ordenar"`. |
 | `segundos` | El tiempo que tenía. |
-| `total` | Elementos de la lista (en una abierta, los de la lista de referencia) o descripciones de la ráfaga. |
-| `leidos` | En una ráfaga, a cuántas descripciones dio tiempo; `null` en una lista. |
-| `marcados` | Índices (desde 0) de los elementos acertados, en orden. |
+| `total` | Elementos de la lista (en una abierta, los de la lista de referencia), descripciones de la ráfaga o, en una de ordenar, los que había que colocar (todos menos el primero, que se da colocado). |
+| `leidos` | En una ráfaga, a cuántas descripciones dio tiempo; en una de ordenar, cuántos se intentaron colocar (los bien colocados y, si lo hubo, el fallo); `null` en una lista. |
+| `marcados` | Índices (desde 0) de los elementos acertados, en orden. En una de ordenar van seguidos desde el 1: el 0 se da colocado y al primer fallo se acaba. |
 | `extra` | En una lista abierta, las respuestas que valían y no estaban en la lista. |
 | `aciertos` | `marcados` + `extra`: las casillas que avanza (como mucho, hasta la meta). |
 | `alternativa` | `"repetida"` si quien jugaba ya conocía la ronda (no quedaban nuevas); la calibración no la cuenta. |
@@ -205,25 +205,33 @@ Como las rondas, no entra en el modelo de niveles: el informe la cuenta aparte (
       "segundos": 45, "cerrada": true,
       "nota": "Matías, elegido para sustituir a Judas Iscariote, vale en su lugar.",
       "fuente": "Mateo 10, 2-4; …",
-      "elementos": [{ "texto": "Pedro", "tambien_vale": ["Simón Pedro"] }, …]
+      "elementos": [{ "texto": "Pedro", "tambien_vale": ["Simón Pedro"], "nivel": 1 }, …]
     },
     {
       "id": "ron-calculo-mental", "v": 1, "tipo": "rafaga", "titulo": "Cálculo mental",
       "enunciado": "Te digo operaciones y dices el resultado…", "segundos": 40, "nota": null, "fuente": "…",
-      "elementos": [{ "pista": "Siete por ocho", "respuesta": "56", "tambien_vale": [], "verificacion": "7*8" }, …]
+      "elementos": [{ "pista": "Siete por ocho", "respuesta": "56", "tambien_vale": [], "verificacion": "7*8", "nivel": 2 }, …]
+    },
+    {
+      "id": "ron-ordenar-montanas", "v": 1, "tipo": "ordenar", "titulo": "Montañas por altura",
+      "enunciado": "Vamos a ordenar montañas por su altura. La primera, el Teide, ya está colocada…", "segundos": 75,
+      "orden": "desc", "nota": null, "fuente": "…",
+      "elementos": [{ "texto": "Teide", "valor": 3715, "etiqueta": "3715 m" }, { "texto": "Everest", "valor": 8849, "etiqueta": "8849 m", "nivel": 1 }, …]
     }
   ]
 }
 ```
 
 - **Lista** (`tipo: "lista"`): de 5 a 30 elementos con `texto` y sus variantes en `tambien_vale`. `cerrada: true` si solo cuentan los de la lista; `false` si es una lista de referencia y decide el grupo («personajes rosas»).
-- **Ráfaga** (`tipo: "rafaga"`): de 6 a 15 descripciones (`pista`) con su `respuesta`. Una pista no puede contener su respuesta. Si la respuesta es un cálculo, `verificacion` lleva la fórmula y el validador comprueba el resultado.
+- **Ráfaga** (`tipo: "rafaga"`): de 6 a 15 descripciones (`pista`) con su `respuesta`. Una pista no puede contener su respuesta. Si la respuesta es un cálculo, `verificacion` lleva la fórmula y el validador comprueba el resultado. Se leen en el orden del archivo, que va de la más fácil a la más difícil.
+- **De ordenar** (`tipo: "ordenar"`, desde la fase 25): de 6 a 13 elementos con `texto` (lo que se dice), `valor` (un número: la altura, el año, los habitantes…; no puede haber dos iguales) y `etiqueta` (cómo se dice ese valor, «8849 m»). El primero se da colocado; quien lee dice los demás de uno en uno, en el orden del archivo, y quien juega dice dónde va cada uno entre los que ya hay. Cada uno bien colocado es un acierto; al primer fallo, se acaba. `orden` dice cómo ve la fila quien lee: `"asc"` (de menor a mayor, de arriba abajo) o `"desc"`. Los primeros caen lejos de todo y los últimos, entre dos casi iguales.
+- **Nivel de cada elemento** (`nivel`, de 1 a 10, desde la fase 25; en las de ordenar, todos menos el primero): lo difícil que es acertarlo dentro del tiempo de la ronda para el jugador medio, con la vara de las preguntas (la tabla de aciertos objetivo). En una lista cuenta también el tiempo: con 15 segundos, el que cuesta recordar sube de nivel. En las de ordenar es lo difícil de colocarlo con lo que ya hay en la fila. Con esos niveles, el validador calcula la probabilidad de llegar a k aciertos con el modelo de la calibración (una habilidad común a toda la ronda, de desviación `rondas.curva.sd`), y conseguir k tiene que costar como acertar una pregunta de nivel k: más fácil, con un margen de `rondas.curva.margen` niveles, es un error; más difícil, un aviso. Pasar de 10 aciertos tiene que costar al menos como un nivel 9,5. `py herramientas/validar_banco.py --curvas` enseña la de cada ronda. El nivel no cuenta en la huella: cambiarlo no obliga a subir la `v`.
 - `enunciado` es lo que se lee en voz alta, sin el tiempo (la app lo dice aparte). `fuente`, obligatoria: de dónde sale la lista. `nota`: aclaraciones para quien lee.
 - Una variante solo puede valer para un elemento (si no, no se sabe cuál marcar).
-- `segundos`: entre 10 y 180. El validador avisa si quedan menos de 1,5 o más de 8 segundos por elemento en una lista cerrada (3 a 10 en una ráfaga). La idea es que decirlo todo sea muy difícil.
-- **Versiones.** `app/data/rondas.lock.json` guarda la huella de cada ronda (tipo, enunciado, segundos, si es cerrada y elementos). Si cambias algo de eso, sube su `v`: las estadísticas de la versión anterior dejan de contar.
+- `segundos`: entre 10 y 180. El validador avisa si quedan menos de 1,5 o más de 8 segundos por elemento en una lista cerrada (3 a 10 en una ráfaga y 3 a 12 por elemento que colocar en una de ordenar). La idea es que decirlo todo sea muy difícil.
+- **Versiones.** `app/data/rondas.lock.json` guarda la huella de cada ronda (tipo, enunciado, segundos, si es cerrada, el orden de una de ordenar y elementos, sin su nivel). Si cambias algo de eso, sube su `v`: las estadísticas de la versión anterior dejan de contar.
 
-En `config.json`, `rondas.archivo` dice dónde está el archivo; `rondas.cada`, cada cuántas casillas hay una especial (8), y `rondas.media_aviso`, cuándo avisa el informe: si una ronda da de media más de `alta` (6) casillas o menos de `baja` (1), con al menos `minimo_jugadas` (3).
+En `config.json`, `rondas.archivo` dice dónde está el archivo; `rondas.cada`, cada cuántas casillas hay una especial (8); `rondas.curva`, la desviación de la habilidad (`sd`, 1,5) y el margen en niveles (`margen`, 1,5) con que el validador mide la dificultad de cada ronda, y `rondas.media_aviso`, cuándo avisa el informe: si una ronda da de media más de `alta` (6) casillas o menos de `baja` (1), o se separa en más de `prevista` (1,5) de lo que debería dar con los niveles de sus elementos, con al menos `minimo_jugadas` (3).
 
 **En el informe de calibración**, la sección «Rondas divertidas» da por cada ronda las veces que se ha jugado, los aciertos de media y el máximo, cuántas veces se cambió y cuántas se marcó como mala. Solo cuenta la versión actual de cada ronda y deja fuera las que quien jugaba ya conocía.
 
