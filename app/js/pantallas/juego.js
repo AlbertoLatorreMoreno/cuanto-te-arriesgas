@@ -2,7 +2,19 @@
 
 import { FASE, falloAlOrdenar, quienSigue } from "../motor.js";
 import { confirmar, dialogo, h, montarPantalla } from "../dom.js";
-import { etiquetaCat, estiloCat, marcador, nombreJugador, tablero, textoAlternativa } from "./comun.js";
+import {
+  bloqueRespuesta,
+  etiquetaCat,
+  estiloCat,
+  formatoKm,
+  mapaRespondido,
+  marcador,
+  nombreJugador,
+  radioAciertoKm,
+  tablero,
+  textoAlternativa,
+  vistaInicialMapa,
+} from "./comun.js";
 import { pantallaFin } from "./fin.js";
 import { duracionLegible, formatoTiempo, rangoCronometro, segundosCronometro, unirNombres } from "../util.js";
 import { pasoKm } from "../geo.js";
@@ -273,17 +285,9 @@ function vistaLectura(app, p, t) {
 let mapaTurno = null; // { clave, punto, vb }
 let mapaResultado = null; // { clave, punto, vb }
 
-const formatoKm = (km) => `${new Intl.NumberFormat("es-ES").format(Math.round(km))} km`;
-
-function vistaInicial(app, q) {
-  const cat = app.config.categorias.find((c) => c.id === q.categoria);
-  const nombre = q.vista ?? cat?.subtemas.find((s) => s.id === q.subtema)?.vista ?? "mundo";
-  return app.config.mapa.vistas[nombre] ?? app.config.mapa.vistas.mundo;
-}
-
 function reglaMapa(app, t) {
   const q = t.preguntaDatos;
-  const radio = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75);
+  const radio = radioAciertoKm(app, q);
   if (t.esFinal) return `Acierta la final si queda a menos de ${formatoKm(radio)} del sitio.`;
   const paso = pasoKm(q.distancia_max_km, t.apuesta, app.config.mapa.acierto_fraccion ?? 0.75);
   return `Se juega ${t.apuesta}: −1 punto por cada ${formatoKm(paso)} de error; a más de ${formatoKm(radio)}, nada.`;
@@ -302,7 +306,7 @@ function vistaLecturaMapa(app, p, t) {
   );
   const mapa = crearMapa({
     ruta: app.config.mapa.archivo,
-    vista: vistaInicial(app, q),
+    vista: vistaInicialMapa(app, q),
     estado,
     alTocar: () => {
       confirmar.disabled = false;
@@ -332,25 +336,7 @@ function mapaDelResultado(app, p, t) {
   const q = t.preguntaDatos;
   const clave = `${p.id}|${p.n}|${t.pregunta}|resultado`;
   if (mapaResultado?.clave !== clave) mapaResultado = { clave, punto: { lat: t.mapa.lat, lon: t.mapa.lon }, vb: null };
-  const radioKm = q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75);
-  // Encuadre: los dos puntos y la zona de acierto, con margen. La longitud del punto señalado se
-  // acerca a la correcta por el camino corto (por si están a los dos lados del Pacífico).
-  let lon2 = t.mapa.lon;
-  if (lon2 - q.lon > 180) lon2 -= 360;
-  if (q.lon - lon2 > 180) lon2 += 360;
-  const margenLat = radioKm / 111;
-  const margenLon = margenLat / Math.max(0.2, Math.cos((q.lat * Math.PI) / 180));
-  const oeste = Math.min(q.lon - margenLon, lon2) - 2;
-  const este = Math.max(q.lon + margenLon, lon2) + 2;
-  const sur = Math.max(-80, Math.min(q.lat - margenLat, t.mapa.lat) - 2);
-  const norte = Math.min(80, Math.max(q.lat + margenLat, t.mapa.lat) + 2);
-  const desplazar = oeste < -180 ? 360 : 0; // el mapa empieza en −180: se usa la segunda copia
-  return crearMapa({
-    ruta: app.config.mapa.archivo,
-    vista: [oeste + desplazar, sur, este + desplazar, norte],
-    estado: mapaResultado,
-    correcta: { lat: q.lat, lon: q.lon, radioKm },
-  });
+  return mapaRespondido(app, q, mapaResultado);
 }
 
 // ---------------------------------------------------------------- cronómetro
@@ -466,17 +452,6 @@ async function pedirOtraPregunta(app) {
 
 // ---------------------------------------------------------------- respuesta
 
-function bloqueRespuesta(q) {
-  return h(
-    "div",
-    { class: "respuesta" },
-    h("p", { class: "texto-suave pequeno" }, "Respuesta"),
-    h("p", { class: "valor" }, q.respuesta),
-    q.tambien_vale?.length ? h("p", { class: "detalle" }, `También vale: ${q.tambien_vale.join(" · ")}`) : null,
-    q.criterio ? h("p", { class: "detalle" }, `Criterio: ${q.criterio}`) : null,
-  );
-}
-
 function vistaRespuesta(app, p, t) {
   const jugador = nombreJugador(p, t.jugador);
   const q = t.preguntaDatos;
@@ -581,7 +556,7 @@ function vistaResultado(app, p, t) {
   let titulo;
   let detalle;
   const esMapa = q.tipo === "mapa" && t.mapa;
-  const radioMapa = esMapa ? q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75) : 0;
+  const radioMapa = esMapa ? radioAciertoKm(app, q) : 0;
   if (t.esFinal) {
     const d = desenlaceFinal(app, p, t);
     const distancia = !esMapa

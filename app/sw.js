@@ -1,7 +1,7 @@
 // Service worker: primero la red (siempre la última versión del banco y los ajustes)
 // y, sin conexión, la copia guardada. VERSION la pone herramientas/versionar.py (no la toques a mano).
 
-const VERSION = "cta-568d10e2b9";
+const VERSION = "cta-2ccd97aa6e";
 const ARCHIVOS = [
   "./",
   "index.html",

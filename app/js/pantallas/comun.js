@@ -1,6 +1,7 @@
 // Piezas de interfaz compartidas entre pantallas.
 
 import { aviso, dialogo, h } from "../dom.js";
+import { crearMapa } from "../mapa.js";
 import { letrasFichas } from "../util.js";
 
 // «¿Enviamos los datos?»: lo que se pregunta al acabar una partida y al salir de «Revisar preguntas».
@@ -111,6 +112,57 @@ export function tablero(app, partida) {
       partida.especiales?.length ? h("span", { class: "leyenda-ronda" }, "Ronda") : null,
     ),
   );
+}
+
+// La respuesta de una pregunta, con lo que también vale y el criterio (en la partida y en «Revisar preguntas»).
+export function bloqueRespuesta(q) {
+  return h(
+    "div",
+    { class: "respuesta" },
+    h("p", { class: "texto-suave pequeno" }, "Respuesta"),
+    h("p", { class: "valor" }, q.respuesta),
+    q.tambien_vale?.length ? h("p", { class: "detalle" }, `También vale: ${q.tambien_vale.join(" · ")}`) : null,
+    q.criterio ? h("p", { class: "detalle" }, `Criterio: ${q.criterio}`) : null,
+  );
+}
+
+// ---------------------------------------------------------------- preguntas de mapa
+
+export const formatoKm = (km) => `${new Intl.NumberFormat("es-ES").format(Math.round(km))} km`;
+
+// El radio de la zona de acierto: una fracción (tres cuartos) de la distancia máxima de la pregunta.
+export const radioAciertoKm = (app, q) => q.distancia_max_km * (app.config.mapa.acierto_fraccion ?? 0.75);
+
+// El encuadre con el que se abre el mapa para señalar: el de la pregunta, el de su subtema o el mundo.
+export function vistaInicialMapa(app, q) {
+  const cat = app.config.categorias.find((c) => c.id === q.categoria);
+  const nombre = q.vista ?? cat?.subtemas.find((s) => s.id === q.subtema)?.vista ?? "mundo";
+  return app.config.mapa.vistas[nombre] ?? app.config.mapa.vistas.mundo;
+}
+
+// Una pregunta de mapa ya respondida: el punto señalado (`estado.punto`), el correcto y la zona de acierto,
+// encuadrados juntos. `estado` ({ punto, vb }) lo guarda quien llama, para conservar el encuadre al repintar.
+export function mapaRespondido(app, q, estado) {
+  const radioKm = radioAciertoKm(app, q);
+  const { lat, lon } = estado.punto;
+  // Encuadre: los dos puntos y la zona de acierto, con margen. La longitud del punto señalado se
+  // acerca a la correcta por el camino corto (por si están a los dos lados del Pacífico).
+  let lon2 = lon;
+  if (lon2 - q.lon > 180) lon2 -= 360;
+  if (q.lon - lon2 > 180) lon2 += 360;
+  const margenLat = radioKm / 111;
+  const margenLon = margenLat / Math.max(0.2, Math.cos((q.lat * Math.PI) / 180));
+  const oeste = Math.min(q.lon - margenLon, lon2) - 2;
+  const este = Math.max(q.lon + margenLon, lon2) + 2;
+  const sur = Math.max(-80, Math.min(q.lat - margenLat, lat) - 2);
+  const norte = Math.min(80, Math.max(q.lat + margenLat, lat) + 2);
+  const desplazar = oeste < -180 ? 360 : 0; // el mapa empieza en −180: se usa la segunda copia
+  return crearMapa({
+    ruta: app.config.mapa.archivo,
+    vista: [oeste + desplazar, sur, este + desplazar, norte],
+    estado,
+    correcta: { lat: q.lat, lon: q.lon, radioKm },
+  });
 }
 
 export function nombreJugador(partida, clave) {

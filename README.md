@@ -54,7 +54,7 @@ Pone una versión en las direcciones de los archivos, para que ningún móvil me
 jugar y valorar → exportar → calibrar → publicar ajustes → jugar con niveles corregidos
 ```
 
-1. **Jugar.** Tras cada pregunta, si queréis, decid si encajaba con su nivel o marcadla como mala. «Revisar preguntas» sirve para valorar sin jugar, y ahí también podéis decir qué nivel le pondríais (o una horquilla: «entre un 4 y un 5»).
+1. **Jugar.** Tras cada pregunta, si queréis, decid si encajaba con su nivel o marcadla como mala. «Revisar preguntas» sirve para valorar a solas, sin partida: cada pregunta se juega igual (primero se piensa la respuesta o se señala en el mapa, luego se ve y se dice si se ha acertado), y ahí también podéis decir qué nivel le pondríais (o una horquilla: «entre un 4 y un 5»).
 2. **Exportar.** En «Datos y exportación» → «Exportar datos». Envíate el archivo y cópialo en `analisis/datos/`. Hazlo al acabar cada quedada: hasta entonces los datos solo están en el móvil, y en iPhone Safari borra los de las webs no instaladas que no se abren en 7 días.
    Con el [envío a la hoja del grupo](#envío-de-datos-a-la-hoja-del-grupo) en marcha no hace falta: al acabar cada partida, la app pregunta si se envían sus datos, y `py analisis/descargar.py` los trae a `analisis/datos/`.
 3. **Calibrar.**

@@ -140,7 +140,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
       h(
         "p",
         {},
-        "Tras cada pregunta podéis decir si encajaba con su nivel o marcarla como mala. Con esas valoraciones, un modelo de regresión logística reajusta los niveles para vuestro grupo. También podéis valorar preguntas sin jugar en «Revisar preguntas».",
+        "Tras cada pregunta podéis decir si encajaba con su nivel o marcarla como mala. Con esas valoraciones, un modelo de regresión logística reajusta los niveles para vuestro grupo. También podéis valorar preguntas a solas, sin partida, en «Revisar preguntas»: se juegan igual, pero sin pasar el móvil.",
       ),
     ),
   );

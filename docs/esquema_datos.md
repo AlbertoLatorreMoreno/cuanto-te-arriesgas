@@ -142,6 +142,8 @@ Campos comunes a todos los registros: `id`, `tipo`, `ts`, `dispositivo`, `versio
 
 `evaluador`, `valoracion` y `mala`, con el mismo significado que arriba. Aquí `valoracion` también puede ser `"horquilla"`: quien revisa dice qué nivel le pondría, o entre qué dos niveles, y van en `nivel_desde` y `nivel_hasta` (enteros del 1 al 10; iguales si es un solo nivel; `null` con las otras valoraciones).
 
+Desde la fase 26 (30-10-2026), quien revisa juega la pregunta antes de valorarla: la ve sin la respuesta, la intenta y luego dice si la ha acertado (`acierto`, `true` / `false`). En las de mapa la señala, y la app decide el acierto como en una partida y guarda `lat_senalada`, `lon_senalada`, `distancia_km` y `distancia_max_km`, como en una respuesta. Las revisiones anteriores no llevan estos campos: en ellas la respuesta se veía desde el principio. La calibración aún no usa el `acierto` de las revisiones.
+
 En la calibración, cada valoración acota el nivel que percibe quien valora (con el nivel mostrado L): «más fácil», por debajo de L − 0,5; «sí», entre L − 0,5 y L + 0,5; «más difícil», por encima de L + 0,5; y una horquilla «de a a b», entre a − 0,5 y b + 0,5, abierta por abajo si a = 1 y por arriba si b = 10. Así, «de 1 a L − 1» equivale a «más fácil», pero «de 4 a 5» dice mucho más. Una horquilla al revés o fuera de rango se descarta.
 
 ### `tipo: "ronda"`: una ronda divertida jugada
