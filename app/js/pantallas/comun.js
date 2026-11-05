@@ -27,7 +27,9 @@ export async function enviarAhora(app) {
 }
 
 // Colores de la paleta Okabe-Ito, pensada para distinguirse también con daltonismo.
-// Entre estos seis, la distancia mínima de color con protanopía o deuteranopía simuladas es 34 (antes, 18).
+// Entre los seis primeros, la distancia mínima de color (ΔE76) con protanopía o deuteranopía simuladas es 34
+// (antes, 18). Los cuatro últimos, para partidas de 7 a 10, son los que más la mantienen entre los de las paletas
+// Okabe-Ito y Paul Tol: con los diez baja a 15, así que con muchos jugadores distinguen las iniciales.
 // Cada uno lleva el color de letra con el que tiene un contraste de al menos 4,5.
 const COLORES_FICHA = [
   { fondo: "#1d3557", texto: "#ffffff" }, // azul marino
@@ -36,6 +38,10 @@ const COLORES_FICHA = [
   { fondo: "#009e73", texto: "#1a1a1a" }, // verde azulado
   { fondo: "#7b2cbf", texto: "#ffffff" }, // morado
   { fondo: "#56b4e9", texto: "#1a1a1a" }, // azul cielo
+  { fondo: "#e69f00", texto: "#1a1a1a" }, // naranja
+  { fondo: "#0072b2", texto: "#ffffff" }, // azul
+  { fondo: "#cc79a7", texto: "#1a1a1a" }, // rosa
+  { fondo: "#bbbbbb", texto: "#1a1a1a" }, // gris
 ];
 
 export function colorFicha(partida, clave) {
@@ -89,7 +95,7 @@ export function tablero(app, partida) {
     const esMeta = i === partida.meta;
     const cat = partida.tablero[i];
     const especial = partida.especiales?.includes(i);
-    const clase = ["casilla", i === 0 ? "salida" : "", esMeta ? "meta" : "", especial ? "especial" : "", enCasilla.length ? "ocupada" : "", enCasilla.length > 4 ? "muchas" : ""].join(" ");
+    const clase = ["casilla", i === 0 ? "salida" : "", esMeta ? "meta" : "", especial ? "especial" : "", enCasilla.length ? "ocupada" : "", enCasilla.length > 4 ? "muchas" : "", enCasilla.length > 6 ? "llena" : ""].join(" ");
     const titulo = esMeta ? "Meta" : i === 0 ? "Salida" : especial ? `Casilla ${i}: ronda divertida` : `Casilla ${i}: ${app.nombreCategoria(cat)}`;
     // Una casilla libre lleva la inicial de su categoría, para no depender solo del color.
     const vacia = esMeta ? h("span", { class: "bandera" }, "🏁") : especial ? h("span", { class: "estrella" }, "★") : cat ? h("span", { class: "letra-cat" }, app.nombreCategoria(cat)[0]) : null;

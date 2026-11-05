@@ -3,7 +3,7 @@
   "nombre": "¿Cuánto te arriesgas?",
   "niveles": { "min": 1, "max": 10 },
   "objetivo_acierto": [0.90, 0.80, 0.70, 0.60, 0.50, 0.41, 0.31, 0.21, 0.11, 0.04],
-  "jugadores": { "min": 2, "max": 6, "olvidar_tras_dias": 180 },
+  "jugadores": { "min": 2, "max": 10, "olvidar_tras_dias": 180 },
   "metas": [
     { "id": "corta", "nombre": "Corta", "puntos": 25, "paso_final": 4, "duracion": "~45 min con 4 jugadores" },
     { "id": "media", "nombre": "Media", "puntos": 50, "paso_final": 8, "duracion": "~70 min con 4 jugadores" }

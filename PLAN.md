@@ -35,6 +35,7 @@
 | 24 · Seguridad: quién puede leer los datos | ✅ Hecha (falta publicar el script nuevo) | Móvil, hoja de Google, ordenador y repositorio revisados. Arreglados tres accesos posibles: probar códigos de descarga a ciegas, el código saliendo hacia otra dirección y la CSP abierta a cualquier script de Google. Pruebas de ataque nuevas y comprobado en el navegador; 30 partidas simuladas seguidas con temas |
 | 25 · Rondas divertidas más difíciles | ✅ Hecha y publicada | Cada elemento lleva su nivel y el validador exige que sacar k aciertos cueste como una pregunta de nivel k: de 6,1 aciertos de media en las rondas jugadas a unos 4,6 previstos. Las 12 ráfagas, de más fácil a más difícil; 5 listas cambiadas por otras más difíciles y otras 12 con menos tiempo; 6 rondas nuevas de ordenar (hasta el primer fallo). Pruebas nuevas, informe con la media prevista y probado en el navegador a 375×812. Antes, el mismo día 29: Mates de nivel 8 a 10 con 1 min, y 1 min 15 s en las series numéricas |
 | 27 · Jugar solo: el reto del día | ✅ Hecha, sin publicar (falta desplegar el script de la hoja) | Escalera 1→10 con bote, plantarse, multiplicador por velocidad y 8 opciones; reto del día igual para todos, con días temáticos, y práctica. Opciones para 1021 de las 1050 preguntas de texto, generadas y auditadas por Codex (74 corregidas en la auditoría) y validadas; calendario de 42 días. Codex revisó diseño y código en tres rondas (30 fallos arreglados, con prueba). Probado en el navegador a 375×812, en claro y oscuro |
+| 28 · Hasta 10 jugadores | ✅ Hecha, sin publicar | Partidas de 2 a 10, con 4 colores de ficha más; motor probado con 2 a 10 jugadores (300 partidas simuladas y 200 al azar) y 12 partidas medias de 10 con el banco real, sin preguntas repetidas. Probado en el navegador a 375×812 |
 
 **Cambios respecto al plan, decididos al construir:**
 
@@ -73,7 +74,7 @@ Un juego que se pueda jugar de verdad con amigos y que, mientras se juega, recoj
 
 **El MVP está terminado cuando:**
 
-1. Una partida completa de 2 a 6 jugadores se juega en el móvil sin errores ni bloqueos, y se puede reanudar si se cierra la app.
+1. Una partida completa de 2 a 10 jugadores (hasta la fase 28, de 2 a 6) se juega en el móvil sin errores ni bloqueos, y se puede reanudar si se cierra la app.
 2. Cada respuesta (acierto o fallo) y cada valoración («¿encajaba con el nivel?», «pregunta mala») queda registrada y se puede exportar a un archivo.
 3. La calibración (`analisis/calibrar.py`) lee esas exportaciones y devuelve niveles corregidos que la app usa en la siguiente partida.
 4. El banco inicial tiene al menos 400 preguntas validadas automáticamente: esquema correcto, sin duplicados, cobertura de todos los niveles y respuestas de mates verificadas por código.
@@ -84,7 +85,7 @@ Un juego que se pueda jugar de verdad con amigos y que, mientras se juega, recoj
 
 | Elemento | Regla |
 |---|---|
-| Jugadores | 2 a 6, un solo móvil que se pasa. Un equipo cuenta como un jugador. El orden se puede sortear. Con **narrador**, una persona más, que no juega, se queda el móvil y lee todas las preguntas. |
+| Jugadores | 2 a 10 (hasta la fase 28, 6), un solo móvil que se pasa. Un equipo cuenta como un jugador. El orden se puede sortear. Con **narrador**, una persona más, que no juega, se queda el móvil y lee todas las preguntas. |
 | Meta | Corta (25 puntos) o media (50), se elige al empezar. |
 | Tablero | La casilla 0 es la **salida**: categoría al azar en cada turno, para que la primera ronda no sea igual para todos. De la 1 a meta − 1, cada bloque de 5 casillas contiene las 5 categorías en orden aleatorio, sin repetir categoría al pasar de un bloque al siguiente. |
 | Categorías | Ciencias · Historia y geografía · Entretenimiento · Mates y lógica, con 5 subtemas cada una, y Localízalo (hasta el 26 de octubre, Geohistoria), con 3, que se responde tocando un mapa (fila «Preguntas de mapa»). |
@@ -481,6 +482,13 @@ Pedido por el usuario el 5 de noviembre: un modo de un jugador. Eligió juntar �
 - **Pendiente con el usuario:** desplegar el script; las dudas de Codex sobre preguntas del banco (`docs/informe_modo_solo.md`).
 
 ---
+
+### Fase 28 — Hasta 10 jugadores ✅ (sin publicar)
+Pedido por el usuario el 5 de noviembre, antes de publicar la fase 27: partidas convencionales de hasta 10 jugadores (antes, 6).
+- **Límite** ✅. `config.jugadores.max` pasa a 10; el motor y «Nueva partida» ya lo leían de ahí.
+- **Fichas** ✅. Cuatro colores más (naranja, azul, rosa y gris), elegidos midiendo la distancia de color (ΔE76) con protanopía, deuteranopía y tritanopía simuladas entre los de las paletas Okabe-Ito y Paul Tol: son los que más la mantienen. Con diez colores, la distancia mínima con daltonismo rojo-verde baja de 34 a 15: con muchos jugadores, las fichas se distinguen por la inicial. Los seis primeros no cambian. Con más de 6 fichas en una casilla (al empezar, todos en la salida) van cuatro por fila, para que quepan.
+- **Preguntas** ✅. Una partida media de 10 jugadores usa unas 240 preguntas: con el banco real no se repite ninguna (prueba nueva, 12 partidas). El banco sintético de la prueba de 300 partidas pasa a 3 preguntas por casilla: con 2, una partida de 10 agotaba alguna categoría y la app repetía a propósito, como último recurso.
+- **Duración**. Los turnos por jugador apenas cambian, así que la partida dura en proporción a los jugadores (simulado con el banco real, mediana): corta, 64 turnos con 4 y 124 con 10 (de ~45 min a ~1 h 30); media, 107 con 4 y 239 con 10 (~2 h 30). Las metas siguen anunciando la duración con 4 jugadores.
 
 ## 6. Revisión de huecos
 

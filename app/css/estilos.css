@@ -380,7 +380,7 @@ p {
 
 /* ---------- Marcador y tablero ---------- */
 
-/* Una sola fila deslizable: con 6 nombres largos no empuja la apuesta fuera de la pantalla. */
+/* Una sola fila deslizable: con 10 nombres largos no empuja la apuesta fuera de la pantalla. */
 .marcador {
   display: flex;
   gap: 6px;
@@ -492,6 +492,11 @@ p {
   width: 30%;
   font-size: 0;
   box-shadow: 0 0 0 1px var(--superficie);
+}
+
+/* Con más de 6 (hasta 10, todos en la salida): cuatro por fila, para que quepan en tres filas. */
+.casilla.llena .ficha {
+  width: 22%;
 }
 
 .casilla.ocupada {

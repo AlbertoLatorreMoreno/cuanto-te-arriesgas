@@ -98,7 +98,7 @@ async function comprobar(s, almacen, donde) {
 async function jugar(semilla) {
   const azar = rngConSemilla(semilla * 104729);
   const almacen = almacenEnMemoria();
-  const nJugadores = 2 + (semilla % 5);
+  const nJugadores = 2 + (semilla % 9); // de 2 a 10
   // Cada jugador con un tema o sin él (uno de cada siete, sin tema), a veces dos con el mismo.
   const temas = [null, ...config.temas.lista.map((t) => t.id)];
   const jugadores = Array.from({ length: nJugadores }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}`, tema: temas[(semilla * 3 + i * 2) % temas.length] }));

@@ -116,17 +116,30 @@ test("el banco real funciona con el motor: 50 partidas seguidas con las mismas v
   assert.ok(deFinales.ninguna > 0 && deFinales.repetida > 0, `finales: ${JSON.stringify(deFinales)}`);
 });
 
+test("con 10 jugadores y el banco real, una partida media no repite preguntas", () => {
+  const preguntas = categoriasDelBanco(config).flatMap((c) => leer(c.archivo).preguntas);
+  const finales = leer(config.final.archivo).finales;
+  for (let s = 1; s <= 12; s++) {
+    const { p, turnos } = simular(s, 10, "media", preguntas, {}, RONDAS, finales);
+    assert.ok(p.ganador);
+    const repetidas = p.usadas.filter((id, i) => p.usadas.indexOf(id) !== i);
+    assert.deepEqual(repetidas, [], `partida ${s} (${turnos} turnos): repetidas`);
+  }
+});
+
 const RONDAS = rondasSinteticas(60);
 // Unas 24 por escalón, como las reales: desde la fase 16 las finales son más difíciles y, con
 // 4 jugadores, una de cada cien partidas pasa de 55 intentos, que agotarían un juego de 30.
 const FINALES = finalesSinteticas(24);
 
 test("300 partidas simuladas terminan y son coherentes, también con rondas", () => {
-  const preguntas = bancoSintetico(2);
+  // Tres por casilla: una partida media de 10 jugadores usa unas 270 preguntas y, con dos, agotaba alguna
+  // categoría (entonces la app repite a propósito, como último recurso).
+  const preguntas = bancoSintetico(3);
   let totalRondas = 0;
   let totalEmpates = 0;
   for (let s = 1; s <= 300; s++) {
-    const nJugadores = 2 + (s % 5);
+    const nJugadores = 2 + (s % 9); // de 2 a 10
     const metaId = s % 2 ? "corta" : "media";
     const conRondas = s % 3 !== 0;
     const conFinales = s % 4 !== 0;

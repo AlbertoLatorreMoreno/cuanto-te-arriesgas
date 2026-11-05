@@ -35,8 +35,9 @@ test("el tablero empieza en la salida, cubre la meta y no repite categoría en c
 test("nueva partida: valida jugadores y meta", () => {
   const ctx = contexto();
   assert.throws(() => M.nuevaPartida({ id: "x", jugadores: [JUGADORES[0]], metaId: "corta" }, ctx), M.ErrorJuego);
-  const siete = Array.from({ length: 7 }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}` }));
-  assert.throws(() => M.nuevaPartida({ id: "x", jugadores: siete, metaId: "corta" }, ctx), M.ErrorJuego);
+  const grupo = (n) => Array.from({ length: n }, (_, i) => ({ clave: `j${i}`, nombre: `J${i}` }));
+  assert.equal(M.nuevaPartida({ id: "x", jugadores: grupo(10), metaId: "corta" }, ctx).partida.jugadores.length, 10, "hasta 10 jugadores");
+  assert.throws(() => M.nuevaPartida({ id: "x", jugadores: grupo(11), metaId: "corta" }, ctx), M.ErrorJuego);
   assert.throws(() => M.nuevaPartida({ id: "x", jugadores: [JUGADORES[0], JUGADORES[0]], metaId: "corta" }, ctx), /mismo nombre/);
   assert.throws(() => M.nuevaPartida({ id: "x", jugadores: JUGADORES, metaId: "eterna" }, ctx), /Meta desconocida/);
   const p = partidaNueva(ctx, JUGADORES, "media");
