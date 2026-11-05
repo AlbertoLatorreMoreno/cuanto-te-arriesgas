@@ -15,6 +15,7 @@ import { pantallaJuego } from "./pantallas/juego.js";
 import { pantallaNueva } from "./pantallas/nueva.js";
 import { pantallaReglas } from "./pantallas/reglas.js";
 import { pantallaRevision } from "./pantallas/revision.js";
+import { pantallaSolo } from "./pantallas/solo.js";
 
 const VERSION = "0.1.0";
 
@@ -61,7 +62,10 @@ async function arrancar() {
   const almacen = await crearAlmacen();
   pedirAlmacenamientoPersistente();
   // Los nombres que llevan mucho sin jugar se olvidan solos (nunca sus respuestas registradas).
-  almacen.olvidarInactivos({ ahora: new Date(), dias: config.jugadores.olvidar_tras_dias, protegidos: clavesEnPartida(almacen.cargarPartida()?.partida) });
+  // Tampoco quien tiene una escalera del modo solo a medias.
+  const protegidos = clavesEnPartida(almacen.cargarPartida()?.partida);
+  if (almacen.escaleraSolo()) protegidos.add(almacen.escaleraSolo().jugador.clave);
+  almacen.olvidarInactivos({ ahora: new Date(), dias: config.jugadores.olvidar_tras_dias, protegidos });
 
   const categorias = new Map(categoriasDelBanco(config).map((c) => [c.id, c]));
   const indice = crearIndice(preguntas, config, ajustes);
@@ -117,13 +121,14 @@ async function arrancar() {
     ir(pantalla, params = {}) {
       app.navegacion++;
       app.pantalla = pantalla;
-      mantenerPantalla(pantalla === "juego");
-      if (pantalla === "juego" && history.state?.pantalla !== "juego") history.pushState({ pantalla: "juego" }, "");
+      mantenerPantalla(pantalla === "juego" || pantalla === "solo");
+      if ((pantalla === "juego" || pantalla === "solo") && history.state?.pantalla !== pantalla) history.pushState({ pantalla }, "");
       const pantallas = {
         inicio: () => pantallaInicio(app),
         nueva: () => pantallaNueva(app, params),
         juego: () => pantallaJuego(app),
         revision: () => pantallaRevision(app),
+        solo: () => pantallaSolo(app, params),
         datos: () => pantallaDatos(app, params),
         reglas: () => pantallaReglas(app, params),
       };
@@ -233,15 +238,22 @@ async function arrancar() {
     if (app.pantalla === "juego") {
       aviso("Partida guardada. Puedes continuarla desde el inicio.");
       app.ir("inicio");
+    } else if (app.pantalla === "solo") {
+      if (almacen.escaleraSolo()) aviso("Escalera guardada. Puedes continuarla desde «Jugar solo».");
+      app.ir("inicio");
     }
   });
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && app.pantalla === "juego") mantenerPantalla(true);
+    if (document.visibilityState === "visible" && (app.pantalla === "juego" || app.pantalla === "solo")) mantenerPantalla(true);
   });
   window.addEventListener("online", () => app.sincronizar());
   // La app abierta dos veces (en dos pestañas, o instalada y en el navegador): si la otra cambia la
   // partida guardada, esta deja de jugarla para no pisarla, y «Continuar» carga lo último.
   window.addEventListener("storage", (e) => {
+    if ((e.key === null || e.key === PREFIJO + "solo.escalera") && app.pantalla === "solo") {
+      aviso("La escalera ha cambiado en otra ventana de la app. Vuelve a «Jugar solo» para seguir con lo último.", { error: true, ms: 7000 });
+      app.ir("inicio");
+    }
     if ((e.key === null || e.key === PREFIJO + "partida") && app.pantalla === "juego") {
       app.sesion = null;
       aviso("La partida ha cambiado en otra ventana de la app. Pulsa «Continuar» para seguir con lo último.", { error: true, ms: 7000 });

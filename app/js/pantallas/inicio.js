@@ -7,6 +7,7 @@ export async function pantallaInicio(app) {
   const vigente = app.vigente();
   const guardada = app.almacen.cargarPartida();
   const hayPartida = partidaAMedias(guardada?.partida);
+  const escalera = app.almacen.escaleraSolo();
   const ultimaExportacion = app.almacen.preferencia("ultimaExportacion", null);
   const registros = await app.almacen.todosLosRegistros();
   // Los que ya están en la hoja del grupo tampoco están solo en el móvil.
@@ -42,6 +43,11 @@ export async function pantallaInicio(app) {
           )
         : null,
       h("button", { class: `boton boton-grande boton-ancho ${hayPartida ? "" : "boton-primario"}`, onClick: () => app.ir("nueva") }, "Nueva partida"),
+      h(
+        "button",
+        { class: "boton boton-grande boton-ancho", onClick: () => app.ir("solo") },
+        escalera ? `Continuar escalera (${escalera.jugador.nombre})` : "Jugar solo · reto del día",
+      ),
       h("button", { class: "boton boton-ancho", onClick: () => app.ir("revision") }, "Revisar preguntas"),
       h("button", { class: "boton boton-ancho", onClick: () => app.ir("datos") }, "Datos y exportación"),
       h("button", { class: "boton-texto", onClick: () => app.ir("reglas", { volverA: "inicio" }) }, "Cómo se juega"),

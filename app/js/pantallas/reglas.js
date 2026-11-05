@@ -25,6 +25,30 @@ function seccionTemas(app) {
   ];
 }
 
+// Jugar solo (docs/modo_solo.md): el reto del día y la práctica.
+function seccionSolo(app) {
+  const s = app.config.solo;
+  if (!s) return [];
+  const dias = ["domingos", "lunes", "martes", "miércoles", "jueves", "viernes", "sábados"];
+  return [
+    h("h2", {}, "Jugar solo: el reto del día 🪜"),
+    h(
+      "p",
+      {},
+      `Una escalera de 10 preguntas, del nivel 1 al 10, con 8 opciones (las de ${app.nombreCategoria("geohistoria")} se señalan en el mapa). ` +
+        `Cada acierto suma al bote 10 × su nivel, multiplicado por la velocidad: ×${s.multiplicador_max} si respondes al instante, y baja hasta ×1 cuando se acaba el tiempo. ` +
+        "Si fallas, o se acaba el tiempo, pierdes todo el bote. Antes de cada pregunta ves su categoría y decides: seguir o plantarte con lo que llevas.",
+    ),
+    h(
+      "p",
+      {},
+      `El reto del día es igual para todos: las mismas preguntas, con las opciones en el mismo orden. Se juega una vez al día y el resultado se comparte en el grupo. ` +
+        `Los ${unirNombres(s.dias_tematicos.map((d) => dias[d]))} son temáticos: todo el reto es de una categoría o de un tema. ` +
+        "En la práctica puedes jugar todas las escaleras que quieras, de todo o de una categoría, y nunca te salen preguntas de los próximos retos.",
+    ),
+  ];
+}
+
 export function pantallaReglas(app, { volverA = "inicio" } = {}) {
   const [corta, media] = app.config.metas;
   const { nivel_base, nivel_max } = app.config.final;
@@ -136,6 +160,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
         h("li", {}, "«Deshacer» corrige un toque equivocado, aunque ya se haya pasado el turno. Después de «Ver resultados» ya no se puede."),
         h("li", {}, "Si se cierra la app, la partida se guarda y se puede continuar."),
       ),
+      ...seccionSolo(app),
       h("h2", {}, "Ayudad a mejorar las preguntas"),
       h(
         "p",

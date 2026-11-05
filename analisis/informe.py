@@ -174,6 +174,39 @@ def seccion_temas(res: Resultado) -> list[str]:
     return L + [""]
 
 
+def seccion_solo(res: Resultado) -> list[str]:
+    """El modo solo (fase 27): cómo se aciertan las preguntas con 8 opciones y contra el reloj, por escalón, y dónde
+    acaban las escaleras. La calibración no usa estos datos: sirven para ver si hace falta calibrar aparte."""
+    obj = list(res.config["objetivo_acierto"])
+    regs = res.exportaciones.registros
+    resp = [r for r in regs if r.get("tipo") == "solo" and isinstance(r.get("turno"), int)]
+    fines = [r for r in regs if r.get("tipo") == "solo_fin"]
+    if not resp and not fines:
+        return []
+    L = ["## Modo solo", "",
+         f"{plural(len(fines), 'escalera')} ({sum(1 for r in fines if r.get('modo') == 'reto')} de reto y "
+         f"{sum(1 for r in fines if r.get('modo') == 'practica')} de práctica) y {plural(len(resp), 'pregunta')} con 8 opciones. "
+         "Con opciones se acierta más que diciendo la respuesta (por descarte, o al azar una de cada 8): la calibración no usa estos datos.", "",
+         "| Escalón | Preguntas | Aciertos | Objetivo en partida | Sin tiempo | Tiempo medio |",
+         "|---|---|---|---|---|---|"]
+    for n in range(1, len(obj) + 1):
+        xs = [r for r in resp if r["turno"] == n]
+        if not xs:
+            continue
+        aciertos = media(1.0 if r.get("acierto") else 0.0 for r in xs)
+        agotado = media(1.0 if r.get("tiempo_agotado") else 0.0 for r in xs)
+        ms = media(r["ms"] / 1000 for r in xs if isinstance(r.get("ms"), (int, float)))
+        L.append(f"| {n} | {len(xs)} | {pct(aciertos)} | {pct(obj[n - 1])} | {pct(agotado)} | {num(ms, 1) + ' s' if ms is not None else '—'} |")
+    if fines:
+        finales = Counter(r.get("final") for r in fines)
+        botes = [r["bote"] for r in fines if isinstance(r.get("bote"), int)]
+        plantados = [r["pasos"] for r in fines if r.get("final") == "plantado" and isinstance(r.get("pasos"), int)]
+        L += ["", f"Final de las escaleras: {finales.get('plantado', 0)} plantadas, {finales.get('completo', 0)} completas, "
+                  f"{finales.get('fallo', 0)} con un fallo y {finales.get('tiempo', 0)} sin tiempo. Bote medio: {num(media(botes), 0) if botes else '—'}"
+                  + (f"; se plantan, de media, tras el escalón {num(media(plantados), 1)}." if plantados else ".")]
+    return L + [""]
+
+
 # ------------------------------------------------------------------ informe
 
 def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
@@ -252,6 +285,7 @@ def escribir_informe(res: Resultado, ruta: Path, previos: dict | None = None):
                 "entre medias; si siempre jugáis igual, reflejan esa forma de jugar.")
             add("")
 
+    L += seccion_solo(res)
     add("## Parámetros del modelo")
     add("")
     add("Ajustes en niveles (positivo: más difícil de lo que decía el nivel inicial):")

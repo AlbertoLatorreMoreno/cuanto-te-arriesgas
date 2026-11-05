@@ -128,6 +128,11 @@ test("enviar está abierto, así que rechaza lo raro: otra app, tipos desconocid
   assert.deepEqual(s.hoja().celdas[1].slice(1, 5), ["d1", "respuesta", "", ""]);
 });
 
+test("acepta los registros del modo solo", () => {
+  const s = cargar();
+  assert.deepEqual(enviar(s, [registro("s1", { tipo: "solo" }), registro("s2", { tipo: "solo_fin" })]), { ok: true, nuevos: 2, repetidos: 0 });
+});
+
 test("como mucho 3000 filas nuevas al día", () => {
   const s = cargar();
   enviar(s, [registro("primero")]);

@@ -113,7 +113,7 @@ Cada evento es un registro con un `id` único (UUID). La exportación es un úni
 }
 ```
 
-Campos comunes a todos los registros: `id`, `tipo`, `ts`, `dispositivo`, `version_banco` y `version_ajustes`. Los de preguntas (respuesta, anulación y revisión) llevan además `pregunta`, `v`, `categoria`, `subtema`, `nivel_inicial` y `nivel_mostrado`; los de rondas, `ronda` y `v`, y los de finales propias, `final` y `v`.
+Campos comunes a todos los registros: `id`, `tipo`, `ts`, `dispositivo`, `version_banco` y `version_ajustes`. Los de preguntas (respuesta, anulación, revisión y los del modo solo, `solo`) llevan además `pregunta`, `v`, `categoria`, `subtema`, `nivel_inicial` y `nivel_mostrado`; los de rondas, `ronda` y `v`, y los de finales propias, `final` y `v`.
 
 ### `tipo: "respuesta"`: una pregunta jugada
 
@@ -195,6 +195,30 @@ Como las rondas, no entra en el modelo de niveles: el informe la cuenta aparte (
 
 `partida`, `turno`, `jugador`, `lector`, `modo`, `final`, `v`, `nivel`, `motivo` (de `config.motivos_anulacion`) y `momento`, como en una anulación.
 
+### `tipo: "solo"`: una pregunta del modo solo
+
+Desde la fase 27 (5-11-2026). Cada pregunta respondida en una escalera del modo solo ([docs/modo_solo.md](modo_solo.md)). No lleva `partida` (por eso cuenta aparte en «Datos» y se envía según su propia preferencia), sino `escalera`. Su `id` es fijo, `<escalera>-r<escalón>` (y `<escalera>-fin` el del final): al retomar una escalera se vuelven a guardar sin duplicarse. `version_banco` y `version_ajustes` son las de cuando empezó la escalera.
+
+| Campo | Descripción |
+|---|---|
+| `escalera`, `turno` | Id de la escalera y escalón (1 a 10, que es también el nivel que se juega). |
+| `modo` | `"reto"` (el reto del día) o `"practica"`. |
+| `reto`, `reto_origen` | En el reto, su fecha (`AAAA-MM-DD`, hora de España) y de dónde salió: `"calendario"` (`app/data/retos.json`) o `"semilla"` (el calendario no llegaba a ese día); en la práctica, `null`. |
+| `tema_dia`, `categoria_practica` | El tema del día temático (o `null`) y la categoría elegida para practicar (o `null`: todas). |
+| `jugador` | Clave de quien juega. |
+| `respuesta_dada` | El texto de la opción que eligió (`null` en las de mapa o si se acabó el tiempo). |
+| `opciones` | Huella de las opciones que vio (la correcta y las 7 incorrectas): si se rehacen, cambia. `null` en las de mapa. |
+| `acierto`, `tiempo_agotado` | Si acertó a tiempo, y si se le acabó el tiempo (entonces `acierto` es `false`). |
+| `ms`, `segundos` | Milisegundos que tardó en responder y los que tenía. |
+| `multiplicador`, `puntos`, `bote` | El multiplicador por velocidad (de 2 a 1, con dos decimales; 0 si falló), los puntos que sumó y el bote tras responder (0 si falló). |
+| `lat_senalada`, `lon_senalada`, `distancia_km`, `distancia_max_km` | En las de mapa, como en una respuesta. |
+
+La calibración no los usa todavía: con 8 opciones se puede acertar por descarte o al azar, y el tiempo cambia la dificultad.
+
+### `tipo: "solo_fin"`: el final de una escalera
+
+`escalera`, `modo`, `reto`, `tema_dia`, `categoria_practica`, `jugador`, `pasos` (aciertos), `bote` (lo que se lleva: 0 si falló) y `final`: `"plantado"`, `"completo"` (acertó las 10), `"fallo"` o `"tiempo"`.
+
 ## Rondas divertidas — `app/data/rondas.json`
 
 ```json
@@ -269,6 +293,43 @@ La pregunta final no sale del banco: tiene su propio archivo, con preguntas más
 
 **En el informe de calibración**, la sección «Preguntas finales» da, por nivel, cuántas se han jugado y qué parte se acertó frente al objetivo, y por final, las veces, las acertadas, los aciertos de media de los retos, las valoraciones, los cambios y las marcas de «mala». Avisa de las que se aciertan más del doble de lo buscado.
 
+## Modo solo — `app/data/opciones/<categoría>.json` y `app/data/retos.json`
+
+**Opciones.** Un archivo por cada archivo del banco con preguntas de texto (las de Localízalo se responden en el mapa), con el mismo nombre. Una pregunta por línea:
+
+```json
+{
+  "formato": 1,
+  "opciones": {
+    "cie-bio-01": {"v": 1, "incorrectas": ["El tallo", "La hoja", "La flor", "El fruto", "El pétalo", "El estambre", "El sépalo"]},
+    "his-esp-12": {"v": 1, "correcta": "Felipe II", "incorrectas": ["…"]}
+  },
+  "no_aptas": {"cie-qui-21": "motivo por el que no se puede preguntar con opciones"}
+}
+```
+
+- `v`: la versión de la pregunta para la que se hicieron. Si la pregunta se reescribe (sube su `v`), no valen y la pregunta no sale a solas hasta rehacerlas (`herramientas/opciones_codex.py`).
+- `incorrectas`: exactamente 7, del mismo tipo que la respuesta y de hasta 60 caracteres.
+- `correcta` (opcional): el texto del botón correcto, si `respuesta` no sirve tal cual (es larga o lleva aclaraciones). Si no está, el botón dice `respuesta`.
+- `herramientas/validar_opciones.py` lo comprueba todo y da la cobertura por categoría y nivel.
+
+**Calendario.** `herramientas/generar_retos.py` lo amplía (los días ya publicados no cambian) y lo comprueba:
+
+```json
+{
+  "formato": 1,
+  "generado": "2026-11-05T22:00:00",
+  "dias": [
+    {"fecha": "2026-11-06", "tema": null, "titulo": null, "categorias": ["mates", "ciencias", "…"], "preguntas": ["mat-cal-01", "cie-fis-03", "…"]},
+    {"fecha": "2026-11-08", "tema": "harry_potter", "titulo": "Día de Harry Potter ⚡", "categorias": ["harry_potter", "…"], "preguntas": ["…"]}
+  ]
+}
+```
+
+`preguntas` va del escalón 1 al 10, y `categorias[i]` es la categoría del escalón i + 1 (para sustituir una pregunta que se retire). Los días temáticos llevan `tema` (id de `config.solo.temas_dia`) y `titulo`.
+
+**Configuración** (`config.solo`): `retos` y `opciones` (rutas), `zona_horaria` (la del día del reto), `puntos` (lo que vale cada escalón antes del multiplicador), `multiplicador_max`, `segundos` y `segundos_mapa` (por nivel; las de Mates y lógica usan los de `config.cronometro`), `mezcla` (cuántas de cada categoría en un día mezclado; `extra`, cuántas más de una de texto), `dias_tematicos` (días de la semana, 0 = domingo) y `temas_dia` (por turnos, con su título).
+
 ## Modelo filtro — `generador/filtro.json`
 
 Lo escribe `analisis/entrenar_filtro.py` y lo lee `generador/filtro.py`, que es también quien calcula las características. Es una regresión logística ridge sobre características estandarizadas: `P(mala) = σ(intercepto + Σ peso·(x − media)/desviación)`. Una candidata se descarta si `P(mala) > umbral`.
@@ -288,7 +349,7 @@ Etiquetas de entrenamiento: **mala** si la pregunta está retirada o tiene algun
 
 Un Apps Script de Google (`herramientas/apps_script.gs`), dentro de una hoja de cálculo de la cuenta de la app y publicado como aplicación web, recibe los registros de los móviles (`app/js/envio.js`) y se los da a `analisis/descargar.py`. Su dirección va en `app/data/config.json` (`envio.url`); vacía, la app no pregunta ni envía nada. Cómo crearlo: README, «Envío de datos a la hoja del grupo».
 
-**Permiso.** Solo se envía lo que el grupo acepta. Al mostrarse la pantalla final de una partida, la app pregunta «¿Enviamos los datos de esta partida?» una vez; la respuesta se guarda por partida (`cta.envio.partidas`) y cubre también lo que se juegue después en su ronda de oro. Si se cierra el diálogo sin contestar o se dice que no, la pantalla final deja un botón para enviarlos. Al salir de «Revisar preguntas», lo mismo con las valoraciones por las que aún no se ha preguntado (`cta.envio.revisiones`, por registro). Una partida que se abandona con «Terminar esta partida» no se pregunta.
+**Permiso.** Solo se envía lo que el grupo acepta. Al mostrarse la pantalla final de una partida, la app pregunta «¿Enviamos los datos de esta partida?» una vez; la respuesta se guarda por partida (`cta.envio.partidas`) y cubre también lo que se juegue después en su ronda de oro. Si se cierra el diálogo sin contestar o se dice que no, la pantalla final deja un botón para enviarlos. Al salir de «Revisar preguntas», lo mismo con las valoraciones por las que aún no se ha preguntado (`cta.envio.revisiones`, por registro). Una partida que se abandona con «Terminar esta partida» no se pregunta. Las partidas a solas (`solo` y `solo_fin`) se preguntan una sola vez, al acabar la primera escalera: la respuesta se guarda en `cta.pref.envioSolo`, se aplica a todo lo del modo solo sin decidir al acabar cada escalera (por registro, en `cta.envio.revisiones`) y se puede cambiar en «Datos y exportación». Se envían al final y en tandas aparte, para que un script sin desplegar que aún no los acepta no frene los de las partidas.
 
 **Peticiones.** Todas son `POST` a la dirección `/exec` con el cuerpo en JSON como texto plano (`Content-Type: text/plain`: así el navegador no hace consulta previa de CORS, que Apps Script no contesta). Apps Script responde con una redirección a otra dirección que da la respuesta, y el navegador y `urllib` la siguen solos. Un `GET` a `/exec` solo dice si el script funciona, sin datos.
 
@@ -301,7 +362,7 @@ Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no
 
 **Quién puede leer los datos.** Solo quien tenga el código de descarga, y la hoja solo la puede abrir la cuenta de la app (acceso «Restringido»). Ninguna respuesta sin el código lleva datos: ni el `GET`, ni los errores, ni `enviar` (que solo dice cuántos registros eran nuevos). Para que nadie pueda adivinar el código a base de probar, tras 10 intentos con un código equivocado (`MAX_FALLOS`) la descarga se cierra durante una hora (`CIERRE_SEGUNDOS`), también para el código bueno; la cuenta se lleva en la caché del script, con el cerrojo puesto, y enviar sigue abierto. Si alguna vez `descargar.py` dice que está cerrada sin que hayas fallado tú, alguien está probando códigos.
 
-**Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
+**Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`, y desde la fase 27 `solo` y `solo_fin`, que exigen desplegar la versión nueva del script), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
 
 **La hoja** (pestaña `registros`) tiene una fila por registro, sin repetidos por `id`: `recibido`, `id`, `tipo`, `ts`, `dispositivo` y `registro` (el registro entero en JSON). Todo se escribe como texto.
 
@@ -332,9 +393,11 @@ Además del registro, cada móvil guarda en `localStorage`, con el prefijo `cta.
 | `cta.jugadores` | Jugadores recordados: `[{ clave, nombre, ultima }]`, donde `ultima` es la última vez que empezó una partida (jugando o narrando) o una revisión. Sirve para sugerir nombres. |
 | `cta.vistas` | Preguntas vistas por cada jugador: `{ clave: { idPregunta: fecha } }`. Sirve para no repetirle preguntas. |
 | `cta.revisadas` | Preguntas revisadas por cada evaluador, con el mismo formato. |
-| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa, el último tema de cada jugador (`cta.pref.temas`: `{ clave: idTema }`) y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error }`). |
+| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa, quién juega solo (`jugadorSolo`) y qué practica (`practicaSolo`), si se envían las partidas a solas (`envioSolo`), el último tema de cada jugador (`cta.pref.temas`: `{ clave: idTema }`) y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error }`). |
 | `cta.envio.partidas`, `cta.envio.revisiones` | Lo que se respondió a «¿Enviamos los datos?»: `{ idPartida: true/false }` y, para las valoraciones de «Revisar preguntas», `{ idRegistro: true/false }`. |
 | `cta.enviados` | Ids de los registros que ya están en la hoja del grupo. Si se pierde, se reenvía lo aceptado, sin duplicar nada. |
+| `cta.solo.escalera` | La escalera del modo solo a medias (una por móvil), con su fase, el bote, las opciones barajadas y cuándo empezó la pregunta en pantalla (si se cierra la app, el tiempo sigue corriendo). |
+| `cta.solo.retos`, `cta.solo.practica` | Lo jugado en el modo solo por cada jugador: `{ clave: { fecha: { bote, paso, final, emojis, titulo, ts } } }` (un reto empezado lleva solo `empezado`, para no poder repetirlo) y `{ clave: { mejor, escaleras } }`. |
 | `cta.dispositivo` | Identificador del móvil, que va en cada registro. |
 
 Si algo de esto tiene una forma inesperada (una versión anterior, una escritura a medias), se lee como vacío: nunca impide abrir la app. Con la app abierta dos veces en el mismo móvil (dos pestañas, o instalada y en el navegador), las preguntas vistas se combinan en vez de pisarse, y si una ventana cambia la partida, la otra deja de jugarla y vuelve al inicio.

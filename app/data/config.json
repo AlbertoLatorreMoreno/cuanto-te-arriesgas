@@ -12,6 +12,30 @@
   "cronometro": { "categorias": ["mates"], "segundos_por_nivel": [45, 45, 45, 60, 60, 60, 60, 60, 60, 60], "por_subtema": { "series_num": [45, 45, 45, 60, 60, 60, 60, 75, 75, 75] } },
   "rondas": { "archivo": "data/rondas.json", "cada": 8, "media_aviso": { "baja": 1, "alta": 6, "prevista": 1.5, "minimo_jugadas": 3 }, "curva": { "sd": 1.5, "margen": 1.5 } },
   "envio": { "url": "https://script.google.com/macros/s/AKfycbwmEaJsXS577ocwJ9Pzo_9MFXNa_qoUW04XRjGSRxGY3dumoKUZ2ubep6eeDwzc0u0NIA/exec" },
+  "solo": {
+    "retos": "data/retos.json",
+    "opciones": "data/opciones/",
+    "zona_horaria": "Europe/Madrid",
+    "puntos": [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    "multiplicador_max": 2,
+    "segundos": [20, 20, 25, 25, 30, 30, 30, 35, 35, 40],
+    "segundos_mapa": [30, 30, 30, 30, 30, 40, 40, 40, 40, 40],
+    "mezcla": { "ciencias": 2, "historia": 2, "entretenimiento": 2, "mates": 2, "geohistoria": 1, "extra": 1 },
+    "dias_tematicos": [3, 0],
+    "temas_dia": [
+      { "id": "ciencias", "titulo": "Día de las ciencias 🔬" },
+      { "id": "historia", "titulo": "Día de la historia y la geografía 🏛" },
+      { "id": "entretenimiento", "titulo": "Día del entretenimiento 🎬" },
+      { "id": "mates", "titulo": "Día de las mates 🧮" },
+      { "id": "geohistoria", "titulo": "Día de Localízalo 🗺" },
+      { "id": "harry_potter", "titulo": "Día de Harry Potter ⚡" },
+      { "id": "star_wars", "titulo": "Día de Star Wars 🌌" },
+      { "id": "marvel", "titulo": "Día de Marvel 🦸" },
+      { "id": "juego_de_tronos", "titulo": "Día de Juego de tronos 🐉" },
+      { "id": "segunda_guerra", "titulo": "Día de la Segunda Guerra Mundial ⚔" },
+      { "id": "sorpresa", "titulo": "Día sorpresa 🎁" }
+    ]
+  },
   "categorias": [
     {
       "id": "ciencias",

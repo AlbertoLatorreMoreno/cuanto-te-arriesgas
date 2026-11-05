@@ -14,7 +14,8 @@ const CODIGO_DESCARGA = "";
 
 const HOJA = "registros";
 const COLUMNAS = ["recibido", "id", "tipo", "ts", "dispositivo", "registro"];
-const TIPOS = ["respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada"];
+// «solo» y «solo_fin»: el modo solo (desde el 5-11-2026). Con un script anterior, los móviles no los pueden enviar.
+const TIPOS = ["respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"];
 const MAX_REGISTROS_POR_ENVIO = 500;
 const MAX_CARACTERES_REGISTRO = 20000; // una celda admite 50 000
 const MAX_FILAS_AL_DIA = 3000; // un grupo deja unos cientos en una quedada: más sería un abuso

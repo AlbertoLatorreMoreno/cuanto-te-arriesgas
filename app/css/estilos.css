@@ -1531,3 +1531,161 @@ dialog h2 {
 .mapa-leyenda span.correcta::before {
   background: var(--marca-ok);
 }
+
+/* ---------------------------------------------------------------- modo solo: el reto del día */
+
+.tarjeta-reto .titulo-tematico {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.emojis-reto {
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.escalera {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.peldano {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  border-radius: var(--radio-sm);
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.peldano.hecho {
+  background: var(--ok-fondo);
+  border-color: var(--ok-fondo);
+  color: #fff;
+}
+
+.peldano.fallado {
+  background: var(--mal-fondo);
+  border-color: var(--mal-fondo);
+  color: #fff;
+}
+
+.peldano.actual {
+  border-color: var(--texto);
+  border-width: 3px;
+  color: var(--texto);
+}
+
+.bote {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+.bote span {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.bote strong {
+  font-size: 2.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bote-final {
+  font-size: 3.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.bote-final span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.multiplicador {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  min-width: 4.2ch;
+  text-align: right;
+}
+
+.texto-pregunta.solo {
+  font-size: 1.3rem;
+  margin: 6px 0 2px;
+}
+
+/* Las 8 opciones, de dos en dos: botones de igual alto que se leen enteros. */
+.opciones-solo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+.opcion {
+  min-height: 56px;
+  padding: 8px 10px;
+  border-radius: var(--radio-sm);
+  border: 1.5px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1.2;
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+button.opcion:active {
+  background: var(--superficie-2);
+}
+
+.opciones-solo.resueltas .opcion {
+  display: grid;
+  place-items: center;
+  cursor: default;
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
+.opciones-solo.resueltas .opcion.correcta {
+  background: var(--ok-fondo);
+  border-color: var(--ok-fondo);
+  color: #fff;
+  font-weight: 700;
+}
+
+.opciones-solo.resueltas .opcion.elegida-mal {
+  background: var(--mal-fondo);
+  border-color: var(--mal-fondo);
+  color: #fff;
+  font-weight: 700;
+}
+
+.respuesta-solo {
+  margin-top: 8px;
+}
+
+.texto-compartir {
+  white-space: pre-wrap;
+  font: inherit;
+  margin: 0 0 16px;
+  user-select: all;
+}

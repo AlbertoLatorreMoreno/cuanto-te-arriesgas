@@ -77,6 +77,39 @@ La simulación genera partidas con niveles reales conocidos (en `analisis/simula
 
 ---
 
+## Jugar solo: el reto del día
+
+En «Jugar solo · reto del día», una escalera de 10 preguntas, del nivel 1 al 10, con 8 opciones (las de Localízalo, en el mapa). Cada acierto suma al bote 10 × su nivel, y hasta el doble si se responde rápido; fallar, o quedarse sin tiempo, lo pierde todo, así que antes de cada pregunta se puede plantar. El reto del día es el mismo para todos (preguntas y orden de las opciones) y se comparte en el grupo con emojis; los miércoles y domingos es temático. Además, práctica libre. Reglas y decisiones: [docs/modo_solo.md](docs/modo_solo.md).
+
+**Cada mes, más o menos: ampliar el calendario.** El reto sale de `app/data/retos.json`, que llega 42 días por delante. Los días ya publicados no cambian nunca.
+
+```bash
+py herramientas/generar_retos.py --comprobar
+```
+
+avisa si quedan menos de 14 días, y
+
+```bash
+py herramientas/generar_retos.py
+```
+
+lo amplía hasta 42 días desde hoy (con `--dias` se cambia el horizonte, con `--seco` se ve sin escribir). Las preguntas de los retos de hoy en adelante no salen en la práctica, así que un horizonte muy largo la deja sin preguntas: el informe dice cuántas quedan libres. Si el calendario se acaba, la app arma el reto con la fecha como semilla (igual en todos los móviles), pero mejor no llegar a eso. Después, publica.
+
+**Las opciones incorrectas** están en `app/data/opciones/` (7 por pregunta de texto, para su versión). Las hizo Codex y las revisaron Codex, en otra pasada, y Claude. Si añades o reescribes preguntas, no salen a solas hasta tener las suyas:
+
+```bash
+py herramientas/opciones_codex.py preparar
+py herramientas/opciones_codex.py lanzar
+py herramientas/opciones_codex.py incorporar
+py herramientas/validar_opciones.py
+```
+
+`lanzar` usa la CLI de Codex con tu cuenta. También se pueden escribir a mano, con el formato de [docs/esquema_datos.md](docs/esquema_datos.md). El validador comprueba la forma y las trampas típicas (una incorrecta que es la respuesta en otro formato, una cifra dentro del margen del criterio…), pero no si una incorrecta es defendible: eso, a ojo.
+
+**Envío a la hoja.** Al acabar la primera escalera se pregunta una vez si se envían las partidas a solas; se puede cambiar en «Datos y exportación». Hace falta la versión nueva de `herramientas/apps_script.gs` (acepta los tipos `solo` y `solo_fin`): pégala y despliégala como *Nueva versión*, como se explica más abajo. Hasta entonces, esos registros se quedan pendientes (no frenan los de las partidas) y el inicio avisa de que no se han podido enviar. La calibración todavía no los usa.
+
+---
+
 ## Envío de datos a la hoja del grupo
 
 Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
@@ -197,6 +230,7 @@ Las preguntas están en `app/data/preguntas/<categoría>.json`, una por línea. 
 | Motor del juego (reglas, selección, deshacer, preguntas de mapa, empates, 350 partidas simuladas y 200 con acciones al azar), envío a la hoja del grupo y el script de Google (con una hoja simulada) | `node --test "tests/**/*.test.js"` |
 | Validador del banco y versionado de archivos | `py -m unittest discover -s herramientas` |
 | Banco de preguntas, rondas y finales | `py herramientas/validar_banco.py` |
+| Opciones y calendario del modo solo | `py herramientas/validar_opciones.py` y `py herramientas/generar_retos.py --comprobar` |
 | Generador (con un cliente simulado: no gasta API) | `py -m unittest discover -s generador` |
 | Calibración, simulador, modelo filtro y descarga de la hoja del grupo | `py -m unittest discover -s analisis` |
 
@@ -215,11 +249,13 @@ app/                 la app (lo que se publica)
   js/sesion.js         deshacer y guardado
   js/almacen.js        localStorage + IndexedDB
   js/envio.js          envío de datos a la hoja del grupo (con permiso, al acabar cada partida)
+  js/solo.js           modo solo: reto del día, práctica, escalera y puntos (puro, con tests)
   js/pantallas/        una por pantalla
-  data/                configuración, banco, temas, rondas, finales, ajustes y control de versiones
+  data/                configuración, banco, temas, rondas, finales, ajustes y control de versiones;
+                       opciones/ y retos.json, del modo solo
 tests/               tests del motor (Node)
-herramientas/        validador del banco, versionado de archivos, generador del mapa y de los iconos, y el script de Google de la hoja del grupo (con un sustituto local para probar)
+herramientas/        validador del banco, opciones y calendario del modo solo, versionado de archivos, generador del mapa y de los iconos, y el script de Google de la hoja del grupo (con un sustituto local para probar)
 analisis/            calibración, informe, simulador, modelo filtro y descarga de la hoja del grupo (datos/ para las exportaciones)
 generador/           generación de preguntas con IA (Python)
-docs/                rúbrica, formato de datos y guías de las primeras partidas y de la prueba en el móvil
+docs/                rúbrica, formato de datos, modo solo y guías de las primeras partidas y de la prueba en el móvil
 ```

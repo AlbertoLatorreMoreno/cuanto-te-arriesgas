@@ -9,6 +9,7 @@ analisis/envio.json
 analisis/salida/
 analisis/simulados/
 generador/candidatas/
+herramientas/opciones_lotes/
 
 # Entornos
 __pycache__/

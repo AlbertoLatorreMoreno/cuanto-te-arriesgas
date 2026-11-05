@@ -528,6 +528,26 @@ class TestTemas(unittest.TestCase):
         # Los más elegidos, primero (a igualdad, el que más se ha gastado).
         self.assertEqual(list(filas)[:2], [nombres[hp], nombres[sw]])
 
+    def test_el_modo_solo_sale_en_el_informe_y_no_entra_en_la_calibracion(self):
+        q = BANCO.categoria.index(CONFIG["categorias"][0]["id"])
+        comun = {"dispositivo": "prueba", "version_banco": "prueba", "version_ajustes": "inicial", "escalera": "e1", "modo": "reto",
+                 "reto": "2026-11-06", "jugador": "ana", "pregunta": BANCO.id[q], "v": int(BANCO.v[q]), "categoria": BANCO.categoria[q]}
+        registros = [{**comun, "id": "e1-r1", "tipo": "solo", "ts": "2026-11-06T10:00:01.000Z", "turno": 1, "acierto": True, "tiempo_agotado": False, "ms": 4000},
+                     {**comun, "id": "e1-r2", "tipo": "solo", "ts": "2026-11-06T10:00:09.000Z", "turno": 2, "acierto": True, "tiempo_agotado": False, "ms": 6000},
+                     {**comun, "id": "e1-fin", "tipo": "solo_fin", "ts": "2026-11-06T10:00:20.000Z", "pasos": 2, "bote": 55, "final": "plantado"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            escribir_exportacion(tmp / "datos" / "solo.json", registros)
+            res = calibrar_callado(tmp / "datos")
+            texto = leer_informe(res, tmp, "informe.md")
+        self.assertEqual(len(res.datos.respuestas), 0, "las preguntas con opciones no entran en el modelo")
+        inicio = texto.index("## Modo solo")
+        bloque = "\n".join(texto[inicio:inicio + 12])
+        self.assertIn("1 escalera (1 de reto y 0 de práctica) y 2 preguntas", bloque)
+        self.assertIn("| 1 | 1 | 100 % |", bloque)
+        self.assertIn("1 plantadas", bloque)
+        self.assertIn("tras el escalón 2", bloque)
+
 
 class TestModeloFiltro(unittest.TestCase):
     def test_respuesta_numerica_con_el_signo_menos_del_banco(self):

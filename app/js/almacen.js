@@ -175,12 +175,41 @@ export async function crearAlmacen() {
         delete temas[clave];
         escribir("pref.temas", temas);
       }
+      // Modo solo: sus resultados de los retos y su mejor práctica (sus registros, nunca).
+      for (const k of ["solo.retos", "solo.practica"]) {
+        const todos = leerMapa(k);
+        if (clave in todos) {
+          delete todos[clave];
+          escribir(k, todos);
+        }
+      }
+      if (leer("pref.jugadorSolo", null)?.clave === clave) escribir("pref.jugadorSolo", undefined);
     },
     // Olvida a los que llevan más de `dias` sin jugar; devuelve a quiénes.
     olvidarInactivos({ ahora, dias, protegidos }) {
       const olvidados = jugadoresInactivos(leerJugadores(), { ahora, dias, protegidos });
       for (const j of olvidados) this.olvidarJugador(j.clave);
       return olvidados;
+    },
+
+    // --- modo solo (solo.js): la escalera en curso (una por móvil), los retos jugados por cada jugador
+    // ({ clave: { fecha: resumen } }) y su práctica ({ clave: { mejor, escaleras } }).
+    escaleraSolo() {
+      const e = leer("solo.escalera", null);
+      return e && typeof e === "object" && Array.isArray(e.preguntas) && e.jugador?.clave ? e : null;
+    },
+    guardarEscaleraSolo: (e) => escribir("solo.escalera", e ?? undefined),
+    retosSoloDe: (clave) => mapaDe(leerMapa("solo.retos"), clave),
+    guardarRetoSolo(clave, fecha, resumen) {
+      const todos = leerMapa("solo.retos");
+      (todos[clave] = mapaDe(todos, clave))[fecha] = resumen;
+      return escribir("solo.retos", todos);
+    },
+    practicaSoloDe: (clave) => mapaDe(leerMapa("solo.practica"), clave),
+    guardarPracticaSolo(clave, datos) {
+      const todos = leerMapa("solo.practica");
+      todos[clave] = datos;
+      return escribir("solo.practica", todos);
     },
 
     // --- preferencias y metadatos

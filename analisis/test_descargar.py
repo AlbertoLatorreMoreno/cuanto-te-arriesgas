@@ -75,6 +75,16 @@ class TestDescargar(unittest.TestCase):
         self.assertEqual([p.name for p in self.tmp.iterdir()], [descargar.NOMBRE])
         self.assertEqual(len(json.loads((self.tmp / descargar.NOMBRE).read_text(encoding="utf-8"))["registros"]), 12)
 
+    def test_los_registros_del_modo_solo_llegan_y_se_descargan(self):
+        solo = {**registro(1), "id": "esc-1-r1", "tipo": "solo", "escalera": "esc-1", "modo": "reto", "reto": "2026-11-06",
+                "turno": 1, "ms": 4210, "segundos": 20, "multiplicador": 1.79, "puntos": 18, "bote": 18}
+        fin = {**registro(2), "id": "esc-1-fin", "tipo": "solo_fin", "escalera": "esc-1", "pasos": 1, "bote": 18, "final": "plantado"}
+        self.assertEqual(self.enviar([solo, fin]), {"ok": True, "nuevos": 2, "repetidos": 0})
+        codigo, salida = self.ejecutar("--url", self.url, "--codigo", CODIGO)
+        self.assertEqual(codigo, 0, salida)
+        datos = json.loads((self.tmp / descargar.NOMBRE).read_text(encoding="utf-8"))
+        self.assertEqual([(r["id"], r["tipo"]) for r in datos["registros"]], [("esc-1-r1", "solo"), ("esc-1-fin", "solo_fin")])
+
     def test_con_otro_codigo_o_sin_datos_no_escribe_nada(self):
         self.enviar([registro(1)])
         codigo, salida = self.ejecutar("--url", self.url, "--codigo", "otro-codigo")
@@ -153,7 +163,14 @@ class TestLoQueLlegaDeLaHoja(unittest.TestCase):
         # El tema que eligió quien juega (fase 23): un texto corto, o null si iba sin tema.
         self.assertTrue(descargar.registro_valido({**bueno, "tema_elegido": "harry_potter"}))
         self.assertTrue(descargar.registro_valido({**bueno, "tema_elegido": None}))
+        # El modo solo (fase 27): cada respuesta y el final de cada escalera.
+        solo = {**bueno, "tipo": "solo", "escalera": "esc-1", "modo": "reto", "reto": "2026-11-06", "turno": 3, "ms": 4210,
+                "segundos": 25, "multiplicador": 1.83, "puntos": 55, "bote": 115, "tiempo_agotado": False, "opciones": "1a2b3c4d"}
+        self.assertTrue(descargar.registro_valido(solo))
+        self.assertTrue(descargar.registro_valido({**bueno, "tipo": "solo_fin", "escalera": "esc-1", "pasos": 3, "bote": 115, "final": "plantado"}))
         raros = [
+            {**solo, "multiplicador": "×1,8"},
+            {**solo, "ms": 1.5},
             "no es un objeto",
             {**bueno, "id": "=IMPORTXML(1)"},
             {**bueno, "tipo": "otra_cosa"},

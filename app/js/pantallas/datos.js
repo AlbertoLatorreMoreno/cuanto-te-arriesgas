@@ -32,6 +32,31 @@ function seccionEnvio(app, registros) {
     h("p", { class: "texto-suave pequeno" }, `Enviados desde este móvil: ${enviados}. Aceptados y aún por enviar: ${pendientes}.`),
     ultimo && !ultimo.ok && pendientes ? h("p", { class: "nota", role: "alert" }, `El último intento (${haceCuanto(ultimo.ts)}) ha fallado. ${ultimo.error}`) : null,
     pendientes ? h("button", { class: "boton boton-ancho", onClick: reintentar }, "Reintentar ahora") : null,
+    lineaEnvioSolo(app),
+  );
+}
+
+// Las partidas a solas se envían (o no) según una sola respuesta, que se puede cambiar aquí. Cambiarla vale para
+// las escaleras que se jueguen desde ahora; lo ya decidido no cambia.
+function lineaEnvioSolo(app) {
+  const si = app.almacen.preferencia("envioSolo", null);
+  if (si === null) return null;
+  return h(
+    "div",
+    { class: "fila-botones" },
+    h("p", { class: "texto-suave pequeno", style: { flex: "2" } }, si ? "Partidas a solas: se envían." : "Partidas a solas: no se envían."),
+    h(
+      "button",
+      {
+        class: "boton boton-pequeno",
+        onClick: () => {
+          app.almacen.guardarPreferencia("envioSolo", !si);
+          aviso(si ? "Las próximas partidas a solas no se enviarán." : "Las próximas partidas a solas se enviarán.");
+          app.ir("datos");
+        },
+      },
+      si ? "No enviarlas" : "Enviarlas",
+    ),
   );
 }
 
@@ -110,6 +135,7 @@ export async function pantallaDatos(app, params = {}) {
     ["Marcadas como malas", [...respuestas, ...finales, ...revisiones].filter((r) => r.mala).length + anulaciones.filter((r) => motivosCalidad.has(r.motivo)).length],
     ["Revisiones", revisiones.length],
     ["Preguntas cambiadas", anulaciones.length],
+    ["Escaleras a solas", registros.filter((r) => r.tipo === "solo_fin").length],
   ];
   const ultima = app.almacen.preferencia("ultimaExportacion", null);
   const resumen = resumenBanco(app.indice, app.almacen.vistoPorAlguien());

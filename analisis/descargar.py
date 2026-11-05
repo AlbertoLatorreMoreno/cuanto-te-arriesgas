@@ -33,13 +33,14 @@ POR_PETICION = 2000
 
 # Forma de un registro de la app (docs/esquema_datos.md). Lo que llega de la hoja lo puede haber enviado
 # cualquiera (la dirección del script es pública): lo que no tenga esta forma se descarta antes de calibrar.
-TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada"}
+TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"}
 ID_VALIDO = re.compile(r"^[A-Za-z0-9][\w.-]{0,99}$")
 TS_VALIDO = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
 LOGICOS = {"es_final", "acierto", "tiempo_agotado"}
 ENTEROS = {"turno", "v", "nivel_inicial", "nivel_mostrado", "apuesta", "nivel_desde", "nivel_hasta", "cronometro", "puntos", "nivel",
-           "nivel_pedido", "ventaja", "rebaja", "ronda_oro", "aciertos", "minimo", "total", "leidos", "extra", "segundos"}
-NUMEROS = {"lat_senalada", "lon_senalada", "distancia_km", "distancia_max_km"}
+           "nivel_pedido", "ventaja", "rebaja", "ronda_oro", "aciertos", "minimo", "total", "leidos", "extra", "segundos",
+           "ms", "bote", "pasos"}
+NUMEROS = {"lat_senalada", "lon_senalada", "distancia_km", "distancia_max_km", "multiplicador"}
 LISTAS_DE_ENTEROS = {"marcados"}
 MAX_TEXTO = 200
 

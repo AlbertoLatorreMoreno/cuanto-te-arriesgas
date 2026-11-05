@@ -1,7 +1,7 @@
 // Service worker: primero la red (siempre la última versión del banco y los ajustes)
 // y, sin conexión, la copia guardada. VERSION la pone herramientas/versionar.py (no la toques a mano).
 
-const VERSION = "cta-2ccd97aa6e";
+const VERSION = "cta-9b8fee882d";
 const ARCHIVOS = [
   "./",
   "index.html",
@@ -18,6 +18,7 @@ const ARCHIVOS = [
   "js/mapa.js",
   "js/motor.js",
   "js/sesion.js",
+  "js/solo.js",
   "js/util.js",
   "js/pantallas/comun.js",
   "js/pantallas/datos.js",
@@ -27,6 +28,7 @@ const ARCHIVOS = [
   "js/pantallas/nueva.js",
   "js/pantallas/reglas.js",
   "js/pantallas/revision.js",
+  "js/pantallas/solo.js",
   "data/config.json",
   "data/ajustes.json",
   "data/rondas.json",
@@ -43,6 +45,17 @@ const ARCHIVOS = [
   "data/temas/segunda_guerra.json",
   "data/temas/sorpresa.json",
   "data/mapa.json",
+  "data/retos.json",
+  "data/opciones/ciencias.json",
+  "data/opciones/historia.json",
+  "data/opciones/entretenimiento.json",
+  "data/opciones/mates.json",
+  "data/opciones/harry_potter.json",
+  "data/opciones/star_wars.json",
+  "data/opciones/marvel.json",
+  "data/opciones/juego_de_tronos.json",
+  "data/opciones/segunda_guerra.json",
+  "data/opciones/sorpresa.json",
   "icons/icono-180.png",
   "icons/icono-192.png",
   "icons/icono-512.png",

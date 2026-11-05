@@ -23,7 +23,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
 ID_VALIDO = re.compile(r"^[A-Za-z0-9][\w.-]{0,99}$")
-TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada"}
+TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"}
 MAX_REGISTROS_POR_ENVIO = 500
 
 

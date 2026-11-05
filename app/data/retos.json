@@ -1,0 +1,1224 @@
+{
+ "formato": 1,
+ "generado": "2026-11-05T21:15:12",
+ "dias": [
+  {
+   "fecha": "2026-11-05",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "mates",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "geohistoria",
+    "ciencias",
+    "historia"
+   ],
+   "preguntas": [
+    "mat-geo-21",
+    "his-esp-24",
+    "ent-ser-24",
+    "mat-pro-08",
+    "ent-cin-30",
+    "his-rel-11",
+    "cie-cue-13",
+    "geo-lug-40",
+    "cie-qui-18",
+    "his-ant-40"
+   ]
+  },
+  {
+   "fecha": "2026-11-06",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "historia",
+    "ciencias",
+    "mates",
+    "mates",
+    "geohistoria",
+    "ciencias",
+    "mates",
+    "entretenimiento",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "his-esp-01",
+    "his-con-24",
+    "cie-cue-05",
+    "mat-log-10",
+    "mat-geo-11",
+    "geo-lug-22",
+    "cie-qui-34",
+    "mat-pro-33",
+    "ent-cin-17",
+    "ent-mus-19"
+   ]
+  },
+  {
+   "fecha": "2026-11-07",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "ciencias",
+    "mates",
+    "historia",
+    "mates",
+    "entretenimiento",
+    "ciencias",
+    "historia",
+    "ciencias",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "geo-his-01",
+    "cie-cue-06",
+    "mat-geo-23",
+    "his-con-27",
+    "mat-log-29",
+    "ent-ser-11",
+    "cie-ast-33",
+    "his-esp-35",
+    "cie-qui-36",
+    "ent-mus-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-08",
+   "tema": "ciencias",
+   "titulo": "Día de las ciencias 🔬",
+   "categorias": [
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias"
+   ],
+   "preguntas": [
+    "cie-fis-01",
+    "cie-qui-04",
+    "cie-ast-05",
+    "cie-cue-08",
+    "cie-bio-10",
+    "cie-cue-12",
+    "cie-ast-13",
+    "cie-bio-34",
+    "cie-cue-37",
+    "cie-ast-40"
+   ]
+  },
+  {
+   "fecha": "2026-11-09",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "historia",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "entretenimiento",
+    "entretenimiento",
+    "ciencias",
+    "ciencias",
+    "mates"
+   ],
+   "preguntas": [
+    "geo-esp-03",
+    "his-pai-23",
+    "his-esp-25",
+    "ent-ser-09",
+    "mat-ser-09",
+    "ent-dep-18",
+    "ent-cin-31",
+    "cie-fis-35",
+    "cie-ast-38",
+    "mat-log-37"
+   ]
+  },
+  {
+   "fecha": "2026-11-10",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "mates",
+    "historia",
+    "ciencias",
+    "entretenimiento",
+    "historia",
+    "entretenimiento",
+    "entretenimiento",
+    "mates",
+    "ciencias"
+   ],
+   "preguntas": [
+    "geo-lug-02",
+    "mat-cal-05",
+    "his-ant-05",
+    "cie-bio-27",
+    "ent-vid-29",
+    "his-pai-32",
+    "ent-cin-15",
+    "ent-dep-35",
+    "mat-log-20",
+    "cie-cue-19"
+   ]
+  },
+  {
+   "fecha": "2026-11-11",
+   "tema": "historia",
+   "titulo": "Día de la historia y la geografía 🏛",
+   "categorias": [
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia",
+    "historia"
+   ],
+   "preguntas": [
+    "his-con-21",
+    "his-ant-03",
+    "his-rel-06",
+    "his-pai-28",
+    "his-esp-28",
+    "his-pai-31",
+    "his-esp-32",
+    "his-pai-33",
+    "his-rel-36",
+    "his-rel-38"
+   ]
+  },
+  {
+   "fecha": "2026-11-12",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "ciencias",
+    "historia",
+    "mates",
+    "entretenimiento",
+    "mates",
+    "ciencias",
+    "historia",
+    "entretenimiento",
+    "ciencias"
+   ],
+   "preguntas": [
+    "geo-lug-04",
+    "cie-fis-24",
+    "his-rel-08",
+    "mat-cal-08",
+    "ent-ser-29",
+    "mat-geo-30",
+    "cie-bio-13",
+    "his-con-35",
+    "ent-vid-17",
+    "cie-cue-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-13",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "entretenimiento",
+    "ciencias",
+    "entretenimiento",
+    "geohistoria",
+    "mates",
+    "mates",
+    "mates",
+    "ciencias",
+    "historia",
+    "historia"
+   ],
+   "preguntas": [
+    "ent-vid-01",
+    "cie-bio-03",
+    "ent-mus-08",
+    "geo-his-15",
+    "mat-ser-16",
+    "mat-log-12",
+    "mat-geo-31",
+    "cie-qui-16",
+    "his-ant-37",
+    "his-rel-40"
+   ]
+  },
+  {
+   "fecha": "2026-11-14",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "entretenimiento",
+    "ciencias",
+    "mates",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "mates",
+    "historia",
+    "historia"
+   ],
+   "preguntas": [
+    "geo-his-03",
+    "ent-mus-05",
+    "cie-ast-07",
+    "mat-log-09",
+    "ent-dep-13",
+    "his-pai-11",
+    "cie-qui-14",
+    "mat-ser-21",
+    "his-rel-19",
+    "his-esp-37"
+   ]
+  },
+  {
+   "fecha": "2026-11-15",
+   "tema": "entretenimiento",
+   "titulo": "Día del entretenimiento 🎬",
+   "categorias": [
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "ent-vid-04",
+    "ent-cin-22",
+    "ent-ser-05",
+    "ent-dep-28",
+    "ent-mus-27",
+    "ent-mus-13",
+    "ent-dep-31",
+    "ent-cin-33",
+    "ent-cin-36",
+    "ent-ser-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-16",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "ciencias",
+    "mates",
+    "historia",
+    "historia",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "mates",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "geo-esp-02",
+    "cie-qui-23",
+    "mat-pro-27",
+    "his-pai-26",
+    "his-ant-28",
+    "ent-vid-31",
+    "his-rel-34",
+    "cie-cue-35",
+    "mat-ser-38",
+    "ent-cin-19"
+   ]
+  },
+  {
+   "fecha": "2026-11-17",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "ciencias",
+    "geohistoria",
+    "entretenimiento",
+    "mates",
+    "entretenimiento",
+    "historia",
+    "mates",
+    "mates",
+    "historia"
+   ],
+   "preguntas": [
+    "cie-fis-02",
+    "cie-qui-24",
+    "geo-lug-10",
+    "ent-vid-26",
+    "mat-pro-11",
+    "ent-mus-14",
+    "his-esp-33",
+    "mat-ser-33",
+    "mat-geo-19",
+    "his-con-40"
+   ]
+  },
+  {
+   "fecha": "2026-11-18",
+   "tema": "mates",
+   "titulo": "Día de las mates 🧮",
+   "categorias": [
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates",
+    "mates"
+   ],
+   "preguntas": [
+    "mat-pro-23",
+    "mat-geo-22",
+    "mat-log-05",
+    "mat-cal-09",
+    "mat-ser-29",
+    "mat-ser-31",
+    "mat-cal-14",
+    "mat-geo-35",
+    "mat-ser-36",
+    "mat-ser-19"
+   ]
+  },
+  {
+   "fecha": "2026-11-19",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "mates",
+    "mates",
+    "entretenimiento",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "geohistoria",
+    "ciencias",
+    "ciencias"
+   ],
+   "preguntas": [
+    "his-rel-22",
+    "mat-pro-24",
+    "mat-cal-24",
+    "ent-ser-26",
+    "ent-mus-12",
+    "his-esp-30",
+    "cie-qui-32",
+    "geo-esp-30",
+    "cie-cue-17",
+    "cie-bio-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-20",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "historia",
+    "geohistoria",
+    "ciencias",
+    "mates",
+    "mates",
+    "entretenimiento",
+    "entretenimiento",
+    "entretenimiento",
+    "historia"
+   ],
+   "preguntas": [
+    "cie-cue-02",
+    "his-ant-22",
+    "geo-his-19",
+    "cie-ast-27",
+    "mat-pro-29",
+    "mat-geo-14",
+    "ent-vid-33",
+    "ent-ser-34",
+    "ent-dep-37",
+    "his-pai-20"
+   ]
+  },
+  {
+   "fecha": "2026-11-21",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "ciencias",
+    "historia",
+    "historia",
+    "mates",
+    "entretenimiento",
+    "ciencias",
+    "entretenimiento",
+    "mates",
+    "mates"
+   ],
+   "preguntas": [
+    "geo-lug-03",
+    "cie-cue-03",
+    "his-con-05",
+    "his-ant-26",
+    "mat-pro-21",
+    "ent-cin-12",
+    "cie-bio-16",
+    "ent-mus-18",
+    "mat-geo-37",
+    "mat-log-38"
+   ]
+  },
+  {
+   "fecha": "2026-11-22",
+   "tema": "geohistoria",
+   "titulo": "Día de Localízalo 🗺",
+   "categorias": [
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria",
+    "geohistoria"
+   ],
+   "preguntas": [
+    "geo-his-02",
+    "geo-esp-05",
+    "geo-lug-12",
+    "geo-esp-13",
+    "geo-esp-20",
+    "geo-lug-26",
+    "geo-his-27",
+    "geo-lug-29",
+    "geo-lug-37",
+    "geo-esp-37"
+   ]
+  },
+  {
+   "fecha": "2026-11-23",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "entretenimiento",
+    "historia",
+    "entretenimiento",
+    "entretenimiento",
+    "ciencias",
+    "ciencias",
+    "mates",
+    "geohistoria",
+    "mates"
+   ],
+   "preguntas": [
+    "his-pai-22",
+    "ent-dep-24",
+    "his-esp-04",
+    "ent-mus-10",
+    "ent-ser-28",
+    "cie-fis-31",
+    "cie-ast-34",
+    "mat-log-17",
+    "geo-lug-31",
+    "mat-cal-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-24",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "mates",
+    "historia",
+    "geohistoria",
+    "historia",
+    "ciencias",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "cie-qui-21",
+    "mat-cal-23",
+    "his-con-25",
+    "geo-his-17",
+    "his-rel-28",
+    "cie-cue-14",
+    "his-ant-18",
+    "ent-ser-36",
+    "mat-ser-17",
+    "ent-vid-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-25",
+   "tema": "harry_potter",
+   "titulo": "Día de Harry Potter ⚡",
+   "categorias": [
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter",
+    "harry_potter"
+   ],
+   "preguntas": [
+    "har-lib-01",
+    "har-mun-02",
+    "har-mag-03",
+    "har-pel-04",
+    "har-pel-05",
+    "har-pel-06",
+    "har-pel-07",
+    "har-lib-08",
+    "har-lib-09",
+    "har-mun-10"
+   ]
+  },
+  {
+   "fecha": "2026-11-26",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "geohistoria",
+    "entretenimiento",
+    "ciencias",
+    "mates",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "historia",
+    "ciencias"
+   ],
+   "preguntas": [
+    "cie-qui-22",
+    "geo-his-05",
+    "ent-dep-08",
+    "cie-fis-08",
+    "mat-cal-11",
+    "his-con-11",
+    "ent-ser-32",
+    "mat-ser-35",
+    "his-esp-19",
+    "cie-ast-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-27",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "mates",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "entretenimiento",
+    "geohistoria",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "ciencias"
+   ],
+   "preguntas": [
+    "mat-pro-02",
+    "his-con-03",
+    "ent-mus-25",
+    "mat-ser-28",
+    "ent-vid-30",
+    "geo-his-21",
+    "ent-ser-15",
+    "his-rel-18",
+    "cie-ast-18",
+    "cie-fis-39"
+   ]
+  },
+  {
+   "fecha": "2026-11-28",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "ciencias",
+    "historia",
+    "ciencias",
+    "historia",
+    "mates",
+    "mates",
+    "geohistoria",
+    "entretenimiento",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "cie-ast-23",
+    "cie-bio-23",
+    "his-esp-05",
+    "cie-cue-27",
+    "his-con-10",
+    "mat-cal-29",
+    "mat-ser-15",
+    "geo-esp-31",
+    "ent-vid-18",
+    "ent-ser-38"
+   ]
+  },
+  {
+   "fecha": "2026-11-29",
+   "tema": "star_wars",
+   "titulo": "Día de Star Wars 🌌",
+   "categorias": [
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars",
+    "star_wars"
+   ],
+   "preguntas": [
+    "sta-ser-01",
+    "sta-sec-02",
+    "sta-pre-03",
+    "sta-ori-04",
+    "sta-ser-05",
+    "sta-ori-06",
+    "sta-ser-07",
+    "sta-sec-08",
+    "sta-pre-09",
+    "sta-sec-10"
+   ]
+  },
+  {
+   "fecha": "2026-11-30",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "entretenimiento",
+    "ciencias",
+    "mates",
+    "historia",
+    "mates",
+    "historia",
+    "geohistoria",
+    "ciencias",
+    "mates",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "ent-mus-03",
+    "cie-fis-23",
+    "mat-ser-08",
+    "his-esp-27",
+    "mat-cal-13",
+    "his-rel-32",
+    "geo-esp-23",
+    "cie-ast-35",
+    "mat-log-19",
+    "ent-dep-20"
+   ]
+  },
+  {
+   "fecha": "2026-12-01",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "mates",
+    "mates",
+    "ciencias",
+    "ciencias",
+    "historia",
+    "historia",
+    "entretenimiento",
+    "entretenimiento",
+    "historia"
+   ],
+   "preguntas": [
+    "geo-lug-01",
+    "mat-cal-22",
+    "mat-log-08",
+    "cie-ast-21",
+    "cie-bio-30",
+    "his-esp-14",
+    "his-con-32",
+    "ent-dep-17",
+    "ent-mus-20",
+    "his-pai-38"
+   ]
+  },
+  {
+   "fecha": "2026-12-02",
+   "tema": "marvel",
+   "titulo": "Día de Marvel 🦸",
+   "categorias": [
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel",
+    "marvel"
+   ],
+   "preguntas": [
+    "mar-pel-01",
+    "mar-com-02",
+    "mar-act-03",
+    "mar-per-04",
+    "mar-com-05",
+    "mar-com-06",
+    "mar-act-07",
+    "mar-com-08",
+    "mar-com-09",
+    "mar-com-10"
+   ]
+  },
+  {
+   "fecha": "2026-12-03",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "mates",
+    "historia",
+    "geohistoria",
+    "mates",
+    "entretenimiento",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "mates"
+   ],
+   "preguntas": [
+    "cie-fis-22",
+    "mat-pro-06",
+    "his-pai-25",
+    "geo-esp-14",
+    "mat-geo-27",
+    "ent-ser-12",
+    "ent-vid-13",
+    "his-ant-15",
+    "cie-bio-37",
+    "mat-ser-40"
+   ]
+  },
+  {
+   "fecha": "2026-12-04",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "mates",
+    "geohistoria",
+    "ciencias",
+    "entretenimiento",
+    "ciencias",
+    "mates",
+    "historia",
+    "historia",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "his-pai-02",
+    "mat-ser-23",
+    "geo-his-11",
+    "cie-bio-28",
+    "ent-cin-09",
+    "cie-fis-12",
+    "mat-geo-33",
+    "his-ant-35",
+    "his-rel-17",
+    "ent-ser-40"
+   ]
+  },
+  {
+   "fecha": "2026-12-05",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "mates",
+    "mates",
+    "entretenimiento",
+    "geohistoria",
+    "historia",
+    "ciencias",
+    "entretenimiento",
+    "historia",
+    "ciencias"
+   ],
+   "preguntas": [
+    "cie-cue-21",
+    "mat-geo-03",
+    "mat-cal-06",
+    "ent-dep-09",
+    "geo-esp-17",
+    "his-con-14",
+    "cie-ast-14",
+    "ent-ser-35",
+    "his-pai-36",
+    "cie-fis-40"
+   ]
+  },
+  {
+   "fecha": "2026-12-06",
+   "tema": "juego_de_tronos",
+   "titulo": "Día de Juego de tronos 🐉",
+   "categorias": [
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos",
+    "juego_de_tronos"
+   ],
+   "preguntas": [
+    "jue-lib-01",
+    "jue-ser-02",
+    "jue-cas-03",
+    "jue-act-04",
+    "jue-cas-05",
+    "jue-lib-06",
+    "jue-act-07",
+    "jue-lib-08",
+    "jue-lib-09",
+    "jue-ser-10"
+   ]
+  },
+  {
+   "fecha": "2026-12-07",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "mates",
+    "ciencias",
+    "entretenimiento",
+    "mates",
+    "entretenimiento",
+    "entretenimiento",
+    "ciencias",
+    "geohistoria",
+    "historia"
+   ],
+   "preguntas": [
+    "his-rel-01",
+    "mat-ser-22",
+    "cie-cue-26",
+    "ent-cin-27",
+    "mat-geo-26",
+    "ent-vid-11",
+    "ent-mus-31",
+    "cie-qui-35",
+    "geo-esp-35",
+    "his-esp-38"
+   ]
+  },
+  {
+   "fecha": "2026-12-08",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "entretenimiento",
+    "ciencias",
+    "ciencias",
+    "historia",
+    "geohistoria",
+    "historia",
+    "entretenimiento",
+    "mates",
+    "mates",
+    "mates"
+   ],
+   "preguntas": [
+    "ent-mus-02",
+    "cie-cue-04",
+    "cie-ast-25",
+    "his-con-09",
+    "geo-his-13",
+    "his-pai-12",
+    "ent-ser-31",
+    "mat-geo-34",
+    "mat-ser-37",
+    "mat-pro-20"
+   ]
+  },
+  {
+   "fecha": "2026-12-09",
+   "tema": "segunda_guerra",
+   "titulo": "Día de la Segunda Guerra Mundial ⚔",
+   "categorias": [
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra",
+    "segunda_guerra"
+   ],
+   "preguntas": [
+    "seg-per-01",
+    "seg-pac-02",
+    "seg-eur-03",
+    "seg-arm-04",
+    "seg-per-05",
+    "seg-pac-06",
+    "seg-arm-07",
+    "seg-pac-08",
+    "seg-per-09",
+    "seg-arm-10"
+   ]
+  },
+  {
+   "fecha": "2026-12-10",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "mates",
+    "ciencias",
+    "historia",
+    "historia",
+    "geohistoria",
+    "entretenimiento",
+    "entretenimiento",
+    "mates",
+    "entretenimiento"
+   ],
+   "preguntas": [
+    "cie-ast-01",
+    "mat-ser-05",
+    "cie-cue-24",
+    "his-pai-21",
+    "his-rel-09",
+    "geo-his-23",
+    "ent-dep-16",
+    "ent-mus-16",
+    "mat-geo-17",
+    "ent-ser-20"
+   ]
+  },
+  {
+   "fecha": "2026-12-11",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "historia",
+    "geohistoria",
+    "ciencias",
+    "entretenimiento",
+    "entretenimiento",
+    "mates",
+    "ciencias",
+    "mates",
+    "historia",
+    "ciencias"
+   ],
+   "preguntas": [
+    "his-ant-01",
+    "geo-esp-06",
+    "cie-bio-24",
+    "ent-vid-28",
+    "ent-mus-28",
+    "mat-cal-15",
+    "cie-cue-33",
+    "mat-pro-18",
+    "his-pai-37",
+    "cie-qui-38"
+   ]
+  },
+  {
+   "fecha": "2026-12-12",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "entretenimiento",
+    "entretenimiento",
+    "historia",
+    "ciencias",
+    "geohistoria",
+    "historia",
+    "historia",
+    "mates",
+    "mates"
+   ],
+   "preguntas": [
+    "cie-fis-03",
+    "ent-dep-04",
+    "ent-ser-08",
+    "his-esp-09",
+    "cie-cue-29",
+    "geo-lug-20",
+    "his-pai-16",
+    "his-ant-34",
+    "mat-geo-36",
+    "mat-ser-39"
+   ]
+  },
+  {
+   "fecha": "2026-12-13",
+   "tema": "sorpresa",
+   "titulo": "Día sorpresa 🎁",
+   "categorias": [
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa",
+    "sorpresa"
+   ],
+   "preguntas": [
+    "sor-med-01",
+    "sor-ter-02",
+    "sor-vie-03",
+    "sor-leg-04",
+    "sor-sam-05",
+    "sor-leg-06",
+    "sor-ter-07",
+    "sor-med-08",
+    "sor-leg-09",
+    "sor-sam-10"
+   ]
+  },
+  {
+   "fecha": "2026-12-14",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "geohistoria",
+    "ciencias",
+    "ciencias",
+    "historia",
+    "mates",
+    "mates",
+    "entretenimiento",
+    "historia",
+    "entretenimiento",
+    "historia"
+   ],
+   "preguntas": [
+    "geo-his-07",
+    "cie-ast-24",
+    "cie-qui-05",
+    "his-rel-26",
+    "mat-pro-28",
+    "mat-cal-31",
+    "ent-mus-33",
+    "his-esp-16",
+    "ent-ser-19",
+    "his-pai-39"
+   ]
+  },
+  {
+   "fecha": "2026-12-15",
+   "tema": null,
+   "titulo": null,
+   "categorias": [
+    "ciencias",
+    "mates",
+    "entretenimiento",
+    "geohistoria",
+    "entretenimiento",
+    "ciencias",
+    "historia",
+    "mates",
+    "historia",
+    "mates"
+   ],
+   "preguntas": [
+    "cie-bio-21",
+    "mat-geo-05",
+    "ent-ser-25",
+    "geo-esp-18",
+    "ent-vid-09",
+    "cie-ast-32",
+    "his-pai-15",
+    "mat-cal-34",
+    "his-ant-17",
+    "mat-pro-40"
+   ]
+  },
+  {
+   "fecha": "2026-12-16",
+   "tema": "ciencias",
+   "titulo": "Día de las ciencias 🔬",
+   "categorias": [
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias",
+    "ciencias"
+   ],
+   "preguntas": [
+    "cie-ast-04",
+    "cie-bio-05",
+    "cie-qui-06",
+    "cie-cue-07",
+    "cie-fis-09",
+    "cie-bio-12",
+    "cie-fis-33",
+    "cie-cue-16",
+    "cie-fis-18",
+    "cie-bio-19"
+   ]
+  }
+ ]
+}

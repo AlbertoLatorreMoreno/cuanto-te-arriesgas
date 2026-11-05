@@ -36,6 +36,13 @@ export function revisionesSinDecidir(registros, revisiones) {
   return registros.filter((r) => r.tipo === "revision" && !r.partida && !(r.id in revisiones));
 }
 
+// Registros del modo solo sin decidir. Como las revisiones, no tienen partida: se deciden uno a uno, pero con
+// una sola pregunta para siempre (la preferencia `envioSolo`), que se aplica a todos al acabar cada escalera.
+export const TIPOS_SOLO = new Set(["solo", "solo_fin"]);
+export function soloSinDecidir(registros, revisiones) {
+  return registros.filter((r) => TIPOS_SOLO.has(r.tipo) && !(r.id in revisiones));
+}
+
 const MENSAJES = {
   cupo: "La hoja ya ha recibido hoy todos los datos que admite: se volverá a intentar más adelante.",
 };
@@ -66,12 +73,23 @@ async function peticion(url, cuerpo, fetch) {
 
 // Envía los registros por tandas, de los más antiguos a los más nuevos, y devuelve { ok, enviados (ids que
 // ya están en la hoja), nuevos, error }. Si una tanda falla, se para: lo anterior queda enviado.
+// Los del modo solo van al final y en tandas aparte: un script desplegado antes de que existieran los rechaza
+// («tipo desconocido») hasta que se despliegue su versión nueva, y así no frenan los de las partidas.
 export async function enviarRegistros(registros, { url, dispositivo, versiones, fetch = globalThis.fetch, ahora = () => new Date().toISOString() }) {
-  const ordenados = construirExportacion({ registros, dispositivo, versiones }).registros;
+  const todos = construirExportacion({ registros, dispositivo, versiones }).registros;
+  const ordenados = [...todos.filter((r) => !TIPOS_SOLO.has(r.tipo)), ...todos.filter((r) => TIPOS_SOLO.has(r.tipo))];
+  const deSolo = ordenados.findIndex((r) => TIPOS_SOLO.has(r.tipo));
   const enviados = [];
   let nuevos = 0;
-  for (let i = 0; i < ordenados.length; i += TANDA) {
-    const tanda = ordenados.slice(i, i + TANDA);
+  // Cortes de las tandas: cada TANDA registros, y uno más donde empiezan los del modo solo.
+  const cortes = [];
+  for (let i = 0; i < ordenados.length; ) {
+    const fin = deSolo > i ? Math.min(i + TANDA, deSolo) : i + TANDA;
+    cortes.push([i, fin]);
+    i = fin;
+  }
+  for (const [i, fin] of cortes) {
+    const tanda = ordenados.slice(i, fin);
     const exportacion = construirExportacion({ registros: tanda, dispositivo, versiones, ahora: ahora() });
     const r = await peticion(String(url).trim(), { accion: "enviar", exportacion }, fetch);
     if (!r.ok) return { ok: false, enviados, nuevos, error: r.mensaje };
