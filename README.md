@@ -112,7 +112,7 @@ py herramientas/validar_opciones.py
 
 ## Envío de datos a la hoja del grupo
 
-Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
+Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, la app pregunta una vez más si estáis seguros («¿Seguro que no quieres mejorar el juego?») y, con ese segundo no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
 
 Mientras `app/data/config.json` no tenga la dirección del script, la app no pregunta nada y todo sigue como antes (exportar a mano).
 

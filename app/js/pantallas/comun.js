@@ -6,14 +6,30 @@ import { letrasFichas } from "../util.js";
 
 // «¿Enviamos los datos?»: lo que se pregunta al acabar una partida y al salir de «Revisar preguntas».
 // Devuelve true (sí), false (no) o undefined (se cerró sin contestar: se puede volver a preguntar).
-export function preguntarEnvio(titulo, texto) {
-  return dialogo(titulo, (cerrar) => [
+// A quien dice que no se le pregunta una vez más, en una segunda pantalla, si está seguro: solo ese segundo
+// «no» cuenta como no. Si la cierra sin contestar, tampoco queda decidido.
+export async function preguntarEnvio(titulo, texto) {
+  const si = await dialogo(titulo, (cerrar) => [
     h("p", { class: "texto-suave", style: { "margin-bottom": "16px" } }, texto),
     h(
       "div",
       { class: "columna" },
       h("button", { class: "boton boton-ancho boton-primario", onClick: () => cerrar(true) }, "Sí, enviar"),
       h("button", { class: "boton boton-ancho", onClick: () => cerrar(false) }, "No"),
+    ),
+  ]);
+  if (si !== false) return si;
+  return dialogo("¿Seguro que no quieres mejorar el juego?", (cerrar) => [
+    h(
+      "p",
+      { class: "texto-suave", style: { "margin-bottom": "16px" } },
+      "Enviando tu opinión y tus respuestas ayudas a ajustar el nivel de las preguntas. No se envía nada más.",
+    ),
+    h(
+      "div",
+      { class: "columna" },
+      h("button", { class: "boton boton-ancho boton-primario", onClick: () => cerrar(true) }, "Sí, enviar"),
+      h("button", { class: "boton boton-ancho", onClick: () => cerrar(false) }, "No enviar"),
     ),
   ]);
 }
