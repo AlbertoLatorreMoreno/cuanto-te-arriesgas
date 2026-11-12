@@ -57,6 +57,14 @@ export function categoriasDelBanco(config) {
   return [...config.categorias, ...(config.temas?.lista ?? [])];
 }
 
+// Un tema «en_preparacion» está en config.json para irle escribiendo preguntas, pero la app aún no lo enseña:
+// ni carga su archivo, ni lo ofrece al crear la partida, ni lo cuenta en el modo solo (que exige sus opciones).
+// La configuración pasa por aquí al arrancar, así que para el resto de la app ese tema no existe.
+export function sinTemasEnPreparacion(config) {
+  if (!config.temas?.lista?.some((t) => t.en_preparacion)) return config;
+  return { ...config, temas: { ...config.temas, lista: config.temas.lista.filter((t) => !t.en_preparacion) } };
+}
+
 // Segundos de cronómetro para una pregunta, o null si su categoría no lleva (config.cronometro).
 // Un subtema con tabla propia (`por_subtema`, como las series numéricas) usa la suya.
 export function segundosCronometro(config, categoria, nivel, subtema = null) {

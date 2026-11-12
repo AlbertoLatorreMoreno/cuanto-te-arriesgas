@@ -189,6 +189,160 @@
           { "id": "vietnam", "nombre": "Guerra de Vietnam" },
           { "id": "terrorismo", "nombre": "Terrorismo en la historia" }
         ]
+      },
+      {
+        "id": "pokemon",
+        "nombre": "Pokémon",
+        "corto": "Pokémon",
+        "color": "#b45309",
+        "archivo": "data/temas/pokemon.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "criaturas", "nombre": "Especies y Pokédex" },
+          { "id": "aventuras", "nombre": "Los videojuegos principales" },
+          { "id": "animacion", "nombre": "Anime y películas" },
+          { "id": "derivados", "nombre": "Otros juegos y cartas" }
+        ]
+      },
+      {
+        "id": "taylor_swift",
+        "nombre": "Taylor Swift",
+        "corto": "Taylor Swift",
+        "color": "#9d174d",
+        "archivo": "data/temas/taylor_swift.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "discos", "nombre": "Álbumes y grabaciones hasta 2024" },
+          { "id": "canciones", "nombre": "Historias dentro de las canciones" },
+          { "id": "pantallas", "nombre": "Videoclips, cine y documentales" },
+          { "id": "escenarios", "nombre": "Giras y actuaciones hasta 2024" }
+        ]
+      },
+      {
+        "id": "disney_animacion",
+        "nombre": "Clásicos de animación Disney",
+        "corto": "Disney",
+        "color": "#1d4ed8",
+        "archivo": "data/temas/disney_animacion.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "personajes", "nombre": "Protagonistas y secundarios" },
+          { "id": "historias", "nombre": "Mundos, objetos y argumentos" },
+          { "id": "musica", "nombre": "Canciones y bandas sonoras" },
+          { "id": "estudio", "nombre": "Creación de las películas" }
+        ]
+      },
+      {
+        "id": "league_of_legends",
+        "nombre": "League of Legends",
+        "corto": "LoL",
+        "color": "#0f766e",
+        "archivo": "data/temas/league_of_legends.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "campeones", "nombre": "Campeones y presentaciones originales" },
+          { "id": "runaterra", "nombre": "Runaterra en publicaciones concretas" },
+          { "id": "producciones", "nombre": "Música, vídeos e historias publicadas" },
+          { "id": "competicion", "nombre": "Competición histórica hasta 2023" }
+        ]
+      },
+      {
+        "id": "dragon_ball",
+        "nombre": "Dragon Ball",
+        "corto": "Dragon Ball",
+        "color": "#c2410c",
+        "archivo": "data/temas/dragon_ball.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "personajes", "nombre": "Personajes y relaciones" },
+          { "id": "sagas", "nombre": "Aventuras del manga original" },
+          { "id": "universo", "nombre": "Técnicas, objetos y lugares" },
+          { "id": "adaptaciones", "nombre": "Anime, películas y edición" }
+        ]
+      },
+      {
+        "id": "aviacion_comercial",
+        "nombre": "Aviación comercial",
+        "corto": "Aviación",
+        "color": "#0369a1",
+        "archivo": "data/temas/aviacion_comercial.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "modelos", "nombre": "Fabricantes y familias de aviones" },
+          { "id": "tecnica", "nombre": "Cómo está construido un avión" },
+          { "id": "operaciones", "nombre": "El lenguaje del vuelo" },
+          { "id": "historia", "nombre": "Hitos de la aviación de pasajeros" }
+        ]
+      },
+      {
+        "id": "ajedrez",
+        "nombre": "Ajedrez",
+        "corto": "Ajedrez",
+        "color": "#1f2937",
+        "archivo": "data/temas/ajedrez.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "tablero", "nombre": "Piezas, reglas y notación" },
+          { "id": "aperturas", "nombre": "Aperturas y defensas" },
+          { "id": "recursos", "nombre": "Táctica y finales" },
+          { "id": "historia", "nombre": "Jugadores y partidas hasta 2023" }
+        ]
+      },
+      {
+        "id": "dinosaurios",
+        "nombre": "Dinosaurios",
+        "corto": "Dinosaurios",
+        "color": "#3f6212",
+        "archivo": "data/temas/dinosaurios.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "grupos", "nombre": "Reconocer dinosaurios" },
+          { "id": "anatomia", "nombre": "Huesos y adaptaciones" },
+          { "id": "yacimientos", "nombre": "Cuándo y dónde vivieron" },
+          { "id": "hallazgos", "nombre": "Descubrimientos y nombres" }
+        ]
+      },
+      {
+        "id": "ferrocarriles",
+        "nombre": "Ferrocarriles",
+        "corto": "Trenes",
+        "color": "#7c2d12",
+        "archivo": "data/temas/ferrocarriles.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "vehiculos", "nombre": "Locomotoras y unidades" },
+          { "id": "ingenieria", "nombre": "Cómo funciona el ferrocarril" },
+          { "id": "espana", "nombre": "Historia ferroviaria española" },
+          { "id": "patrimonio", "nombre": "Rutas, estaciones y cultura ferroviaria" }
+        ]
+      },
+      {
+        "id": "etimologias",
+        "nombre": "Etimologías y palabras viajeras",
+        "corto": "Etimologías",
+        "color": "#5b21b6",
+        "archivo": "data/temas/etimologias.json",
+        "referencia": "medio",
+        "subtemas": [
+          { "id": "prestamos", "nombre": "¿De qué idioma llegó?" },
+          { "id": "raices", "nombre": "Piezas que forman palabras" },
+          { "id": "nombres", "nombre": "Palabras nacidas de nombres" },
+          { "id": "evolucion", "nombre": "Cómo cambiaron las palabras" }
+        ]
+      },
+      {
+        "id": "cafe",
+        "nombre": "El mundo del café",
+        "corto": "Café",
+        "color": "#6f4e37",
+        "archivo": "data/temas/cafe.json",
+        "referencia": "fan",
+        "subtemas": [
+          { "id": "planta", "nombre": "Del cafeto al grano verde" },
+          { "id": "origenes", "nombre": "Geografía e historia" },
+          { "id": "herramientas", "nombre": "Tostado, molienda y cafeteras" },
+          { "id": "bebidas", "nombre": "Preparaciones y vocabulario" }
+        ]
       }
     ]
   },

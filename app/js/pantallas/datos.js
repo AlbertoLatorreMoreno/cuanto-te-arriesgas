@@ -31,8 +31,33 @@ function seccionEnvio(app, registros) {
     ),
     h("p", { class: "texto-suave pequeno" }, `Enviados desde este móvil: ${enviados}. Aceptados y aún por enviar: ${pendientes}.`),
     ultimo && !ultimo.ok && pendientes ? h("p", { class: "nota", role: "alert" }, `El último intento (${haceCuanto(ultimo.ts)}) ha fallado. ${ultimo.error}`) : null,
+    ultimo?.rechazados ? h("p", { class: "texto-suave pequeno" }, `Registros que la hoja no ha admitido: ${ultimo.rechazados}. Siguen en este móvil y salen al exportar.`) : null,
     pendientes ? h("button", { class: "boton boton-ancho", onClick: reintentar }, "Reintentar ahora") : null,
     lineaEnvioSolo(app),
+    lineaEnvioRevisiones(app),
+  );
+}
+
+// Quien aceptó una vez enviar sus valoraciones de «Revisar preguntas» ya no vuelve a ser preguntado: se envían
+// al guardarlas. Aquí se puede volver a que pregunte cada vez.
+function lineaEnvioRevisiones(app) {
+  if (app.almacen.preferencia("envioRevisiones", null) !== true) return null;
+  return h(
+    "div",
+    { class: "fila-botones" },
+    h("p", { class: "texto-suave pequeno", style: { flex: "2" } }, "Valoraciones de «Revisar preguntas»: se envían solas."),
+    h(
+      "button",
+      {
+        class: "boton boton-pequeno",
+        onClick: () => {
+          app.almacen.guardarPreferencia("envioRevisiones", undefined);
+          aviso("Al salir de «Revisar preguntas» se volverá a preguntar.");
+          app.ir("datos");
+        },
+      },
+      "Preguntar cada vez",
+    ),
   );
 }
 

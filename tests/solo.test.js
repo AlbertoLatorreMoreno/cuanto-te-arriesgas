@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { rngConSemilla } from "../app/js/azar.js";
 import { crearIndice } from "../app/js/banco.js";
-import { enviarRegistros, soloSinDecidir } from "../app/js/envio.js";
+import { enviarRegistros, revisionesSinDecidir, soloSinDecidir } from "../app/js/envio.js";
 import * as S from "../app/js/solo.js";
 import { bancoSintetico, config } from "./ayudas.js";
 
@@ -340,4 +340,51 @@ test("cada respuesta lleva las versiones con las que se vio su pregunta", () => 
   e = S.responderPregunta(e, { config, acierto: true, ms: 0, ts: "t2" });
   const [r1, r2] = S.registrosEscalera(e, { dispositivo: "d", versiones: { banco: "C", ajustes: "c" } });
   assert.deepEqual([r1.version_banco, r2.version_banco], ["A", "B"]);
+});
+
+test("el final se registra al responder la pregunta que acaba la escalera, sin esperar a «Ver el resultado»", () => {
+  const ctx = { dispositivo: "d", versiones: { banco: "b", ajustes: "a" } };
+  const ids = calendario().dias[1].preguntas;
+  let e = jugar([[true, 1000]]);
+  e = S.empezarPregunta(e, { ahoraMs: 0, foto: foto(ids[1]), orden: null });
+  e = S.responderPregunta(e, { config, acierto: false, ms: 2000, ts: "2026-11-06T10:00:09.000Z" });
+  assert.equal(e.fase, "resultado", "quien cierra la app aquí ya ha perdido: su resultado no puede faltar");
+  const antes = S.registrosEscalera(e, ctx);
+  assert.deepEqual(antes.map((r) => r.id), ["esc-1-r1", "esc-1-r2", "esc-1-fin"]);
+  const fin = antes.at(-1);
+  assert.deepEqual([fin.tipo, fin.final, fin.bote, fin.pasos, fin.ts], ["solo_fin", "fallo", 0, 1, "2026-11-06T10:00:09.000Z"]);
+  // Al tocar «Ver el resultado» se vuelve a guardar igual: la fecha no cambia.
+  const despues = S.registrosEscalera(S.seguir(e, { ts: "2026-11-08T08:00:00.000Z" }), ctx);
+  assert.deepEqual(despues, antes);
+});
+
+test("la opinión sobre la dificultad es una valoración con origen «solo», que se guarda al dejar atrás el resultado", () => {
+  const ctx = { dispositivo: "d", versiones: { banco: "b", ajustes: "a" } };
+  const ids = calendario().dias[1].preguntas;
+  let e = S.nuevaEscalera({ id: "esc-1", modo: "practica", fecha: "2026-11-06", preguntas: ids, jugador, ahora: "2026-11-06T10:00:00Z" });
+  assert.throws(() => S.valorarUltima(e, "facil"), "sin resultado en pantalla no hay nada que valorar");
+  e = S.empezarPregunta(e, { ahoraMs: 0, foto: foto(ids[0]), orden: null });
+  e = S.responderPregunta(e, { config, acierto: true, ms: 1000, ts: "2026-11-06T10:00:01.000Z" });
+  assert.throws(() => S.valorarUltima(e, "regular"));
+  e = S.valorarUltima(e, "facil");
+  e = S.valorarUltima(e, "dificil");
+  assert.deepEqual(S.registrosEscalera(e, ctx).map((r) => r.id), ["esc-1-r1"], "mientras se ve el resultado aún se puede cambiar");
+  e = S.seguir(e);
+  const regs = S.registrosEscalera(e, ctx);
+  assert.deepEqual(regs.map((r) => r.id), ["esc-1-r1", "esc-1-v1"]);
+  const v = regs[1];
+  const q = indice.porId.get(ids[0]);
+  assert.deepEqual(
+    [v.tipo, v.origen, v.evaluador, v.pregunta, v.v, v.nivel_mostrado, v.acierto, v.valoracion, v.escalera, v.partida, v.mala],
+    ["revision", "solo", jugador.clave, q.id, q.v, q.nivelEfectivo, true, "dificil", "esc-1", undefined, null],
+  );
+  assert.match(v.id, /^[A-Za-z0-9][\w.-]{0,99}$/);
+  // Se decide con la preferencia del modo solo, no con la pregunta de «Revisar preguntas».
+  assert.deepEqual(soloSinDecidir(regs, {}).map((r) => r.id), ["esc-1-r1", "esc-1-v1"]);
+  assert.deepEqual(revisionesSinDecidir(regs, {}), []);
+  // Sin opinión no hay registro, y quitarla (null) tampoco lo deja.
+  e = S.empezarPregunta(e, { ahoraMs: 0, foto: foto(ids[1]), orden: null });
+  e = S.responderPregunta(e, { config, acierto: false, ms: 1000, ts: "2026-11-06T10:00:05.000Z" });
+  e = S.seguir(S.valorarUltima(S.valorarUltima(e, "justa"), null));
+  assert.deepEqual(S.registrosEscalera(e, ctx).map((r) => r.id), ["esc-1-r1", "esc-1-r2", "esc-1-v1", "esc-1-fin"]);
 });

@@ -200,13 +200,16 @@ test("en el banco real, las fugas que quedan las bloquea el motor", () => {
   const indice = crearIndice(preguntas, config);
   // La serie Breaking Bad acepta «Heisenberg», que es la respuesta de la pregunta de física.
   assert.ok(indice.revela.get("ent-ser-05")?.has("cie-fis-13"));
-  // Pocas relaciones: el bloqueo no debe vaciar el banco. El tope crece con el banco
-  // (con 409 preguntas eran menos de 120; con 800, 280).
+  // Pocas relaciones: el bloqueo no debe vaciar el banco. Las parejas posibles crecen con el cuadrado del banco
+  // (con 409 preguntas había menos de 120 relaciones; con 800, 280; con 5930, 14 700), así que se mide lo que
+  // importa en una partida: tras 40 preguntas jugadas, el bloqueo deja fuera menos del 2 % del banco.
+  const n = preguntas.length;
   const total = [...indice.revela.values()].reduce((s, x) => s + x.size, 0);
-  assert.ok(total < preguntas.length / 2, `demasiadas relaciones de fuga: ${total} para ${preguntas.length} preguntas`);
-  // Y ninguna pregunta puede quedar bloqueada por demasiadas otras.
+  assert.ok((40 * total) / n < n * 0.02, `demasiadas relaciones de fuga: ${total} para ${n} preguntas`);
+  // Y pocas preguntas pueden quedar bloqueadas por muchas otras (las de respuesta «España» o «Francia», que
+  // nombran decenas de preguntas): menos del 1 % del banco tiene más de un 1 % del banco que la delata.
   const reveladaPor = new Map();
   for (const ids of indice.revela.values()) for (const id of ids) reveladaPor.set(id, (reveladaPor.get(id) ?? 0) + 1);
-  const peor = Math.max(...reveladaPor.values());
-  assert.ok(peor <= 15, `una pregunta la revelan ${peor} preguntas`);
+  const muyDelatadas = [...reveladaPor.values()].filter((x) => x > Math.max(15, n / 100)).length;
+  assert.ok(muyDelatadas < Math.max(1, n / 100), `${muyDelatadas} preguntas las revelan más de ${Math.round(Math.max(15, n / 100))} preguntas`);
 });

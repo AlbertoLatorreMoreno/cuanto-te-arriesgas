@@ -111,8 +111,9 @@ test("el banco real funciona con el motor: 50 partidas seguidas con las mismas v
     assert.equal(registros.at(-1).tipo, "final", "la partida acaba con una final propia");
   }
   assert.ok(alternativas.repetida > 0, "con el banco agotado se repiten preguntas vistas hace tiempo");
-  // En las primeras partidas, nuevas; después, ya vistas (tras 50 partidas medias, casi todas).
-  assert.ok(deTema.ninguna > 30 && deTema.repetida > deTema.ninguna, `preguntas de tema: ${JSON.stringify(deTema)}`);
+  // En las primeras partidas, nuevas; después, también ya vistas (con 40 o 50 preguntas por tema eran casi todas;
+  // con 240, las nuevas aguantan muchas más partidas).
+  assert.ok(deTema.ninguna > 30 && deTema.repetida > 30, `preguntas de tema: ${JSON.stringify(deTema)}`);
   assert.ok(deFinales.ninguna > 0 && deFinales.repetida > 0, `finales: ${JSON.stringify(deFinales)}`);
 });
 

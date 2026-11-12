@@ -22,3 +22,6 @@ node_modules/
 # Configuración local de herramientas y la calibración antigua en R (no hacen falta para jugar)
 .claude/
 analisis/r_anterior/
+
+# Lotes del generador del banco con Codex (se regeneran)
+herramientas/banco_lotes/

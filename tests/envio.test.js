@@ -4,7 +4,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { crearAlmacen } from "../app/js/almacen.js";
-import { TANDA, enviarRegistros, errorDireccion, porEnviar, revisionesSinDecidir } from "../app/js/envio.js";
+import { TANDA, enviarRegistros, errorDireccion, partidasSinDecidir, porEnviar, revisionesSinDecidir, soloSinDecidir } from "../app/js/envio.js";
 
 const URL_SCRIPT = "https://script.google.com/macros/s/AKfy-prueba/exec";
 const VERSIONES = { banco: "b1", ajustes: "a1" };
@@ -56,7 +56,7 @@ test("por enviar: solo lo que el grupo aceptó, sin lo ya enviado ni la partida 
 test("envía una exportación normal, como texto plano, sin código y sin cookies", async () => {
   const script = scriptFalso();
   const r = await enviar([registro("b", { ts: "2026-10-26T11:00:00.000Z" }), registro("a")], script);
-  assert.deepEqual(r, { ok: true, enviados: ["a", "b"], nuevos: 2, error: null });
+  assert.deepEqual(r, { ok: true, enviados: ["a", "b"], rechazados: [], nuevos: 2, error: null });
   const [{ url, opciones, cuerpo }] = script.peticiones;
   assert.equal(url, URL_SCRIPT);
   assert.equal(opciones.method, "POST");
@@ -69,8 +69,8 @@ test("envía una exportación normal, como texto plano, sin código y sin cookie
     [1, "cuanto-te-arriesgas", "dispo-1", "b1", "2026-10-26T12:00:00.000Z"],
   );
   assert.deepEqual(cuerpo.exportacion.registros.map((x) => x.id), ["a", "b"], "de los más antiguos a los más nuevos");
-  assert.deepEqual(await enviar([registro("a")], script), { ok: true, enviados: ["a"], nuevos: 0, error: null }, "reenviar no hace daño");
-  assert.deepEqual(await enviar([], script), { ok: true, enviados: [], nuevos: 0, error: null });
+  assert.deepEqual(await enviar([registro("a")], script), { ok: true, enviados: ["a"], rechazados: [], nuevos: 0, error: null }, "reenviar no hace daño");
+  assert.deepEqual(await enviar([], script), { ok: true, enviados: [], rechazados: [], nuevos: 0, error: null });
   assert.equal(script.peticiones.length, 2, "sin nada que enviar no se conecta");
 });
 
@@ -118,4 +118,33 @@ test("el almacén recuerda qué se aceptó enviar y qué se ha enviado", async (
   assert.deepEqual(almacen.decisionesRevisiones(), { r1: true, r2: true, r3: false });
   datos.set("cta.enviados", "{roto");
   assert.deepEqual([...almacen.idsEnviados()], [], "algo ilegible cuenta como nada enviado: se reenvía, y no se duplica");
+});
+
+test("un registro que el script no admite no frena a los demás: la tanda se parte hasta aislarlo", async () => {
+  const registros = Array.from({ length: 9 }, (_, i) => registro(`r${i}`, { ts: `2026-10-26T10:00:0${i}.000Z` }));
+  const malos = new Set(["r3", "r7"]);
+  const script = scriptFalso({
+    responder: (cuerpo) => (cuerpo.exportacion.registros.some((x) => malos.has(x.id)) ? Response.json({ ok: false, error: "formato", mensaje: "Hay un registro de un tipo desconocido." }) : null),
+  });
+  const r = await enviar(registros, script);
+  assert.deepEqual([r.ok, r.error, r.rechazados], [true, null, ["r3", "r7"]]);
+  assert.deepEqual(r.enviados.sort(), ["r0", "r1", "r2", "r4", "r5", "r6", "r8"]);
+  assert.equal(r.nuevos, 7);
+  // Un fallo que no es del registro (sin conexión, cupo) sí para, también a mitad de la partición.
+  let n = 0;
+  const cortado = await enviar(registros, { fetch: async () => (++n === 1 ? Response.json({ ok: false, error: "tamano", mensaje: "x" }) : new Response("Error", { status: 500 })) });
+  assert.deepEqual([cortado.ok, cortado.enviados, cortado.rechazados, n], [false, [], [], 2]);
+});
+
+test("sin decidir: las partidas acabadas por las que no se contestó, y no las valoraciones hechas jugando a solas", () => {
+  const registros = [
+    registro("a1"), registro("a2"), // p1: decidida
+    registro("c1", { partida: "p3" }), registro("c2", { partida: "p3" }), // p3: sin contestar
+    registro("d1", { partida: "p4" }), // p4: a medias
+    revision("r1"), revision("r2", { origen: "solo", escalera: "e1" }),
+  ];
+  assert.deepEqual(partidasSinDecidir(registros, { p1: false }, "p4"), ["p3"]);
+  assert.deepEqual(partidasSinDecidir(registros, { p1: true, p3: true }), ["p4"]);
+  assert.deepEqual(revisionesSinDecidir(registros, {}).map((r) => r.id), ["r1"]);
+  assert.deepEqual(soloSinDecidir(registros, {}).map((r) => r.id), ["r2"]);
 });

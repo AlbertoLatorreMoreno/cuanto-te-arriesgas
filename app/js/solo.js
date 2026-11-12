@@ -347,6 +347,16 @@ export function seguir(e, { ts } = {}) {
   return { ...e, fase: e.final ? "fin" : "decidir", inicio: null, consumido: 0, actual: null, orden: null, terminada: e.final ? ts : null };
 }
 
+// Opinión sobre la dificultad de la pregunta recién respondida, mientras se ve su resultado: "facil", "justa" o
+// "dificil" para su nivel (null la quita). Es opcional y se puede cambiar hasta que se deja atrás esa pantalla.
+export const VALORACIONES = ["facil", "justa", "dificil"];
+export function valorarUltima(e, valoracion) {
+  if (e.fase !== "resultado") throw new Error("No hay ningún resultado que valorar.");
+  if (valoracion !== null && !VALORACIONES.includes(valoracion)) throw new Error("Valoración desconocida.");
+  const ultimo = e.resultados.length - 1;
+  return { ...e, resultados: e.resultados.map((r, i) => (i === ultimo ? { ...r, valoracion } : r)) };
+}
+
 export function plantarse(e, { ts } = {}) {
   if (e.fase !== "decidir" || e.paso === 0) throw new Error("Solo se puede plantar antes de una pregunta, con algo en el bote.");
   return { ...e, fase: "fin", final: "plantado", terminada: ts };
@@ -428,11 +438,42 @@ export function registrosEscalera(e, ctx) {
     bote: r.bote,
     ...(r.mapa ? { lat_senalada: r.mapa.lat, lon_senalada: r.mapa.lon, distancia_km: r.mapa.distancia_km, distancia_max_km: r.q.distancia_max_km } : {}),
   }));
-  if (e.fase === "fin") {
+  // La opinión sobre la dificultad de cada pregunta (opcional): una valoración como las de «Revisar preguntas»,
+  // con `origen: "solo"`. La de la pregunta cuyo resultado sigue en pantalla aún se puede cambiar: espera.
+  e.resultados.forEach((r, i) => {
+    if (!r.valoracion || (e.fase === "resultado" && i === e.resultados.length - 1)) return;
+    registros.push({
+      id: `${e.id}-v${r.nivel}`,
+      tipo: "revision",
+      origen: "solo",
+      ts: r.ts,
+      dispositivo: ctx.dispositivo,
+      version_banco: (r.q.versiones ?? e.versiones ?? ctx.versiones).banco,
+      version_ajustes: (r.q.versiones ?? e.versiones ?? ctx.versiones).ajustes,
+      escalera: e.id,
+      modo: e.modo,
+      evaluador: e.jugador.clave,
+      pregunta: r.q.id,
+      v: r.q.v,
+      categoria: r.q.categoria,
+      subtema: r.q.subtema,
+      nivel_inicial: r.q.nivel,
+      nivel_mostrado: r.q.nivelEfectivo ?? r.q.nivel,
+      acierto: r.acierto,
+      valoracion: r.valoracion,
+      nivel_desde: null,
+      nivel_hasta: null,
+      mala: null,
+    });
+  });
+  // El final, en cuanto se sabe (al plantarse, o al responder la pregunta que acaba la escalera), sin esperar a que
+  // se toque «Ver el resultado»: quien cierra la app al fallar también deja su resultado. Su fecha no cambia después.
+  if (e.final) {
+    const ultimo = e.resultados[e.resultados.length - 1];
     registros.push({
       id: `${e.id}-fin`,
       tipo: "solo_fin",
-      ts: e.terminada ?? e.resultados[e.resultados.length - 1]?.ts ?? e.creada,
+      ts: (e.final === "plantado" ? e.terminada : ultimo?.ts) ?? e.terminada ?? ultimo?.ts ?? e.creada,
       ...comunes(e, ctx),
       pasos: e.resultados.filter((r) => r.acierto).length,
       bote: e.bote,

@@ -64,4 +64,5 @@ En un tema, una respuesta no debería ser un nombre que salga en muchas otras pr
 7. **Variantes aceptables** en `tambien_vale` (nombre corto, sin artículo, otra grafía). Si hace falta una regla, va en `criterio`: «basta con el apellido», «se acepta ±1 año».
 8. **Decimales con coma** en la respuesta (`2,5`), y la versión con punto o en fracción en `tambien_vale`.
 9. **Explicación de una frase** que aporte algo: un dato curioso o el razonamiento.
-10. **Mates verificables:** en cálculo, geometría y probabilidad, el campo `verificacion` lleva una expresión en Python que el validador calcula y compara con la respuesta. Se puede usar `pi`, `sqrt`, `comb`, `perm`, `factorial`, `gcd`, `lcm`, `Fraction`, `sum` y `range`.
+10. **En Mates y lógica, los números del enunciado en cifras** («3 dados», «3/4 de 20»), no en letra. Lo exige el generador desde el 10 de noviembre de 2026; las preguntas anteriores pueden llevarlos en letra.
+11. **Mates verificables:** en cálculo, geometría y probabilidad, el campo `verificacion` lleva una expresión en Python que el validador calcula y compara con la respuesta. Se puede usar `pi`, `sqrt`, `comb`, `perm`, `factorial`, `gcd`, `lcm`, `Fraction`, `sum` y `range`.

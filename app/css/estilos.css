@@ -1688,6 +1688,18 @@ button.opcion:active {
   margin-top: 8px;
 }
 
+/* Opinión opcional sobre la dificultad, bajo el resultado de cada pregunta. */
+.valorar-solo {
+  display: grid;
+  gap: 6px;
+  text-align: center;
+}
+
+.valorar-solo .boton {
+  min-height: 40px;
+  font-size: 0.9rem;
+}
+
 .texto-compartir {
   white-space: pre-wrap;
   font: inherit;

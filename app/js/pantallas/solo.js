@@ -339,6 +339,16 @@ function pantallaEscalera(app, inicial) {
     const ms = S.transcurrido(e, Date.now(), msSesion());
     guardar(S.responderPregunta(e, { config: app.config, acierto, ms, ts: new Date().toISOString(), elegida, mapa: senal }));
     await guardarRegistros();
+    // Con la pregunta que acaba la escalera ya está guardado su final: si se aceptó enviar las partidas a solas,
+    // sale ya, por si se cierra la app sin tocar «Ver el resultado».
+    if (e.final) app.sincronizar();
+  });
+
+  // Opinión (opcional) sobre la dificultad de la pregunta cuyo resultado se está viendo; tocar la misma la quita.
+  const valorar = accion(async (valor) => {
+    if (e.fase !== "resultado") return;
+    const actual = e.resultados[e.resultados.length - 1].valoracion ?? null;
+    guardar(S.valorarUltima(e, actual === valor ? null : valor));
   });
 
   const plantarse = accion(async () => {
@@ -351,6 +361,8 @@ function pantallaEscalera(app, inicial) {
     if (e.fase !== "resultado") return;
     guardar(S.seguir(e, { ts: new Date().toISOString() }));
     if (e.fase === "fin") await terminar();
+    // La opinión sobre la pregunta que se deja atrás ya no cambia: se guarda su registro.
+    else if (e.resultados[e.resultados.length - 1]?.valoracion) await guardarRegistros();
   });
 
   // Registro final, resumen y, solo entonces, se borra la escalera. Se puede repetir sin duplicar nada: si se
@@ -585,6 +597,18 @@ function pantallaEscalera(app, inicial) {
       bote(),
       ...detalleRespuesta(r),
       h(
+        "section",
+        { class: "valorar-solo" },
+        h("p", { class: "texto-suave pequeno" }, `¿Te ha parecido de nivel ${r.nivel}? (opcional)`),
+        h(
+          "div",
+          { class: "grupo-opciones", role: "group", "aria-label": "Dificultad de la pregunta" },
+          [["facil", "Más fácil"], ["justa", "Sí"], ["dificil", "Más difícil"]].map(([valor, texto]) =>
+            h("button", { class: "boton", "aria-pressed": String(r.valoracion === valor), onClick: () => valorar(valor) }, texto),
+          ),
+        ),
+      ),
+      h(
         "div",
         { class: "columna acciones-fijas" },
         h("button", { class: "boton boton-primario boton-grande boton-ancho", onClick: () => continuar() }, e.final ? "Ver el resultado" : "Continuar"),
@@ -615,7 +639,7 @@ function pantallaEscalera(app, inicial) {
   if (e.fase === "pregunta" && relojSesion?.clave !== claveReloj()) relojSesion = { clave: claveReloj(), perf: performance.now(), base: S.transcurrido(e, Date.now()) };
   if (e.fase === "fin") accion(terminar)();
   else {
-    if (e.resultados.length) guardarRegistros();
+    if (e.resultados.length) guardarRegistros().then(() => e.final && app.sincronizar());
     pintar();
   }
 }

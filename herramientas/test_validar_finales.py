@@ -136,6 +136,18 @@ class TestValidarFinales(unittest.TestCase):
         # Una sola palabra que coincide con otra respuesta no es una fuga: no avisa.
         self.assertNotIn("California", avisos)
 
+    def test_el_mismo_ano_en_otro_suceso_no_delata(self):
+        reto = con(RETO, elementos=[{"pista": "El ataque japonés a Pearl Harbor", "respuesta": "1941", "tambien_vale": []}] * 3)
+        banco = [
+            {"id": "seg-eur-50", "pregunta": "¿Qué acorazado alemán fue hundido en mayo de 1941?", "respuesta": "El Bismarck", "tambien_vale": []},
+            {"id": "seg-pac-50", "pregunta": "¿Qué almirante planeó el ataque a Pearl Harbor de 1941?", "respuesta": "Yamamoto", "tambien_vale": []},
+        ]
+        inf = Informe()
+        vf.validar_finales([reto], inf, banco, [])
+        avisos = " | ".join(inf.avisos)
+        self.assertIn("seg-pac-50", avisos)
+        self.assertNotIn("seg-eur-50", avisos)
+
     def test_huella(self):
         h = vf.huella_final(PREGUNTA)
         self.assertEqual(h, vf.huella_final(con(PREGUNTA, nivel=8, fuente="Otra", explicacion="Otra")))

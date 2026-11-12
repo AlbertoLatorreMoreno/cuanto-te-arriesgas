@@ -61,10 +61,15 @@ PALABRAS_VACIAS = {
 }
 
 
-def jaccard(a: str, b: str) -> float:
-    """Parecido entre las palabras con contenido (números incluidos) de dos textos normalizados."""
-    ta = {w for w in a.split() if (len(w) > 2 or w.isdigit()) and w not in PALABRAS_VACIAS}
-    tb = {w for w in b.split() if (len(w) > 2 or w.isdigit()) and w not in PALABRAS_VACIAS}
+def palabras_con_contenido(a: str) -> frozenset[str]:
+    return frozenset(w for w in a.split() if (len(w) > 2 or w.isdigit()) and w not in PALABRAS_VACIAS)
+
+
+def jaccard(a, b) -> float:
+    """Parecido entre las palabras con contenido (números incluidos) de dos textos normalizados (o de sus
+    conjuntos de palabras ya sacados con palabras_con_contenido)."""
+    ta = palabras_con_contenido(a) if isinstance(a, str) else a
+    tb = palabras_con_contenido(b) if isinstance(b, str) else b
     return len(ta & tb) / len(ta | tb) if ta | tb else 1.0
 
 
@@ -246,6 +251,12 @@ def ids_temas(config: dict) -> set[str]:
     return {t["id"] for t in config.get("temas", {}).get("lista", [])}
 
 
+def temas_en_preparacion(config: dict) -> set[str]:
+    """Temas con «en_preparacion»: están en config.json para irles escribiendo preguntas (banco_codex.py), pero la
+    app aún no los enseña (sinTemasEnPreparacion, en app/js/util.js), así que pueden estar vacíos o a medias."""
+    return {t["id"] for t in config.get("temas", {}).get("lista", []) if t.get("en_preparacion")}
+
+
 def cargar_banco(config: dict, inf: Informe) -> list[dict]:
     preguntas = []
     for cat in categorias_del_banco(config):
@@ -383,15 +394,17 @@ def validar_duplicados(preguntas: list[dict], inf: Informe):
         if isinstance(p.get("pregunta"), str):
             por_cat.setdefault(p.get("categoria"), []).append(p)
     for lista in por_cat.values():
-        normal = [(p, normalizar(p["pregunta"])) for p in lista]
-        for i, (a, ta) in enumerate(normal):
-            for b, tb in normal[i + 1:]:
+        # Con miles de preguntas por categoría son millones de parejas: el parecido por palabras, que es barato y
+        # descarta casi todas, va antes que SequenceMatcher (hacen falta los dos, así que el resultado no cambia).
+        normal = [(p, t, palabras_con_contenido(t)) for p, t in ((p, normalizar(p["pregunta"])) for p in lista)]
+        for i, (a, ta, pa) in enumerate(normal):
+            for b, tb, pb in normal[i + 1:]:
                 if ta == tb:
                     inf.error(b["id"], f"pregunta idéntica a {a['id']}")
                     continue
                 if abs(len(ta) - len(tb)) > 0.4 * max(len(ta), len(tb)):
                     continue
-                if SequenceMatcher(None, ta, tb).ratio() >= SIMILITUD_AVISO and jaccard(ta, tb) >= 0.6:
+                if jaccard(pa, pb) >= 0.6 and SequenceMatcher(None, ta, tb).ratio() >= SIMILITUD_AVISO:
                     inf.aviso(b["id"], f"muy parecida a {a['id']}")
         respuestas: dict[tuple, list[str]] = {}
         for p in lista:
@@ -412,6 +425,19 @@ def matriz_cobertura(preguntas: list[dict], config: dict) -> dict:
         if celda is not None and p.get("nivel") in celda:
             celda[p["nivel"]] += 1
     return matriz
+
+
+def validar_cobertura(matriz: dict, config: dict, min_celda: int, inf: Informe):
+    """Cada casilla, con su mínimo: `min_celda` en el tablero y MIN_CELDA_TEMA en los temas. A un tema en
+    preparación no se le pide nada: no sale en la app hasta que se le quita la marca."""
+    temas, en_preparacion = ids_temas(config), temas_en_preparacion(config)
+    for (cat, sub), celdas in matriz.items():
+        if cat in en_preparacion:
+            continue
+        minimo = MIN_CELDA_TEMA if cat in temas else min_celda
+        vacias = [n for n, k in celdas.items() if k < minimo]
+        if vacias:
+            inf.error(f"{cat}/{sub}", f"menos de {minimo} preguntas en los niveles {vacias}")
 
 
 def validar_lock(preguntas: list[dict], inf: Informe, ruta: Path | None = None, huella_de=None) -> dict:
@@ -443,15 +469,15 @@ def validar_lock(preguntas: list[dict], inf: Informe, ruta: Path | None = None, 
 
 
 def imprimir_cobertura(matriz: dict, minimo: int, config: dict):
-    temas = ids_temas(config)
+    temas, en_preparacion = ids_temas(config), temas_en_preparacion(config)
     nmin, nmax = config["niveles"]["min"], config["niveles"]["max"]
     print("\nCobertura (preguntas por subtema y nivel):")
     print(f"{'':28}" + "".join(f"{n:>4}" for n in range(nmin, nmax + 1)) + "  total")
     for (cat, sub), celdas in matriz.items():
         tope = MIN_CELDA_TEMA if cat in temas else minimo
         fila = "".join(f"{celdas[n]:>4}" if celdas[n] >= tope else f"{'*' + str(celdas[n]):>4}" for n in range(nmin, nmax + 1))
-        print(f"{cat + '/' + sub:28}{fila}  {sum(celdas.values()):>5}")
-    print(f"(* = menos de {minimo}; en los temas, menos de {MIN_CELDA_TEMA})")
+        print(f"{cat + '/' + sub:28}{fila}  {sum(celdas.values()):>5}" + ("  (en preparación)" if cat in en_preparacion else ""))
+    print(f"(* = menos de {minimo}; en los temas, menos de {MIN_CELDA_TEMA}. Los temas en preparación no salen en la app)")
 
 
 def principal(argv=None) -> int:
@@ -485,12 +511,7 @@ def principal(argv=None) -> int:
             validar_pregunta(p, config, inf)
         validar_duplicados(banco, inf)
         matriz = matriz_cobertura(banco, config)
-        temas = ids_temas(config)
-        for (cat, sub), celdas in matriz.items():
-            minimo = MIN_CELDA_TEMA if cat in temas else args.min_celda
-            vacias = [n for n, k in celdas.items() if k < minimo]
-            if vacias:
-                inf.error(f"{cat}/{sub}", f"menos de {minimo} preguntas en los niveles {vacias}")
+        validar_cobertura(matriz, config, args.min_celda, inf)
         actuales = validar_lock(banco, inf)
         # Rondas divertidas: su propio formato y su propio archivo de control.
         import validar_finales as vf

@@ -106,13 +106,17 @@ py herramientas/validar_opciones.py
 
 `lanzar` usa la CLI de Codex con tu cuenta. También se pueden escribir a mano, con el formato de [docs/esquema_datos.md](docs/esquema_datos.md). El validador comprueba la forma y las trampas típicas (una incorrecta que es la respuesta en otro formato, una cifra dentro del margen del criterio…), pero no si una incorrecta es defendible: eso, a ojo.
 
-**Envío a la hoja.** Al acabar la primera escalera se pregunta una vez si se envían las partidas a solas; se puede cambiar en «Datos y exportación». Hace falta la versión nueva de `herramientas/apps_script.gs` (acepta los tipos `solo` y `solo_fin`): pégala y despliégala como *Nueva versión*, como se explica más abajo. Hasta entonces, esos registros se quedan pendientes (no frenan los de las partidas) y el inicio avisa de que no se han podido enviar. La calibración todavía no los usa.
+**Opinar sobre la dificultad.** Bajo el resultado de cada pregunta se puede decir, con un toque, si ha parecido más fácil o más difícil que su nivel. Es opcional y se envía con lo demás.
+
+**Envío a la hoja.** El resultado de cada escalera se guarda y se envía en cuanto se responde la pregunta que la acaba, aunque se cierre la app sin tocar «Ver el resultado». Al acabar la primera escalera se pregunta una vez si se envían las partidas a solas; se puede cambiar en «Datos y exportación». Hace falta la versión nueva de `herramientas/apps_script.gs` (acepta los tipos `solo` y `solo_fin`): pégala y despliégala como *Nueva versión*, como se explica más abajo. Hasta entonces, esos registros se quedan pendientes (no frenan los de las partidas) y el inicio avisa de que no se han podido enviar. La calibración todavía no los usa.
 
 ---
 
 ## Envío de datos a la hoja del grupo
 
 Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, la app pregunta una vez más si estáis seguros («¿Seguro que no quieres mejorar el juego?») y, con ese segundo no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
+
+Para que no se quede nada sin enviar por cerrar la app antes de tiempo: un «sí» a las valoraciones de «Revisar preguntas» se recuerda y desde entonces se envían al guardarlas (se cambia en «Datos y exportación»), y si quedan partidas o valoraciones por las que no se llegó a preguntar, el inicio lo avisa con un botón para decidirlo.
 
 Mientras `app/data/config.json` no tenga la dirección del script, la app no pregunta nada y todo sigue como antes (exportar a mano).
 
@@ -154,7 +158,27 @@ Mientras `app/data/config.json` no tenga la dirección del script, la app no pre
 
 ## Generar preguntas nuevas con IA
 
-Necesita el SDK de Anthropic y una clave de API (`ANTHROPIC_API_KEY` o `ant auth login`):
+**Con Codex (la CLI de OpenAI, con tu cuenta; no gasta API).** Así se amplió el banco a unas 5900 preguntas en noviembre de 2026. `herramientas/banco_codex.py` lleva cada subtema hasta su objetivo (850 por categoría del tablero, 390 en Localízalo y 200 por tema, repartidas por igual entre subtemas y niveles, y además 3 por subtema y nivel, 1 en los temas, de rincones nicho; están al principio del archivo). Cada lote se centra en tres rincones poco trillados del subtema, que rotan de una ronda a otra (`herramientas/banco_nichos.json`; en mates, tipos de problema):
+
+```bash
+py herramientas/banco_codex.py temas                   # el agente de temas propone temas nuevos, masivos y de nicho
+py herramientas/banco_codex.py estado                  # cuántas hay y cuántas faltan
+py herramientas/banco_codex.py lanzar --paralelo 10    # horas: se puede parar y retomar
+py herramientas/banco_codex.py medir                   # tokens gastados, por agente y por pregunta aceptada
+py herramientas/banco_codex.py muestra                 # unas cuantas aceptadas de cada subtema, para leerlas
+py herramientas/banco_codex.py incorporar              # al banco (y sus opciones), con ids nuevos y origen «generada»
+py herramientas/validar_banco.py --actualizar
+```
+
+Son tres agentes, cada uno una llamada distinta a Codex, sin memoria de los otros:
+
+- **Temas** (`herramientas/banco_temas.md`): propone temas con público, masivos (un videojuego, una artista) y de nicho (tanques, lingüística), con sus 4 subtemas y sus rincones, en `herramientas/banco_temas.json`. Los que marques con `"aprobado": true` pasan a ser un flujo más de `lanzar`; para incorporarlos a la app hay que añadirlos antes a `config.json` con `"en_preparacion": true`.
+- **Redactor** (`herramientas/banco_generar.md`): escribe un lote de unas 40 preguntas de un subtema, cada una con sus 7 opciones incorrectas del modo solo. El script las comprueba (formato, cálculo de mates, números en cifras en mates, palabras que caducan, duplicados con todo el banco y con lo nuevo, respuestas que salen en muchas otras preguntas, datos de las finales, opciones).
+- **Revisor** (`herramientas/banco_auditar.md`): audita el lote sin contexto. Responde cada pregunta por su cuenta, le pone nivel y notas y cambia las opciones flojas; en mates resuelve sin ver la respuesta y en Localízalo da las coordenadas sin ver las propuestas, y si no coinciden se descartan. Solo entra lo que aprueba; si corrige algo, se vuelve a auditar. Lo que descarta se le cuenta al redactor del lote siguiente.
+
+Para gastar menos, cada mensaje lleva solo las secciones de las instrucciones y de la rúbrica que le tocan; el redactor recibe las respuestas ya usadas en vez de las preguntas enteras; el revisor contesta en corto, con detalles solo de las que fallan; y el razonamiento va en «medium», salvo el del revisor de mates y de mapa (`--esfuerzo-…` y `--modelo-…` lo cambian). Cada llamada apunta sus tokens en `herramientas/banco_lotes/tokens.jsonl`, y lo de cada ronda queda en `herramientas/banco_lotes/` (registro de cada pregunta, con el motivo de cada descarte). Una pregunta cuyas opciones no pasen la comprobación entra sin ellas: se le hacen después, como se explica arriba.
+
+**Con la API de Anthropic.** Necesita el SDK de Anthropic y una clave de API (`ANTHROPIC_API_KEY` o `ant auth login`):
 
 ```bash
 py -m pip install -r generador/requirements.txt

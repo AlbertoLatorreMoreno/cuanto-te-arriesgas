@@ -126,6 +126,28 @@ class TestCoberturaDeTemas(unittest.TestCase):
         self.assertGreaterEqual(1, vb.MIN_CELDA_TEMA)
         self.assertTrue(all(k < 2 for k in matriz[("ciencias", "fisica")].values()))
 
+    def test_un_tema_en_preparacion_puede_estar_vacio_y_los_demas_no(self):
+        config = cargar_config()
+        config["temas"]["lista"] = [t for t in config["temas"]["lista"] if not t.get("en_preparacion")]
+        nuevo = {"id": "nuevo", "nombre": "Nuevo", "archivo": "data/temas/nuevo.json", "subtemas": [{"id": "uno", "nombre": "Uno"}]}
+        config["temas"]["lista"].append(nuevo)
+        completas = [{"categoria": c["id"], "subtema": s["id"], "nivel": n}
+                     for c in vb.categorias_del_banco(config) if c["id"] != "nuevo" for s in c["subtemas"] for n in range(1, 11) for _ in range(2)]
+
+        def errores():
+            inf = Informe()
+            vb.validar_cobertura(vb.matriz_cobertura(completas, config), config, 2, inf)
+            return inf.errores
+
+        self.assertEqual(len(errores()), 1, "un tema vacío sin la marca es un error")
+        self.assertIn("nuevo/uno", errores()[0])
+        nuevo["en_preparacion"] = True
+        self.assertEqual(vb.temas_en_preparacion(config), {"nuevo"})
+        self.assertEqual(errores(), [])
+        # A los demás se les sigue pidiendo lo suyo (la primera es del tablero, que pide dos por casilla).
+        completas.pop(0)
+        self.assertEqual(len(errores()), 1)
+
 
 class TestControlDeVersiones(unittest.TestCase):
     """El archivo de control detecta textos cambiados sin subir la versión."""

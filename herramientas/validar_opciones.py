@@ -149,7 +149,9 @@ def validar_entrada(p: dict, o: dict, inf: Informe):
         for t in inc:
             n = numero(t)
             r1, r2 = resto(t), resto(correcta or p["respuesta"])
-            if n is not None and (not r1 or not r2 or r1 == r2) and math.isclose(n, correcto, rel_tol=1e-9, abs_tol=1e-9):
+            # Dos enteros valen lo mismo solo si son iguales: con el margen relativo, 4 294 967 295 «era» 4 294 967 297.
+            enteros = n is not None and float(n).is_integer() and float(correcto).is_integer()
+            if n is not None and (not r1 or not r2 or r1 == r2) and (n == correcto if enteros else math.isclose(n, correcto, rel_tol=1e-9, abs_tol=1e-9)):
                 inf.error(id_, f"«{t}» vale lo mismo que la respuesta ({p['respuesta']})")
     criterio = p.get("criterio") or ""
     m = RE_ENTRE.search(criterio)

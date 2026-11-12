@@ -1,0 +1,1093 @@
+{
+  "_nota": "Temas propuestos por el agente de temas (py herramientas/banco_codex.py temas). Pon «aprobado»: true en los que quieras: desde entonces `lanzar` escribe y revisa sus preguntas como las de cualquier subtema. Se pueden retocar nombres, subtemas y rincones antes de aprobar; después, mejor no cambiar los ids.",
+  "temas": [
+    {
+      "id": "pokemon",
+      "nombre": "Pokémon",
+      "corto": "Pokémon",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Lo elegirían varias generaciones de jugadores y espectadores, con criaturas, aventuras y adaptaciones suficientes para recorrer los diez niveles.",
+      "riesgo": "Hay que distinguir versiones, traducciones y continuidades, y fijar las preguntas en juegos y temporadas ya publicados.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "criaturas",
+          "nombre": "Especies y Pokédex",
+          "rincones": [
+            "Números de la Pokédex nacional hasta Paldea",
+            "Nombres de especies en español",
+            "Tipos en sus juegos de debut",
+            "Familias evolutivas originales",
+            "Métodos de evolución en versiones concretas",
+            "Formas regionales y su primera aparición",
+            "Fósiles y especies que se restauran",
+            "Legendarios y singulares de cada generación"
+          ]
+        },
+        {
+          "id": "aventuras",
+          "nombre": "Los videojuegos principales",
+          "rincones": [
+            "Ciudades y rutas de Kanto y Johto",
+            "Localizaciones de Hoenn y Sinnoh",
+            "Lugares de Teselia y Kalos",
+            "Escenarios de Alola, Galar y Paldea",
+            "Profesores y Pokémon iniciales",
+            "Líderes de gimnasio y medallas",
+            "Rivales y equipos antagonistas",
+            "Objetos necesarios para avanzar en cada aventura"
+          ]
+        },
+        {
+          "id": "animacion",
+          "nombre": "Anime y películas",
+          "rincones": [
+            "Compañeros de viaje de Ash",
+            "Pokémon capturados por los protagonistas",
+            "Integrantes y lemas del Team Rocket",
+            "Ligas disputadas en temporadas cerradas",
+            "Concursos y coordinadores",
+            "Ciudades y personajes exclusivos de películas",
+            "Pokémon protagonistas de largometrajes",
+            "Despedidas y reencuentros en episodios concretos"
+          ]
+        },
+        {
+          "id": "derivados",
+          "nombre": "Otros juegos y cartas",
+          "rincones": [
+            "Equipos y escenarios de Mundo Misterioso",
+            "Regiones y herramientas de Pokémon Ranger",
+            "Recorridos de Pokémon Snap y New Pokémon Snap",
+            "Personajes de Colosseum y XD",
+            "Pruebas y escenarios de Pokémon Stadium",
+            "Tableros y objetivos de Pokémon Pinball",
+            "Componentes y reglas del juego de cartas original",
+            "Expansiones y cartas de las primeras colecciones"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "taylor_swift",
+      "nombre": "Taylor Swift",
+      "corto": "Taylor Swift",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Sus seguidores pueden competir con discos, canciones, vídeos y giras, con abundante documentación oficial para graduar la dificultad.",
+      "riesgo": "Conviene cerrar el corpus en 2024, distinguir ediciones y evitar teorías sobre destinatarios, relaciones o significados no confirmados.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "discos",
+          "nombre": "Álbumes y grabaciones hasta 2024",
+          "rincones": [
+            "Orden de los álbumes de estudio",
+            "Portadas de las ediciones originales",
+            "Canciones de las ediciones estándar",
+            "Pistas adicionales de ediciones identificadas",
+            "Canciones From the Vault publicadas hasta 2024",
+            "Artistas invitados acreditados",
+            "Productores y compositores acreditados",
+            "Sellos y fechas de lanzamiento originales"
+          ]
+        },
+        {
+          "id": "canciones",
+          "nombre": "Historias dentro de las canciones",
+          "rincones": [
+            "Nombres propios mencionados explícitamente",
+            "Ciudades y lugares citados",
+            "Edades y cifras presentes en las letras",
+            "Objetos que aparecen en las narraciones",
+            "Meses, estaciones y fechas mencionados",
+            "Personajes del triángulo narrativo de folklore",
+            "Referencias literarias explícitas",
+            "Identificación de canciones mediante una escena descrita"
+          ]
+        },
+        {
+          "id": "pantallas",
+          "nombre": "Videoclips, cine y documentales",
+          "rincones": [
+            "Directores de videoclips",
+            "Intérpretes invitados en los vídeos",
+            "Escenarios reconocibles de videoclips",
+            "Personajes interpretados por Taylor en sus vídeos",
+            "Objetos y acciones visibles en escenas concretas",
+            "All Too Well: The Short Film",
+            "Miss Americana y otros documentales estrenados",
+            "Papeles cinematográficos y canciones para películas"
+          ]
+        },
+        {
+          "id": "escenarios",
+          "nombre": "Giras y actuaciones hasta 2024",
+          "rincones": [
+            "Nombres y cronología de las giras",
+            "Ciudades de apertura y cierre de giras terminadas",
+            "Artistas teloneros de tramos concretos",
+            "Canciones de apertura en conciertos filmados",
+            "Bloques y vestuario del filme de The Eras Tour",
+            "Invitados de conciertos documentados",
+            "Actuaciones en ceremonias identificadas por año",
+            "Premios recibidos en ediciones ya celebradas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disney_animacion",
+      "nombre": "Clásicos de animación Disney",
+      "corto": "Disney",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Lo elegirían quienes crecieron con sus películas, que permiten combinar reconocimiento inmediato con detalles de producción y doblaje.",
+      "riesgo": "Debe limitarse a los largometrajes de Walt Disney Animation Studios hasta 2023 y usar los títulos y doblajes de España.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "personajes",
+          "nombre": "Protagonistas y secundarios",
+          "rincones": [
+            "Nombres de protagonistas",
+            "Villanos y sus ayudantes",
+            "Compañeros animales",
+            "Familias y parentescos",
+            "Oficios de personajes secundarios",
+            "Grupos de personajes con nombre propio",
+            "Identidades ocultas y transformaciones",
+            "Voces del doblaje estrenado en España"
+          ]
+        },
+        {
+          "id": "historias",
+          "nombre": "Mundos, objetos y argumentos",
+          "rincones": [
+            "Reinos, ciudades e islas ficticias",
+            "Lugares reales donde transcurren las películas",
+            "Objetos mágicos y sus funciones",
+            "Vehículos y medios de transporte",
+            "Pruebas y objetivos de los protagonistas",
+            "Maldiciones y condiciones para romperlas",
+            "Escenarios de encuentros decisivos",
+            "Desenlaces de conflictos concretos"
+          ]
+        },
+        {
+          "id": "musica",
+          "nombre": "Canciones y bandas sonoras",
+          "rincones": [
+            "Títulos de canciones en España",
+            "Personajes que interpretan cada canción",
+            "Escenas en las que suenan las canciones",
+            "Compositores de las bandas sonoras",
+            "Letristas acreditados",
+            "Canciones premiadas en ediciones concretas",
+            "Intérpretes de los créditos finales",
+            "Instrumentos y actuaciones musicales dentro de la historia"
+          ]
+        },
+        {
+          "id": "estudio",
+          "nombre": "Creación de las películas",
+          "rincones": [
+            "Años de estreno originales",
+            "Orden de estreno de los largometrajes",
+            "Directores acreditados",
+            "Cuentos y novelas adaptados",
+            "Autores de las obras originales",
+            "Técnicas de animación empleadas",
+            "Películas de episodios y sus segmentos",
+            "Cortometrajes que precedieron a largometrajes concretos"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "league_of_legends",
+      "nombre": "League of Legends",
+      "corto": "LoL",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Sus jugadores tienen una identidad de afición muy marcada y pueden medirse con personajes, mundo, producciones y competiciones históricas.",
+      "riesgo": "Las habilidades y el trasfondo se reescriben; deben usarse publicaciones identificadas y competiciones cerradas hasta 2023.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "campeones",
+          "nombre": "Campeones y presentaciones originales",
+          "rincones": [
+            "Nombres y sobrenombres de lanzamiento",
+            "Años de aparición de campeones",
+            "Armas mostradas en sus presentaciones",
+            "Especies y naturalezas de personajes",
+            "Familiares en biografías oficiales fechadas",
+            "Maestros y discípulos en relatos identificados",
+            "Actores de voz de versiones concretas",
+            "Aspectos incluidos en lanzamientos originales"
+          ]
+        },
+        {
+          "id": "runaterra",
+          "nombre": "Runaterra en publicaciones concretas",
+          "rincones": [
+            "Ciudades y territorios de Demacia",
+            "Lugares e instituciones de Noxus",
+            "Clanes y territorios de Freljord",
+            "Órdenes y lugares de Jonia",
+            "Ciudades y tecnología de Piltover y Zaun",
+            "Lugares y dinastías de Shurima",
+            "Targon y sus figuras celestiales",
+            "Aguas Estancadas e Islas de la Sombra"
+          ]
+        },
+        {
+          "id": "producciones",
+          "nombre": "Música, vídeos e historias publicadas",
+          "rincones": [
+            "Canciones de los Worlds hasta 2023",
+            "Integrantes y voces de K/DA",
+            "Integrantes y canciones de Pentakill",
+            "Artistas de True Damage",
+            "Campeones presentes en cinemáticas identificadas",
+            "Relatos oficiales con título y fecha",
+            "Cómics publicados y sus protagonistas",
+            "Personajes y lugares de la primera temporada de Arcane"
+          ]
+        },
+        {
+          "id": "competicion",
+          "nombre": "Competición histórica hasta 2023",
+          "rincones": [
+            "Campeones de Worlds por edición",
+            "Finalistas y resultados de finales",
+            "Sedes de campeonatos mundiales",
+            "Plantillas ganadoras de ediciones concretas",
+            "Campeones de MSI por edición",
+            "Finales europeas de temporadas cerradas",
+            "Picks de partidas históricas identificadas",
+            "Aspectos conmemorativos de equipos campeones"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon_ball",
+      "nombre": "Dragon Ball",
+      "corto": "Dragon Ball",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Reúne a aficionados de varias generaciones y ofrece una escala clara entre personajes populares y detalles del manga original.",
+      "riesgo": "Las traducciones y continuidades difieren; conviene tomar como base el manga original y separar expresamente sus adaptaciones.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "personajes",
+          "nombre": "Personajes y relaciones",
+          "rincones": [
+            "Familia de Goku",
+            "Familia de Vegeta",
+            "Discípulos de maestros de artes marciales",
+            "Integrantes de la Patrulla Roja",
+            "Miembros de las Fuerzas Especiales",
+            "Habitantes de Namek",
+            "Androides numerados",
+            "Identidades, disfraces y nombres alternativos"
+          ]
+        },
+        {
+          "id": "sagas",
+          "nombre": "Aventuras del manga original",
+          "rincones": [
+            "Primera búsqueda de las bolas de dragón",
+            "Torneos de artes marciales de la infancia",
+            "Conflicto con la Patrulla Roja",
+            "Piccolo Daimaō y el torneo posterior",
+            "Llegada de los saiyans",
+            "Viaje a Namek y enfrentamiento con Freezer",
+            "Androides y Cell",
+            "Gran Saiyaman y Majin Buu"
+          ]
+        },
+        {
+          "id": "universo",
+          "nombre": "Técnicas, objetos y lugares",
+          "rincones": [
+            "Técnicas de combate y sus creadores",
+            "Transformaciones y primeras apariciones",
+            "Fusiones y sus requisitos",
+            "Bolas de dragón y dragones invocados",
+            "Cápsulas y vehículos",
+            "Semillas, medicinas y objetos de recuperación",
+            "Lugares de entrenamiento",
+            "Planetas y espacios del más allá"
+          ]
+        },
+        {
+          "id": "adaptaciones",
+          "nombre": "Anime, películas y edición",
+          "rincones": [
+            "Correspondencias entre capítulos y episodios iniciales",
+            "Personajes exclusivos del anime clásico",
+            "Argumentos de películas estrenadas hasta 1995",
+            "Villanos de esos largometrajes",
+            "Especiales televisivos clásicos",
+            "Cabeceras y canciones originales",
+            "Doblajes y emisiones en España",
+            "Publicación del manga y ediciones españolas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "one_piece",
+      "nombre": "One Piece",
+      "corto": "One Piece",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Su afición disfruta recordando conexiones y detalles de una obra extensa que ofrece material sobrado para preguntas de todos los niveles.",
+      "riesgo": "Debe cerrarse el corpus al final de Dressrosa y evitar misterios abiertos, revelaciones posteriores y diferencias entre manga y anime.",
+      "aprobado": false,
+      "subtemas": [
+        {
+          "id": "tripulaciones",
+          "nombre": "Tripulaciones y organizaciones",
+          "rincones": [
+            "Miembros de los Sombrero de Paja",
+            "Oficios y sueños declarados de la tripulación",
+            "Tripulaciones rivales de East Blue",
+            "Piratas de las primeras etapas de Grand Line",
+            "Baroque Works y sus alias",
+            "Agentes de Cipher Pol",
+            "Marines presentados hasta Dressrosa",
+            "Familia Donquixote y sus divisiones"
+          ]
+        },
+        {
+          "id": "viajes",
+          "nombre": "Islas y aventuras",
+          "rincones": [
+            "Pueblos y conflictos de East Blue",
+            "Etapas de Reverse Mountain a Drum",
+            "Ciudades y acontecimientos de Arabasta",
+            "Lugares y pruebas de Skypiea",
+            "Water Seven y Enies Lobby",
+            "Thriller Bark y Sabaody",
+            "Amazon Lily, Impel Down y Marineford",
+            "Isla Gyojin, Punk Hazard y Dressrosa"
+          ]
+        },
+        {
+          "id": "recursos",
+          "nombre": "Poderes, barcos y objetos",
+          "rincones": [
+            "Frutas del diablo y usuarios hasta Dressrosa",
+            "Técnicas identificadas por su nombre",
+            "Espadas y propietarios en momentos concretos",
+            "Barcos y sus tripulaciones",
+            "Diales y usos mostrados",
+            "Log Pose y otros instrumentos de navegación",
+            "Den Den Mushi y funciones observadas",
+            "Objetos ligados a promesas y recuerdos"
+          ]
+        },
+        {
+          "id": "publicacion",
+          "nombre": "Manga y adaptación hasta Dressrosa",
+          "rincones": [
+            "Títulos y contenidos de tomos",
+            "Portadas protagonizadas por personajes concretos",
+            "Minishistorias de las portadas",
+            "Respuestas de los SBS de esos tomos",
+            "Primeras apariciones por capítulo",
+            "Cabeceras del anime hasta Dressrosa",
+            "Intérpretes japoneses del reparto",
+            "Películas estrenadas hasta 2015"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "el_senor_de_los_anillos",
+      "nombre": "El Señor de los Anillos",
+      "corto": "Tierra Media",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Lectores y seguidores de las películas pueden compartir preguntas fáciles y llegar a detalles profundos de una obra cerrada.",
+      "riesgo": "Hay que indicar cuándo se pregunta por los libros o las películas y delimitar las referencias externas a El Hobbit y los apéndices.",
+      "aprobado": false,
+      "subtemas": [
+        {
+          "id": "personajes",
+          "nombre": "Pueblos y personajes",
+          "rincones": [
+            "Integrantes de la Comunidad del Anillo",
+            "Familias hobbits",
+            "Linajes de reyes de los apéndices",
+            "Elfos y sus parentescos",
+            "Enanos de El Hobbit y la trilogía",
+            "Magos mencionados en el corpus",
+            "Capitanes y servidores de los antagonistas",
+            "Nombres, títulos y sobrenombres"
+          ]
+        },
+        {
+          "id": "geografia",
+          "nombre": "Lugares y caminos",
+          "rincones": [
+            "Pueblos y regiones de la Comarca",
+            "Bree y las tierras de alrededor",
+            "Rivendel y los pasos de montaña",
+            "Moria y Lothlórien",
+            "Rohan y sus fortalezas",
+            "Gondor y sus ciudades",
+            "Mordor y sus accesos",
+            "Ríos, bosques y etapas de los viajes"
+          ]
+        },
+        {
+          "id": "relato",
+          "nombre": "Acontecimientos y objetos",
+          "rincones": [
+            "El viaje de Bilbo en El Hobbit",
+            "Salida de la Comarca y llegada a Rivendel",
+            "Decisiones del Concilio de Elrond",
+            "Ruptura de la Comunidad",
+            "Batallas narradas en la trilogía",
+            "Destrucción del Anillo y regreso",
+            "Espadas, regalos y objetos con nombre",
+            "Anillos de poder y portadores identificados"
+          ]
+        },
+        {
+          "id": "adaptacion",
+          "nombre": "La trilogía cinematográfica",
+          "rincones": [
+            "Actores y personajes",
+            "Dirección y guiones",
+            "Localizaciones de rodaje en Nueva Zelanda",
+            "Música y canciones acreditadas",
+            "Escenas de las versiones extendidas",
+            "Cambios concretos respecto a las novelas",
+            "Efectos, maquillaje y diseño de criaturas",
+            "Estrenos y premios de las tres películas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eurovision",
+      "nombre": "Eurovisión",
+      "corto": "Eurovisión",
+      "publico": "masivo",
+      "referencia": "fan",
+      "por_que": "Los eurofans pueden competir con canciones y actuaciones reconocibles y con una larga historia de ediciones documentadas.",
+      "riesgo": "Debe cerrarse en 2024, precisar semifinal o final y evitar controversias políticas y cifras afectadas por sistemas de puntuación distintos.",
+      "aprobado": false,
+      "subtemas": [
+        {
+          "id": "canciones",
+          "nombre": "Canciones e intérpretes",
+          "rincones": [
+            "Títulos de canciones ganadoras",
+            "Intérpretes de candidaturas concretas",
+            "Idiomas empleados en cada canción",
+            "Compositores y letristas acreditados",
+            "Grupos y sus integrantes en la edición",
+            "Artistas que participaron varias veces",
+            "Canciones finalistas sin victoria",
+            "Versiones y títulos oficiales alternativos"
+          ]
+        },
+        {
+          "id": "ediciones",
+          "nombre": "Sedes, reglas y resultados",
+          "rincones": [
+            "Ciudades anfitrionas",
+            "Recintos de celebración",
+            "Presentadores de cada edición",
+            "Debuts de países",
+            "Número de participantes por edición",
+            "Ganadores y puestos de finales concretas",
+            "Introducción de semifinales y cambios de formato",
+            "Sistemas de votación de años identificados"
+          ]
+        },
+        {
+          "id": "escenario",
+          "nombre": "Lo que se vio en televisión",
+          "rincones": [
+            "Vestuario de actuaciones identificadas",
+            "Objetos y decorados utilizados",
+            "Instrumentos visibles sobre el escenario",
+            "Bailarines y coristas acreditados",
+            "Orden de actuación en finales concretas",
+            "Actuaciones de apertura",
+            "Números del intermedio",
+            "Postales de presentación de ediciones concretas"
+          ]
+        },
+        {
+          "id": "espana",
+          "nombre": "España en el festival",
+          "rincones": [
+            "Representantes españoles por año",
+            "Canciones españolas y sus autores",
+            "Resultados de España en finales",
+            "Ganadores de preselecciones televisadas",
+            "Participaciones elegidas mediante Operación Triunfo",
+            "Ediciones del Benidorm Fest hasta 2024",
+            "Comentaristas de retransmisiones concretas",
+            "Portavoces españoles de las votaciones"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aviacion_comercial",
+      "nombre": "Aviación comercial",
+      "corto": "Aviación",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Lo elegirían aficionados a los aviones y simuladores, con modelos reconocibles y muchos detalles técnicos e históricos verificables.",
+      "riesgo": "Las variantes se confunden con facilidad; deben evitarse flotas actuales, rutas vigentes, accidentes y cifras técnicas sin configuración indicada.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "modelos",
+          "nombre": "Fabricantes y familias de aviones",
+          "rincones": [
+            "Familias de reactores Boeing",
+            "Familias de reactores Airbus",
+            "Aviones de Douglas y McDonnell Douglas",
+            "Reactores comerciales de fabricantes británicos",
+            "Modelos regionales de Embraer",
+            "Aviones regionales de Bombardier",
+            "Turbohélices de ATR y otros fabricantes",
+            "Aviones comerciales supersónicos"
+          ]
+        },
+        {
+          "id": "tecnica",
+          "nombre": "Cómo está construido un avión",
+          "rincones": [
+            "Partes del ala y sus funciones",
+            "Superficies de control",
+            "Configuraciones del tren de aterrizaje",
+            "Tipos de motores comerciales",
+            "Instrumentos clásicos de cabina",
+            "Presurización y acondicionamiento del aire",
+            "Materiales estructurales en modelos concretos",
+            "Disposición de motores, alas y empenajes"
+          ]
+        },
+        {
+          "id": "operaciones",
+          "nombre": "El lenguaje del vuelo",
+          "rincones": [
+            "Alfabeto radiotelefónico",
+            "Unidades de altitud, velocidad y distancia",
+            "Designación de pistas",
+            "Luces y señales de aeródromo",
+            "Fases de un vuelo comercial",
+            "Tipos de aproximación y sus siglas",
+            "Ayudas clásicas a la navegación",
+            "Documentos y términos de planificación del vuelo"
+          ]
+        },
+        {
+          "id": "historia",
+          "nombre": "Hitos de la aviación de pasajeros",
+          "rincones": [
+            "Primeros vuelos de modelos históricos",
+            "Entradas en servicio de aviones concretos",
+            "Aerolíneas de lanzamiento de modelos",
+            "Hidroaviones de transporte de pasajeros",
+            "Primeros servicios transatlánticos",
+            "Nacimiento de la era del reactor",
+            "Fundaciones y fusiones históricas de aerolíneas",
+            "Aperturas y antiguos nombres de aeropuertos"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ajedrez",
+      "nombre": "Ajedrez",
+      "corto": "Ajedrez",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Los jugadores ocasionales tienen una entrada fácil y los aficionados pueden demostrar conocimientos de aperturas, partidas e historia.",
+      "riesgo": "Las posiciones deben describirse sin ambigüedad y los resultados históricos deben indicar organización, modalidad y edición.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "tablero",
+          "nombre": "Piezas, reglas y notación",
+          "rincones": [
+            "Casillas, filas, columnas y diagonales",
+            "Movimientos de las piezas",
+            "Capturas y restricciones al movimiento",
+            "Enroques y condiciones",
+            "Promoción y captura al paso",
+            "Jaque, mate y ahogado",
+            "Lectura de notación algebraica",
+            "Símbolos de anotación y resultados"
+          ]
+        },
+        {
+          "id": "aperturas",
+          "nombre": "Aperturas y defensas",
+          "rincones": [
+            "Aperturas abiertas identificadas por jugadas",
+            "Defensas semiabiertas contra e4",
+            "Gambitos de rey",
+            "Aperturas del peón de dama",
+            "Defensas indias",
+            "Aperturas de flanco",
+            "Variantes con nombre propio",
+            "Códigos ECO de líneas concretas"
+          ]
+        },
+        {
+          "id": "recursos",
+          "nombre": "Táctica y finales",
+          "rincones": [
+            "Clavadas y enfiladas",
+            "Ataques dobles y descubiertas",
+            "Desviación y atracción",
+            "Patrones de mate con nombre",
+            "Finales elementales de piezas contra rey",
+            "Oposición y casillas clave",
+            "Posiciones clásicas de finales de torre",
+            "Fortalezas y posiciones de tablas conocidas"
+          ]
+        },
+        {
+          "id": "historia",
+          "nombre": "Jugadores y partidas hasta 2023",
+          "rincones": [
+            "Campeones mundiales de periodos concretos",
+            "Campeonas mundiales de ediciones concretas",
+            "Sedes y resultados de encuentros por el título",
+            "Torneos históricos y sus ganadores",
+            "Olimpiadas de ajedrez ya celebradas",
+            "Partidas con sobrenombre",
+            "Autores de libros clásicos",
+            "Encuentros históricos entre humanos y ordenadores"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dinosaurios",
+      "nombre": "Dinosaurios",
+      "corto": "Dinosaurios",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Los aficionados pueden reconocer animales populares y profundizar en anatomía, yacimientos e historia de los descubrimientos.",
+      "riesgo": "La clasificación y las estimaciones cambian; deben excluirse tamaños discutidos, reconstrucciones especulativas y récords vigentes.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "grupos",
+          "nombre": "Reconocer dinosaurios",
+          "rincones": [
+            "Tiranosauroideos y otros grandes terópodos",
+            "Dromeosáuridos y parientes",
+            "Saurópodos de cuello largo",
+            "Ceratopsios",
+            "Estegosaurios",
+            "Anquilosaurios",
+            "Hadrosaurios y otros ornitópodos",
+            "Distinción entre dinosaurios y otros reptiles prehistóricos"
+          ]
+        },
+        {
+          "id": "anatomia",
+          "nombre": "Huesos y adaptaciones",
+          "rincones": [
+            "Tipos de dientes y alimentación inferida",
+            "Cráneos, cuernos y golas",
+            "Placas, espinas y armaduras",
+            "Extremidades y formas de locomoción",
+            "Garras y estructuras especializadas",
+            "Plumas conservadas en fósiles",
+            "Colas y sus estructuras óseas",
+            "Nombres de huesos en esqueletos de dinosaurios"
+          ]
+        },
+        {
+          "id": "yacimientos",
+          "nombre": "Cuándo y dónde vivieron",
+          "rincones": [
+            "Dinosaurios del Triásico",
+            "Dinosaurios del Jurásico",
+            "Dinosaurios del Cretácico",
+            "Formaciones fosilíferas de Norteamérica",
+            "Yacimientos de Sudamérica",
+            "Yacimientos de Asia",
+            "Dinosaurios y yacimientos de España",
+            "Huellas, huevos y nidos fósiles"
+          ]
+        },
+        {
+          "id": "hallazgos",
+          "nombre": "Descubrimientos y nombres",
+          "rincones": [
+            "Significado de nombres de géneros",
+            "Personas homenajeadas en nombres científicos",
+            "Primeras descripciones publicadas",
+            "Paleontólogos de descubrimientos históricos",
+            "La Guerra de los Huesos",
+            "Ejemplares fósiles con apodo",
+            "Museos que conservan ejemplares identificados",
+            "Cambios históricos de interpretación documentados"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ferrocarriles",
+      "nombre": "Ferrocarriles",
+      "corto": "Trenes",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Los aficionados al tren cuentan con modelos, tecnología y patrimonio suficientes para mezclar preguntas accesibles y especializadas.",
+      "riesgo": "Deben fijarse series y épocas, evitando horarios, servicios vigentes y especificaciones que dependan de reformas posteriores.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "vehiculos",
+          "nombre": "Locomotoras y unidades",
+          "rincones": [
+            "Series históricas de locomotoras españolas",
+            "Automotores diésel de épocas concretas",
+            "Unidades eléctricas de cercanías",
+            "Generaciones de trenes de alta velocidad",
+            "Locomotoras de vapor emblemáticas",
+            "Trenes articulados Talgo",
+            "Trenes de cremallera y funiculares",
+            "Fabricantes y modelos internacionales históricos"
+          ]
+        },
+        {
+          "id": "ingenieria",
+          "nombre": "Cómo funciona el ferrocarril",
+          "rincones": [
+            "Anchos de vía",
+            "Partes de la vía y los desvíos",
+            "Bielas y mecanismos de vapor",
+            "Tracción diésel y transmisiones",
+            "Electrificación y captación de corriente",
+            "Bogies, ejes y rodaduras",
+            "Sistemas de frenado",
+            "Señalización histórica y bloqueo"
+          ]
+        },
+        {
+          "id": "espana",
+          "nombre": "Historia ferroviaria española",
+          "rincones": [
+            "Primeras líneas peninsulares e insulares",
+            "Compañías anteriores a Renfe",
+            "Creación de organismos ferroviarios",
+            "Inauguración de líneas de alta velocidad",
+            "Ferrocarriles mineros históricos",
+            "Redes de vía estrecha",
+            "Electrificaciones e hitos técnicos fechados",
+            "Cierres y reconversiones de líneas históricas"
+          ]
+        },
+        {
+          "id": "patrimonio",
+          "nombre": "Rutas, estaciones y cultura ferroviaria",
+          "rincones": [
+            "Estaciones históricas y sus arquitectos",
+            "Túneles ferroviarios y fechas de apertura",
+            "Puentes y viaductos emblemáticos",
+            "Trenes internacionales con nombre propio",
+            "Rutas transcontinentales históricas",
+            "Museos y vehículos conservados",
+            "Líneas patrimoniales y trenes turísticos históricos",
+            "Ferrocarriles en novelas y películas concretas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "etimologias",
+      "nombre": "Etimologías y palabras viajeras",
+      "corto": "Etimologías",
+      "publico": "nicho",
+      "referencia": "medio",
+      "por_que": "Lo elegirían personas curiosas por las palabras, con preguntas de deducir orígenes y conexiones que también sorprenden al resto.",
+      "riesgo": "Abundan las etimologías populares falsas; deben usarse orígenes documentados y precisar si se pregunta por la fuente inmediata o remota.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "prestamos",
+          "nombre": "¿De qué idioma llegó?",
+          "rincones": [
+            "Arabismos del español",
+            "Préstamos del francés",
+            "Italianismos",
+            "Anglicismos incorporados al diccionario",
+            "Palabras procedentes del náhuatl",
+            "Palabras procedentes del quechua",
+            "Préstamos del japonés",
+            "Voces llegadas de otras lenguas peninsulares"
+          ]
+        },
+        {
+          "id": "raices",
+          "nombre": "Piezas que forman palabras",
+          "rincones": [
+            "Prefijos griegos de cantidad",
+            "Prefijos latinos de posición",
+            "Raíces griegas de disciplinas",
+            "Raíces latinas de la vida cotidiana",
+            "Sufijos de oficios y actividades",
+            "Sufijos de tamaño y valoración",
+            "Composición con elementos griegos",
+            "Identificación de una raíz compartida"
+          ]
+        },
+        {
+          "id": "nombres",
+          "nombre": "Palabras nacidas de nombres",
+          "rincones": [
+            "Inventos llamados por sus creadores",
+            "Unidades derivadas de apellidos",
+            "Prendas derivadas de personas",
+            "Alimentos derivados de lugares",
+            "Tejidos derivados de topónimos",
+            "Palabras procedentes de personajes literarios",
+            "Voces procedentes de nombres mitológicos",
+            "Marcas registradas incorporadas al léxico"
+          ]
+        },
+        {
+          "id": "evolucion",
+          "nombre": "Cómo cambiaron las palabras",
+          "rincones": [
+            "Dobletes de palabra culta y patrimonial",
+            "Étimos latinos de palabras frecuentes",
+            "Cambios documentados de significado",
+            "Palabras formadas por acortamiento",
+            "Siglas convertidas en palabras",
+            "Acrónimos de origen documentado",
+            "Onomatopeyas reconocidas por los diccionarios",
+            "Palabras exportadas del español a otras lenguas"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fotografia_analogica",
+      "nombre": "Fotografía analógica",
+      "corto": "Foto analógica",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Atrae a quienes coleccionan cámaras o disparan en película y permite preguntar por objetos conocidos, procesos e historia visual.",
+      "riesgo": "Hay que distinguir versiones de cámaras y emulsiones, y evitar precios, disponibilidad comercial y consejos de manipulación química.",
+      "aprobado": false,
+      "subtemas": [
+        {
+          "id": "camaras",
+          "nombre": "Cámaras y objetivos",
+          "rincones": [
+            "Cámaras de telémetro",
+            "Réflex de un solo objetivo",
+            "Réflex de dos objetivos",
+            "Cámaras de placas y gran formato",
+            "Cámaras panorámicas",
+            "Sistemas de fotografía instantánea",
+            "Monturas y familias de objetivos históricas",
+            "Fabricantes y modelos emblemáticos"
+          ]
+        },
+        {
+          "id": "pelicula",
+          "nombre": "Películas y formatos",
+          "rincones": [
+            "Película de 35 milímetros y sus cartuchos",
+            "Rollos 120 y formatos de fotograma",
+            "Placas y hojas de gran formato",
+            "Negativo en blanco y negro",
+            "Negativo en color",
+            "Película reversible y diapositivas",
+            "Sensibilidad y escalas históricas",
+            "Emulsiones históricas con nombre comercial"
+          ]
+        },
+        {
+          "id": "laboratorio",
+          "nombre": "Exposición y laboratorio",
+          "rincones": [
+            "Diafragma y números f",
+            "Obturación y tiempos de exposición",
+            "Fotómetros y medición de luz",
+            "Filtros usados con película",
+            "Funciones de revelador, paro y fijador",
+            "Ampliadoras y sus componentes",
+            "Papeles y tipos de copia",
+            "Virados y procesos fotográficos históricos"
+          ]
+        },
+        {
+          "id": "historia",
+          "nombre": "Inventores, autores y fotografías",
+          "rincones": [
+            "Primeros procedimientos fotográficos",
+            "Inventores y patentes históricas",
+            "Popularización de la cámara portátil",
+            "Fotografías célebres y su autoría",
+            "Libros fotográficos clásicos",
+            "Agencias y colectivos históricos",
+            "Fotógrafos españoles y obras identificadas",
+            "Cámaras utilizadas en proyectos documentados"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sintetizadores",
+      "nombre": "Sintetizadores",
+      "corto": "Sintetizadores",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Los aficionados a la música electrónica y la producción pueden reconocer máquinas famosas y profundizar en cómo generan sonido.",
+      "riesgo": "Las atribuciones de equipos a grabaciones suelen repetirse sin pruebas; deben usarse manuales y testimonios directos, evitando versiones actuales.",
+      "aprobado": false,
+      "subtemas": [
+        {
+          "id": "sintesis",
+          "nombre": "Cómo se construye el sonido",
+          "rincones": [
+            "Formas de onda básicas",
+            "Osciladores y sus controles",
+            "Filtros y tipos de respuesta",
+            "Envolventes ADSR",
+            "Osciladores de baja frecuencia",
+            "Síntesis por modulación de frecuencia",
+            "Síntesis mediante tablas de ondas",
+            "Síntesis aditiva y síntesis sustractiva"
+          ]
+        },
+        {
+          "id": "maquinas",
+          "nombre": "Instrumentos históricos",
+          "rincones": [
+            "Modelos clásicos de Moog",
+            "Sintetizadores de ARP",
+            "Familias históricas de Sequential",
+            "Modelos analógicos de Roland",
+            "Sintetizadores digitales de Yamaha",
+            "Instrumentos históricos de Korg",
+            "Sistemas de Buchla y otros modulares",
+            "Instrumentos híbridos y estaciones de trabajo clásicas"
+          ]
+        },
+        {
+          "id": "control",
+          "nombre": "Teclas, conexiones y secuencias",
+          "rincones": [
+            "Monofonía, polifonía y multitimbralidad",
+            "Teclados, ruedas y controles expresivos",
+            "Señales de control CV y puerta",
+            "Conectores y mensajes MIDI clásicos",
+            "Canales y numeración de programas",
+            "Secuenciadores por pasos",
+            "Arpegiadores y sus patrones",
+            "Memorias, bancos y almacenamiento histórico"
+          ]
+        },
+        {
+          "id": "cultura",
+          "nombre": "Inventores y grabaciones documentadas",
+          "rincones": [
+            "Diseñadores de instrumentos emblemáticos",
+            "Empresas y fundaciones históricas",
+            "Estudios pioneros de música electrónica",
+            "Álbumes con instrumentación acreditada",
+            "Bandas sonoras con sintetizadores documentados",
+            "Intérpretes vinculados a modelos concretos",
+            "Exhibiciones y presentaciones históricas",
+            "Portadas y material gráfico con instrumentos identificables"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cafe",
+      "nombre": "El mundo del café",
+      "corto": "Café",
+      "publico": "nicho",
+      "referencia": "fan",
+      "por_que": "Los aficionados al café de especialidad pueden competir con variedades, cafeteras y tradiciones que resultan reconocibles para todo el grupo.",
+      "riesgo": "Las recetas y denominaciones varían según el país; deben evitarse beneficios para la salud, gustos subjetivos y parámetros presentados como universales.",
+      "aprobado": true,
+      "subtemas": [
+        {
+          "id": "planta",
+          "nombre": "Del cafeto al grano verde",
+          "rincones": [
+            "Especies cultivadas de Coffea",
+            "Variedades de arábica documentadas",
+            "Partes del fruto y la semilla",
+            "Etapas de crecimiento y recolección",
+            "Procesado lavado",
+            "Procesado natural",
+            "Procesados honey y sus denominaciones",
+            "Clasificación física de granos y defectos"
+          ]
+        },
+        {
+          "id": "origenes",
+          "nombre": "Geografía e historia",
+          "rincones": [
+            "Regiones cafeteras de Etiopía",
+            "Historia del café en Yemen",
+            "Introducción del cultivo en América",
+            "Regiones productoras de Colombia",
+            "Regiones productoras de Brasil",
+            "Orígenes de Centroamérica y el Caribe",
+            "Orígenes de Asia y Oceanía",
+            "Cafés históricos y expansión de las cafeterías"
+          ]
+        },
+        {
+          "id": "herramientas",
+          "nombre": "Tostado, molienda y cafeteras",
+          "rincones": [
+            "Partes de una tostadora",
+            "Etapas físicas del tueste",
+            "Molinos de muelas y sus componentes",
+            "Máquinas de espresso y sus piezas",
+            "Cafeteras italianas",
+            "Prensas de émbolo",
+            "Dispositivos de filtrado por gravedad",
+            "Cafeteras de vacío y otros diseños históricos"
+          ]
+        },
+        {
+          "id": "bebidas",
+          "nombre": "Preparaciones y vocabulario",
+          "rincones": [
+            "Nombres de bebidas basadas en espresso",
+            "Preparaciones con leche de tradiciones concretas",
+            "Preparaciones turcas y utensilios",
+            "Preparaciones vietnamitas y utensilios",
+            "Café frío por inmersión y por goteo",
+            "Términos de extracción y sus unidades",
+            "Instrumentos de cata profesional",
+            "Ingredientes de recetas regionales identificadas"
+          ]
+        }
+      ]
+    }
+  ]
+}

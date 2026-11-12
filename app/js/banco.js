@@ -61,23 +61,38 @@ export function clavesRespuesta(p) {
   return [...claves];
 }
 
-function gramas(texto, maximo = 6) {
-  const palabras = normalizarTexto(texto).split(" ").filter(Boolean);
-  const salida = new Set();
-  for (let i = 0; i < palabras.length; i++) {
-    for (let n = 1; n <= maximo && i + n <= palabras.length; n++) salida.add(palabras.slice(i, i + n).join(" "));
-  }
-  return salida;
-}
-
+// Primero, qué preguntas tiene cada clave de respuesta; después, se buscan en ese índice los grupos de palabras
+// seguidas (hasta MAX_PALABRAS) del texto de cada pregunta. Cada grupo se alarga solo mientras sea el principio de
+// alguna clave: sacar todos los grupos de cada texto tardaba 0,8 s con 8570 preguntas (varios segundos en un
+// móvil), y comparar cada pregunta con todas las demás, unos 3 s con 5000.
+const MAX_PALABRAS = 6;
 function calcularRevelaciones(porId) {
-  const claves = [...porId.values()].map((q) => [q.id, clavesRespuesta(q)]);
+  const porClave = new Map();
+  const principios = new Set(); // las primeras 1, 2, 3… palabras de cada clave
+  for (const q of porId.values()) {
+    for (const k of clavesRespuesta(q)) {
+      if (!porClave.has(k)) porClave.set(k, []);
+      porClave.get(k).push(q.id);
+      let principio = "";
+      for (const palabra of k.split(" ").slice(0, MAX_PALABRAS)) {
+        principio = principio ? `${principio} ${palabra}` : palabra;
+        principios.add(principio);
+      }
+    }
+  }
   const revela = new Map();
   for (const u of porId.values()) {
     const texto = [u.pregunta, u.respuesta, ...(u.tambien_vale ?? []), u.criterio, u.explicacion].filter(Boolean).join(" ");
-    const g = gramas(texto);
+    const palabras = normalizarTexto(texto).split(" ");
     const reveladas = new Set();
-    for (const [id, ks] of claves) if (id !== u.id && ks.some((k) => g.has(k))) reveladas.add(id);
+    for (let i = 0; i < palabras.length; i++) {
+      let grupo = palabras[i];
+      for (let n = 1; principios.has(grupo); n++) {
+        for (const id of porClave.get(grupo) ?? []) if (id !== u.id) reveladas.add(id);
+        if (n >= MAX_PALABRAS || i + n >= palabras.length) break;
+        grupo += ` ${palabras[i + n]}`;
+      }
+    }
     if (reveladas.size) revela.set(u.id, reveladas);
   }
   return revela;
@@ -100,7 +115,19 @@ export function crearIndice(preguntas, config, ajustes = null) {
     if (!celdas.has(k)) celdas.set(k, []);
     celdas.get(k).push(p.id);
   }
-  return { porId, celdas, subtemas, min, max, revela: calcularRevelaciones(porId) };
+  // Las fugas solo hacen falta al elegir pregunta en una partida: se calculan entonces (main.js las adelanta
+  // cuando la pantalla de inicio ya se ve), no antes de pintar nada.
+  let revela = null;
+  return {
+    porId,
+    celdas,
+    subtemas,
+    min,
+    max,
+    get revela() {
+      return (revela ??= calcularRevelaciones(porId));
+    },
+  };
 }
 
 function celda(indice, cat, sub, nivel) {

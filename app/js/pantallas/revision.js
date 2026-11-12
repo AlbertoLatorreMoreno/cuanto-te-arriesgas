@@ -22,14 +22,19 @@ import {
 } from "./comun.js";
 
 // Al volver al inicio: si hay valoraciones por las que aún no se ha preguntado, ¿se envían a la hoja del grupo?
+// Un «sí» se recuerda (preferencia `envioRevisiones`, que se cambia en «Datos»): desde entonces cada valoración
+// se envía al guardarla, sin esperar a salir de aquí, que es lo que se pierde quien cierra la app sin más.
 async function salir(app) {
-  const nuevas = app.urlEnvio() ? revisionesSinDecidir(await app.almacen.todosLosRegistros(), app.almacen.decisionesRevisiones()) : [];
+  const recordado = app.almacen.preferencia("envioRevisiones", null) === true;
+  const nuevas = app.urlEnvio() && !recordado ? revisionesSinDecidir(await app.almacen.todosLosRegistros(), app.almacen.decisionesRevisiones()) : [];
   if (nuevas.length) {
     const si = await preguntarEnvio(
       nuevas.length === 1 ? "¿Enviamos esta valoración?" : `¿Enviamos estas ${nuevas.length} valoraciones?`,
-      "Sirven para ajustar el nivel de las preguntas. Se envía lo que habéis valorado, con el nombre de quien revisa, a la hoja de cálculo del grupo. Nada más.",
+      "Sirven para ajustar el nivel de las preguntas. Se envía lo que habéis valorado, con el nombre de quien revisa, a la hoja de cálculo del grupo. Nada más. " +
+        "Si dices que sí, se recordará para las siguientes (lo puedes cambiar en «Datos y exportación»).",
     );
     if (si !== undefined) app.almacen.decidirRevisiones(nuevas.map((r) => r.id), si);
+    if (si) app.almacen.guardarPreferencia("envioRevisiones", true);
     app.ir("inicio");
     if (si) enviarAhora(app);
     return;
@@ -432,6 +437,7 @@ export function pantallaRevision(app) {
     app.almacen.marcarVistas([[estado.evaluador.clave, q.id]], ts);
     app.almacen.marcarRevisada(estado.evaluador.clave, q.id, ts);
     estado.hechas++;
+    if (app.almacen.preferencia("envioRevisiones", null) === true) app.sincronizar();
     if (estado.actual === q) siguiente(); // si mientras se guardaba se tocó «Saltar», ya se ha pasado de pregunta
   }
 

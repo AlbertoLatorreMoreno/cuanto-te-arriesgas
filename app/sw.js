@@ -1,7 +1,7 @@
 // Service worker: primero la red (siempre la última versión del banco y los ajustes)
 // y, sin conexión, la copia guardada. VERSION la pone herramientas/versionar.py (no la toques a mano).
 
-const VERSION = "cta-d4124cd4ba";
+const VERSION = "cta-7c5401068a";
 const ARCHIVOS = [
   "./",
   "index.html",
@@ -44,6 +44,17 @@ const ARCHIVOS = [
   "data/temas/juego_de_tronos.json",
   "data/temas/segunda_guerra.json",
   "data/temas/sorpresa.json",
+  "data/temas/pokemon.json",
+  "data/temas/taylor_swift.json",
+  "data/temas/disney_animacion.json",
+  "data/temas/league_of_legends.json",
+  "data/temas/dragon_ball.json",
+  "data/temas/aviacion_comercial.json",
+  "data/temas/ajedrez.json",
+  "data/temas/dinosaurios.json",
+  "data/temas/ferrocarriles.json",
+  "data/temas/etimologias.json",
+  "data/temas/cafe.json",
   "data/mapa.json",
   "data/retos.json",
   "data/opciones/ciencias.json",
@@ -56,6 +67,17 @@ const ARCHIVOS = [
   "data/opciones/juego_de_tronos.json",
   "data/opciones/segunda_guerra.json",
   "data/opciones/sorpresa.json",
+  "data/opciones/pokemon.json",
+  "data/opciones/taylor_swift.json",
+  "data/opciones/disney_animacion.json",
+  "data/opciones/league_of_legends.json",
+  "data/opciones/dragon_ball.json",
+  "data/opciones/aviacion_comercial.json",
+  "data/opciones/ajedrez.json",
+  "data/opciones/dinosaurios.json",
+  "data/opciones/ferrocarriles.json",
+  "data/opciones/etimologias.json",
+  "data/opciones/cafe.json",
   "icons/icono-180.png",
   "icons/icono-192.png",
   "icons/icono-512.png",

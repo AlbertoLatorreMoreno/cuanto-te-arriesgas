@@ -200,23 +200,40 @@ def _numeros(texto: str) -> list[str]:
     return re.findall(r"\d+", texto or "")
 
 
+def _distintivas(texto_normalizado: str) -> set[str]:
+    """Palabras que dicen de qué trata un texto: de cinco letras o más y sin cifras."""
+    return {w for w in texto_normalizado.split() if len(w) >= 5 and not any(c.isdigit() for c in w)}
+
+
 def datos_repetidos(finales: list[dict], banco: list[dict], rondas: list[dict], inf: Informe):
     """Avisa si una final da por sabido algo que ya sale en el banco o en las rondas: una serie de un
     reto que es una pregunta del banco, un número de la respuesta (un año, un resultado) que aparece en
     otro texto, o una respuesta que sale en una explicación o en la pista de una ronda. En la revisión
     del 21 de octubre salieron así cuatro series del reto «¿Qué número sigue?», los años de «¿En qué año
-    fue?» (en los enunciados de las preguntas de mapa) y «Farrokh Bulsara» en una explicación."""
+    fue?» (en los enunciados de las preguntas de mapa) y «Farrokh Bulsara» en una explicación.
+
+    Un año o un nombre solo cuenta si el otro texto habla de lo mismo: si comparte alguna palabra
+    distintiva con la pista o la pregunta de la final. Al ampliar el banco a unas 5000 preguntas
+    (noviembre de 2026), «1941» salía en decenas de preguntas de la Segunda Guerra Mundial (el Bismarck,
+    Creta, Tobruk…) sin delatar el ataque a Pearl Harbor del reto «¿En qué año fue?»."""
     # Enunciados y respuestas (donde estaban los años) y, aparte, explicaciones, criterios y pistas
     # (donde se cuelan los nombres). Una sola palabra («Francia», «Siete») coincide sin ser una fuga:
     # de las respuestas con letras solo se buscan las de dos palabras o más.
-    enunciados = [(p.get("id"), normalizar(" ".join(str(x) for x in [p.get("pregunta"), p.get("respuesta"), *(p.get("tambien_vale") or [])] if x)))
-                  for p in banco]
-    notas = [(p.get("id"), normalizar(" ".join(str(x) for x in [p.get("criterio"), p.get("explicacion")] if x))) for p in banco]
+    enunciados, notas, temas = [], [], {}
+    for p in banco:
+        enunciados.append((p.get("id"), normalizar(" ".join(str(x) for x in [p.get("pregunta"), p.get("respuesta"), *(p.get("tambien_vale") or [])] if x))))
+        notas.append((p.get("id"), normalizar(" ".join(str(x) for x in [p.get("criterio"), p.get("explicacion")] if x))))
+        temas.setdefault(p.get("id"), set()).update(_distintivas(enunciados[-1][1] + " " + notas[-1][1]))
     for r in rondas:
         for e in r.get("elementos") or []:
             enunciados.append((r.get("id"), normalizar(" ".join(str(x) for x in [e.get("pista"), e.get("texto"), e.get("respuesta"), *(e.get("tambien_vale") or [])] if x))))
             notas.append((r.get("id"), normalizar(e.get("pista") or "")))
+            temas.setdefault(r.get("id"), set()).update(_distintivas(enunciados[-1][1]))
     series = [(id_, " ".join(_numeros(t))) for id_, t in enunciados]
+
+    def habla_de_lo_mismo(id_: str, pista: str, respuestas: list) -> bool:
+        propias = _distintivas(normalizar(pista)) - _distintivas(normalizar(" ".join(str(r or "") for r in respuestas)))
+        return not propias or bool(propias & temas.get(id_, set()))
 
     for f in finales:
         if not isinstance(f, dict) or not isinstance(f.get("id"), str):
@@ -236,6 +253,7 @@ def datos_repetidos(finales: list[dict], banco: list[dict], rondas: list[dict], 
                     lugares = [id_ for id_, t in enunciados if f" {clave} " in f" {t} "] if len(clave) >= 3 and not calculo else []
                 else:
                     lugares = [id_ for id_, t in notas if f" {clave} " in f" {t} "] if len(clave.split()) >= 2 else []
+                lugares = [id_ for id_ in lugares if habla_de_lo_mismo(id_, pista, respuestas)]
                 if lugares:
                     inf.aviso(f["id"], f"su respuesta «{r}» también sale en {', '.join(dict.fromkeys(lugares))} (comprueba que no la delata)")
 

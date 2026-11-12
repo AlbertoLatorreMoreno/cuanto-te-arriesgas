@@ -273,7 +273,10 @@ def preparar_datos(registros: list[dict], banco: Banco, config: dict) -> Datos:
                 "fallo": fallo, "rev": rev}
 
     valoraciones = [valoracion(x, x.get("jugador"), int(not bool(x["acierto"])), 0) for x in resp if x.get("valoracion") is not None]
-    valoraciones += [valoracion(x, x.get("evaluador"), 0, 1) for x in r if x.get("tipo") == "revision" and x.get("valoracion") is not None]
+    # Las opiniones dadas al jugar a solas (`origen: "solo"`) no entran todavía, como las respuestas de ese modo:
+    # con 8 opciones a la vista y contra el reloj, la dificultad que se percibe es otra.
+    valoraciones += [valoracion(x, x.get("evaluador"), 0, 1) for x in r
+                     if x.get("tipo") == "revision" and x.get("origen") != "solo" and x.get("valoracion") is not None]
     valoraciones = [x for x in valoraciones if x is not None]
 
     # Marcas de calidad: «pregunta mala» en partida o revisión, y anulaciones por calidad.

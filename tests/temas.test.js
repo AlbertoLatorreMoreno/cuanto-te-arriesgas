@@ -3,9 +3,11 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { rngConSemilla } from "../app/js/azar.js";
 import { crearIndice } from "../app/js/banco.js";
 import * as M from "../app/js/motor.js";
+import { categoriasDelBanco, sinTemasEnPreparacion } from "../app/js/util.js";
 import { bancoSintetico, config, contexto, responder, rondasSinteticas } from "./ayudas.js";
 
 const CADA = config.temas.cada;
@@ -121,7 +123,7 @@ test("el registro de la respuesta lleva el tema como categoría, y cada turno, e
 
 test("un tema desconocido no se acepta", () => {
   const ctx = contexto();
-  assert.throws(() => M.nuevaPartida({ id: "x", jugadores: [{ clave: "a", nombre: "A", tema: "pokemon" }, { clave: "b", nombre: "B" }], metaId: "corta" }, ctx), M.ErrorJuego);
+  assert.throws(() => M.nuevaPartida({ id: "x", jugadores: [{ clave: "a", nombre: "A", tema: "tema_que_no_existe" }, { clave: "b", nombre: "B" }], metaId: "corta" }, ctx), M.ErrorJuego);
 });
 
 test("si el tema no tiene preguntas (su archivo no cargó), juega la de la casilla y la tanda sigue", () => {
@@ -147,6 +149,37 @@ test("una partida guardada sin temas (de antes de esta versión) sigue jugándos
     p = M.cerrarTurno(responder(p, ctx, paso % 2 === 0), ctx).partida;
     if (p.turno.fase === M.FASE.FIN) break;
     assert.ok(!p.turno.tema);
+  }
+});
+
+test("un tema en preparación no existe para la app, ni tampoco sus opciones del modo solo", () => {
+  const nuevo = { id: "nuevo", nombre: "Nuevo", corto: "Nuevo", color: "#123456", archivo: "data/temas/nuevo.json", referencia: "fan", en_preparacion: true, subtemas: [{ id: "uno", nombre: "Uno" }] };
+  const listos = config.temas.lista.filter((t) => !t.en_preparacion);
+  const cfg = { ...config, temas: { ...config.temas, lista: [listos[0], nuevo, ...listos.slice(1)] } };
+  const limpia = sinTemasEnPreparacion(cfg);
+  assert.deepEqual(limpia.temas.lista, listos);
+  assert.equal(limpia.temas.cada, config.temas.cada);
+  assert.ok(!categoriasDelBanco(limpia).some((c) => c.id === "nuevo"));
+  assert.equal(cfg.temas.lista.length, listos.length + 1, "no toca la configuración que recibe");
+  // Con esa configuración, el tema ni entra en el índice ni se puede elegir.
+  const indice = crearIndice(bancoSintetico(1, cfg), limpia);
+  assert.equal(indice.subtemas.get("nuevo"), undefined);
+  assert.ok(![...indice.porId.values()].some((q) => q.categoria === "nuevo"));
+  assert.throws(() => M.nuevaPartida({ id: "x", jugadores: [{ clave: "a", nombre: "A", tema: "nuevo" }, { clave: "b", nombre: "B" }], metaId: "corta" }, { ...contexto(), config: limpia }), M.ErrorJuego);
+  // Sin ninguno en preparación (o sin temas) no hay nada que quitar.
+  assert.equal(sinTemasEnPreparacion(limpia), limpia);
+  const { temas, ...sinTemas } = config;
+  assert.equal(sinTemasEnPreparacion(sinTemas), sinTemas);
+});
+
+test("los temas en preparación de config.json no están en el modo solo ni les falta su archivo", () => {
+  const enPreparacion = config.temas.lista.filter((t) => t.en_preparacion);
+  const dias = new Set(config.solo.temas_dia.map((t) => t.id));
+  for (const t of enPreparacion) {
+    assert.ok(!dias.has(t.id), `${t.id} está en preparación: no puede tener día temático`);
+    const datos = JSON.parse(readFileSync(new URL(`../app/${t.archivo}`, import.meta.url), "utf8"));
+    assert.equal(datos.categoria, t.id);
+    assert.ok(Array.isArray(datos.preguntas));
   }
 });
 

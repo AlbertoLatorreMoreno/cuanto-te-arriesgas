@@ -4,11 +4,11 @@ import { PREFIJO, crearAlmacen, pedirAlmacenamientoPersistente } from "./almacen
 import { rngReal } from "./azar.js";
 import { crearIndice, hayPreguntas } from "./banco.js";
 import { aviso, h, montar } from "./dom.js";
-import { enviarRegistros, errorDireccion, porEnviar } from "./envio.js";
+import { enviarRegistros, errorDireccion, porEnviar, revisionesSinDecidir, soloSinDecidir } from "./envio.js";
 import { construirExportacion, exportarArchivo, nombreArchivo } from "./exportar.js";
 import { ErrorJuego, FASE, clavesEnPartida, partidaAMedias, partidaReanudable } from "./motor.js";
 import { Sesion } from "./sesion.js";
-import { categoriasDelBanco, versionBanco } from "./util.js";
+import { categoriasDelBanco, sinTemasEnPreparacion, versionBanco } from "./util.js";
 import { pantallaDatos } from "./pantallas/datos.js";
 import { pantallaInicio } from "./pantallas/inicio.js";
 import { pantallaJuego } from "./pantallas/juego.js";
@@ -47,7 +47,7 @@ async function mantenerPantalla(activar) {
 // ---------------------------------------------------------------- app
 
 async function arrancar() {
-  const config = await cargarJSON("data/config.json");
+  const config = sinTemasEnPreparacion(await cargarJSON("data/config.json"));
   // Sin el archivo de un tema se juega igual: ese tema no se ofrece al crear la partida.
   const [archivos, archivosTemas] = await Promise.all([
     Promise.all(config.categorias.map((c) => cargarJSON(c.archivo))),
@@ -74,17 +74,33 @@ async function arrancar() {
   async function enviarPendientes(url) {
     try {
       const guardada = almacen.cargarPartida()?.partida;
+      const registros = await almacen.todosLosRegistros();
+      // Lo que ya tiene respuesta para siempre no espera a la pantalla que pregunta: las partidas a solas
+      // (`envioSolo`) y, si se aceptó una vez, las valoraciones de «Revisar preguntas» (`envioRevisiones`). Así
+      // llega también lo de quien cierra la app sin pasar por esa pantalla.
+      const envioSolo = almacen.preferencia("envioSolo", null);
+      const recordadas = [
+        ...(envioSolo === null ? [] : soloSinDecidir(registros, almacen.decisionesRevisiones()).map((r) => [r.id, envioSolo])),
+        ...(almacen.preferencia("envioRevisiones", null) === true ? revisionesSinDecidir(registros, almacen.decisionesRevisiones()).map((r) => [r.id, true]) : []),
+      ];
+      for (const si of [true, false]) {
+        const ids = recordadas.filter(([, s]) => s === si).map(([id]) => id);
+        if (ids.length) almacen.decidirRevisiones(ids, si);
+      }
       const decisiones = { enviados: almacen.idsEnviados(), partidas: almacen.decisionesPartidas(), revisiones: almacen.decisionesRevisiones() };
-      const pendientes = porEnviar(await almacen.todosLosRegistros(), decisiones, partidaAMedias(guardada) ? guardada.id : null);
+      // Lo que el script no ha admitido no se reintenta hasta que se vuelva a abrir la app.
+      const pendientes = porEnviar(registros, decisiones, partidaAMedias(guardada) ? guardada.id : null).filter((r) => !rechazados.has(r.id));
       if (!pendientes.length) return null;
       const r = await enviarRegistros(pendientes, { url, dispositivo: almacen.dispositivo, versiones: app.versiones });
       almacen.marcarEnviados(r.enviados);
-      almacen.guardarPreferencia("ultimoEnvio", { ts: new Date().toISOString(), ok: r.ok, nuevos: r.nuevos, error: r.error });
+      for (const id of r.rechazados) rechazados.add(id);
+      almacen.guardarPreferencia("ultimoEnvio", { ts: new Date().toISOString(), ok: r.ok, nuevos: r.nuevos, error: r.error, rechazados: rechazados.size });
       return r;
     } catch (e) {
-      return { ok: false, enviados: [], nuevos: 0, error: e.message };
+      return { ok: false, enviados: [], rechazados: [], nuevos: 0, error: e.message };
     }
   }
+  const rechazados = new Set();
 
   const app = {
     version: VERSION,
@@ -201,11 +217,24 @@ async function arrancar() {
     // enviar. Sin conexión, los envíos automáticos ni lo intentan; `siempre` (cuando alguien acaba de decir
     // que sí, o pulsa «Reintentar») lo intenta igual, para poder decir qué ha pasado.
     enviando: null,
+    otroEnvio: false,
     sincronizar({ siempre = false } = {}) {
       const url = app.urlEnvio();
       if (!url || (!siempre && navigator.onLine === false)) return Promise.resolve(null);
-      // Un envío cada vez: si ya hay uno en marcha, se espera a ese.
-      app.enviando ??= enviarPendientes(url).finally(() => (app.enviando = null));
+      // Un envío cada vez. Si ya hay uno en marcha, se espera a ese, y al acabar se hace otro: lo que se haya
+      // aceptado mientras tanto no estaba en su lista.
+      if (app.enviando) {
+        app.otroEnvio = true;
+        return app.enviando;
+      }
+      app.enviando = (async () => {
+        let r = await enviarPendientes(url);
+        while (app.otroEnvio) {
+          app.otroEnvio = false;
+          r = (await enviarPendientes(url)) ?? r;
+        }
+        return r;
+      })().finally(() => (app.enviando = null));
       return app.enviando;
     },
 
@@ -272,6 +301,11 @@ async function arrancar() {
 
   globalThis.__app = app; // para depurar desde la consola
   app.ir("inicio");
+  // Las fugas entre preguntas (banco.js) tardan en calcularse con un banco grande: se adelantan con el inicio ya
+  // en pantalla y el navegador sin nada que hacer, para que no las pague el primer turno de la partida.
+  const adelantar = () => void app.indice.revela;
+  if ("requestIdleCallback" in globalThis) requestIdleCallback(adelantar, { timeout: 5000 });
+  else setTimeout(adelantar, 2000);
 }
 
 arrancar().catch((e) => {

@@ -2,6 +2,8 @@
 
 import { partidaAMedias } from "../motor.js";
 import { h, haceCuanto, montar } from "../dom.js";
+import { partidasSinDecidir, revisionesSinDecidir } from "../envio.js";
+import { enviarAhora, preguntarEnvio } from "./comun.js";
 
 export async function pantallaInicio(app) {
   const vigente = app.vigente();
@@ -15,6 +17,33 @@ export async function pantallaInicio(app) {
   const sinExportar = registros.filter((r) => (!ultimaExportacion || r.ts > ultimaExportacion) && !enviados.has(r.id)).length;
   const ultimoEnvio = app.almacen.preferencia("ultimoEnvio", null);
   const envioFallido = Boolean(app.urlEnvio() && ultimoEnvio && !ultimoEnvio.ok);
+  // Datos por los que no se llegó a preguntar: una partida cuya pantalla final se cerró sin contestar, o
+  // valoraciones de «Revisar preguntas» de quien cerró la app sin volver atrás. Aquí se puede decidir.
+  const sinPreguntar = app.urlEnvio()
+    ? {
+        partidas: partidasSinDecidir(registros, app.almacen.decisionesPartidas(), hayPartida ? guardada.partida.id : null),
+        revisiones: app.almacen.preferencia("envioRevisiones", null) === true ? [] : revisionesSinDecidir(registros, app.almacen.decisionesRevisiones()).map((r) => r.id),
+      }
+    : { partidas: [], revisiones: [] };
+  const cuantos = (n, uno, varios) => (n === 1 ? `1 ${uno}` : `${n} ${varios}`);
+  const textoSinPreguntar = [
+    sinPreguntar.partidas.length ? cuantos(sinPreguntar.partidas.length, "partida", "partidas") : null,
+    sinPreguntar.revisiones.length ? cuantos(sinPreguntar.revisiones.length, "valoración", "valoraciones") : null,
+  ]
+    .filter(Boolean)
+    .join(" y ");
+  async function decidirSinPreguntar() {
+    const si = await preguntarEnvio(
+      "¿Enviamos estos datos?",
+      `Hay ${textoSinPreguntar} de antes por los que no se llegó a preguntar. Sirven para ajustar el nivel de las preguntas. Se envían las respuestas y ` +
+        "las valoraciones, con los nombres de los jugadores, a la hoja de cálculo del grupo. Nada más.",
+    );
+    if (si === undefined) return;
+    for (const id of sinPreguntar.partidas) app.almacen.decidirPartida(id, si);
+    if (sinPreguntar.revisiones.length) app.almacen.decidirRevisiones(sinPreguntar.revisiones, si);
+    if (si) await enviarAhora(app);
+    if (app.pantalla === "inicio") app.ir("inicio");
+  }
   if (!vigente()) return;
 
   montar(
@@ -52,6 +81,14 @@ export async function pantallaInicio(app) {
       h("button", { class: "boton boton-ancho", onClick: () => app.ir("datos") }, "Datos y exportación"),
       h("button", { class: "boton-texto", onClick: () => app.ir("reglas", { volverA: "inicio" }) }, "Cómo se juega"),
     ),
+    textoSinPreguntar
+      ? h(
+          "div",
+          { class: "nota columna" },
+          h("p", {}, `Hay ${textoSinPreguntar} sin enviar: no se llegó a preguntar si se enviaban.`),
+          h("button", { class: "boton boton-ancho", onClick: decidirSinPreguntar }, "Decidir ahora"),
+        )
+      : null,
     // Los datos solo están en este móvil y el navegador puede borrarlos (Safari, tras 7 días sin abrir
     // una web no instalada): se avisa ya tras una partida, para que se exporten al acabar la quedada.
     envioFallido
