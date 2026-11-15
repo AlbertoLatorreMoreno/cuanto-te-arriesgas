@@ -332,6 +332,39 @@
   "v": 1,
   "huella": "30f85013b3bc"
  },
+ "aje-ape-84": {
+  "v": 1,
+  "huella": "b071005e0a54"
+ },
+ "aje-ape-85": {
+  "v": 1,
+  "huella": "7fb649b695be"
+ },
+ "aje-ape-86": {
+  "v": 1,
+  "huella": "884422a52c5d"
+ },
+ "aje-ape-87": {
+  "v": 1,
+  "huella": "67f3ad6365db",
+  "eliminada": true
+ },
+ "aje-ape-88": {
+  "v": 1,
+  "huella": "2939c63cdf3f"
+ },
+ "aje-ape-89": {
+  "v": 1,
+  "huella": "aa62ce8a8047"
+ },
+ "aje-ape-90": {
+  "v": 1,
+  "huella": "9e7746da241d"
+ },
+ "aje-ape-91": {
+  "v": 1,
+  "huella": "161d92e060e9"
+ },
  "aje-his-01": {
   "v": 1,
   "huella": "e690fc32ea8e"
@@ -659,7 +692,8 @@
  },
  "aje-rec-02": {
   "v": 1,
-  "huella": "e60807c23b6b"
+  "huella": "e60807c23b6b",
+  "eliminada": true
  },
  "aje-rec-03": {
   "v": 1,
@@ -691,7 +725,8 @@
  },
  "aje-rec-10": {
   "v": 1,
-  "huella": "59983c7b1880"
+  "huella": "59983c7b1880",
+  "eliminada": true
  },
  "aje-rec-11": {
   "v": 1,
@@ -980,6 +1015,14 @@
  "aje-rec-81": {
   "v": 1,
   "huella": "20ceae86b133"
+ },
+ "aje-rec-82": {
+  "v": 1,
+  "huella": "a4e70649a095"
+ },
+ "aje-rec-83": {
+  "v": 1,
+  "huella": "d675f2823c8e"
  },
  "aje-tab-01": {
   "v": 1,
@@ -1599,7 +1642,8 @@
  },
  "avi-his-82": {
   "v": 1,
-  "huella": "24057ef66f8b"
+  "huella": "24057ef66f8b",
+  "eliminada": true
  },
  "avi-mod-01": {
   "v": 1,
@@ -1659,7 +1703,8 @@
  },
  "avi-mod-15": {
   "v": 1,
-  "huella": "0088238f2f0c"
+  "huella": "0088238f2f0c",
+  "eliminada": true
  },
  "avi-mod-16": {
   "v": 1,
@@ -2239,6 +2284,10 @@
   "v": 1,
   "huella": "0d17486a49f1"
  },
+ "avi-ope-78": {
+  "v": 1,
+  "huella": "425a1b5237ff"
+ },
  "avi-tec-01": {
   "v": 1,
   "huella": "8f4e8fe1f27f"
@@ -2541,6 +2590,40 @@
   "v": 1,
   "huella": "4595f3883aa0"
  },
+ "avi-tec-75": {
+  "v": 1,
+  "huella": "37cbc0f13f4f",
+  "eliminada": true
+ },
+ "avi-tec-76": {
+  "v": 1,
+  "huella": "404647d74aad"
+ },
+ "avi-tec-77": {
+  "v": 1,
+  "huella": "dda0864c95c5"
+ },
+ "avi-tec-78": {
+  "v": 1,
+  "huella": "3b97e99e037a"
+ },
+ "avi-tec-79": {
+  "v": 1,
+  "huella": "9ebdd0b355f7",
+  "eliminada": true
+ },
+ "avi-tec-80": {
+  "v": 1,
+  "huella": "fb67ba2fd181"
+ },
+ "avi-tec-81": {
+  "v": 1,
+  "huella": "be7695126a70"
+ },
+ "avi-tec-82": {
+  "v": 1,
+  "huella": "258f21f1916c"
+ },
  "caf-beb-01": {
   "v": 1,
   "huella": "69021b938f94"
@@ -2579,7 +2662,8 @@
  },
  "caf-beb-10": {
   "v": 1,
-  "huella": "72001b2e44cb"
+  "huella": "72001b2e44cb",
+  "eliminada": true
  },
  "caf-beb-11": {
   "v": 1,
@@ -2599,7 +2683,8 @@
  },
  "caf-beb-15": {
   "v": 1,
-  "huella": "d1a3243172ce"
+  "huella": "d1a3243172ce",
+  "eliminada": true
  },
  "caf-beb-16": {
   "v": 1,
@@ -2607,7 +2692,8 @@
  },
  "caf-beb-17": {
   "v": 1,
-  "huella": "b58d2d48f7eb"
+  "huella": "b58d2d48f7eb",
+  "eliminada": true
  },
  "caf-beb-18": {
   "v": 1,
@@ -2623,7 +2709,8 @@
  },
  "caf-beb-21": {
   "v": 1,
-  "huella": "990aa8024be7"
+  "huella": "990aa8024be7",
+  "eliminada": true
  },
  "caf-beb-22": {
   "v": 1,
@@ -2847,7 +2934,8 @@
  },
  "caf-her-08": {
   "v": 1,
-  "huella": "deb3004077c8"
+  "huella": "deb3004077c8",
+  "eliminada": true
  },
  "caf-her-09": {
   "v": 1,
@@ -2859,7 +2947,8 @@
  },
  "caf-her-11": {
   "v": 1,
-  "huella": "2d08f089bf2c"
+  "huella": "2d08f089bf2c",
+  "eliminada": true
  },
  "caf-her-12": {
   "v": 1,
@@ -2887,7 +2976,8 @@
  },
  "caf-her-18": {
   "v": 1,
-  "huella": "e87f71c36014"
+  "huella": "e87f71c36014",
+  "eliminada": true
  },
  "caf-her-19": {
   "v": 1,
@@ -2919,7 +3009,8 @@
  },
  "caf-her-26": {
   "v": 1,
-  "huella": "cb5bc3d29591"
+  "huella": "cb5bc3d29591",
+  "eliminada": true
  },
  "caf-her-27": {
   "v": 1,
@@ -2951,7 +3042,8 @@
  },
  "caf-her-34": {
   "v": 1,
-  "huella": "974e37c357f4"
+  "huella": "974e37c357f4",
+  "eliminada": true
  },
  "caf-her-35": {
   "v": 1,
@@ -3112,6 +3204,34 @@
   "v": 1,
   "huella": "eeaea0235e7b"
  },
+ "caf-her-73": {
+  "v": 1,
+  "huella": "f0707dd1eb5b"
+ },
+ "caf-her-74": {
+  "v": 1,
+  "huella": "b1be5b07fb91"
+ },
+ "caf-her-75": {
+  "v": 1,
+  "huella": "1ada0c340750"
+ },
+ "caf-her-76": {
+  "v": 1,
+  "huella": "86641cedf617"
+ },
+ "caf-her-77": {
+  "v": 1,
+  "huella": "cf3a1eeea5eb"
+ },
+ "caf-her-78": {
+  "v": 1,
+  "huella": "4c9fcbfec850"
+ },
+ "caf-her-79": {
+  "v": 1,
+  "huella": "1fba25551fbb"
+ },
  "caf-ori-01": {
   "v": 1,
   "huella": "be7383b8c0ef"
@@ -3206,7 +3326,8 @@
  },
  "caf-ori-24": {
   "v": 1,
-  "huella": "7a2f796132eb"
+  "huella": "7a2f796132eb",
+  "eliminada": true
  },
  "caf-ori-25": {
   "v": 1,
@@ -3395,7 +3516,8 @@
  },
  "caf-ori-70": {
   "v": 1,
-  "huella": "858d2f27647f"
+  "huella": "858d2f27647f",
+  "eliminada": true
  },
  "caf-ori-71": {
   "v": 1,
@@ -3425,6 +3547,24 @@
   "v": 1,
   "huella": "1144febc4bfc"
  },
+ "caf-ori-78": {
+  "v": 1,
+  "huella": "4a60f17ee463"
+ },
+ "caf-ori-79": {
+  "v": 1,
+  "huella": "ee1b6c9e8e7e",
+  "eliminada": true
+ },
+ "caf-ori-80": {
+  "v": 1,
+  "huella": "518c4cecb2ae",
+  "eliminada": true
+ },
+ "caf-ori-81": {
+  "v": 1,
+  "huella": "5929b09e7c59"
+ },
  "caf-pla-01": {
   "v": 1,
   "huella": "052c4e55dcf5"
@@ -3451,7 +3591,8 @@
  },
  "caf-pla-07": {
   "v": 1,
-  "huella": "26bbc8fad7f6"
+  "huella": "26bbc8fad7f6",
+  "eliminada": true
  },
  "caf-pla-08": {
   "v": 1,
@@ -3471,7 +3612,8 @@
  },
  "caf-pla-12": {
   "v": 1,
-  "huella": "681ee97ac9b0"
+  "huella": "681ee97ac9b0",
+  "eliminada": true
  },
  "caf-pla-13": {
   "v": 1,
@@ -3479,7 +3621,8 @@
  },
  "caf-pla-14": {
   "v": 1,
-  "huella": "e6fcec4c8a14"
+  "huella": "e6fcec4c8a14",
+  "eliminada": true
  },
  "caf-pla-15": {
   "v": 1,
@@ -3511,7 +3654,8 @@
  },
  "caf-pla-22": {
   "v": 1,
-  "huella": "659c5f8c5eb7"
+  "huella": "659c5f8c5eb7",
+  "eliminada": true
  },
  "caf-pla-23": {
   "v": 1,
@@ -3775,6 +3919,21 @@
  "caf-pla-85": {
   "v": 1,
   "huella": "950bd56a95b9"
+ },
+ "caf-pla-86": {
+  "v": 1,
+  "huella": "82a77a31db16",
+  "eliminada": true
+ },
+ "caf-pla-87": {
+  "v": 1,
+  "huella": "494179304e37",
+  "eliminada": true
+ },
+ "caf-pla-88": {
+  "v": 1,
+  "huella": "f4781e4ce7f3",
+  "eliminada": true
  },
  "cie-ast-01": {
   "v": 1,
@@ -7838,7 +7997,8 @@
  },
  "din-ana-16": {
   "v": 1,
-  "huella": "a4cbbe8deac0"
+  "huella": "a4cbbe8deac0",
+  "eliminada": true
  },
  "din-ana-17": {
   "v": 1,
@@ -8072,6 +8232,44 @@
  "din-ana-72": {
   "v": 1,
   "huella": "84a88fcd81b2"
+ },
+ "din-ana-73": {
+  "v": 1,
+  "huella": "b4a0737c3cb3"
+ },
+ "din-ana-74": {
+  "v": 1,
+  "huella": "3dd62ffe575a"
+ },
+ "din-ana-75": {
+  "v": 1,
+  "huella": "d794ed85f4a1"
+ },
+ "din-ana-76": {
+  "v": 1,
+  "huella": "fcaa20ee3738"
+ },
+ "din-ana-77": {
+  "v": 1,
+  "huella": "e65022fde0dd"
+ },
+ "din-ana-78": {
+  "v": 1,
+  "huella": "6829895c1755"
+ },
+ "din-ana-79": {
+  "v": 1,
+  "huella": "0a06f3e046c3",
+  "eliminada": true
+ },
+ "din-ana-80": {
+  "v": 1,
+  "huella": "a8d8c83dcb96"
+ },
+ "din-ana-81": {
+  "v": 1,
+  "huella": "bbb51a3db6a4",
+  "eliminada": true
  },
  "din-gru-01": {
   "v": 1,
@@ -8339,11 +8537,13 @@
  },
  "din-gru-66": {
   "v": 1,
-  "huella": "a311410676ab"
+  "huella": "a311410676ab",
+  "eliminada": true
  },
  "din-gru-67": {
   "v": 1,
-  "huella": "572609b9aace"
+  "huella": "572609b9aace",
+  "eliminada": true
  },
  "din-gru-68": {
   "v": 1,
@@ -8449,6 +8649,11 @@
   "huella": "d7604cf5d028",
   "eliminada": true
  },
+ "din-gru-93": {
+  "v": 1,
+  "huella": "d207742ec81e",
+  "eliminada": true
+ },
  "din-hal-01": {
   "v": 1,
   "huella": "b98700a15cb8"
@@ -8483,7 +8688,8 @@
  },
  "din-hal-09": {
   "v": 1,
-  "huella": "d55544c157a9"
+  "huella": "d55544c157a9",
+  "eliminada": true
  },
  "din-hal-10": {
   "v": 1,
@@ -8495,7 +8701,8 @@
  },
  "din-hal-12": {
   "v": 1,
-  "huella": "a4223eecd2a0"
+  "huella": "a4223eecd2a0",
+  "eliminada": true
  },
  "din-hal-13": {
   "v": 1,
@@ -8535,7 +8742,8 @@
  },
  "din-hal-22": {
   "v": 1,
-  "huella": "8cd26484c909"
+  "huella": "8cd26484c909",
+  "eliminada": true
  },
  "din-hal-23": {
   "v": 1,
@@ -8722,7 +8930,8 @@
  },
  "din-hal-68": {
   "v": 1,
-  "huella": "eb9faaf282a3"
+  "huella": "eb9faaf282a3",
+  "eliminada": true
  },
  "din-hal-69": {
   "v": 1,
@@ -8815,7 +9024,8 @@
  },
  "din-yac-13": {
   "v": 1,
-  "huella": "e4f4a0c91d9a"
+  "huella": "e4f4a0c91d9a",
+  "eliminada": true
  },
  "din-yac-14": {
   "v": 1,
@@ -8855,7 +9065,8 @@
  },
  "din-yac-23": {
   "v": 1,
-  "huella": "29df8aea384a"
+  "huella": "29df8aea384a",
+  "eliminada": true
  },
  "din-yac-24": {
   "v": 1,
@@ -9079,7 +9290,8 @@
  },
  "dis-est-02": {
   "v": 1,
-  "huella": "fd31c264d9bd"
+  "huella": "fd31c264d9bd",
+  "eliminada": true
  },
  "dis-est-03": {
   "v": 1,
@@ -9091,15 +9303,18 @@
  },
  "dis-est-05": {
   "v": 1,
-  "huella": "569ab1ef0bb0"
+  "huella": "569ab1ef0bb0",
+  "eliminada": true
  },
  "dis-est-06": {
   "v": 1,
-  "huella": "78554a6f4c7a"
+  "huella": "78554a6f4c7a",
+  "eliminada": true
  },
  "dis-est-07": {
   "v": 1,
-  "huella": "1e6aac39c6bc"
+  "huella": "1e6aac39c6bc",
+  "eliminada": true
  },
  "dis-est-08": {
   "v": 1,
@@ -11184,6 +11399,15 @@
   "v": 1,
   "huella": "715da4693d3c"
  },
+ "dra-sag-77": {
+  "v": 1,
+  "huella": "2425af93cdb1",
+  "eliminada": true
+ },
+ "dra-sag-78": {
+  "v": 1,
+  "huella": "fd8e18b2d77e"
+ },
  "dra-uni-01": {
   "v": 1,
   "huella": "b5338a5d7f5b"
@@ -11486,6 +11710,18 @@
  "dra-uni-74": {
   "v": 1,
   "huella": "85c958ee4395"
+ },
+ "dra-uni-75": {
+  "v": 1,
+  "huella": "531dcd9c637a"
+ },
+ "dra-uni-76": {
+  "v": 1,
+  "huella": "99b7fe149e48"
+ },
+ "dra-uni-77": {
+  "v": 1,
+  "huella": "cb8a984dea2c"
  },
  "ent-cin-01": {
   "v": 1,
@@ -16541,7 +16777,8 @@
  },
  "fer-esp-24": {
   "v": 1,
-  "huella": "46aa0fa7535b"
+  "huella": "46aa0fa7535b",
+  "eliminada": true
  },
  "fer-esp-25": {
   "v": 1,
@@ -16762,6 +16999,10 @@
   "v": 1,
   "huella": "e1603f40d227"
  },
+ "fer-esp-79": {
+  "v": 1,
+  "huella": "56b87ae5319b"
+ },
  "fer-ing-01": {
   "v": 1,
   "huella": "12d3f1423ffa"
@@ -16808,7 +17049,8 @@
  },
  "fer-ing-12": {
   "v": 1,
-  "huella": "53480be44da6"
+  "huella": "53480be44da6",
+  "eliminada": true
  },
  "fer-ing-13": {
   "v": 1,
@@ -16828,11 +17070,13 @@
  },
  "fer-ing-17": {
   "v": 1,
-  "huella": "43d2b3e5615d"
+  "huella": "43d2b3e5615d",
+  "eliminada": true
  },
  "fer-ing-18": {
   "v": 1,
-  "huella": "64849c808928"
+  "huella": "64849c808928",
+  "eliminada": true
  },
  "fer-ing-19": {
   "v": 1,
@@ -16856,7 +17100,8 @@
  },
  "fer-ing-24": {
   "v": 1,
-  "huella": "5ec32fdfa3ec"
+  "huella": "5ec32fdfa3ec",
+  "eliminada": true
  },
  "fer-ing-25": {
   "v": 1,
@@ -17082,6 +17327,42 @@
  "fer-ing-78": {
   "v": 1,
   "huella": "99d21f29eff5"
+ },
+ "fer-ing-79": {
+  "v": 1,
+  "huella": "f1e38027c6c1",
+  "eliminada": true
+ },
+ "fer-ing-80": {
+  "v": 1,
+  "huella": "527f4a50a35c",
+  "eliminada": true
+ },
+ "fer-ing-81": {
+  "v": 1,
+  "huella": "df82e8d65225",
+  "eliminada": true
+ },
+ "fer-ing-82": {
+  "v": 1,
+  "huella": "a3d14adf7c7a",
+  "eliminada": true
+ },
+ "fer-ing-83": {
+  "v": 1,
+  "huella": "a2b348855f92"
+ },
+ "fer-ing-84": {
+  "v": 1,
+  "huella": "041923d29f8f"
+ },
+ "fer-ing-85": {
+  "v": 1,
+  "huella": "8110d894d533"
+ },
+ "fer-ing-86": {
+  "v": 1,
+  "huella": "376d207bbfab"
  },
  "fer-pat-01": {
   "v": 1,
@@ -17684,7 +17965,8 @@
  },
  "fer-veh-74": {
   "v": 1,
-  "huella": "bdfd0bae9d69"
+  "huella": "bdfd0bae9d69",
+  "eliminada": true
  },
  "fer-veh-75": {
   "v": 1,
@@ -17757,6 +18039,11 @@
  "fer-veh-92": {
   "v": 1,
   "huella": "4ee0e7f494b5"
+ },
+ "fer-veh-93": {
+  "v": 1,
+  "huella": "13cc1da1dbad",
+  "eliminada": true
  },
  "geo-esp-01": {
   "v": 1,
@@ -20260,6 +20547,10 @@
   "v": 1,
   "huella": "dbd3c6ce562e"
  },
+ "har-mag-73": {
+  "v": 1,
+  "huella": "b1df1d0b6e1d"
+ },
  "har-mun-01": {
   "v": 1,
   "huella": "947711eef90b"
@@ -20552,7 +20843,8 @@
  },
  "har-mun-73": {
   "v": 1,
-  "huella": "96c391fb4a42"
+  "huella": "96c391fb4a42",
+  "eliminada": true
  },
  "har-mun-74": {
   "v": 1,
@@ -24930,11 +25222,13 @@
  },
  "jue-act-16": {
   "v": 1,
-  "huella": "3da5649c57e6"
+  "huella": "3da5649c57e6",
+  "eliminada": true
  },
  "jue-act-17": {
   "v": 1,
-  "huella": "dd95303fec25"
+  "huella": "dd95303fec25",
+  "eliminada": true
  },
  "jue-act-18": {
   "v": 1,
@@ -25152,6 +25446,14 @@
  "jue-act-70": {
   "v": 1,
   "huella": "e2fc9c0434d9"
+ },
+ "jue-act-71": {
+  "v": 1,
+  "huella": "da72a9c6bf98"
+ },
+ "jue-act-72": {
+  "v": 1,
+  "huella": "b4ae4af85a13"
  },
  "jue-cas-01": {
   "v": 1,
@@ -25448,6 +25750,10 @@
  "jue-cas-74": {
   "v": 1,
   "huella": "7a6a0971625b"
+ },
+ "jue-cas-75": {
+  "v": 1,
+  "huella": "46860ba2ebc9"
  },
  "jue-lib-01": {
   "v": 1,
@@ -26043,6 +26349,22 @@
  "jue-ser-72": {
   "v": 1,
   "huella": "bfe8eb67d4fc"
+ },
+ "jue-ser-73": {
+  "v": 1,
+  "huella": "594d7b94cb3a"
+ },
+ "jue-ser-74": {
+  "v": 1,
+  "huella": "955b22618865"
+ },
+ "jue-ser-75": {
+  "v": 1,
+  "huella": "f05e854adefd"
+ },
+ "jue-ser-76": {
+  "v": 1,
+  "huella": "2712afe27324"
  },
  "lea-cam-01": {
   "v": 1,
@@ -27003,6 +27325,10 @@
   "huella": "5d201e1a6529",
   "eliminada": true
  },
+ "lea-pro-76": {
+  "v": 1,
+  "huella": "e6d491f9c563"
+ },
  "lea-run-01": {
   "v": 1,
   "huella": "77ae2e174dbc"
@@ -27304,6 +27630,18 @@
  "lea-run-75": {
   "v": 1,
   "huella": "6800cc2ae722"
+ },
+ "lea-run-76": {
+  "v": 1,
+  "huella": "4eed521211fc"
+ },
+ "lea-run-77": {
+  "v": 1,
+  "huella": "afe89aeb1e49"
+ },
+ "lea-run-78": {
+  "v": 1,
+  "huella": "19dc7e47d6f3"
  },
  "mar-act-01": {
   "v": 1,
@@ -28241,7 +28579,8 @@
  },
  "mar-per-15": {
   "v": 1,
-  "huella": "6261e3909555"
+  "huella": "6261e3909555",
+  "eliminada": true
  },
  "mar-per-16": {
   "v": 1,
@@ -32777,6 +33116,22 @@
   "v": 1,
   "huella": "5424f1c9d743"
  },
+ "pok-ani-80": {
+  "v": 1,
+  "huella": "e93c1d58485a"
+ },
+ "pok-ani-81": {
+  "v": 1,
+  "huella": "b1596a98449d"
+ },
+ "pok-ani-82": {
+  "v": 1,
+  "huella": "b56467a9f58c"
+ },
+ "pok-ani-83": {
+  "v": 1,
+  "huella": "a195ea13ac82"
+ },
  "pok-ave-01": {
   "v": 1,
   "huella": "6952c3729ff8"
@@ -33102,6 +33457,10 @@
   "v": 1,
   "huella": "a483822d6fa3"
  },
+ "pok-ave-81": {
+  "v": 1,
+  "huella": "f903c566d463"
+ },
  "pok-cri-01": {
   "v": 1,
   "huella": "a06eea3f03d2"
@@ -33140,7 +33499,8 @@
  },
  "pok-cri-10": {
   "v": 1,
-  "huella": "0b565097f830"
+  "huella": "0b565097f830",
+  "eliminada": true
  },
  "pok-cri-11": {
   "v": 1,
@@ -33780,11 +34140,13 @@
  },
  "seg-arm-11": {
   "v": 1,
-  "huella": "ae09e2bbf418"
+  "huella": "ae09e2bbf418",
+  "eliminada": true
  },
  "seg-arm-12": {
   "v": 1,
-  "huella": "fb45076aa210"
+  "huella": "fb45076aa210",
+  "eliminada": true
  },
  "seg-arm-13": {
   "v": 1,
@@ -33812,7 +34174,8 @@
  },
  "seg-arm-19": {
   "v": 1,
-  "huella": "10b4a43abf97"
+  "huella": "10b4a43abf97",
+  "eliminada": true
  },
  "seg-arm-20": {
   "v": 1,
@@ -34311,11 +34674,13 @@
  },
  "seg-eur-67": {
   "v": 1,
-  "huella": "9bbd134d9284"
+  "huella": "9bbd134d9284",
+  "eliminada": true
  },
  "seg-eur-68": {
   "v": 1,
-  "huella": "04e1750ce2cd"
+  "huella": "04e1750ce2cd",
+  "eliminada": true
  },
  "seg-eur-69": {
   "v": 1,
@@ -34432,7 +34797,8 @@
  },
  "seg-pac-20": {
   "v": 1,
-  "huella": "fcfe848d3957"
+  "huella": "fcfe848d3957",
+  "eliminada": true
  },
  "seg-pac-21": {
   "v": 1,
@@ -34612,7 +34978,8 @@
  },
  "seg-pac-65": {
   "v": 1,
-  "huella": "c665d48d891e"
+  "huella": "c665d48d891e",
+  "eliminada": true
  },
  "seg-pac-66": {
   "v": 1,
@@ -34626,7 +34993,8 @@
  },
  "seg-pac-68": {
   "v": 1,
-  "huella": "c95f28fcdaaa"
+  "huella": "c95f28fcdaaa",
+  "eliminada": true
  },
  "seg-pac-69": {
   "v": 1,
@@ -34734,11 +35102,13 @@
  },
  "seg-per-21": {
   "v": 1,
-  "huella": "745be40b1c24"
+  "huella": "745be40b1c24",
+  "eliminada": true
  },
  "seg-per-22": {
   "v": 1,
-  "huella": "6cb93a4ffaba"
+  "huella": "6cb93a4ffaba",
+  "eliminada": true
  },
  "seg-per-23": {
   "v": 1,
@@ -34754,7 +35124,8 @@
  },
  "seg-per-26": {
   "v": 1,
-  "huella": "35a6d012769a"
+  "huella": "35a6d012769a",
+  "eliminada": true
  },
  "seg-per-27": {
   "v": 1,
@@ -34929,6 +35300,14 @@
  "seg-per-69": {
   "v": 1,
   "huella": "45ce75cf4572"
+ },
+ "seg-per-70": {
+  "v": 1,
+  "huella": "bb757dcefd49"
+ },
+ "seg-per-71": {
+  "v": 1,
+  "huella": "3854ae25ac66"
  },
  "sor-leg-01": {
   "v": 1,
@@ -36823,6 +37202,18 @@
   "v": 1,
   "huella": "80cf1b7bcc3f"
  },
+ "sta-sec-74": {
+  "v": 1,
+  "huella": "5b7d85571e7f"
+ },
+ "sta-sec-75": {
+  "v": 1,
+  "huella": "fb2c5c6697b2"
+ },
+ "sta-sec-76": {
+  "v": 1,
+  "huella": "6ca4968df8e6"
+ },
  "sta-ser-01": {
   "v": 1,
   "huella": "2173e12d3189"
@@ -37202,7 +37593,8 @@
  },
  "tay-can-17": {
   "v": 1,
-  "huella": "f2027f5890b0"
+  "huella": "f2027f5890b0",
+  "eliminada": true
  },
  "tay-can-18": {
   "v": 1,
@@ -37467,6 +37859,10 @@
  "tay-can-82": {
   "v": 1,
   "huella": "8aa0f4f441c3"
+ },
+ "tay-can-83": {
+  "v": 1,
+  "huella": "521e7c5a0853"
  },
  "tay-dis-01": {
   "v": 1,
@@ -37815,7 +38211,8 @@
  },
  "tay-esc-10": {
   "v": 1,
-  "huella": "840575c2b28e"
+  "huella": "840575c2b28e",
+  "eliminada": true
  },
  "tay-esc-11": {
   "v": 1,
@@ -38405,5 +38802,9 @@
  "tay-pan-79": {
   "v": 1,
   "huella": "a39ec0060ca0"
+ },
+ "tay-pan-80": {
+  "v": 1,
+  "huella": "ec4e00f8a403"
  }
 }

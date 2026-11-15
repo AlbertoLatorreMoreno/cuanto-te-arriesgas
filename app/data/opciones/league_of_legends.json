@@ -227,6 +227,7 @@
     "lea-pro-72": {"v": 1, "incorrectas": ["Una campana", "Una botella", "Una urna", "Una jaula", "Una caja", "Una calavera", "Una vasija"]},
     "lea-pro-73": {"v": 1, "incorrectas": ["Un rinoceronte", "Un bisonte", "Un mamut", "Un hipopótamo", "Un alce", "Un búfalo", "Un uro"]},
     "lea-pro-74": {"v": 1, "incorrectas": ["La Bruma Carmesí", "La Niebla Blanca", "La Calima Dorada", "La Bruma Violeta", "La Niebla Azul", "La Calima Gris", "La Bruma Esmeralda"]},
+    "lea-pro-76": {"v": 1, "incorrectas": ["Flores", "Cristales", "Cepos", "Cadenas", "Campanas", "Estacas", "Calaveras"]},
     "lea-run-01": {"v": 1, "incorrectas": ["Demacia", "Noxus", "Jonia", "Shurima", "Ixtal", "Targon", "Zaun"]},
     "lea-run-02": {"v": 1, "incorrectas": ["Noxus", "Shurima", "Jonia", "Freljord", "Ixtal", "Camavor", "Zaun"]},
     "lea-run-03": {"v": 1, "incorrectas": ["Zaun", "Demacia", "Noxus", "Bel'zhun", "Ixaocan", "Uwendale", "Fossbarrow"]},
@@ -299,7 +300,10 @@
     "lea-run-72": {"v": 1, "incorrectas": ["Ryze", "Viktor", "Vladimir", "Swain", "Xerath", "Malzahar", "Veigar"]},
     "lea-run-73": {"v": 1, "incorrectas": ["Su hermano", "Su padre", "Su tío", "Su primo", "Su abuelo", "Su sobrino", "Su hijo"]},
     "lea-run-74": {"v": 1, "incorrectas": ["Aatrox", "Varus", "Naafiri", "Xolaani", "Taarosh", "Horazi", "Naganeka"]},
-    "lea-run-75": {"v": 1, "incorrectas": ["La caligrafía", "La pintura", "La escultura", "La poesía", "La cerámica", "La orfebrería", "La música"]}
+    "lea-run-75": {"v": 1, "incorrectas": ["La caligrafía", "La pintura", "La escultura", "La poesía", "La cerámica", "La orfebrería", "La música"]},
+    "lea-run-76": {"v": 1, "incorrectas": ["Verde", "Azul", "Negro", "Blanco", "Castaño", "Rubio", "Naranja"]},
+    "lea-run-77": {"v": 1, "incorrectas": ["Una coleta", "Un moño", "Dos moños", "Una trenza", "Una cresta", "Pelo suelto", "Una melena rizada"]},
+    "lea-run-78": {"v": 1, "incorrectas": ["Diana", "Riven", "Fiora", "Irelia", "Vayne", "Kalista", "Sivir"]}
   },
   "no_aptas": {
   }

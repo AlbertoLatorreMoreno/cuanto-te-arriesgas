@@ -17,7 +17,6 @@
     "tay-can-14": {"v": 1, "incorrectas": ["London Boy", "Cornelia Street", "Cruel Summer", "Wonderland", "New Romantics", "Holy Ground", "The Very First Night"]},
     "tay-can-15": {"v": 1, "incorrectas": ["Dorothea", "Marjorie", "Abigail", "Betty", "Clara", "Este", "Cassandra"]},
     "tay-can-16": {"v": 1, "incorrectas": ["Cruel Summer", "Midnight Rain", "I Did Something Bad", "Dancing With Our Hands Tied", "Delicate", "Dress", "Afterglow"]},
-    "tay-can-17": {"v": 1, "incorrectas": ["El gato con botas", "El león cobarde", "El tigre Shere Khan", "La pantera Bagheera", "El gato Garfield", "El león Aslan", "El gato Silvestre"]},
     "tay-can-18": {"v": 1, "incorrectas": ["Abigail", "Dorothea", "Emma", "Mary", "Wendy", "Chloe", "Sophia"]},
     "tay-can-19": {"v": 1, "incorrectas": ["16", "17", "18", "20", "21", "22", "23"]},
     "tay-can-20": {"v": 1, "incorrectas": ["10", "12", "15", "18", "21", "24", "30"]},
@@ -79,6 +78,7 @@
     "tay-can-80": {"v": 1, "incorrectas": ["A su pareja", "A su hermana", "A su madre", "A su vecina", "A su amiga", "A su representante", "A su padre"]},
     "tay-can-81": {"v": 1, "incorrectas": ["Un viaje", "Un refugio", "Un tesoro", "Un espejo", "Un laberinto", "Un examen", "Un contrato"]},
     "tay-can-82": {"v": 1, "incorrectas": ["Gris oscuro", "Verde", "Amarillo", "Negro", "Blanco", "Naranja", "Violeta"]},
+    "tay-can-83": {"v": 1, "incorrectas": ["Un collar", "Un broche", "Un pendiente", "Un brazalete", "Una diadema", "Un colgante", "Una pulsera"]},
     "tay-dis-01": {"v": 1, "incorrectas": ["Fearless", "Red", "1989", "Lover", "Reputation", "Folklore", "Midnights"]},
     "tay-dis-02": {"v": 1, "incorrectas": ["Midnights", "Evermore", "Folklore", "Lover", "Reputation", "1989", "Red"]},
     "tay-dis-03": {"v": 1, "incorrectas": ["Libélulas", "Abejas", "Mariquitas", "Luciérnagas", "Escarabajos", "Hormigas", "Saltamontes"]},
@@ -164,7 +164,6 @@
     "tay-esc-07": {"v": 1, "incorrectas": ["Conan Gray", "Tate McRae", "Madison Beer", "Reneé Rapp", "Laufey", "Lizzy McAlpine", "Clairo"]},
     "tay-esc-08": {"v": 1, "incorrectas": ["Dua Lipa", "Rita Ora", "Jessie J", "Ellie Goulding", "Anne-Marie", "Bebe Rexha", "Zara Larsson"]},
     "tay-esc-09": {"v": 1, "incorrectas": ["Phoenix", "Tucson", "Scottsdale", "Tempe", "Mesa", "Flagstaff", "Chandler"]},
-    "tay-esc-10": {"v": 1, "incorrectas": ["Frosty", "Baymax", "Sven", "Kristoff", "Pongo", "Baloo", "Goofy"]},
     "tay-esc-11": {"v": 1, "incorrectas": ["Una butaca", "Una banqueta", "Una tumbona", "Una mesa", "Una cama", "Una mecedora", "Una chaise longue"]},
     "tay-esc-12": {"v": 1, "incorrectas": ["Dear John", "Sparks Fly", "Mine", "Back to December", "Ours", "Last Kiss", "Long Live"]},
     "tay-esc-13": {"v": 1, "incorrectas": ["Muna", "Boygenius", "The Chicks", "The Staves", "The Corrs", "First Aid Kit", "Joseph"]},
@@ -300,7 +299,8 @@
     "tay-pan-76": {"v": 1, "incorrectas": ["Glen Powell", "Ansel Elgort", "Austin Butler", "Dylan O'Brien", "Joe Keery", "Aaron Taylor-Johnson", "Nicholas Hoult"]},
     "tay-pan-77": {"v": 1, "incorrectas": ["Melbourne", "Brisbane", "Perth", "Adelaida", "Canberra", "Newcastle", "Gold Coast"]},
     "tay-pan-78": {"v": 1, "incorrectas": ["Robert Sean Leonard", "Gale Hansen", "Dylan Kussman", "Allelon Ruggiero", "James Waterston", "Kurtwood Smith", "Norman Lloyd"]},
-    "tay-pan-79": {"v": 1, "incorrectas": ["Raven", "Bianca Del Rio", "Trixie Mattel", "Alaska", "Jinkx Monsoon", "Katya", "Violet Chachki"]}
+    "tay-pan-79": {"v": 1, "incorrectas": ["Raven", "Bianca Del Rio", "Trixie Mattel", "Alaska", "Jinkx Monsoon", "Katya", "Violet Chachki"]},
+    "tay-pan-80": {"v": 1, "incorrectas": ["Homecoming", "Five Foot Two", "This Is Me", "Never Say Never", "Part of Me", "Simply Complicated", "Life Is but a Dream"]}
   },
   "no_aptas": {
   }

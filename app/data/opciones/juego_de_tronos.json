@@ -16,8 +16,6 @@
     "jue-act-13": {"v": 1, "incorrectas": ["Extremadura", "Castilla-La Mancha", "Región de Murcia", "Comunidad Valenciana", "Aragón", "Cataluña", "Castilla y León"]},
     "jue-act-14": {"v": 1, "incorrectas": ["Quenya", "Sindarin", "Klingon", "Na'vi", "Pársel", "Huttés", "Élfico"]},
     "jue-act-15": {"v": 1, "incorrectas": ["Andor", "Ahsoka", "Obi-Wan Kenobi", "El libro de Boba Fett", "The Acolyte", "Skeleton Crew", "The Bad Batch"]},
-    "jue-act-16": {"v": 1, "incorrectas": ["Montenegro", "Eslovenia", "Serbia", "Bosnia y Herzegovina", "Albania", "Grecia", "Italia"]},
-    "jue-act-17": {"v": 1, "incorrectas": ["Irlanda", "Inglaterra", "Escocia", "Gales", "Gibraltar", "Bermudas", "Islas Malvinas"]},
     "jue-act-18": {"v": 1, "incorrectas": ["Navarra", "Cantabria", "Asturias", "Galicia", "La Rioja", "Aragón", "Castilla y León"]},
     "jue-act-19": {"v": 1, "incorrectas": ["El señor de los anillos", "Las crónicas de Narnia", "Los juegos del hambre", "Crepúsculo", "Piratas del Caribe", "Star Wars", "Percy Jackson"]},
     "jue-act-21": {"v": 1, "incorrectas": ["Barcelona", "Tarragona", "Lérida", "Tortosa", "Vic", "Solsona", "La Seo de Urgel"]},
@@ -63,6 +61,8 @@
     "jue-act-68": {"v": 1, "incorrectas": ["Annabelle Wallis", "Sarah Bolger", "Jodie Comer", "Claire Foy", "Holliday Grainger", "Rebecca Ferguson", "Vanessa Kirby"]},
     "jue-act-69": {"v": 1, "incorrectas": ["Hannah Murray", "Charlotte Hope", "Nell Tiger Free", "Ellie Kendrick", "Aimee Richardson", "Kerry Ingram", "Jessica Henwick"]},
     "jue-act-70": {"v": 1, "incorrectas": ["Chris Martin", "Jonny Buckland", "Guy Berryman", "Phil Selway", "Dominic Howard", "Matt Helders", "Richard Hughes"]},
+    "jue-act-71": {"v": 1, "incorrectas": ["Emma Watson", "Jennifer Lawrence", "Kristen Stewart", "Emma Stone", "Saoirse Ronan", "Dakota Johnson", "Margot Robbie"]},
+    "jue-act-72": {"v": 1, "incorrectas": ["Oscar Isaac", "Diego Luna", "Javier Bardem", "Antonio Banderas", "Gael García Bernal", "Benicio del Toro", "Édgar Ramírez"]},
     "jue-cas-01": {"v": 1, "incorrectas": ["Theon", "Joffrey", "Viserys", "Renly", "Loras", "Gendry", "Bran"]},
     "jue-cas-02": {"v": 1, "incorrectas": ["Garra", "Hielo", "Albor", "Veneno", "Dueña de Luz", "Guardajuramentos", "Fuegoscuro"]},
     "jue-cas-03": {"v": 1, "incorrectas": ["Dama", "Nymeria", "Viento Gris", "Verano", "Peludo", "Colmillo", "Sombra"]},
@@ -136,6 +136,7 @@
     "jue-cas-72": {"v": 1, "incorrectas": ["Gendel", "Gorne", "Raymun", "Bael", "Mance Rayder", "Harlon Stark", "Brandon el Constructor"]},
     "jue-cas-73": {"v": 1, "incorrectas": ["Maelor Targaryen", "Maekar Targaryen", "Aelor Targaryen", "Valarr Targaryen", "Matarys Targaryen", "Rhaegel Targaryen", "Gaemon Targaryen"]},
     "jue-cas-74": {"v": 1, "incorrectas": ["Arya Stark", "Margaery Tyrell", "Myrcella Baratheon", "Shireen Baratheon", "Meera Reed", "Yara Greyjoy", "Daenerys Targaryen"]},
+    "jue-cas-75": {"v": 1, "incorrectas": ["1", "2", "4", "5", "6", "7", "8"]},
     "jue-lib-01": {"v": 1, "incorrectas": ["La rueda del tiempo", "El archivo de las tormentas", "Crónica del asesino de reyes", "Las crónicas de Narnia", "Memorias de Idhún", "La materia oscura", "El legado"]},
     "jue-lib-02": {"v": 1, "incorrectas": ["Lannister", "Stark", "Baratheon", "Tyrell", "Martell", "Greyjoy", "Tully"]},
     "jue-lib-03": {"v": 1, "incorrectas": ["Rhaenys", "Alicent", "Helaena", "Laena", "Baela", "Rhaena", "Alysanne"]},
@@ -274,7 +275,11 @@
     "jue-ser-69": {"v": 1, "incorrectas": ["Lancel Lannister", "Martyn Lannister", "Willem Lannister", "Cleos Frey", "Daven Lannister", "Stafford Lannister", "Tyrek Lannister"]},
     "jue-ser-70": {"v": 1, "incorrectas": ["Pylos", "Luwin", "Pycelle", "Wolkan", "Qyburn", "Aemon", "Ebrose"]},
     "jue-ser-71": {"v": 1, "incorrectas": ["Hugh del Valle", "Donnel Waynwood", "Lyn Corbray", "Yohn Royce", "Vance Corbray", "Robar Royce", "Morton Waynwood"]},
-    "jue-ser-72": {"v": 1, "incorrectas": ["3", "4", "5", "6", "8", "9", "10"]}
+    "jue-ser-72": {"v": 1, "incorrectas": ["3", "4", "5", "6", "8", "9", "10"]},
+    "jue-ser-73": {"v": 1, "incorrectas": ["El albinismo", "La ceguera", "La sordera", "El gigantismo", "La cojera", "La falta de un brazo", "La falta de una mano"]},
+    "jue-ser-74": {"v": 1, "incorrectas": ["Son enemigos", "Son rivales comerciales", "Son maestro y alumna", "Son carcelero y prisionera", "Son acreedor y deudora", "Son prometidos", "Son marido y mujer"]},
+    "jue-ser-75": {"v": 1, "incorrectas": ["Los brazos", "Las manos", "Los hombros", "El cuello", "La mandíbula", "La lengua", "Los dedos de las manos"]},
+    "jue-ser-76": {"v": 1, "incorrectas": ["El Lobo", "El Oso", "El Cuervo", "El Toro", "El Halcón", "El Jabalí", "El Gato"]}
   },
   "no_aptas": {
     "jue-act-20": "Solo Malta y Chipre son países insulares mediterráneos; no hay siete alternativas compatibles con el enunciado.",

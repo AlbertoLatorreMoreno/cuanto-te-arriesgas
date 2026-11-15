@@ -75,7 +75,6 @@
     "avi-his-79": {"v": 1, "incorrectas": ["Aer Lingus", "EasyJet", "Wizz Air", "Vueling", "Norwegian", "Transavia", "Volotea"]},
     "avi-his-80": {"v": 1, "incorrectas": ["American Airlines", "United Airlines", "Delta Air Lines", "Eastern Air Lines", "Frontier Airlines", "Alaska Airlines", "Hawaiian Airlines"]},
     "avi-his-81": {"v": 1, "incorrectas": ["Burdeos", "Marsella", "Nantes", "Lyon", "París", "Niza", "Estrasburgo"]},
-    "avi-his-82": {"v": 1, "incorrectas": ["California", "Texas", "Georgia", "Luisiana", "Alabama", "Carolina del Sur", "Virginia"]},
     "avi-mod-01": {"v": 1, "incorrectas": ["Caravelle", "Comet", "Trident", "Mercure", "Tristar", "Britannia", "Vanguard"]},
     "avi-mod-02": {"v": 1, "incorrectas": ["1", "3", "4", "5", "6", "7", "8"]},
     "avi-mod-03": {"v": 1, "incorrectas": ["A300", "A310", "A320", "A330", "A340", "A350", "A220"]},
@@ -90,7 +89,6 @@
     "avi-mod-12": {"v": 1, "incorrectas": ["Stratoliner", "Dreamlifter", "Jumbo", "Clipper", "Tristar", "Freighter", "Globemaster"]},
     "avi-mod-13": {"v": 1, "incorrectas": ["Emirates", "Etihad Airways", "Singapore Airlines", "Cathay Pacific", "Lufthansa", "Air France", "British Airways"]},
     "avi-mod-14": {"v": 1, "incorrectas": ["A319", "A320", "A321", "A300", "A310", "A220-300", "A330-200"]},
-    "avi-mod-15": {"v": 1, "incorrectas": ["Noruega", "Finlandia", "Dinamarca", "Alemania", "Países Bajos", "Suiza", "Austria"]},
     "avi-mod-16": {"v": 1, "incorrectas": ["Boeing 707", "Boeing 727", "Boeing 737", "Boeing 747", "Boeing 757", "Boeing 767", "Boeing 777"]},
     "avi-mod-17": {"v": 1, "incorrectas": ["Chengdu", "Shenyang", "Xian", "Hongdu", "Harbin", "Guizhou", "Changhe"]},
     "avi-mod-18": {"v": 1, "incorrectas": ["Bandeirante", "Xingu", "Tucano", "Ipanema", "Xavante", "Carajá", "Sertanejo"]},
@@ -228,6 +226,7 @@
     "avi-ope-75": {"v": 1, "incorrectas": ["Full fare", "Fast track", "Last call", "Self service", "Priority boarding", "Cash only", "On request"]},
     "avi-ope-76": {"v": 1, "incorrectas": ["Mayday", "Roger", "Wilco", "Standby", "Affirm", "Negative", "Break"]},
     "avi-ope-77": {"v": 1, "incorrectas": ["7500", "7700", "7000", "2000", "1200", "7400", "7100"]},
+    "avi-ope-78": {"v": 1, "incorrectas": ["La torre de control", "El hangar", "La plataforma", "La calle de rodaje", "La estación meteorológica", "El aparcamiento", "El depósito de combustible"]},
     "avi-tec-01": {"v": 1, "incorrectas": ["Convencional", "Biciclo", "Monorrueda", "Cuadriciclo", "De patines", "De flotadores", "De esquís"]},
     "avi-tec-02": {"v": 1, "incorrectas": ["Monomotor", "Trimotor", "Cuatrimotor", "Hexamotor", "Octomotor", "Sin motor", "De diez motores"]},
     "avi-tec-03": {"v": 1, "incorrectas": ["El anemómetro", "El variómetro", "El tacómetro", "El machímetro", "El termómetro", "El inclinómetro", "El cronómetro"]},
@@ -295,7 +294,13 @@
     "avi-tec-71": {"v": 1, "incorrectas": ["Los tornillos", "Los pernos", "Los espárragos", "Los pasadores", "Los clips", "Los bulones", "Los tacos"]},
     "avi-tec-72": {"v": 1, "incorrectas": ["Los volantes", "Los joysticks", "Los aceleradores", "Los compensadores", "Los selectores de flaps", "Los mandos de reversa", "Los interruptores de luces"]},
     "avi-tec-73": {"v": 1, "incorrectas": ["Los alerones", "Los flaps", "Los slats", "Los winglets", "Los compensadores", "Los estabilizadores", "Los timones"]},
-    "avi-tec-74": {"v": 1, "incorrectas": ["El deflector", "El difusor", "El cono de escape", "El parabrisas", "El mamparo", "El visor", "El cono de cola"]}
+    "avi-tec-74": {"v": 1, "incorrectas": ["El deflector", "El difusor", "El cono de escape", "El parabrisas", "El mamparo", "El visor", "El cono de cola"]},
+    "avi-tec-76": {"v": 1, "incorrectas": ["Las puertas de los aseos", "Las mamparas de separación", "Las escaleras interiores", "Las cocinas de a bordo", "Las ventanas de los pilotos", "Las puertas de la bodega", "Las taquillas de la tripulación"]},
+    "avi-tec-77": {"v": 1, "incorrectas": ["Las bloquean", "Las desinflan", "Las separan", "Las inclinan", "Las despliegan", "Las hacen girar", "Las mantienen fuera"]},
+    "avi-tec-78": {"v": 1, "incorrectas": ["Pulsando un botón rojo", "Girando una llave", "Deslizando un pestillo", "Desenroscando el cierre", "Apretando ambos lados", "Tirando de una anilla", "Separando dos imanes"]},
+    "avi-tec-80": {"v": 1, "incorrectas": ["Rectas", "Puntiagudas", "Dentadas", "Escalonadas", "Triangulares", "En zigzag", "En forma de flecha"]},
+    "avi-tec-81": {"v": 1, "incorrectas": ["La gasolina", "El gasóleo", "El alcohol", "El hidrógeno", "El gas natural", "El propano", "El fuelóleo"]},
+    "avi-tec-82": {"v": 1, "incorrectas": ["El altímetro", "El anemómetro", "El transpondedor", "El registrador de vuelo", "El piloto automático", "El radioaltímetro", "El compás magnético"]}
   },
   "no_aptas": {
   }

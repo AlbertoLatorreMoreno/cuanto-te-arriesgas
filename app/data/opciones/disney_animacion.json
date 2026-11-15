@@ -2,12 +2,8 @@
   "formato": 1,
   "opciones": {
     "dis-est-01": {"v": 1, "incorrectas": ["Dibujo a mano", "Animación con plastilina", "Animación con marionetas", "Animación de siluetas", "Animación con muñecos", "Animación con arena", "Animación con recortes"]},
-    "dis-est-02": {"v": 1, "incorrectas": ["Animación con plastilina", "Sombras chinescas", "Animación con arena", "Recortes de papel", "Grabados en madera", "Animación con marionetas", "Animación con alfileres"]},
     "dis-est-03": {"v": 1, "incorrectas": ["Jerry", "Speedy Gonzales", "Superratón", "Stuart Little", "Fievel", "Geronimo Stilton", "Pinky"]},
     "dis-est-04": {"v": 1, "incorrectas": ["La nórdica", "La egipcia", "La celta", "La japonesa", "La azteca", "La mesopotámica", "La eslava"]},
-    "dis-est-05": {"v": 1, "incorrectas": ["Británica", "Alemana", "Italiana", "Española", "Rusa", "Portuguesa", "Estadounidense"]},
-    "dis-est-06": {"v": 1, "incorrectas": ["El tráiler", "El decorado", "El largometraje", "El rodaje", "El doblaje", "El proyector", "El guion"]},
-    "dis-est-07": {"v": 1, "incorrectas": ["La biblioteca", "La taberna", "La cocina", "El calabozo", "El dormitorio", "El taller", "La plaza del pueblo"]},
     "dis-est-08": {"v": 1, "incorrectas": ["Julio Verne", "Charles Dickens", "Mark Twain", "Jack London", "Oscar Wilde", "H. G. Wells", "Daniel Defoe"]},
     "dis-est-09": {"v": 1, "incorrectas": ["J. M. Barrie", "L. Frank Baum", "Beatrix Potter", "Roald Dahl", "Kenneth Grahame", "E. B. White", "C. S. Lewis"]},
     "dis-est-10": {"v": 1, "incorrectas": ["1927", "1947", "1957", "1967", "1977", "1987", "1917"]},

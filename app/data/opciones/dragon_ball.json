@@ -223,6 +223,7 @@
     "dra-sag-74": {"v": 1, "incorrectas": ["El hígado", "El estómago", "El cerebro", "El páncreas", "El riñón", "El pulmón", "El intestino"]},
     "dra-sag-75": {"v": 1, "incorrectas": ["Hielo", "Madera", "Hierro", "Oro", "Arena", "Sal", "Arcilla"]},
     "dra-sag-76": {"v": 1, "incorrectas": ["Giran", "Bacterian", "Yamcha", "Krilin", "Jackie Chun", "Son Goku", "Ten Shin Han"]},
+    "dra-sag-78": {"v": 1, "incorrectas": ["Un escudo", "Un carcaj", "Un paraguas", "Un saco", "Un tambor", "Un cofre", "Un flotador"]},
     "dra-uni-01": {"v": 1, "incorrectas": ["Super Saiyan 2", "Super Saiyan 3", "Super Saiyan 4", "Super Saiyan Dios", "Super Saiyan Blue", "Ultra Instinto", "Ozaru"]},
     "dra-uni-02": {"v": 1, "incorrectas": ["Sala de la Gravedad", "Sala del Péndulo", "Palacio de Uranai Baba", "Templo de Orin", "Palacio de Enma", "Laboratorio del doctor Gero", "Nave de Babidi"]},
     "dra-uni-03": {"v": 1, "incorrectas": ["Las habas rojas", "Las ciruelas secas", "Las bayas azules", "Las nueces doradas", "Las algas verdes", "Las setas blancas", "Las raíces dulces"]},
@@ -289,7 +290,10 @@
     "dra-uni-71": {"v": 1, "incorrectas": ["La radio", "La prensa escrita", "El correo postal", "El teléfono", "La megafonía", "El telégrafo", "El correo electrónico"]},
     "dra-uni-72": {"v": 1, "incorrectas": ["La espada de Tapion", "La espada de Trunks", "La espada de Dabura", "La espada de Yajirobe", "El bastón de Goku", "El báculo de Whis", "El tridente de Akkuman"]},
     "dra-uni-73": {"v": 1, "incorrectas": ["Shishin no Ken", "Shiyoken", "Hasshuken", "Suiken", "Kyoken", "Janken", "Zanzoken"]},
-    "dra-uni-74": {"v": 1, "incorrectas": ["Kikoho", "Sokidan", "Makankosappo", "Kienzan", "Masenko", "Galick Ho", "Big Bang Attack"]}
+    "dra-uni-74": {"v": 1, "incorrectas": ["Kikoho", "Sokidan", "Makankosappo", "Kienzan", "Masenko", "Galick Ho", "Big Bang Attack"]},
+    "dra-uni-75": {"v": 1, "incorrectas": ["Corporación Umbrella", "Industrias Stark", "Empresas Wayne", "Industrias Oscorp", "Corporación Weyland", "Corporación Cyberdyne", "Corporación Tyrell"]},
+    "dra-uni-76": {"v": 1, "incorrectas": ["Planeta Namek", "Planeta Vegeta", "Planeta Yardrat", "Planeta de Bills", "Planeta Vampa", "Planeta Sadala", "Planeta Nuevo Namek"]},
+    "dra-uni-77": {"v": 1, "incorrectas": ["Camino del Dragón", "Sendero de la Tortuga", "Ruta del Tigre", "Camino del Fénix", "Sendero de la Grulla", "Ruta del Mono", "Camino del Lobo"]}
   },
   "no_aptas": {
   }
