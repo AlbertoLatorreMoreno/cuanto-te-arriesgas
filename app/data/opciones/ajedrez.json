@@ -305,7 +305,16 @@
     "aje-tab-68": {"v": 1, "incorrectas": ["5131", "5878", "5838", "8171", "7151", "5161", "5181"]},
     "aje-tab-69": {"v": 1, "incorrectas": ["X-FEN", "EPD", "PGN", "SAN", "LAN", "UCI", "ICCF"]},
     "aje-tab-70": {"v": 1, "incorrectas": ["PGN", "SAN", "LAN", "UCI", "NAG", "X-FEN", "Shredder-FEN"]},
-    "aje-tab-71": {"v": 1, "incorrectas": ["3", "4", "5", "7", "8", "9", "10"]}
+    "aje-tab-71": {"v": 1, "incorrectas": ["3", "4", "5", "7", "8", "9", "10"]},
+    "aje-tab-92": {"v": 1, "incorrectas": ["32", "36", "48", "49", "56", "81", "100"]},
+    "aje-tab-94": {"v": 1, "incorrectas": ["La coronación", "El gambito", "La captura al paso", "La clavada", "El jaque doble", "La celada", "El ahogado"]},
+    "aje-tab-95": {"v": 1, "incorrectas": ["2", "3", "4", "5", "6", "7", "8"]},
+    "aje-tab-96": {"v": 1, "incorrectas": ["2", "3", "5", "6", "8", "10", "16"]},
+    "aje-rec-92": {"v": 1, "incorrectas": ["Jaque mate", "Tablas", "Enroque", "Ahogado", "Gambito", "Celada", "Coronación"]},
+    "aje-rec-93": {"v": 1, "incorrectas": ["Jaque", "Mate", "Enroque", "Gambito", "Celada", "Abandono", "Clavada"]},
+    "aje-ape-92": {"v": 1, "incorrectas": ["1", "3", "4", "5", "6", "7", "8"]},
+    "aje-ape-93": {"v": 1, "incorrectas": ["8", "10", "12", "14", "18", "20", "32"]},
+    "aje-his-93": {"v": 1, "incorrectas": ["La FIFA", "La FIBA", "La FIA", "La UCI", "La FINA", "La ITF", "La UEFA"]}
   },
   "no_aptas": {
   }

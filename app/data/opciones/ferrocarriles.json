@@ -298,7 +298,16 @@
     "fer-veh-89": {"v": 1, "incorrectas": ["Ouigo", "Avlo", "Alvia", "Avant", "Euromed", "Altaria", "Arco"]},
     "fer-veh-90": {"v": 1, "incorrectas": ["La cremallera", "La señalización", "La vía en placa", "La toma de tierra", "La subestación", "La bancada", "La canalización"]},
     "fer-veh-91": {"v": 1, "incorrectas": ["El ténder", "El automotor", "El tractor", "El furgón", "El ferrobús", "El tranvía", "El locotractor"]},
-    "fer-veh-92": {"v": 1, "incorrectas": ["El coche cama", "El coche restaurante", "El coche salón", "El coche cafetería", "El coche de control", "El coche laboratorio", "El coche panorámico"]}
+    "fer-veh-92": {"v": 1, "incorrectas": ["El coche cama", "El coche restaurante", "El coche salón", "El coche cafetería", "El coche de control", "El coche laboratorio", "El coche panorámico"]},
+    "fer-esp-94": {"v": 1, "incorrectas": ["Adif", "Iberia", "Aena", "Alsa", "Correos", "Ouigo", "Iryo"]},
+    "fer-esp-95": {"v": 1, "incorrectas": ["Barcelona", "Valencia", "Bilbao", "Sevilla", "Zaragoza", "Málaga", "Palma"]},
+    "fer-esp-96": {"v": 1, "incorrectas": ["Barcelona", "Valencia", "Sevilla", "Zaragoza", "Bilbao", "Valladolid", "Málaga"]},
+    "fer-veh-94": {"v": 1, "incorrectas": ["El furgón", "La vagoneta", "El ténder", "El coche cama", "La dresina", "El tranvía", "El remolque"]},
+    "fer-veh-95": {"v": 1, "incorrectas": ["El funicular", "El metro", "El trolebús", "El monorraíl", "El teleférico", "El tren cremallera", "El cercanías"]},
+    "fer-ing-94": {"v": 1, "incorrectas": ["El revisor", "El fogonero", "El guardagujas", "El jefe de estación", "El factor", "El interventor", "El guardafrenos"]},
+    "fer-ing-95": {"v": 1, "incorrectas": ["Las traviesas", "Las catenarias", "Los topes", "Las agujas", "Los andenes", "Los pantógrafos", "Los bogies"]},
+    "fer-ing-96": {"v": 1, "incorrectas": ["Rojo", "Amarillo", "Azul", "Blanco", "Naranja", "Violeta", "Rosa"]},
+    "fer-ing-97": {"v": 1, "incorrectas": ["La consigna", "La cantina", "La garita", "El apeadero", "La marquesina", "El vestíbulo", "La cafetería"]}
   },
   "no_aptas": {
   }

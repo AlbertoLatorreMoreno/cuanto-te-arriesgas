@@ -79,6 +79,9 @@
     "tay-can-81": {"v": 1, "incorrectas": ["Un viaje", "Un refugio", "Un tesoro", "Un espejo", "Un laberinto", "Un examen", "Un contrato"]},
     "tay-can-82": {"v": 1, "incorrectas": ["Gris oscuro", "Verde", "Amarillo", "Negro", "Blanco", "Naranja", "Violeta"]},
     "tay-can-83": {"v": 1, "incorrectas": ["Un collar", "Un broche", "Un pendiente", "Un brazalete", "Una diadema", "Un colgante", "Una pulsera"]},
+    "tay-can-85": {"v": 1, "incorrectas": ["Marlon Brando", "Paul Newman", "Steve McQueen", "Elvis Presley", "Rock Hudson", "Montgomery Clift", "Cary Grant"]},
+    "tay-can-86": {"v": 1, "incorrectas": ["Que nunca acepta ninguna", "Que siempre llega tarde", "Que solo queda los domingos", "Que siempre las cancela", "Que nunca recuerda nombres", "Que siempre lleva amigas", "Que solo habla de trabajo"]},
+    "tay-can-87": {"v": 1, "incorrectas": ["Que quiere dejarlo", "Que ama a otro", "Que va a casarse", "Que vuelve con su ex", "Que nunca le quiso", "Que prefiere ser amiga", "Que se marcha del país"]},
     "tay-dis-01": {"v": 1, "incorrectas": ["Fearless", "Red", "1989", "Lover", "Reputation", "Folklore", "Midnights"]},
     "tay-dis-02": {"v": 1, "incorrectas": ["Midnights", "Evermore", "Folklore", "Lover", "Reputation", "1989", "Red"]},
     "tay-dis-03": {"v": 1, "incorrectas": ["Libélulas", "Abejas", "Mariquitas", "Luciérnagas", "Escarabajos", "Hormigas", "Saltamontes"]},
@@ -155,6 +158,8 @@
     "tay-dis-75": {"v": 1, "incorrectas": ["Ariana Grande", "Billie Eilish", "Lorde", "Miley Cyrus", "Dua Lipa", "Halsey", "Ellie Goulding"]},
     "tay-dis-76": {"v": 1, "incorrectas": ["Love Story", "White Horse", "Mine", "Fifteen", "Back to December", "Sparks Fly", "Begin Again"]},
     "tay-dis-77": {"v": 1, "incorrectas": ["Mine", "Ours", "Stay Stay Stay", "Hey Stephen", "Paper Rings", "London Boy", "Daylight"]},
+    "tay-dis-78": {"v": 1, "incorrectas": ["Una chaqueta", "Una camiseta", "Una falda", "Una sudadera", "Una camisa", "Una gabardina", "Una rebeca"]},
+    "tay-dis-79": {"v": 1, "incorrectas": ["Una vela", "Una cerilla", "Una bengala", "Una linterna", "Una lámpara", "Una antorcha", "Un farol"]},
     "tay-esc-01": {"v": 1, "incorrectas": ["Dua Lipa", "Olivia Rodrigo", "Ariana Grande", "Miley Cyrus", "Demi Lovato", "Billie Eilish", "Meghan Trainor"]},
     "tay-esc-02": {"v": 1, "incorrectas": ["Evanescence", "Green Day", "Coldplay", "Imagine Dragons", "Maroon 5", "Muse", "The Killers"]},
     "tay-esc-03": {"v": 1, "incorrectas": ["Toronto", "Montreal", "Ottawa", "Calgary", "Edmonton", "Quebec", "Winnipeg"]},
@@ -300,7 +305,15 @@
     "tay-pan-77": {"v": 1, "incorrectas": ["Melbourne", "Brisbane", "Perth", "Adelaida", "Canberra", "Newcastle", "Gold Coast"]},
     "tay-pan-78": {"v": 1, "incorrectas": ["Robert Sean Leonard", "Gale Hansen", "Dylan Kussman", "Allelon Ruggiero", "James Waterston", "Kurtwood Smith", "Norman Lloyd"]},
     "tay-pan-79": {"v": 1, "incorrectas": ["Raven", "Bianca Del Rio", "Trixie Mattel", "Alaska", "Jinkx Monsoon", "Katya", "Violet Chachki"]},
-    "tay-pan-80": {"v": 1, "incorrectas": ["Homecoming", "Five Foot Two", "This Is Me", "Never Say Never", "Part of Me", "Simply Complicated", "Life Is but a Dream"]}
+    "tay-pan-80": {"v": 1, "incorrectas": ["Homecoming", "Five Foot Two", "This Is Me", "Never Say Never", "Part of Me", "Simply Complicated", "Life Is but a Dream"]},
+    "tay-esc-88": {"v": 1, "incorrectas": ["Canadá", "Reino Unido", "Australia", "Irlanda", "Nueva Zelanda", "Suecia", "Sudáfrica"]},
+    "tay-esc-89": {"v": 1, "incorrectas": ["Reputation Stadium Tour", "The 1989 World Tour", "Speak Now World Tour", "The Red Tour", "Fearless Tour", "Lover Fest", "Midnights Tour"]},
+    "tay-esc-90": {"v": 1, "incorrectas": ["El Metropolitano", "El Camp Nou", "Mestalla", "La Cartuja", "San Mamés", "El Estadio Olímpico de Montjuïc", "El Benito Villamarín"]},
+    "tay-dis-88": {"v": 1, "incorrectas": ["El violín", "El banyo", "La armónica", "La mandolina", "El ukelele", "La batería", "El acordeón"]},
+    "tay-dis-89": {"v": 1, "incorrectas": ["Deluxe Edition", "Remastered", "New Edition", "Director's Cut", "Platinum Edition", "Anniversary Edition", "Swift Sessions"]},
+    "tay-can-88": {"v": 1, "incorrectas": ["You Belong with Me", "Fearless", "Fifteen", "Our Song", "White Horse", "Mine", "Enchanted"]},
+    "tay-pan-88": {"v": 1, "incorrectas": ["Perros", "Conejos", "Caballos", "Hurones", "Loros", "Hámsteres", "Tortugas"]},
+    "tay-pan-89": {"v": 1, "incorrectas": ["Moreno", "Pelirrojo", "Castaño oscuro", "Negro", "Rosa", "Azul", "Gris"]}
   },
   "no_aptas": {
   }
