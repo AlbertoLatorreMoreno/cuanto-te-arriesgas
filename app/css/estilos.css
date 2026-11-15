@@ -1688,16 +1688,17 @@ button.opcion:active {
   margin-top: 8px;
 }
 
-/* Opinión opcional sobre la dificultad, bajo el resultado de cada pregunta. */
+/* Tras cada pregunta a solas se continúa opinando sobre su dificultad: los tres botones son los de seguir. */
 .valorar-solo {
-  display: grid;
-  gap: 6px;
   text-align: center;
 }
 
-.valorar-solo .boton {
-  min-height: 40px;
-  font-size: 0.9rem;
+.valorar-solo .titulo-valorar {
+  font-weight: 700;
+}
+
+.valorar-solo .grupo-opciones .boton {
+  min-height: 56px;
 }
 
 .texto-compartir {

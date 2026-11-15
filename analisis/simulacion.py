@@ -13,6 +13,9 @@ from scipy.special import expit, logit
 from calibracion import Banco, TablaObjetivo
 
 
+MAX_EN_JUEGO = 1000  # preguntas del tablero que entran en las partidas simuladas
+
+
 def simular_exportacion(config: dict, banco: Banco, archivo: Path, semilla: int = 1, n_partidas: int = 30, n_jugadores: int = 5,
                         revisiones_por_jugador: int = 40, prob_valorar: float = 0.5, prob_horquilla: float = 0.3) -> dict:
     rng = np.random.default_rng(semilla)
@@ -22,6 +25,13 @@ def simular_exportacion(config: dict, banco: Banco, archivo: Path, semilla: int 
     Q = len(banco)
     # Solo se juegan y revisan las categorías del tablero: los temas (config.temas) solo los responde quien los elige.
     en_tablero = np.array([c in verdad_cat for c in banco.categoria])
+    # Y de esas, como mucho MAX_EN_JUEGO, elegidas al azar: con miles de preguntas en el tablero, unas decenas de
+    # partidas simuladas apenas repiten ninguna, y lo que se quiere probar (que el modelo recupera niveles con varios
+    # datos por pregunta, que una errónea se retira) dependería de la suerte y del tamaño del banco.
+    del_tablero = np.flatnonzero(en_tablero)
+    if len(del_tablero) > MAX_EN_JUEGO:
+        en_tablero = np.zeros(Q, dtype=bool)
+        en_tablero[np.random.default_rng(semilla + 1000).choice(del_tablero, MAX_EN_JUEGO, replace=False)] = True
     nivel_real = np.clip(banco.nivel + np.array([verdad_cat.get(c, 0.0) for c in banco.categoria]) + rng.normal(0, 1.2, Q), 0.6, 10.4)
     jugadores = [f"jugador {k + 1}" for k in range(n_jugadores)]
     habilidad = rng.normal(0, 0.8, n_jugadores)

@@ -65,6 +65,13 @@ RUBRICA = RAIZ / "docs" / "rubrica_niveles.md"
 NICHOS = AQUI / "banco_nichos.json"
 TEMAS_PROPUESTOS = AQUI / "banco_temas.json"
 RINCONES_POR_LOTE = 3
+NIVEL_RINCONES_TEMA = 6  # en los temas, los rincones solo desde este nivel
+SUMA_RELLENO = 3         # de relleno: las dos notas del detector (de 0 a 2) suman esto o más
+MOTIVO_REVELA = "su respuesta sale en"  # así empieza el descarte de una respuesta que nombran muchas preguntas
+MAX_VETADAS = 120        # cuántas de esas respuestas se le recuerdan al redactor
+RONDAS_SECAS = 3         # rondas seguidas sin llenar ningún hueco: el subtema no da más de sí, y se para
+NIVEL_MAX_CASUAL = 3     # en los temas de fan, hasta este nivel los huecos se cuentan por tema (ver por_tema)
+FECHA_RELLENO = "2026-11-14"  # desde ese día el revisor descarta las de relleno: de la reserva solo se rescata lo aceptado después
 
 # Con qué modelo y cuánto razonamiento trabaja cada agente (se cambian con --modelo-… y --esfuerzo-…). El revisor
 # «difícil» es el de mates y mapa: ahí resuelve o sitúa por su cuenta, y es lo que decide si la pregunta entra.
@@ -347,6 +354,7 @@ class Contexto:
                 if fi.resp:
                     self.por_respuesta[fi.resp].append(fi)
         self.lock = threading.Lock()
+        self._vetadas: dict[str, dict[str, str]] = {}
         self.nuevas: dict[tuple, list[dict]] = {}
         self._cache: dict[tuple, Ficha] = {}
 
@@ -409,11 +417,27 @@ def registrar(cat: str, sub: str, evento: str, q: dict, **extra):
         f.write(json.dumps(fila, ensure_ascii=False) + "\n")
 
 
+def por_tema(ctx: Contexto, cat: str) -> bool:
+    """Si en la categoría los niveles bajos (hasta NIVEL_MAX_CASUAL) se cuentan por tema y no por subtema: los temas
+    de fan. Lo que sabe un casual no se reparte por igual entre los subtemas («Historia de la aviación» o «Ingeniería
+    ferroviaria» apenas tienen nada de nivel 1 que sea del tema): pedir 6 por casilla acabó en preguntas de relleno."""
+    return cat in ctx.temas and ctx.cats[cat].get("referencia") == "fan"
+
+
 def huecos(ctx: Contexto, cat: str, sub: str, st: dict) -> dict[int, int]:
     obj = ctx.objetivo_celda(cat)
     c = Counter(p["nivel"] for p in ctx.banco if p["categoria"] == cat and p["subtema"] == sub)
     c.update(q["nivel"] for q in st["aceptadas"] + st["pendientes"])
-    return {n: obj - c[n] for n in range(1, 11) if obj - c[n] > 0}
+    faltan = {n: obj - c[n] for n in range(1, 11) if obj - c[n] > 0}
+    if por_tema(ctx, cat):
+        # En los niveles bajos, el subtema solo pide si al tema entero le faltan (y al incorporar caben más de `obj`).
+        tope = obj * len(ctx.cats[cat]["subtemas"])
+        del_tema = Counter(p["nivel"] for p in ctx.banco if p["categoria"] == cat)
+        with ctx.lock:
+            otras = [q for (c2, s2), lista in ctx.nuevas.items() if c2 == cat and s2 != sub for q in lista]
+        del_tema.update(q["nivel"] for q in otras + st["aceptadas"] + st["pendientes"])
+        faltan = {n: k for n, k in faltan.items() if n > NIVEL_MAX_CASUAL or del_tema[n] < tope}
+    return faltan
 
 
 def pedir(faltan: dict[int, int]) -> dict[int, int]:
@@ -482,13 +506,14 @@ def limpiar(c: dict, mapa: bool, mates: bool = False) -> dict:
     return q
 
 
-def comprobar_opciones(q: dict) -> str | None:
+def comprobar_opciones(q: dict, cat: str | None = None) -> str | None:
     """Motivo por el que las opciones de la candidata no valen, o None. Unas opciones malas no tiran la pregunta: se
-    queda sin ellas (quitar_opciones) y se le harán aparte, con opciones_codex.py."""
+    queda sin ellas (quitar_opciones) y se le harán aparte, con opciones_codex.py. Con la categoría, se comprueba
+    también que en los niveles bajos los años y las cantidades no vayan pegados a la correcta."""
     if not q.get("incorrectas"):
         return "no trae opciones"
     p = {"id": q["_clave"], "v": 1, "respuesta": q["respuesta"], "tambien_vale": q["tambien_vale"], "criterio": q.get("criterio"),
-         "verificacion": q.get("verificacion")}
+         "verificacion": q.get("verificacion"), "categoria": cat, "pregunta": q.get("pregunta"), "nivel": q.get("nivel") if cat else None}
     inf = vb.Informe()
     vo.validar_entrada(p, {"v": 1, "incorrectas": q["incorrectas"], **({"correcta": q["boton"]} if q.get("boton") else {})}, inf)
     return inf.errores[0].split(": ", 1)[-1] if inf.errores else None
@@ -615,7 +640,7 @@ def duplicado(ctx: Contexto, cat: str, sub: str, q: dict) -> str | None:
     if f.claves:
         cuenta = sum(1 for o in misma_cat if any(f" {k} " in o.texto for k in f.claves))
         if cuenta >= (UMBRAL_REVELA_TEMA if cat in ctx.temas else UMBRAL_REVELA):
-            return f"su respuesta sale en {cuenta} preguntas de la categoría"
+            return f"{MOTIVO_REVELA} {cuenta} preguntas de la categoría"
     return None
 
 
@@ -712,9 +737,16 @@ def referencia(ctx: Contexto, cat: str) -> str:
     if cat not in ctx.temas:
         return "Jugador de referencia: el medio de la rúbrica (adulto joven español con estudios)."
     if c.get("referencia") == "fan":
-        return (f"Es un tema que elige el jugador porque le gusta: el nivel es para un fan de «{c['nombre']}» (lo sigue de verdad: ha "
-                "visto las películas o series, leído los libros o jugado al juego, sin ser experto), no para el jugador medio. Una de "
-                "nivel 5 la acierta la mitad de los fans.")
+        return (f"Es el tema «{c['nombre']}», que elige el jugador porque le gusta. Cada tramo de niveles tiene su jugador (la prueba "
+                "del casual de la rúbrica): del 1 al 3, alguien con un contacto casual con el tema (lo conoce de pasada, sin "
+                "seguirlo): nada de vocabulario técnico, nombres de segunda fila, fechas ni datos de producción; del 4 al 6, el "
+                "aficionado que lo sigue por gusto (una de nivel 5 la acierta la mitad de ellos); del 7 al 10, el experto. Si para "
+                "acertarla hace falta haber estudiado o seguido el tema, no es de nivel 1 a 3. Pero fácil no es de relleno: en "
+                "cualquier nivel, la respuesta es un dato del tema (un personaje, una pieza, una regla, una escena, un lugar, un "
+                "hecho), y quien jamás ha tenido contacto con él no la acertaría. No valen las que se sacan por sentido común o "
+                "vocabulario de todos los días («¿Qué lleva Harry sobre la nariz para ver mejor?» → Las gafas; «¿Con qué aparato se "
+                "graba una película?» → Una cámara), ni las que el enunciado resuelve con un dato de fuera del tema («¿Qué río de "
+                "Londres sobrevuelan…?» → El Támesis).")
     return f"Es el tema «{c['nombre']}»: se elige por variedad o curiosidad, así que el nivel es el del jugador medio."
 
 
@@ -757,11 +789,41 @@ def ya_usadas(ctx: Contexto, cat: str, sub: str) -> list[str]:
     return lista
 
 
+def vetadas(ctx: Contexto, cat: str, nueva: str | None = None) -> list[str]:
+    """Las respuestas que la comprobación ya ha rechazado en la categoría porque se nombran en muchas de sus
+    preguntas (al leerse una, el motor bloquearía las demás): las del registro y, con `nueva`, una más. Sin esta lista
+    el redactor las repite ronda tras ronda: el 14-11-2026, al rehacer los niveles bajos de los temas, la mitad de lo
+    que escribió (692 de 1400) se tiró por esto, y casi siempre eran los mismos nombres (Stark, Daenerys, Goku)."""
+    with ctx.lock:
+        if cat not in ctx._vetadas:
+            vistas = {}
+            for ruta in sorted((LOTES / "registro").glob(f"{cat}__*.jsonl")):
+                for linea in ruta.read_text(encoding="utf-8").splitlines():
+                    if MOTIVO_REVELA in linea:
+                        fila = json.loads(linea)
+                        if str(fila.get("motivo") or "").startswith(MOTIVO_REVELA) and fila.get("respuesta"):
+                            vistas[norm(fila["respuesta"])] = str(fila["respuesta"])
+            ctx._vetadas[cat] = vistas
+        if nueva:
+            ctx._vetadas[cat][norm(nueva)] = nueva
+        return list(ctx._vetadas[cat].values())[-MAX_VETADAS:]
+
+
+def ids_de_relleno() -> set[str]:
+    """Las preguntas que el detector de relleno (nivelar_codex.py) da por ajenas a su tema: se aciertan sin haber
+    tenido contacto con él. Mientras sigan en el banco, no sirven de ejemplo de un nivel bajo."""
+    ids = set()
+    for ruta in (LOTES / "relleno").glob("*.json"):
+        ids |= {id_ for id_, notas in json.loads(ruta.read_text(encoding="utf-8")).items() if sum(notas) >= SUMA_RELLENO}
+    return ids
+
+
 def ejemplos(ctx: Contexto, cat: str, sub: str, niveles, semilla: int) -> list[str]:
     rnd = random.Random(semilla)
     lineas = []
+    relleno = ids_de_relleno() if cat in ctx.temas else set()
     for n in sorted(niveles):
-        otros = [p for p in ctx.banco if p["categoria"] == cat and p["subtema"] != sub and p["nivel"] == n]
+        otros = [p for p in ctx.banco if p["categoria"] == cat and p["subtema"] != sub and p["nivel"] == n and p["id"] not in relleno]
         if otros:
             p = rnd.choice(otros)
             lineas.append(f"- nivel {n}: {p['pregunta']} → {p['respuesta']}")
@@ -793,7 +855,13 @@ def prompt_generar(ctx: Contexto, cat: str, sub: str, pedido: dict[int, int], st
     c, s = ctx.cats[cat], ctx.subtema(cat, sub)
     total = sum(pedido.values())
     lineas = [f"Categoría: «{c['nombre']}». Subtema: «{s['nombre']}».", *notas_lote(ctx, cat, sub), ""]
-    elegidos = rincones(ctx, cat, sub, st["rondas"])
+    # En un tema, los rincones poco trillados son para los niveles altos: del 1 al 5 se pregunta por el centro del tema
+    # (con rincones en los niveles bajos salieron preguntas de experto con nivel 1, 13-11-2026).
+    solo_bajos = cat in ctx.temas and max(pedido) <= NIVEL_RINCONES_TEMA - 1
+    elegidos = [] if solo_bajos else rincones(ctx, cat, sub, st["rondas"])
+    if cat in ctx.temas and not solo_bajos and elegidos:
+        lineas += [f"En este tema, los rincones de abajo valen solo para las preguntas de nivel {NIVEL_RINCONES_TEMA} o más; las de "
+                   "nivel más bajo, sobre lo más conocido del tema.", ""]
     if elegidos:
         lineas += [*texto_rincones(cat, elegidos), ""]
     lineas += [f"Escribe {total} preguntas nuevas, con estos niveles:", *[f"- nivel {n}: {k}" for n, k in sorted(pedido.items())]]
@@ -808,6 +876,12 @@ def prompt_generar(ctx: Contexto, cat: str, sub: str, pedido: dict[int, int], st
         donde = "todo el tema" if cat in ctx.temas else "toda la categoría" if ctx.es_mapa(cat) else "el subtema"
         lineas += ["", f"Respuestas ya usadas en {donde} ({len(usadas)}): ninguna puede "
                    "ser tu respuesta, y no preguntes por el mismo dato con otras palabras.", " · ".join(usadas)]
+    fuera = vetadas(ctx, cat)
+    if fuera:
+        lineas += ["", f"Tampoco pueden ser tu respuesta estas {len(fuera)}, ni enteras ni por una parte (el nombre o el apellido): ya se "
+                   "nombran en muchas preguntas de la categoría, y el juego bloquearía esas preguntas al leerse la respuesta. Pueden "
+                   "salir en el enunciado; la respuesta tiene que ser otra cosa (un objeto, un lugar, un rasgo, un parentesco, un "
+                   "número, un nombre menos repetido).", " · ".join(fuera)]
     lineas += ["", "Responde solo con el JSON."]
     return "\n\n---\n\n".join([secciones(GENERAR, partes(ctx, cat, not ctx.es_mapa(cat))), rubrica_para(ctx, cat),
                                "# Este lote\n\n" + "\n".join(lineas)])
@@ -974,10 +1048,12 @@ def generar(ctx: Contexto, cat: str, sub: str, st: dict, pedido: dict[int, int])
             st["descartadas"] += 1
             malas += 1
             registrar(cat, sub, "descartada_local", q, motivo=motivo)
+            if motivo.startswith(MOTIVO_REVELA):
+                vetadas(ctx, cat, q["respuesta"])
         else:
             quedan[q["nivel"]] -= 1
             if not mapa:
-                sin = comprobar_opciones(q)
+                sin = comprobar_opciones(q, cat)
                 if sin:
                     quitar_opciones(cat, sub, q, sin)
                     sin_opciones += 1
@@ -1018,12 +1094,13 @@ def auditar(ctx: Contexto, cat: str, sub: str, st: dict):
         accion, motivo = decidir(ctx, cat, q, v)
         cuenta[accion] += 1
         if accion != "descartar" and q.get("incorrectas"):
-            sin = arreglar_opciones(q, v) or comprobar_opciones(q)
+            sin = arreglar_opciones(q, v) or comprobar_opciones(q, cat)
             if sin:
                 quitar_opciones(cat, sub, q, sin)
         if accion == "descartar":
             leccion(st, q, motivo)
         if accion == "aceptar":
+            q["_aceptada"] = time.strftime("%Y-%m-%d")
             st["aceptadas"].append(q)
             registrar(cat, sub, "aceptada", q, auditoria=q.get("_auditoria"), nivel_pedido=q.get("_nivel_pedido"))
         elif accion == "corregir":
@@ -1045,7 +1122,8 @@ def auditar(ctx: Contexto, cat: str, sub: str, st: dict):
 def flujo(ctx: Contexto, cat: str, sub: str, max_rondas: int) -> str:
     st = cargar_estado(cat, sub)
     nombre = f"{cat}/{sub}"
-    fallos = 0
+    fallos = secas = 0
+    previo = None
     try:
         while True:
             if fallos >= 3:
@@ -1053,6 +1131,14 @@ def flujo(ctx: Contexto, cat: str, sub: str, max_rondas: int) -> str:
             faltan = huecos(ctx, cat, sub, st)
             if not faltan and not st["pendientes"]:
                 return f"{nombre}: completo ({len(st['aceptadas'])} aceptadas, {st['descartadas']} descartadas)"
+            if not st["pendientes"]:
+                # Una ronda entera (redactor y revisor) que no llena ningún hueco es una ronda seca. El 14-11-2026 un
+                # subtema dio 28 rondas para un solo hueco y entre unos pocos agotaron el uso de Codex del día.
+                quedan = sum(faltan.values())
+                secas = secas + 1 if previo is not None and quedan >= previo else 0
+                previo = quedan
+                if secas >= RONDAS_SECAS:
+                    return f"{nombre}: parado tras {RONDAS_SECAS} rondas sin llenar ningún hueco; faltan {quedan} ({faltan})"
             if st["rondas"] >= max_rondas and not st["pendientes"]:
                 return f"{nombre}: parado tras {st['rondas']} rondas; faltan {sum(faltan.values())} ({faltan})"
             if faltan and st["rondas"] < max_rondas:
@@ -1123,27 +1209,42 @@ def incorporar(ctx: Contexto, solo: list[str]) -> int:
                 usados[m.group(1)].add(int(m.group(2)))
         orden_sub = {s["id"]: i for i, s in enumerate(c["subtemas"])}
         nuevas_cat = 0
+        obj = ctx.objetivo_celda(cat)
+        nota = lambda q: (sum((q.get("_auditoria") or {}).get(k) or 0 for k in ("exactitud", "claridad"))  # noqa: E731
+                          - ((q.get("_auditoria") or {}).get("ambiguedad") or 5), -q.get("_revision", 0))
+        estados, entran, tocados = {}, defaultdict(list), set()
         for s in c["subtemas"]:
             sub = s["id"]
             if solo and cat not in solo and f"{cat}/{sub}" not in solo:
                 continue
-            st = cargar_estado(cat, sub)
-            if not st["aceptadas"]:
-                continue
+            st = estados[sub] = cargar_estado(cat, sub)
             # Cada casilla, hasta su objetivo: entran las de mejores notas del auditor; las demás, a la reserva.
-            obj = ctx.objetivo_celda(cat)
             en_banco = Counter(p["nivel"] for p in preguntas if p["subtema"] == sub)
-            nota = lambda q: (sum((q.get("_auditoria") or {}).get(k) or 0 for k in ("exactitud", "claridad"))  # noqa: E731
-                              - ((q.get("_auditoria") or {}).get("ambiguedad") or 5), -q.get("_revision", 0))
-            entran = []
             for nivel in range(1, 11):
                 de_nivel = sorted((q for q in st["aceptadas"] if q["nivel"] == nivel), key=nota, reverse=True)
                 cabe = max(0, obj - en_banco[nivel])
-                entran += de_nivel[:cabe]
+                entran[sub] += de_nivel[:cabe]
                 st.setdefault("reserva", []).extend(de_nivel[cabe:])
+            if st["aceptadas"]:
+                tocados.add(sub)
+            st["aceptadas"] = []
+        if por_tema(ctx, cat):
+            # En los niveles bajos de un tema de fan, la casilla llena no es el tope: mientras al tema le falten, se
+            # rescatan de la reserva las mejores de ese nivel, del subtema que sean (solo las que el revisor aceptó
+            # cuando ya descartaba las de relleno).
+            for nivel in range(1, NIVEL_MAX_CASUAL + 1):
+                hay = sum(1 for p in preguntas if p["nivel"] == nivel) + sum(1 for qs in entran.values() for q in qs if q["nivel"] == nivel)
+                candidatas = sorted(((q, sub) for sub, st in estados.items() for q in st.get("reserva", [])
+                                     if q["nivel"] == nivel and q.get("_aceptada", "") >= FECHA_RELLENO),
+                                    key=lambda par: nota(par[0]), reverse=True)
+                for q, sub in candidatas[:max(0, obj * len(c["subtemas"]) - hay)]:
+                    estados[sub]["reserva"].remove(q)
+                    entran[sub].append(q)
+                    tocados.add(sub)
+        for sub, st in estados.items():
             prefijo = f"{cat[:3]}-{sub[:3]}-"
             siguiente = max(usados[prefijo], default=0) + 1
-            for q in sorted(entran, key=lambda x: (x["nivel"], x["_clave"])):
+            for q in sorted(entran[sub], key=lambda x: (x["nivel"], x["_clave"])):
                 id_ = f"{prefijo}{siguiente:02d}"
                 siguiente += 1
                 preguntas.append(pregunta_final(cat, sub, q, id_, ctx.es_mapa(cat)))
@@ -1151,8 +1252,8 @@ def incorporar(ctx: Contexto, solo: list[str]) -> int:
                 nuevas_cat += 1
                 if q.get("incorrectas"):
                     opciones_nuevas[id_] = {"v": 1, **({"correcta": q["boton"]} if q.get("boton") else {}), "incorrectas": q["incorrectas"]}
-            st["aceptadas"] = []
-            guardar_estado(cat, sub, st)
+            if sub in tocados:
+                guardar_estado(cat, sub, st)
         if nuevas_cat:
             preguntas.sort(key=lambda p: (orden_sub[p["subtema"]], p["nivel"]))  # estable: lo nuevo, detrás en su casilla
             ruta.write_text(escribir_banco(datos["categoria"], preguntas), encoding="utf-8")

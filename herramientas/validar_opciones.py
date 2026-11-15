@@ -7,7 +7,8 @@ Uso:
 Comprueba la forma (7 textos cortos, distintos entre sí y de la respuesta y de lo que también vale), que las
 opciones sean de la versión actual de la pregunta, y las trampas típicas: una incorrecta que es la respuesta en
 otro formato (2,25 y 2.25), una cifra dentro del margen que da el criterio («Vale entre 7 y 7,3»), o la
-trampa del criterio («No vale Guayaquil») que no está entre las incorrectas. Formato: docs/modo_solo.md.
+trampa del criterio («No vale Guayaquil») que no está entre las incorrectas. En los niveles 1 a 4, además, que los
+años y las cantidades no lleven las incorrectas pegadas a la correcta. Formato: docs/modo_solo.md.
 """
 from __future__ import annotations
 
@@ -30,6 +31,16 @@ PROHIBIDAS = ["ninguna de las anteriores", "todas las anteriores", "ninguna", "t
 RE_ENTRE = re.compile(rf"[Vv]ale (?:cualquier (?:valor|cifra|número) )?entre ({vb.RE_NUMERO}) y ({vb.RE_NUMERO})")
 RE_NO_VALE = re.compile(r"No vale ([^:.;(]+)")
 ARTICULOS = re.compile(r"^(el|la|los|las|lo|un|una|unos|unas) ")
+
+# En los niveles bajos, a solas, un año o una cantidad no pueden pedir la cifra exacta: con las incorrectas pegadas a
+# la correcta no basta con saberlo «más o menos», y eso no es de nivel 1 a 4 (el año de la llegada a la Luna con 1967,
+# 1968 y 1970 al lado, 14-11-2026). Las claves son el nivel más alto de cada tramo.
+SEPARACION_ANIOS = {3: (5, 10), 4: (3, 5)}  # ninguna incorrecta a menos de X años, y como mucho CERCA_MAX a menos de Y
+CERCA_MAX = 2
+SEPARACION_CANTIDAD = {3: 0.10, 4: 0.05}  # ninguna incorrecta a menos de esa parte de la correcta
+CANTIDAD_MIN = 20  # las cuentas pequeñas («8 peones») se saben o no: ahí lo natural es el número de al lado
+RE_QUE_ANIO = re.compile(r"\bqu[eé] año\b", re.IGNORECASE)
+RE_CUANTO = re.compile(r"\bcu[aá]nt[oa]s?\b", re.IGNORECASE)
 
 
 def carpeta_opciones(config: dict) -> Path:
@@ -106,6 +117,31 @@ def cargar_opciones(config: dict, inf: Informe) -> tuple[dict, dict]:
     return opciones, no_aptas
 
 
+def validar_separacion(p: dict, correcta: str, inc: list[str], inf: Informe):
+    """Niveles 1 a 4, fuera de mates: en «¿en qué año…?» y en «¿cuántos…?» (de 20 en adelante), las incorrectas van
+    separadas de la correcta. Sin nivel o sin enunciado (una entrada suelta) no se comprueba."""
+    nivel, pregunta = p.get("nivel"), p.get("pregunta") or ""
+    if not isinstance(nivel, int) or nivel > max(SEPARACION_ANIOS) or p.get("categoria") == "mates" or p.get("verificacion"):
+        return
+    c, ns = numero(correcta), [numero(t) for t in inc]
+    if c is None or any(n is None for n in ns):
+        return
+    tramo = min(t for t in SEPARACION_ANIOS if nivel <= t)
+    if RE_QUE_ANIO.search(pregunta) and re.fullmatch(r"\d{3,4}", correcta.strip()):
+        minimo, cerca = SEPARACION_ANIOS[tramo]
+        pegadas = [t for t, n in zip(inc, ns) if abs(n - c) < minimo]
+        cercanas = [t for t, n in zip(inc, ns) if abs(n - c) < cerca]
+        if pegadas:
+            inf.error(p["id"], f"año de nivel {nivel}: ninguna incorrecta a menos de {minimo} años de la correcta ({correcta}); sobran {', '.join(pegadas)}")
+        elif len(cercanas) > CERCA_MAX:
+            inf.error(p["id"], f"año de nivel {nivel}: como mucho {CERCA_MAX} incorrectas a menos de {cerca} años de la correcta ({correcta}); hay {', '.join(cercanas)}")
+    elif RE_CUANTO.search(pregunta) and abs(c) >= CANTIDAD_MIN:
+        parte = SEPARACION_CANTIDAD[tramo]
+        pegadas = [t for t, n in zip(inc, ns) if abs(n - c) < parte * abs(c) - 1e-9]
+        if pegadas:
+            inf.error(p["id"], f"cantidad de nivel {nivel}: ninguna incorrecta a menos de un {parte:.0%} de la correcta ({correcta}); sobran {', '.join(pegadas)}")
+
+
 def validar_entrada(p: dict, o: dict, inf: Informe):
     id_ = p["id"]
     if o.get("v") != p.get("v"):
@@ -161,6 +197,7 @@ def validar_entrada(p: dict, o: dict, inf: Informe):
             n = numero(t)
             if n is not None and a <= n <= b:
                 inf.error(id_, f"«{t}» cae dentro del margen del criterio ({criterio})")
+    validar_separacion(p, correcta or p["respuesta"], inc, inf)
     # La trampa del criterio («No vale Guayaquil») debería ser una de las incorrectas.
     # «No vale Sídney ni Melbourne»: cada una por separado.
     for trampas in RE_NO_VALE.findall(criterio):

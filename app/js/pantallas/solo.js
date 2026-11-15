@@ -344,12 +344,6 @@ function pantallaEscalera(app, inicial) {
     if (e.final) app.sincronizar();
   });
 
-  // Opinión (opcional) sobre la dificultad de la pregunta cuyo resultado se está viendo; tocar la misma la quita.
-  const valorar = accion(async (valor) => {
-    if (e.fase !== "resultado") return;
-    const actual = e.resultados[e.resultados.length - 1].valoracion ?? null;
-    guardar(S.valorarUltima(e, actual === valor ? null : valor));
-  });
 
   const plantarse = accion(async () => {
     if (e.fase !== "decidir" || !e.paso) return;
@@ -357,8 +351,11 @@ function pantallaEscalera(app, inicial) {
     await terminar();
   });
 
-  const continuar = accion(async () => {
+  // Se sigue diciendo qué ha parecido la pregunta para su nivel («facil», «justa» o «dificil»): los tres botones
+  // de la opinión son la forma normal de continuar, con un solo toque. Sin `valor`, se sigue sin opinar.
+  const continuar = accion(async (valor = null) => {
     if (e.fase !== "resultado") return;
+    if (valor) guardar(S.valorarUltima(e, valor));
     guardar(S.seguir(e, { ts: new Date().toISOString() }));
     if (e.fase === "fin") await terminar();
     // La opinión sobre la pregunta que se deja atrás ya no cambia: se guarda su registro.
@@ -597,21 +594,17 @@ function pantallaEscalera(app, inicial) {
       bote(),
       ...detalleRespuesta(r),
       h(
-        "section",
-        { class: "valorar-solo" },
-        h("p", { class: "texto-suave pequeno" }, `¿Te ha parecido de nivel ${r.nivel}? (opcional)`),
+        "div",
+        { class: "columna acciones-fijas valorar-solo" },
+        h("p", { class: "titulo-valorar" }, `Para un nivel ${r.nivel}, ¿qué te ha parecido?`),
         h(
           "div",
           { class: "grupo-opciones", role: "group", "aria-label": "Dificultad de la pregunta" },
-          [["facil", "Más fácil"], ["justa", "Sí"], ["dificil", "Más difícil"]].map(([valor, texto]) =>
-            h("button", { class: "boton", "aria-pressed": String(r.valoracion === valor), onClick: () => valorar(valor) }, texto),
+          [["facil", "Más fácil"], ["justa", "Bien así"], ["dificil", "Más difícil"]].map(([valor, texto]) =>
+            h("button", { class: "boton boton-primario", onClick: () => continuar(valor) }, texto),
           ),
         ),
-      ),
-      h(
-        "div",
-        { class: "columna acciones-fijas" },
-        h("button", { class: "boton boton-primario boton-grande boton-ancho", onClick: () => continuar() }, e.final ? "Ver el resultado" : "Continuar"),
+        h("button", { class: "boton-texto", onClick: () => continuar() }, e.final ? "Ver el resultado sin opinar" : "Seguir sin opinar"),
       ),
     ];
   }

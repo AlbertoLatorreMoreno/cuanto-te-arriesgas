@@ -8,7 +8,7 @@ Hola, Codex. «¿Cuánto te arriesgas?» es un juego de preguntas en español de
 1. **Exactitud**: la respuesta es correcta sin ninguna duda, también para un experto, y **cada dato** de la pregunta y de la explicación es verdadero (fechas, cifras, nombres, autorías). Si dudas de un dato, no lo des por bueno.
 2. **Una sola respuesta**: no hay otra respuesta razonable que no esté entre las que también valen o en el criterio; la pregunta no admite dos lecturas.
 3. **Para leer en voz alta**: se entiende a la primera al oírla, no da pistas de la respuesta, no lleva símbolos ni opciones, y no caduca (nada de cargos actuales ni récords vigentes sin fecha).
-4. **Nivel**: el que tiene de verdad según la rúbrica (más abajo), para el jugador de referencia del lote.
+4. **Nivel**: el que tiene de verdad según la rúbrica (más abajo), para el jugador de referencia del lote. Si el lote es de un tema, mira también que la pregunta sea **del tema**: si la acertaría quien jamás ha tenido contacto con él (por sentido común, por vocabulario de todos los días o por un dato de fuera del tema que da el enunciado), es de relleno: `"descartar"`, con «de relleno» en el motivo.
 5. **Sin repetir**: no pregunta por el mismo dato que otra del lote.
 6. **Forma**: español de España correcto, con tildes; respuesta corta (de 1 a 4 palabras o un número); explicación de una frase que aporta algo.
 

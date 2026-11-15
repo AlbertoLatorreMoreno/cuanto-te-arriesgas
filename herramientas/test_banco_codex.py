@@ -22,7 +22,7 @@ GENERADAS = [
      "incorrectas": ["Un zorro", "Un hurón", "Un mapache", "Un castor", "Un erizo", "Un lirón", "Un topo"]},
     {"nivel": 2, "pregunta": "¿En qué año se fundó el club imaginario Rayo Tembleque?", "respuesta": "1987", "tambien_vale": [],
      "criterio": "", "explicacion": "Lo fundaron unos vecinos.", "rincon": "clubes", "boton": "",
-     "incorrectas": ["1977", "1981", "1984", "1986", "1989", "1992", "1995"]},
+     "incorrectas": ["1977", "1981", "1962", "1969", "1993", "1999", "2005"]},
     {"nivel": 3, "pregunta": "¿Qué instrumento toca la capitana Mirlo en la orquesta inventada?", "respuesta": "El fagot",
      "tambien_vale": ["Fagot"], "criterio": "", "explicacion": "Aprendió de niña.", "rincon": "orquesta", "boton": "",
      "incorrectas": ["El oboe", "El clarinete", "La flauta", "El corno inglés", "La tuba", "El fagot", "La viola"]},
@@ -153,6 +153,11 @@ class TestPiezas(ConLotesDePrueba):
         self.assertIsNotNone(bc.comprobar_opciones({**q, "incorrectas": q["incorrectas"][:6]}))
         self.assertIn("forma de la respuesta", bc.comprobar_opciones({**q, "incorrectas": q["incorrectas"][:6] + ["tejon"]}))
         self.assertEqual(bc.comprobar_opciones({**q, "incorrectas": []}), "no trae opciones")
+        # Con la categoría, también la separación de los años en los niveles bajos.
+        luna = {**q, "nivel": 3, "pregunta": "¿En qué año llegó el ser humano a la Luna?", "respuesta": "1969", "tambien_vale": [],
+                "incorrectas": ["1957", "1961", "1965", "1967", "1968", "1970", "1972"]}
+        self.assertIn("a menos de 5 años", bc.comprobar_opciones(luna, "ciencias"))
+        self.assertIsNone(bc.comprobar_opciones({**luna, "nivel": 7}, "ciencias"))
 
     def test_el_revisor_cambia_opciones(self):
         q = {**GENERADAS[0], "_clave": "x"}
@@ -222,6 +227,25 @@ class TestFlujo(ConLotesDePrueba):
         self.assertIn("parado", linea)
         self.assertEqual(bc.cargar_estado("tema_prueba", "dos")["rondas"], 0)
 
+    def test_un_subtema_que_no_llena_huecos_se_para_a_las_tres_rondas(self):
+        with mock.patch.object(bc, "generar", return_value=True) as redactor:
+            linea = bc.flujo(self.ctx, "tema_prueba", "dos", 30)
+        self.assertIn("sin llenar ningún hueco", linea)
+        self.assertEqual(redactor.call_count, bc.RONDAS_SECAS)
+
+    def test_al_redactor_se_le_dicen_las_respuestas_que_ya_nombran_muchas_preguntas(self):
+        st = {**bc.cargar_estado("tema_prueba", "uno"), "rondas": 1}
+        self.assertNotIn("Tampoco pueden ser tu respuesta", bc.prompt_generar(self.ctx, "tema_prueba", "uno", {1: 1}, st))
+        q = {"_clave": "x", "nivel": 1, "pregunta": "¿Quién capitanea el Rayo Tembleque?", "respuesta": "La capitana Mirlo"}
+        bc.registrar("tema_prueba", "dos", "descartada_local", q, motivo=f"{bc.MOTIVO_REVELA} 5 preguntas de la categoría")
+        bc.registrar("tema_prueba", "dos", "descartada_local", {**q, "respuesta": "Blinky"}, motivo="idéntica a otra")
+        ctx = bc.Contexto()
+        self.assertEqual(bc.vetadas(ctx, "tema_prueba"), ["La capitana Mirlo"], "las del registro de todo el tema, solo por ese motivo")
+        self.assertEqual(bc.vetadas(ctx, "tema_prueba", "El tejón Blinky"), ["La capitana Mirlo", "El tejón Blinky"])
+        prompt = bc.prompt_generar(ctx, "tema_prueba", "uno", {1: 1}, st)
+        self.assertIn("Tampoco pueden ser tu respuesta estas 2", prompt)
+        self.assertIn("La capitana Mirlo · El tejón Blinky", prompt)
+
     def test_incorporar_lleva_las_opciones_al_modo_solo(self):
         app = self.tmp / "app"
         shutil.copytree(vb.APP / "data", app / "data")
@@ -250,6 +274,48 @@ class TestFlujo(ConLotesDePrueba):
         sin = next(p for p in banco if p["respuesta"] == "1987" and p["pregunta"].startswith("¿En qué año se fundó el club"))
         self.assertNotIn(sin["id"], opciones, "la que no traía opciones no las tiene: se le harán con opciones_codex.py")
         self.assertEqual(bc.cargar_estado("ciencias", "astronomia")["aceptadas"], [])
+
+    def test_en_los_niveles_bajos_de_un_tema_se_rescata_la_reserva_aceptada_sin_relleno(self):
+        app = self.tmp / "app"
+        shutil.copytree(vb.APP / "data", app / "data")
+        for objeto, nombre, valor in ((vb, "APP", app), (vb, "LOCK", app / "data" / vb.LOCK.name),
+                                      (type(self.ctx), "objetivo_celda", lambda _self, _cat: 10**6)):
+            parche = mock.patch.object(objeto, nombre, valor)
+            parche.start()
+            self.addCleanup(parche.stop)
+        self.assertTrue(bc.por_tema(self.ctx, "ajedrez"))
+        self.assertFalse(bc.por_tema(self.ctx, "sorpresa"), "Sorpresa va con el jugador medio")
+        self.assertFalse(bc.por_tema(self.ctx, "ciencias"))
+        base = {**GENERADAS[0], "_revision": 0, "_auditoria": {"exactitud": 5, "ambiguedad": 1, "claridad": 5}}
+        reserva = [{**base, "_clave": "aje-tab-n9001", "_aceptada": bc.FECHA_RELLENO},
+                   {**base, "_clave": "aje-tab-n9002", "respuesta": "Un hurón", "_aceptada": "2026-11-13"},
+                   {**base, "_clave": "aje-tab-n9003", "respuesta": "Un topo"},
+                   {**base, "_clave": "aje-tab-n9004", "respuesta": "Un erizo", "nivel": bc.NIVEL_MAX_CASUAL + 1, "_aceptada": bc.FECHA_RELLENO}]
+        for cat in ("ajedrez", "ciencias"):
+            sub = self.ctx.cats[cat]["subtemas"][0]["id"]
+            bc.guardar_estado(cat, sub, {**bc.cargar_estado(cat, sub), "reserva": [dict(q) for q in reserva]})
+        with mock.patch("builtins.print"):
+            self.assertEqual(bc.incorporar(self.ctx, ["ajedrez", "ciencias"]), 1, "solo la de nivel bajo aceptada desde que se mira el relleno, y solo en el tema")
+        sub = self.ctx.cats["ajedrez"]["subtemas"][0]["id"]
+        st = bc.cargar_estado("ajedrez", sub)
+        self.assertEqual([q["_clave"] for q in st["reserva"]], ["aje-tab-n9002", "aje-tab-n9003", "aje-tab-n9004"])
+        self.assertEqual([q["_clave"] for q in st["incorporadas"][-1:]], ["aje-tab-n9001"])
+        banco = json.loads((app / self.ctx.cats["ajedrez"]["archivo"]).read_text(encoding="utf-8"))["preguntas"]
+        nueva = next(p for p in banco if p["respuesta"] == "Un tejón")
+        self.assertEqual((nueva["subtema"], nueva["nivel"]), (sub, 1))
+        self.assertIn(nueva["id"], json.loads((app / "data" / "opciones" / "ajedrez.json").read_text(encoding="utf-8"))["opciones"])
+
+    def test_un_subtema_no_pide_niveles_bajos_si_al_tema_no_le_faltan(self):
+        subs = [s["id"] for s in self.ctx.cats["ajedrez"]["subtemas"]]
+        vacio = bc.cargar_estado("ajedrez", subs[0])
+        otra = {"categoria": "ajedrez", "subtema": subs[1], "nivel": 1}
+        with mock.patch.object(type(self.ctx), "objetivo_celda", lambda _self, _cat: 1):
+            self.ctx.banco = [dict(otra) for _ in range(len(subs))]  # el tema ya tiene las suyas de nivel 1, todas de otro subtema
+            self.assertEqual(sorted(bc.huecos(self.ctx, "ajedrez", subs[0], vacio)), list(range(2, 11)))
+            self.ctx.banco.pop()
+            self.assertIn(1, bc.huecos(self.ctx, "ajedrez", subs[0], vacio), "si al tema le falta una, el subtema la pide")
+            self.ctx.banco = [{**otra, "nivel": bc.NIVEL_MAX_CASUAL + 1} for _ in range(len(subs))]
+            self.assertIn(bc.NIVEL_MAX_CASUAL + 1, bc.huecos(self.ctx, "ajedrez", subs[0], vacio), "del 4 en adelante, por casilla")
 
 
 if __name__ == "__main__":

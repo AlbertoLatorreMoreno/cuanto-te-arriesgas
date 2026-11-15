@@ -52,6 +52,35 @@ class TestValidarOpciones(unittest.TestCase):
         sangre = {**PREGUNTA, "respuesta": "0 negativo", "tambien_vale": []}
         self.assertEqual(validar(sangre, {"v": 1, "incorrectas": ["0 positivo", "A positivo", "A negativo", "B positivo", "B negativo", "AB positivo", "AB negativo"]}).errores, [])
 
+    def test_en_los_niveles_bajos_los_años_y_las_cantidades_no_van_pegados_a_la_correcta(self):
+        luna = {**PREGUNTA, "pregunta": "¿En qué año llegó el ser humano a la Luna por primera vez?", "respuesta": "1969", "tambien_vale": [], "criterio": None}
+        pegadas = {"v": 1, "incorrectas": ["1957", "1961", "1965", "1967", "1968", "1970", "1972"]}
+        separadas = {"v": 1, "incorrectas": ["1945", "1957", "1961", "1975", "1981", "1989", "1992"]}
+        self.assertTrue(any("a menos de 5 años" in e for e in validar(luna, pegadas).errores))
+        self.assertEqual(validar(luna, separadas).errores, [])
+        # Ninguna a menos de 5, pero tres a menos de 10: tampoco.
+        tres_cerca = {"v": 1, "incorrectas": ["1945", "1957", "1961", "1963", "1975", "1989", "1992"]}
+        self.assertTrue(any("como mucho 2" in e for e in validar(luna, tres_cerca).errores))
+        # El nivel 4 deja acercarse más (3 y 5 años) y del 5 en adelante no hay regla.
+        cuatro = {"v": 1, "incorrectas": ["1945", "1957", "1961", "1965", "1972", "1989", "1992"]}
+        self.assertTrue(validar(luna, cuatro).errores)
+        self.assertEqual(validar({**luna, "nivel": 4}, cuatro).errores, [])
+        self.assertTrue(validar({**luna, "nivel": 4}, pegadas).errores)
+        self.assertEqual(validar({**luna, "nivel": 5}, pegadas).errores, [])
+        # Cantidades de 20 en adelante: ninguna a menos de un 10 % (un 5 % en el nivel 4).
+        huesos = {**PREGUNTA, "pregunta": "¿Cuántos huesos tiene aproximadamente el cuerpo de un adulto?", "respuesta": "206", "tambien_vale": [], "criterio": None}
+        self.assertTrue(any("un 10%" in e for e in validar(huesos, {"v": 1, "incorrectas": ["106", "156", "190", "256", "306", "356", "406"]}).errores))
+        self.assertEqual(validar({**huesos, "nivel": 4}, {"v": 1, "incorrectas": ["106", "156", "190", "256", "306", "356", "406"]}).errores, [])
+        self.assertEqual(validar(huesos, {"v": 1, "incorrectas": ["106", "156", "180", "256", "306", "356", "406"]}).errores, [])
+        # Las cuentas pequeñas llevan los números de al lado; en mates y en lo que se calcula, las cifras cercanas son el error típico.
+        peones = {**PREGUNTA, "pregunta": "¿Cuántos peones tiene cada jugador al empezar?", "respuesta": "8", "tambien_vale": [], "criterio": None}
+        self.assertEqual(validar(peones, {"v": 1, "incorrectas": ["4", "6", "7", "9", "10", "12", "16"]}).errores, [])
+        cuarta = {**PREGUNTA, "categoria": "mates", "pregunta": "¿Cuánto es la cuarta parte de 260?", "respuesta": "65", "tambien_vale": [], "criterio": None}
+        self.assertEqual(validar(cuarta, {"v": 1, "incorrectas": ["130", "60", "70", "55", "64", "66", "52"]}).errores, [])
+        # Un modelo o un título con cifras no es una cantidad ni un año que se pregunte.
+        boeing = {**PREGUNTA, "nivel": 1, "pregunta": "¿Qué modelo de Boeing tiene una joroba?", "respuesta": "747", "tambien_vale": [], "criterio": None}
+        self.assertEqual(validar(boeing, {"v": 1, "incorrectas": ["707", "717", "727", "737", "757", "767", "777"]}).errores, [])
+
     def test_avisa_si_falta_la_trampa_del_criterio(self):
         sin_trampa = ["El páncreas", "El bazo", "El riñón", "El estómago", "El duodeno", "El apéndice", "El pulmón"]
         self.assertTrue(any("trampa" in a for a in validar(PREGUNTA, {"v": 1, "incorrectas": sin_trampa}).avisos))
