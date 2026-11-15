@@ -240,7 +240,16 @@
     "eti-rai-57": {"v": 1, "incorrectas": ["-amentum", "-arium", "-aculum", "-iculum", "-itium", "-orium", "-etum"]},
     "eti-rai-58": {"v": 1, "incorrectas": ["-arius", "-ensis", "-icius", "-inus", "-ellus", "-osus", "-alis"]},
     "eti-rai-59": {"v": 1, "incorrectas": ["Alere", "Serere", "Metere", "Arere", "Molere", "Texere", "Ducere"]},
-    "eti-rai-60": {"v": 1, "incorrectas": ["Supleción", "Haplología", "Metátesis", "Epéntesis", "Apofonía", "Síncopa", "Prótesis"]}
+    "eti-rai-60": {"v": 1, "incorrectas": ["Supleción", "Haplología", "Metátesis", "Epéntesis", "Apofonía", "Síncopa", "Prótesis"]},
+    "eti-evo-61": {"v": 1, "incorrectas": ["Miau", "Glup", "Zas", "Ring", "Muac", "Ñam", "Pum"]},
+    "eti-rai-61": {"v": 1, "incorrectas": ["Caro", "Cerca", "Pequeño", "Aburrido", "Mando", "Pantalla", "Sofá"]},
+    "eti-nom-61": {"v": 1, "incorrectas": ["Don Quijote", "Romeo", "El Lazarillo", "La Celestina", "Sancho Panza", "Segismundo", "Bernarda Alba"]},
+    "eti-nom-62": {"v": 1, "incorrectas": ["La hamburguesa", "El bocadillo", "El perrito caliente", "La pizza", "El kebab", "El cruasán", "La tortilla"]},
+    "eti-evo-62": {"v": 1, "incorrectas": ["Las seis de la tarde", "El amanecer", "La medianoche", "La merienda", "La cena", "La hora de la misa", "El recreo"]},
+    "eti-evo-63": {"v": 1, "incorrectas": ["Un arado de tres rejas", "Un taburete de tres patas", "Una balanza de mercado", "Un yugo para bueyes", "Una herramienta de carpintero", "Un impuesto de tres monedas", "Un turno de guardia"]},
+    "eti-rai-62": {"v": 1, "incorrectas": ["Pájaro nocturno", "Ala de cuero", "Vampiro pequeño", "Bicho que cuelga", "Ángel oscuro", "Rata con alas", "Duende de la cueva"]},
+    "eti-nom-63": {"v": 1, "incorrectas": ["El bañador", "El pareo", "El tanga", "El albornoz", "La chancla", "La toalla", "El sombrero de paja"]},
+    "eti-pre-61": {"v": 1, "incorrectas": ["Canto de borrachos", "Micrófono feliz", "Voz bonita", "Noche de fiesta", "Grito en la ducha", "Canción alegre", "Sin vergüenza"]}
   },
   "no_aptas": {
   }

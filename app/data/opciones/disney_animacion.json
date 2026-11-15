@@ -3,7 +3,6 @@
   "opciones": {
     "dis-est-01": {"v": 1, "incorrectas": ["Dibujo a mano", "Animación con plastilina", "Animación con marionetas", "Animación de siluetas", "Animación con muñecos", "Animación con arena", "Animación con recortes"]},
     "dis-est-03": {"v": 1, "incorrectas": ["Jerry", "Speedy Gonzales", "Superratón", "Stuart Little", "Fievel", "Geronimo Stilton", "Pinky"]},
-    "dis-est-04": {"v": 1, "incorrectas": ["La nórdica", "La egipcia", "La celta", "La japonesa", "La azteca", "La mesopotámica", "La eslava"]},
     "dis-est-08": {"v": 1, "incorrectas": ["Julio Verne", "Charles Dickens", "Mark Twain", "Jack London", "Oscar Wilde", "H. G. Wells", "Daniel Defoe"]},
     "dis-est-09": {"v": 1, "incorrectas": ["J. M. Barrie", "L. Frank Baum", "Beatrix Potter", "Roald Dahl", "Kenneth Grahame", "E. B. White", "C. S. Lewis"]},
     "dis-est-10": {"v": 1, "incorrectas": ["1927", "1947", "1957", "1967", "1977", "1987", "1917"]},
@@ -58,8 +57,6 @@
     "dis-est-59": {"v": 1, "incorrectas": ["John Steinbeck", "Ernest Hemingway", "William Faulkner", "F. Scott Fitzgerald", "Sherwood Anderson", "Willa Cather", "Theodore Dreiser"]},
     "dis-est-60": {"v": 1, "incorrectas": ["Chris Van Allsburg", "David Wiesner", "Maurice Sendak", "Chris Riddell", "Tomi Ungerer", "Arnold Lobel", "Quentin Blake"]},
     "dis-est-61": {"v": 1, "incorrectas": ["Los cómics", "Los juegos de mesa", "Los cuentos populares", "Los espectáculos de circo", "Los concursos televisivos", "Los juegos de cartas", "Los musicales teatrales"]},
-    "dis-est-63": {"v": 1, "incorrectas": ["La música electrónica", "La música country", "La música disco", "La música reggae", "La música flamenca", "La música rap", "La música punk"]},
-    "dis-est-67": {"v": 1, "incorrectas": ["Egipto", "Italia", "China", "India", "Persia", "Japón", "México"]},
     "dis-est-68": {"v": 1, "incorrectas": ["Asia", "Europa", "Oceanía", "América del Norte", "América del Sur", "La Antártida", "Eurasia"]},
     "dis-est-69": {"v": 1, "incorrectas": ["Canarias", "Baleares", "Galápagos", "Azores", "Maldivas", "Seychelles", "Filipinas"]},
     "dis-est-70": {"v": 1, "incorrectas": ["Perú", "Ecuador", "Venezuela", "Brasil", "Bolivia", "Argentina", "Chile"]},
@@ -80,7 +77,6 @@
     "dis-his-05": {"v": 1, "incorrectas": ["Lyon", "Marsella", "Burdeos", "Niza", "Nantes", "Estrasburgo", "Toulouse"]},
     "dis-his-06": {"v": 1, "incorrectas": ["Japón", "India", "Mongolia", "Corea", "Vietnam", "Tailandia", "Nepal"]},
     "dis-his-07": {"v": 1, "incorrectas": ["Roca de la Luna", "Peñón del Águila", "Monte del Trueno", "Colina del Sol", "Pico de las Nubes", "Risco del Viento", "Montaña del Eco"]},
-    "dis-his-08": {"v": 1, "incorrectas": ["Una lancha motora", "Un velero", "Una balsa", "Una canoa", "Un submarino", "Una moto acuática", "Un catamarán"]},
     "dis-his-09": {"v": 1, "incorrectas": ["Una serpiente", "Una tortuga", "Una raya", "Una anguila", "Una foca", "Una morsa", "Un tiburón"]},
     "dis-his-10": {"v": 1, "incorrectas": ["Una tundra", "Una sabana", "Una marisma", "Una estepa", "Una pradera", "Una playa", "Una cordillera"]},
     "dis-his-11": {"v": 1, "incorrectas": ["Un satélite artificial", "Un cohete", "Una nave espacial", "Una cápsula espacial", "Una sonda", "Un módulo lunar", "Una estación espacial"]},
@@ -283,7 +279,14 @@
     "dis-per-67": {"v": 1, "incorrectas": ["Faline", "Perdita", "Sarabi", "Shenzi", "Kala", "Sarafina", "Vitani"]},
     "dis-per-68": {"v": 1, "incorrectas": ["Gwydion", "Dallben", "Gwystyl", "Rhun", "Arawn", "Coll", "Math"]},
     "dis-per-69": {"v": 1, "incorrectas": ["Alonzo Hawk", "Percival McLeach", "Clayton", "John Silver", "Amos Slade", "Bill Sykes", "Lyle Rourke"]},
-    "dis-per-70": {"v": 1, "incorrectas": ["Horace Badun", "Edgar Balthazar", "Amos Slade", "Winston Deavor", "Preston Whitmore", "Amos Mouse", "John Darling"]}
+    "dis-per-70": {"v": 1, "incorrectas": ["Horace Badun", "Edgar Balthazar", "Amos Slade", "Winston Deavor", "Preston Whitmore", "Amos Mouse", "John Darling"]},
+    "dis-per-71": {"v": 1, "incorrectas": ["Jerry", "Speedy González", "El Ratoncito Pérez", "Stuart Little", "Geronimo Stilton", "Topo Gigio", "Remy"]},
+    "dis-per-72": {"v": 1, "incorrectas": ["Un hipopótamo", "Un rinoceronte", "Un oso hormiguero", "Un perro salchicha", "Un tapir", "Un ñu", "Un capibara"]},
+    "dis-his-73": {"v": 1, "incorrectas": ["Una croqueta", "Un plátano", "Una pera", "Una sandía", "Una magdalena", "Un bocadillo de chorizo", "Un yogur caducado"]},
+    "dis-his-74": {"v": 1, "incorrectas": ["Que se afeite", "Que apruebe el carné", "Que coma verdura", "Que gane un concurso de baile", "Que aprenda a cocinar", "Que se corte las uñas", "Que se lave los dientes"]},
+    "dis-per-73": {"v": 1, "incorrectas": ["La Navidad", "El otoño", "Las rebajas", "La Semana Santa", "El puente de mayo", "La vuelta al cole", "La primavera"]},
+    "dis-his-75": {"v": 1, "incorrectas": ["Una pipa", "Una cuchara", "Un cepillo de dientes", "El tridente de su padre", "Una espina de pescado", "Una concha", "Unas tijeras"]},
+    "dis-mus-70": {"v": 1, "incorrectas": ["Abracadabra", "Supercalifragilístico", "Patatín patatán", "¡Ábrete, sésamo!", "Hakuna matata", "Tralarí tralará", "Chimpún"]}
   },
   "no_aptas": {
   }

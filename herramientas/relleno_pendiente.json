@@ -1,0 +1,5451 @@
+[
+ {
+  "tema": "ajedrez",
+  "motivo": "Se responde por historia política y las pistas, sin saber ajedrez.",
+  "pregunta": {
+   "id": "aje-his-61",
+   "v": 1,
+   "categoria": "ajedrez",
+   "subtema": "historia",
+   "nivel": 1,
+   "pregunta": "¿Qué enfrentamiento político entre bloques sirvió de telón de fondo al duelo entre Fischer y Spassky de 1972?",
+   "respuesta": "La Guerra Fría",
+   "tambien_vale": [
+    "Guerra Fría"
+   ],
+   "explicacion": "El encuentro enfrentó a un aspirante estadounidense con el campeón soviético.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La Primera Guerra Mundial",
+    "La Segunda Guerra Mundial",
+    "La guerra de Crimea",
+    "La guerra franco-prusiana",
+    "La guerra de los Bóeres",
+    "La guerra de Secesión",
+    "La guerra de los Treinta Años"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ajedrez",
+  "motivo": "La formulación de una captura individual prácticamente da la respuesta.",
+  "pregunta": {
+   "id": "aje-rec-61",
+   "v": 1,
+   "categoria": "ajedrez",
+   "subtema": "recursos",
+   "nivel": 1,
+   "pregunta": "¿Cuántas piezas rivales retira un caballo del tablero al realizar una captura?",
+   "respuesta": "1",
+   "tambien_vale": [
+    "Una",
+    "Uno"
+   ],
+   "explicacion": "Saltar por encima de una pieza no significa capturarla.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "0",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ajedrez",
+  "motivo": "Es de Harry Potter, no de ajedrez.",
+  "pregunta": {
+   "id": "aje-his-69",
+   "v": 1,
+   "categoria": "ajedrez",
+   "subtema": "historia",
+   "nivel": 2,
+   "pregunta": "En «Harry Potter y la piedra filosofal», ¿qué amigo del protagonista dirige la partida de ajedrez con piezas gigantes?",
+   "respuesta": "Ron Weasley",
+   "tambien_vale": [
+    "Ron",
+    "Ronald Weasley"
+   ],
+   "explicacion": "Se coloca en el lugar de un caballo y acepta que su pieza sea capturada para que sus amigos puedan continuar.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Neville Longbottom",
+    "Draco Malfoy",
+    "Seamus Finnigan",
+    "Dean Thomas",
+    "Fred Weasley",
+    "George Weasley",
+    "Percy Weasley"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ajedrez",
+  "motivo": "Es una propiedad geométrica de una cuadrícula cuadrada, no un saber ajedrecístico.",
+  "pregunta": {
+   "id": "aje-tab-18",
+   "v": 1,
+   "categoria": "ajedrez",
+   "subtema": "tablero",
+   "nivel": 2,
+   "pregunta": "¿Cuántas diagonales de ocho casillas tiene un tablero de ajedrez?",
+   "respuesta": "2",
+   "tambien_vale": [
+    "Dos"
+   ],
+   "explicacion": "Son las que unen a1 con h8 y a8 con h1.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ajedrez",
+  "motivo": "Basta combinar la letra y el número indicados; no exige saber ajedrez.",
+  "pregunta": {
+   "id": "aje-tab-17",
+   "v": 1,
+   "categoria": "ajedrez",
+   "subtema": "tablero",
+   "nivel": 3,
+   "pregunta": "¿Qué casilla está en la misma columna que c2 y en la misma fila que f6?",
+   "respuesta": "C6",
+   "tambien_vale": [
+    "C seis"
+   ],
+   "explicacion": "La letra identifica la columna y el número identifica la fila.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "F2",
+    "C2",
+    "F6",
+    "C5",
+    "D6",
+    "B6",
+    "F3"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "aviacion_comercial",
+  "motivo": "Se resuelve por el significado de «bi» y «motor», sin conocimientos de aviación.",
+  "pregunta": {
+   "id": "avi-tec-02",
+   "v": 1,
+   "categoria": "aviacion_comercial",
+   "subtema": "tecnica",
+   "nivel": 1,
+   "pregunta": "¿Cómo se clasifica un avión por su propulsión si tiene exactamente dos motores?",
+   "respuesta": "Bimotor",
+   "tambien_vale": [
+    "Un bimotor"
+   ],
+   "explicacion": "La clasificación cuenta los motores, no las hélices ni las salidas de escape.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Monomotor",
+    "Trimotor",
+    "Cuatrimotor",
+    "Hexamotor",
+    "Octomotor",
+    "Sin motor",
+    "De diez motores"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "aviacion_comercial",
+  "motivo": "La relación entre ayudar a evacuar y las salidas de emergencia es de sentido común.",
+  "pregunta": {
+   "id": "avi-tec-76",
+   "v": 1,
+   "categoria": "aviacion_comercial",
+   "subtema": "tecnica",
+   "nivel": 1,
+   "pregunta": "¿Junto a qué elementos del avión se sitúan las filas cuyos pasajeros deben poder ayudar en una evacuación?",
+   "respuesta": "Las salidas de emergencia",
+   "tambien_vale": [
+    "Salidas de emergencia",
+    "Las puertas de emergencia",
+    "Puertas de emergencia"
+   ],
+   "explicacion": "Ocupar esas plazas implica cumplir condiciones que permitan colaborar si se necesita abrir la salida.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Las puertas de los aseos",
+    "Las mamparas de separación",
+    "Las escaleras interiores",
+    "Las cocinas de a bordo",
+    "Las ventanas de los pilotos",
+    "Las puertas de la bodega",
+    "Las taquillas de la tripulación"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Se responde por la función general de un cronómetro, sin saber de café.",
+  "pregunta": {
+   "id": "caf-beb-04",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "bebidas",
+   "nivel": 1,
+   "pregunta": "¿Qué instrumento permite medir cuánto dura una extracción de café?",
+   "respuesta": "El cronómetro",
+   "tambien_vale": [
+    "Cronómetro",
+    "Reloj",
+    "Temporizador",
+    "Móvil con cronómetro"
+   ],
+   "criterio": "Se acepta cronómetro, reloj, temporizador o cualquier dispositivo con una función que permita medir el tiempo transcurrido.",
+   "explicacion": "Controlar la duración ayuda a comparar preparaciones hechas con la misma receta.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El termómetro",
+    "El barómetro",
+    "El higrómetro",
+    "El densímetro",
+    "El voltímetro",
+    "El anemómetro",
+    "El altímetro"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "El utensilio se deduce por sentido común, sin conocimientos de café.",
+  "pregunta": {
+   "id": "caf-beb-06",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "bebidas",
+   "nivel": 1,
+   "pregunta": "¿Con qué utensilio recoge y sorbe el catador pequeñas muestras de café de los cuencos?",
+   "respuesta": "La cuchara",
+   "tambien_vale": [
+    "Cuchara",
+    "La cuchara de cata",
+    "Cuchara de cata"
+   ],
+   "explicacion": "Las cucharas de cata tienen una cavidad suficientemente profunda para recoger una pequeña muestra.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La espátula",
+    "La pipeta",
+    "La jeringa",
+    "La varilla",
+    "La pinza",
+    "La paleta",
+    "La espumadera"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Pregunta por la unidad habitual de temperatura en España, no por café.",
+  "pregunta": {
+   "id": "caf-beb-11",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "bebidas",
+   "nivel": 1,
+   "pregunta": "En las recetas de café usadas en España, ¿en qué unidad se expresa normalmente la temperatura del agua?",
+   "respuesta": "Los grados Celsius",
+   "tambien_vale": [
+    "Grados Celsius",
+    "Celsius",
+    "Grados centígrados"
+   ],
+   "explicacion": "La temperatura del agua influye en la rapidez con la que se extraen los componentes del café.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los grados Fahrenheit",
+    "Los grados Rankine",
+    "Los grados Réaumur",
+    "Los grados Brix",
+    "Los grados Baumé",
+    "Los grados franceses",
+    "Los grados alemanes"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Pesar con una balanza es conocimiento general, no cafetero.",
+  "pregunta": {
+   "id": "caf-beb-12",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "bebidas",
+   "nivel": 1,
+   "pregunta": "¿Qué instrumento utiliza un catador para pesar la misma cantidad de café en todos los cuencos?",
+   "respuesta": "La balanza",
+   "tambien_vale": [
+    "Balanza",
+    "La báscula",
+    "Báscula"
+   ],
+   "explicacion": "Mantener constante la masa de café facilita una comparación justa entre muestras.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La probeta",
+    "La bureta",
+    "La pipeta",
+    "La jarra graduada",
+    "El vaso medidor",
+    "El termómetro",
+    "El densímetro"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Es física básica deducible del enunciado, no conocimiento del café.",
+  "pregunta": {
+   "id": "caf-her-03",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 1,
+   "pregunta": "¿Qué fuerza hace que el agua atraviese el café en un filtro de goteo sin bomba?",
+   "respuesta": "La gravedad",
+   "tambien_vale": [
+    "Gravedad",
+    "La fuerza de la gravedad"
+   ],
+   "explicacion": "El agua desciende a través del lecho de café sin necesitar una bomba que la impulse.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La fuerza magnética",
+    "La fuerza eléctrica",
+    "La fuerza centrífuga",
+    "La fuerza elástica",
+    "La fuerza de flotación",
+    "La fuerza nuclear",
+    "La fuerza de rozamiento"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "El material del filtro queda prácticamente revelado por la descripción.",
+  "pregunta": {
+   "id": "caf-her-04",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 1,
+   "pregunta": "¿Qué filtro desechable, hecho con una hoja plegada, se utiliza habitualmente en las cafeteras de goteo?",
+   "respuesta": "El filtro de papel",
+   "tambien_vale": [
+    "Filtro de papel",
+    "De papel",
+    "Papel"
+   ],
+   "explicacion": "Además de retener partículas, el papel retiene parte de los aceites del café.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El filtro de tela",
+    "El filtro de acero",
+    "El filtro de nailon",
+    "El filtro de cerámica",
+    "El filtro de vidrio",
+    "El filtro de bronce",
+    "El filtro de titanio"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Pregunta por una pieza mecánica genérica, sin exigir saber de café.",
+  "pregunta": {
+   "id": "caf-her-05",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 1,
+   "pregunta": "¿Qué pieza se gira con la mano para accionar un molinillo manual?",
+   "respuesta": "La manivela",
+   "tambien_vale": [
+    "Manivela"
+   ],
+   "explicacion": "Su brazo proporciona palanca para hacer girar el mecanismo que tritura los granos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La compuerta",
+    "La boquilla",
+    "La base",
+    "La tapa",
+    "La abrazadera",
+    "La bandeja",
+    "La rejilla"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La expresión «confeccionado con un tejido» revela que es de tela.",
+  "pregunta": {
+   "id": "caf-her-12",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 1,
+   "pregunta": "¿Qué filtro reutilizable tradicional de las cafeteras de sifón está confeccionado con un tejido?",
+   "respuesta": "El filtro de tela",
+   "tambien_vale": [
+    "Filtro de tela",
+    "De tela",
+    "Tela"
+   ],
+   "explicacion": "Se sujeta a un soporte y debe limpiarse para evitar que los residuos alteren el sabor.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El filtro de papel",
+    "El filtro de acero",
+    "El filtro de vidrio",
+    "El filtro de cerámica",
+    "El filtro de bronce",
+    "El filtro de titanio",
+    "El filtro de aluminio"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Basta con saber que Etiopía está en África; es geografía ajena al café.",
+  "pregunta": {
+   "id": "caf-ori-06",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 1,
+   "pregunta": "¿En qué continente se encuentra la región cafetera etíope de Guji?",
+   "respuesta": "África",
+   "tambien_vale": [],
+   "explicacion": "Guji es una procedencia del sur de Etiopía muy apreciada en el café de especialidad.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Asia",
+    "Europa",
+    "Oceanía",
+    "América del Norte",
+    "América del Sur",
+    "Antártida",
+    "América"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Es una regla general de las plantas con flores, no un dato cafetero.",
+  "pregunta": {
+   "id": "caf-pla-02",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "planta",
+   "nivel": 1,
+   "pregunta": "¿Qué parte del cafeto se abre antes de que pueda desarrollarse el fruto?",
+   "respuesta": "La flor",
+   "tambien_vale": [
+    "Flor"
+   ],
+   "explicacion": "Tras la fecundación, el ovario de la flor se desarrolla hasta formar el fruto.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La hoja",
+    "La raíz",
+    "La corteza",
+    "La semilla",
+    "La rama",
+    "El tronco",
+    "El cotiledón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Liberar presión es la función general de una válvula de seguridad.",
+  "pregunta": {
+   "id": "caf-her-15",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 2,
+   "pregunta": "¿Qué dispositivo de seguridad de una cafetera italiana permite liberar una presión excesiva en la caldera?",
+   "respuesta": "La válvula",
+   "tambien_vale": [
+    "Válvula",
+    "La válvula de seguridad",
+    "Válvula de seguridad"
+   ],
+   "explicacion": "Es un elemento de protección independiente del recorrido normal del café hacia el recipiente superior.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La chimenea",
+    "La bisagra",
+    "La junta",
+    "La rosca",
+    "La placa filtrante",
+    "La tapa",
+    "La cesta"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Se resuelve ubicando Minas Gerais y São Paulo, sin saber de café.",
+  "pregunta": {
+   "id": "caf-ori-01",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 2,
+   "pregunta": "¿En qué país se cultivan los cafés de Minas Gerais y São Paulo?",
+   "respuesta": "Brasil",
+   "tambien_vale": [],
+   "explicacion": "Ambos estados forman parte del corazón histórico de la caficultura brasileña.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Colombia",
+    "México",
+    "Perú",
+    "Ecuador",
+    "Venezuela",
+    "Bolivia",
+    "Argentina"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La capital, Hanói, permite responder solo con conocimientos de geografía.",
+  "pregunta": {
+   "id": "caf-ori-02",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 2,
+   "pregunta": "¿Qué país asiático, con capital en Hanói, es célebre por su café servido con leche condensada?",
+   "respuesta": "Vietnam",
+   "tambien_vale": [
+    "Viet Nam"
+   ],
+   "explicacion": "La leche condensada es un ingrediente característico de muchas preparaciones vietnamitas de café.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Tailandia",
+    "China",
+    "Japón",
+    "Camboya",
+    "Laos",
+    "Malasia",
+    "Filipinas"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La plaza de San Marcos permite identificar Venecia sin conocer el café.",
+  "pregunta": {
+   "id": "caf-ori-11",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 2,
+   "pregunta": "¿En qué ciudad italiana está el histórico Caffè Quadri, en la plaza de San Marcos?",
+   "respuesta": "Venecia",
+   "tambien_vale": [
+    "Venezia"
+   ],
+   "explicacion": "Su ubicación lo vincula al entorno monumental de la basílica y el Palacio Ducal.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Roma",
+    "Milán",
+    "Florencia",
+    "Turín",
+    "Nápoles",
+    "Bolonia",
+    "Verona"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Puede resolverse ubicando Saint-Germain-des-Prés, sin conocimientos cafeteros.",
+  "pregunta": {
+   "id": "caf-ori-12",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 2,
+   "pregunta": "¿En qué ciudad francesa está el Café de Flore, asociado a escritores y filósofos de Saint-Germain-des-Prés?",
+   "respuesta": "París",
+   "tambien_vale": [],
+   "explicacion": "Jean-Paul Sartre y Simone de Beauvoir estuvieron entre sus clientes más conocidos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Lyon",
+    "Marsella",
+    "Burdeos",
+    "Niza",
+    "Toulouse",
+    "Nantes",
+    "Estrasburgo"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Clasificar por tamaño es la función general de las cribas.",
+  "pregunta": {
+   "id": "caf-pla-03",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "planta",
+   "nivel": 2,
+   "pregunta": "¿Qué característica del grano verde se utiliza para clasificarlo mediante cribas?",
+   "respuesta": "El tamaño",
+   "tambien_vale": [
+    "Tamaño"
+   ],
+   "explicacion": "Los orificios dejan pasar unos granos y retienen otros según sus dimensiones.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El aroma",
+    "La acidez",
+    "El dulzor",
+    "La cafeína",
+    "La humedad",
+    "El amargor",
+    "El color"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Identificar una junta como sello flexible es conocimiento mecánico general.",
+  "pregunta": {
+   "id": "caf-her-10",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "herramientas",
+   "nivel": 3,
+   "pregunta": "¿Qué pieza flexible sella la unión entre la parte superior y la inferior de una cafetera italiana?",
+   "respuesta": "La junta",
+   "tambien_vale": [
+    "Junta",
+    "La junta de goma",
+    "La junta de silicona"
+   ],
+   "explicacion": "Este anillo evita fugas por la unión roscada y puede necesitar sustitución cuando se deteriora.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La arandela del asa",
+    "La base",
+    "La tapa",
+    "La bisagra",
+    "La placa filtrante",
+    "La rosca",
+    "La chimenea"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Solo exige ubicar Java y Sumatra; el café no interviene en la respuesta.",
+  "pregunta": {
+   "id": "caf-ori-03",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 3,
+   "pregunta": "¿A qué país pertenecen las islas cafeteras de Java y Sumatra?",
+   "respuesta": "Indonesia",
+   "tambien_vale": [],
+   "explicacion": "El archipiélago reúne orígenes cafeteros con historias y perfiles muy diferentes.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "India",
+    "Vietnam",
+    "Filipinas",
+    "Malasia",
+    "Tailandia",
+    "Japón",
+    "Australia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Pregunta por la historia colonial de Brasil, no por conocimientos cafeteros.",
+  "pregunta": {
+   "id": "caf-ori-08",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 3,
+   "pregunta": "¿Qué reino europeo gobernaba Brasil cuando llegó allí el cultivo del café en el siglo dieciocho?",
+   "respuesta": "Portugal",
+   "tambien_vale": [],
+   "explicacion": "El café llegó al territorio brasileño en 1727, durante el periodo colonial.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "España",
+    "Francia",
+    "Inglaterra",
+    "Suecia",
+    "Dinamarca",
+    "Prusia",
+    "Nápoles"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La ubicación de Yakarta permite responder sin conocer la historia del café.",
+  "pregunta": {
+   "id": "caf-ori-14",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 3,
+   "pregunta": "¿En qué isla indonesia, donde se encuentra Yakarta, establecieron los neerlandeses importantes plantaciones de café?",
+   "respuesta": "Java",
+   "tambien_vale": [],
+   "explicacion": "Su nombre llegó a utilizarse en inglés como una manera coloquial de referirse al café.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Sumatra",
+    "Bali",
+    "Célebes",
+    "Lombok",
+    "Flores",
+    "Timor",
+    "Sumbawa"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Basta con ubicar Queensland en Australia; el cultivo es accesorio.",
+  "pregunta": {
+   "id": "caf-ori-17",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "origenes",
+   "nivel": 3,
+   "pregunta": "¿Qué país de Oceanía cultiva café en la meseta de Atherton, en Queensland?",
+   "respuesta": "Australia",
+   "tambien_vale": [],
+   "explicacion": "El norte de Queensland cuenta con zonas tropicales aptas para el cultivo del café.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Nueva Zelanda",
+    "Papúa Nueva Guinea",
+    "Fiyi",
+    "Vanuatu",
+    "Samoa",
+    "Tonga",
+    "Islas Salomón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La parte carnosa de un fruto es la pulpa, sin necesidad de conocer el cafeto.",
+  "pregunta": {
+   "id": "caf-pla-05",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "planta",
+   "nivel": 3,
+   "pregunta": "¿Cómo se llama la parte carnosa del fruto del cafeto, situada bajo la piel?",
+   "respuesta": "La pulpa",
+   "tambien_vale": [
+    "Pulpa"
+   ],
+   "explicacion": "Se separa de las semillas en el beneficio húmedo y puede aprovecharse para elaborar compost.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La raíz",
+    "La corteza",
+    "La médula",
+    "La yema",
+    "La hoja",
+    "La flor",
+    "La rama"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "La lluvia tras un periodo seco se deduce por conocimientos generales de plantas.",
+  "pregunta": {
+   "id": "caf-pla-13",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "planta",
+   "nivel": 3,
+   "pregunta": "¿Qué fenómeno meteorológico suele desencadenar la floración del cafeto después de un periodo seco?",
+   "respuesta": "La lluvia",
+   "tambien_vale": [
+    "Lluvia",
+    "Las lluvias"
+   ],
+   "explicacion": "La rehidratación permite que continúen desarrollándose los botones florales que estaban en reposo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La helada",
+    "La nevada",
+    "La granizada",
+    "La calima",
+    "La ventisca",
+    "La ola de calor",
+    "La tormenta de arena"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "cafe",
+  "motivo": "Es biología general de las semillas, no un conocimiento específico del café.",
+  "pregunta": {
+   "id": "caf-pla-18",
+   "v": 1,
+   "categoria": "cafe",
+   "subtema": "planta",
+   "nivel": 3,
+   "pregunta": "¿Qué estructura dentro de la semilla del café dará origen a la nueva planta al germinar?",
+   "respuesta": "El embrión",
+   "tambien_vale": [
+    "Embrión",
+    "El germen",
+    "Germen"
+   ],
+   "explicacion": "Durante la germinación utiliza las reservas de la semilla para iniciar su desarrollo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El endospermo",
+    "El pergamino",
+    "El mucílago",
+    "El mesocarpio",
+    "El exocarpio",
+    "El pedúnculo",
+    "El tegumento"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "La comparación con las tortugas permite responder sin saber de dinosaurios.",
+  "pregunta": {
+   "id": "din-ana-02",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "anatomia",
+   "nivel": 1,
+   "pregunta": "¿Qué estructura sin dientes utilizaban muchos dinosaurios herbívoros para cortar vegetación, como hacen las tortugas?",
+   "respuesta": "El pico",
+   "tambien_vale": [
+    "Pico"
+   ],
+   "explicacion": "Su cubierta de queratina se conservaba con mucha menos facilidad que los huesos que la sostenían.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El colmillo",
+    "El cuerno",
+    "El paladar",
+    "El hocico",
+    "El canino",
+    "El molar",
+    "El mentón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "La descripción define unas garras sin exigir conocimientos del tema.",
+  "pregunta": {
+   "id": "din-ana-03",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "anatomia",
+   "nivel": 1,
+   "pregunta": "¿Qué estructuras duras y curvadas remataban los dedos de muchos dinosaurios y podían servir para sujetar presas?",
+   "respuesta": "Las garras",
+   "tambien_vale": [
+    "Garras"
+   ],
+   "explicacion": "Tenían un núcleo óseo recubierto por una funda córnea, que podía prolongarse más allá del hueso.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Las pezuñas",
+    "Las aletas",
+    "Las espuelas",
+    "Las ventosas",
+    "Las almohadillas",
+    "Las espinas",
+    "Las escamas"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Es anatomía general; no exige saber nada de dinosaurios.",
+  "pregunta": {
+   "id": "din-ana-05",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "anatomia",
+   "nivel": 1,
+   "pregunta": "¿Qué huesos curvados rodeaban el tórax de los dinosaurios y ayudaban a proteger sus órganos?",
+   "respuesta": "Las costillas",
+   "tambien_vale": [
+    "Costillas"
+   ],
+   "explicacion": "Se articulaban con las vértebras del tronco y formaban los lados de la caja torácica.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Las falanges",
+    "Las clavículas",
+    "Las escápulas",
+    "Las tibias",
+    "Las mandíbulas",
+    "Las rótulas",
+    "Las fúrculas"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Repite el dato de din-hal-61 (los paleontólogos).",
+  "pregunta": {
+   "id": "din-gru-88",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "grupos",
+   "nivel": 1,
+   "pregunta": "¿Qué ciencia estudia a los dinosaurios y a otros seres del pasado a través de sus fósiles?",
+   "respuesta": "Paleontología",
+   "tambien_vale": [
+    "La paleontología"
+   ],
+   "explicacion": "También estudia organismos diminutos y plantas, no solo grandes animales.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Arqueología",
+    "Astronomía",
+    "Meteorología",
+    "Botánica",
+    "Geografía",
+    "Oceanografía",
+    "Sismología"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Basta conocer al cervatillo de Disney; el vínculo paleontológico es decorativo.",
+  "pregunta": {
+   "id": "din-hal-01",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 1,
+   "pregunta": "¿Qué cervatillo de Disney dio nombre a un pequeño dinosaurio depredador descubierto en Montana?",
+   "respuesta": "Bambi",
+   "tambien_vale": [],
+   "explicacion": "Bambiraptor recibió ese nombre por el pequeño tamaño del ejemplar encontrado.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Dumbo",
+    "Simba",
+    "Mowgli",
+    "Pinocho",
+    "Peter Pan",
+    "Baloo",
+    "Robin Hood"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Se responde sabiendo Harry Potter, sin conocer Dracorex.",
+  "pregunta": {
+   "id": "din-hal-02",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 1,
+   "pregunta": "¿Qué colegio de magia de Harry Potter fue homenajeado en el nombre científico de Dracorex?",
+   "respuesta": "Hogwarts",
+   "tambien_vale": [
+    "Colegio Hogwarts"
+   ],
+   "explicacion": "El nombre Dracorex hogwartsia alude a un «rey dragón» de ese colegio ficticio.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Beauxbatons",
+    "Durmstrang",
+    "Ilvermorny",
+    "Castelobruxo",
+    "Mahoutokoro",
+    "Uagadou",
+    "Salem"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "La descripción del monstruo japonés permite responder sin saber de dinosaurios.",
+  "pregunta": {
+   "id": "din-hal-03",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 1,
+   "pregunta": "¿Qué monstruo gigante del cine japonés inspiró el nombre de un dinosaurio descrito por Kenneth Carpenter en 1997?",
+   "respuesta": "Godzilla",
+   "tambien_vale": [
+    "Gojira"
+   ],
+   "explicacion": "Gojirasaurus utiliza el nombre japonés del monstruo como homenaje.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "King Kong",
+    "Gamera",
+    "Rodan",
+    "Mothra",
+    "King Ghidorah",
+    "Anguirus",
+    "Megalon"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Iguanodon revela la respuesta; basta reconocer la palabra iguana.",
+  "pregunta": {
+   "id": "din-hal-66",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 1,
+   "pregunta": "¿Qué reptil vivo da nombre a Iguanodon, porque sus dientes recordaban a los de ese animal?",
+   "respuesta": "La iguana",
+   "tambien_vale": [
+    "Iguana",
+    "Una iguana"
+   ],
+   "explicacion": "El nombre del dinosaurio significa «diente de iguana».",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La tortuga",
+    "La cobra",
+    "La víbora",
+    "La pitón",
+    "La salamanquesa",
+    "La tuátara",
+    "La anaconda"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Pregunta de geografía alemana con una referencia fósil prescindible.",
+  "pregunta": {
+   "id": "din-yac-03",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 1,
+   "pregunta": "¿En qué país está Baviera, conocida por sus fósiles del Jurásico?",
+   "respuesta": "Alemania",
+   "tambien_vale": [],
+   "explicacion": "Las calizas de esta región conservan ejemplares de Archaeopteryx con impresiones de plumas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Francia",
+    "Italia",
+    "España",
+    "Portugal",
+    "Grecia",
+    "Polonia",
+    "Suecia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "La ubicación entre España y Francia basta para identificar los Pirineos.",
+  "pregunta": {
+   "id": "din-yac-06",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 1,
+   "pregunta": "¿Qué cordillera entre España y Francia conserva yacimientos de huevos de dinosaurio?",
+   "respuesta": "Los Pirineos",
+   "tambien_vale": [
+    "Pirineos"
+   ],
+   "explicacion": "Sus rocas del Cretácico conservan huevos, nidos y huesos de dinosaurios.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los Alpes",
+    "Los Andes",
+    "Los Apeninos",
+    "Los Cárpatos",
+    "Los Urales",
+    "Los Balcanes",
+    "El Atlas"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Se responde por geografía africana, sin conocer ningún yacimiento.",
+  "pregunta": {
+   "id": "din-yac-09",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 1,
+   "pregunta": "¿Qué gran desierto del norte de África contiene yacimientos de dinosaurios, como los de Níger?",
+   "respuesta": "El Sáhara",
+   "tambien_vale": [
+    "Sáhara"
+   ],
+   "explicacion": "Algunas zonas que ahora son desérticas estuvieron recorridas por ríos durante el Mesozoico.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El Gobi",
+    "El Kalahari",
+    "El Namib",
+    "El Atacama",
+    "El Karakum",
+    "El Taklamakán",
+    "El Thar"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Es una obviedad sobre un animal terrestre, sin contenido suficiente.",
+  "pregunta": {
+   "id": "din-yac-63",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 1,
+   "pregunta": "¿En qué medio vivía y caminaba normalmente un tiranosaurio?",
+   "respuesta": "En tierra firme",
+   "tambien_vale": [
+    "Tierra firme",
+    "El medio terrestre",
+    "En tierra"
+   ],
+   "explicacion": "Sus patas sostenían el cuerpo y le permitían desplazarse por terrenos continentales.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "En mar abierto",
+    "En aguas profundas",
+    "En fondos oceánicos",
+    "En arrecifes marinos",
+    "En lagos profundos",
+    "En el aire",
+    "En fondos fluviales"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Pregunta de anatomía general que no exige conocimientos de dinosaurios.",
+  "pregunta": {
+   "id": "din-ana-06",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "anatomia",
+   "nivel": 2,
+   "pregunta": "¿Qué hueso del muslo de un dinosaurio iba desde la cadera hasta la rodilla?",
+   "respuesta": "El fémur",
+   "tambien_vale": [
+    "Fémur"
+   ],
+   "explicacion": "Es el mismo nombre que recibe el hueso del muslo humano.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El húmero",
+    "El radio",
+    "El cúbito",
+    "El peroné",
+    "El pubis",
+    "El ilion",
+    "El isquion"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Es anatomía dental general; la referencia a dinosaurios es prescindible.",
+  "pregunta": {
+   "id": "din-ana-08",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "anatomia",
+   "nivel": 2,
+   "pregunta": "¿Qué material recubre la corona de los dientes de los dinosaurios y es más duro que la dentina?",
+   "respuesta": "El esmalte",
+   "tambien_vale": [
+    "Esmalte",
+    "Esmalte dental"
+   ],
+   "explicacion": "Su elevada mineralización favorece que los dientes se conserven bien como fósiles.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El cemento",
+    "El cartílago",
+    "El colágeno",
+    "El hueso",
+    "El marfil",
+    "El queratógeno",
+    "El tejido pulpar"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Basta conocer al señor oscuro de Tolkien; no exige saber del dinosaurio.",
+  "pregunta": {
+   "id": "din-hal-15",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 2,
+   "pregunta": "¿Qué señor oscuro de Tolkien inspiró el nombre de un dinosaurio carnívoro marroquí descrito en 2012?",
+   "respuesta": "Sauron",
+   "tambien_vale": [],
+   "explicacion": "Sauroniops combina esa referencia literaria con una alusión al ojo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Saruman",
+    "Morgoth",
+    "Smaug",
+    "Gollum",
+    "Ungoliant",
+    "Gothmog",
+    "Glaurung"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Pregunta de vocabulario latino, independiente de los dinosaurios.",
+  "pregunta": {
+   "id": "din-hal-65",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 2,
+   "pregunta": "¿Qué significa la palabra latina «rex» en el nombre Tyrannosaurus rex?",
+   "respuesta": "Rey",
+   "tambien_vale": [
+    "El rey"
+   ],
+   "explicacion": "El nombre científico combina raíces griegas con esa palabra latina.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Guerrero",
+    "Cazador",
+    "Gigante",
+    "Señor",
+    "Príncipe",
+    "Emperador",
+    "Conquistador"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Gijón y Ribadesella permiten responder por geografía española.",
+  "pregunta": {
+   "id": "din-yac-29",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 2,
+   "pregunta": "¿Qué comunidad autónoma española tiene una «Costa de los Dinosaurios» entre Gijón y Ribadesella?",
+   "respuesta": "Asturias",
+   "tambien_vale": [
+    "El Principado de Asturias",
+    "Principado de Asturias"
+   ],
+   "explicacion": "Sus acantilados conservan huellas jurásicas, incluidas las de grandes dinosaurios de cuello largo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Cantabria",
+    "Galicia",
+    "País Vasco",
+    "Cataluña",
+    "Andalucía",
+    "Comunidad Valenciana",
+    "Región de Murcia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Es una generalidad sobre tiempos prehistóricos, sin contenido específico.",
+  "pregunta": {
+   "id": "din-yac-65",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 2,
+   "pregunta": "¿Qué unidad de tiempo se utiliza habitualmente para expresar la antigüedad de los dinosaurios?",
+   "respuesta": "Millones de años",
+   "tambien_vale": [
+    "El millón de años"
+   ],
+   "explicacion": "La historia de los dinosaurios no avianos abarca un intervalo mucho mayor que toda la historia humana.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Decenas de años",
+    "Centenares de años",
+    "Miles de años",
+    "Decenas de miles de años",
+    "Centenares de miles de años",
+    "Miles de millones de años",
+    "Billones de años"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "La gran región del sur de Sudamérica se identifica sin saber de yacimientos.",
+  "pregunta": {
+   "id": "din-yac-69",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 2,
+   "pregunta": "¿Qué gran región del sur de Sudamérica alberga los yacimientos de Argentinosaurus y Patagotitan?",
+   "respuesta": "La Patagonia",
+   "tambien_vale": [
+    "Patagonia"
+   ],
+   "explicacion": "Los restos de estos dos enormes saurópodos se encontraron en la Patagonia argentina.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La Pampa",
+    "La Amazonia",
+    "La Puna",
+    "La Guayana",
+    "La Orinoquia",
+    "La Chiquitania",
+    "La Mesopotamia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Se identifica a Buñuel por su película y origen, sin saber del dinosaurio.",
+  "pregunta": {
+   "id": "din-hal-21",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "hallazgos",
+   "nivel": 3,
+   "pregunta": "¿Qué director aragonés de «El ángel exterminador» fue homenajeado en el nombre de un dinosaurio de Teruel descrito en 2023?",
+   "respuesta": "Luis Buñuel",
+   "tambien_vale": [
+    "Buñuel"
+   ],
+   "criterio": "Basta con el apellido",
+   "explicacion": "La especie Oblitosaurus bunnueli recuerda al cineasta nacido en Calanda.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Carlos Saura",
+    "Luis García Berlanga",
+    "Pedro Almodóvar",
+    "Víctor Erice",
+    "José Luis Cuerda",
+    "Fernando Trueba",
+    "Juan Antonio Bardem"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Solo exige situar Neuquén; los yacimientos no intervienen en la respuesta.",
+  "pregunta": {
+   "id": "din-yac-02",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 3,
+   "pregunta": "¿En qué país sudamericano está la provincia de Neuquén, famosa por sus yacimientos de dinosaurios?",
+   "respuesta": "Argentina",
+   "tambien_vale": [],
+   "explicacion": "Sus rocas han proporcionado dinosaurios como Giganotosaurus y Argentinosaurus.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Brasil",
+    "Chile",
+    "Perú",
+    "Colombia",
+    "Venezuela",
+    "Ecuador",
+    "Uruguay"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Solo exige situar Ceará; la referencia a los fósiles es decorativa.",
+  "pregunta": {
+   "id": "din-yac-07",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 3,
+   "pregunta": "¿En qué país está Ceará, un estado conocido por los fósiles de la cuenca de Araripe?",
+   "respuesta": "Brasil",
+   "tambien_vale": [],
+   "explicacion": "La cuenca de Araripe conserva fósiles del Cretácico, incluidos dinosaurios y pterosaurios.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Perú",
+    "Colombia",
+    "Venezuela",
+    "Ecuador",
+    "Paraguay",
+    "Uruguay",
+    "Chile"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dinosaurios",
+  "motivo": "Basta situar Dorset; no requiere conocimientos paleontológicos.",
+  "pregunta": {
+   "id": "din-yac-08",
+   "v": 1,
+   "categoria": "dinosaurios",
+   "subtema": "yacimientos",
+   "nivel": 3,
+   "pregunta": "¿En qué país se encuentra la Costa Jurásica de Dorset?",
+   "respuesta": "Reino Unido",
+   "tambien_vale": [
+    "Gran Bretaña",
+    "Inglaterra"
+   ],
+   "criterio": "Se acepta Inglaterra, donde está Dorset.",
+   "explicacion": "Sus acantilados permiten recorrer una sucesión de rocas del Triásico, el Jurásico y el Cretácico.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Irlanda",
+    "Francia",
+    "Dinamarca",
+    "Noruega",
+    "Bélgica",
+    "Países Bajos",
+    "Islandia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "disney_animacion",
+  "motivo": "Bach y Beethoven permiten responder sin conocer «Fantasía».",
+  "pregunta": {
+   "id": "dis-est-63",
+   "v": 1,
+   "categoria": "disney_animacion",
+   "subtema": "estudio",
+   "nivel": 1,
+   "pregunta": "¿Qué tipo de música, asociada a compositores como Bach y Beethoven, sirve de base a «Fantasía»?",
+   "respuesta": "La música clásica",
+   "tambien_vale": [
+    "Música clásica",
+    "Clásica"
+   ],
+   "explicacion": "Sus distintos episodios proponen imágenes animadas para acompañar obras del repertorio de concierto.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La música electrónica",
+    "La música country",
+    "La música disco",
+    "La música reggae",
+    "La música flamenca",
+    "La música rap",
+    "La música punk"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "disney_animacion",
+  "motivo": "Se responde con conocimientos generales de mitología, sin conocer la adaptación Disney.",
+  "pregunta": {
+   "id": "dis-est-04",
+   "v": 1,
+   "categoria": "disney_animacion",
+   "subtema": "estudio",
+   "nivel": 2,
+   "pregunta": "¿De qué mitología proceden los dioses que Disney adaptó en «Hércules»?",
+   "respuesta": "La griega",
+   "tambien_vale": [
+    "Griega",
+    "Mitología griega"
+   ],
+   "explicacion": "La película transforma los mitos clásicos en una comedia musical con numerosas libertades narrativas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La nórdica",
+    "La egipcia",
+    "La celta",
+    "La japonesa",
+    "La azteca",
+    "La mesopotámica",
+    "La eslava"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "disney_animacion",
+  "motivo": "El origen de los mitos de Hércules se sabe sin conocer ninguna película de Disney.",
+  "pregunta": {
+   "id": "dis-est-67",
+   "v": 1,
+   "categoria": "disney_animacion",
+   "subtema": "estudio",
+   "nivel": 2,
+   "pregunta": "¿De qué país de la Antigüedad proceden los mitos que inspiraron «Hércules»?",
+   "respuesta": "Grecia",
+   "tambien_vale": [
+    "La antigua Grecia"
+   ],
+   "explicacion": "Aunque emplea el nombre romano del héroe, la película presenta dioses con nombres griegos, como Zeus y Hera.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Egipto",
+    "Italia",
+    "China",
+    "India",
+    "Persia",
+    "Japón",
+    "México"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "disney_animacion",
+  "motivo": "«Pequeña embarcación» prácticamente proporciona la respuesta «barca».",
+  "pregunta": {
+   "id": "dis-his-08",
+   "v": 1,
+   "categoria": "disney_animacion",
+   "subtema": "historias",
+   "nivel": 2,
+   "pregunta": "¿En qué pequeña embarcación contemplan Rapunzel y Flynn los farolillos en «Enredados»?",
+   "respuesta": "Una barca",
+   "tambien_vale": [
+    "Barca",
+    "Un bote",
+    "Bote"
+   ],
+   "explicacion": "Los farolillos se sueltan cada año para recordar a la princesa desaparecida.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Una lancha motora",
+    "Un velero",
+    "Una balsa",
+    "Una canoa",
+    "Un submarino",
+    "Una moto acuática",
+    "Un catamarán"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dragon_ball",
+  "motivo": "Se acierta sin saber de Dragon Ball: el manga es japonés.",
+  "pregunta": {
+   "id": "dra-ada-02",
+   "v": 1,
+   "categoria": "dragon_ball",
+   "subtema": "adaptaciones",
+   "nivel": 1,
+   "pregunta": "¿En qué país comenzó a publicarse el manga de «Dragon Ball»?",
+   "respuesta": "Japón",
+   "tambien_vale": [],
+   "explicacion": "La obra apareció primero por entregas en una revista, antes de recopilarse en tomos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "China",
+    "Corea del Sur",
+    "Estados Unidos",
+    "Francia",
+    "España",
+    "Italia",
+    "Taiwán"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dragon_ball",
+  "motivo": "Se responde por conocer TV3, sin saber nada de Dragon Ball.",
+  "pregunta": {
+   "id": "dra-ada-06",
+   "v": 1,
+   "categoria": "dragon_ball",
+   "subtema": "adaptaciones",
+   "nivel": 1,
+   "pregunta": "¿En qué lengua se emitía «Bola de Drac» en TV3?",
+   "respuesta": "Catalán",
+   "tambien_vale": [
+    "En catalán"
+   ],
+   "explicacion": "El doblaje catalán conservó el nombre Son Goku para el protagonista.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Castellano",
+    "Gallego",
+    "Euskera",
+    "Francés",
+    "Italiano",
+    "Portugués",
+    "Inglés"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dragon_ball",
+  "motivo": "El halo de un muerto se deduce de la iconografía común, sin conocer la serie.",
+  "pregunta": {
+   "id": "dra-sag-70",
+   "v": 1,
+   "categoria": "dragon_ball",
+   "subtema": "sagas",
+   "nivel": 2,
+   "pregunta": "¿Qué aparece sobre la cabeza de Goku cuando está muerto y conserva su cuerpo?",
+   "respuesta": "Un halo",
+   "tambien_vale": [
+    "Halo",
+    "Una aureola",
+    "Aureola"
+   ],
+   "explicacion": "También lo lleva cuando regresa temporalmente a la Tierra para participar en un torneo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un casco",
+    "Una corona",
+    "Un sombrero",
+    "Una diadema",
+    "Un lazo",
+    "Un pañuelo",
+    "Una capucha"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "dragon_ball",
+  "motivo": "Es vocabulario general del anime, no conocimiento de Dragon Ball.",
+  "pregunta": {
+   "id": "dra-ada-03",
+   "v": 1,
+   "categoria": "dragon_ball",
+   "subtema": "adaptaciones",
+   "nivel": 3,
+   "pregunta": "¿Qué término inglés usan los aficionados para la secuencia musical que abre un episodio de anime?",
+   "respuesta": "Opening",
+   "tambien_vale": [
+    "Openings"
+   ],
+   "explicacion": "El término también se utiliza para referirse a la canción que acompaña esa secuencia.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Ending",
+    "Tráiler",
+    "Teaser",
+    "Recap",
+    "Cliffhanger",
+    "Remake",
+    "Crossover"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Pregunta de geografía: basta con situar Palma e Inca.",
+  "pregunta": {
+   "id": "fer-esp-03",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "espana",
+   "nivel": 1,
+   "pregunta": "¿En qué isla se inauguró en 1875 el ferrocarril entre Palma e Inca?",
+   "respuesta": "Mallorca",
+   "tambien_vale": [],
+   "explicacion": "Aquella línea fue el punto de partida de una red que llegó a extenderse por buena parte de la isla.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Menorca",
+    "Ibiza",
+    "Tenerife",
+    "Gran Canaria",
+    "La Palma",
+    "Lanzarote",
+    "Fuerteventura"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Las siglas se deducen del nombre completo incluido en la pregunta.",
+  "pregunta": {
+   "id": "fer-esp-11",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "espana",
+   "nivel": 1,
+   "pregunta": "¿Qué siglas tiene la empresa pública creada en 1994 con el nombre de Serveis Ferroviaris de Mallorca?",
+   "respuesta": "SFM",
+   "tambien_vale": [],
+   "explicacion": "Su creación estuvo ligada al traspaso de los servicios ferroviarios de Feve al Gobierno balear.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "FGC",
+    "FGV",
+    "TMB",
+    "GIF",
+    "EFE",
+    "ETS",
+    "ATM"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Se responde trasladando el significado cotidiano del semáforo rojo.",
+  "pregunta": {
+   "id": "fer-ing-61",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "ingenieria",
+   "nivel": 1,
+   "pregunta": "En la señalización luminosa ferroviaria española, ¿qué color indica parada?",
+   "respuesta": "Rojo",
+   "tambien_vale": [
+    "Roja",
+    "El rojo"
+   ],
+   "explicacion": "El rojo se utiliza como indicación de parada en la señalización luminosa ferroviaria.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Verde",
+    "Amarillo",
+    "Blanco",
+    "Violeta",
+    "Naranja",
+    "Rosa",
+    "Turquesa"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Se responde trasladando el significado cotidiano del semáforo verde.",
+  "pregunta": {
+   "id": "fer-ing-96",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "ingenieria",
+   "nivel": 1,
+   "pregunta": "En la señalización luminosa ferroviaria española, ¿qué color indica vía libre?",
+   "respuesta": "Verde",
+   "tambien_vale": [
+    "El verde"
+   ],
+   "explicacion": "El verde autoriza a seguir a la velocidad normal; el rojo ordena parar.",
+   "origen": "manual"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Rojo",
+    "Amarillo",
+    "Azul",
+    "Blanco",
+    "Naranja",
+    "Violeta",
+    "Rosa"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "El destino se deduce de la asociación entre Papá Noel y el Polo Norte.",
+  "pregunta": {
+   "id": "fer-pat-04",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "patrimonio",
+   "nivel": 1,
+   "pregunta": "¿A qué lugar se dirige el tren de «Polar Express» para visitar a Papá Noel?",
+   "respuesta": "Polo Norte",
+   "tambien_vale": [
+    "El Polo Norte"
+   ],
+   "explicacion": "El viaje permite al protagonista conocer la fábrica de juguetes de Papá Noel.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Polo Sur",
+    "Laponia",
+    "Groenlandia",
+    "Alaska",
+    "Islandia",
+    "Siberia",
+    "Terranova"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Basta saber que el vapor se obtiene calentando agua.",
+  "pregunta": {
+   "id": "fer-veh-62",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "vehiculos",
+   "nivel": 1,
+   "pregunta": "¿Qué líquido se calienta en la caldera de una locomotora de vapor?",
+   "respuesta": "El agua",
+   "tambien_vale": [
+    "Agua"
+   ],
+   "explicacion": "Al convertirse en vapor a presión, permite obtener el movimiento que impulsa la máquina.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El aceite",
+    "El gasóleo",
+    "El alcohol",
+    "El mercurio",
+    "El queroseno",
+    "El anticongelante",
+    "El fuelóleo"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "La función de unos cables que suministran energía se deduce sin saber de trenes.",
+  "pregunta": {
+   "id": "fer-veh-64",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "vehiculos",
+   "nivel": 1,
+   "pregunta": "¿Qué suministran los cables de la catenaria a las locomotoras que toman energía de ellos?",
+   "respuesta": "La electricidad",
+   "tambien_vale": [
+    "Electricidad",
+    "La corriente eléctrica",
+    "Corriente eléctrica"
+   ],
+   "explicacion": "Esta alimentación permite que los motores funcionen sin quemar combustible a bordo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El gasóleo",
+    "El agua",
+    "El carbón",
+    "El gas natural",
+    "El vapor",
+    "La gasolina",
+    "El aire comprimido"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Las siglas se forman directamente con el nombre que proporciona el enunciado.",
+  "pregunta": {
+   "id": "fer-esp-01",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "espana",
+   "nivel": 2,
+   "pregunta": "¿Con qué siglas se conoció la entidad estatal creada en 1965 llamada Ferrocarriles de Vía Estrecha?",
+   "respuesta": "Feve",
+   "tambien_vale": [],
+   "explicacion": "La entidad asumió líneas procedentes de Explotación de Ferrocarriles por el Estado.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Renfe",
+    "Adif",
+    "FGC",
+    "SFM",
+    "GIF",
+    "Ineco",
+    "Euskotren"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Es mecánica general de frenos, sin contenido específicamente ferroviario.",
+  "pregunta": {
+   "id": "fer-ing-06",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "ingenieria",
+   "nivel": 2,
+   "pregunta": "¿Qué pieza metálica giratoria aprietan las pastillas para frenar una rueda?",
+   "respuesta": "El disco",
+   "tambien_vale": [
+    "Disco",
+    "El disco de freno",
+    "Disco de freno"
+   ],
+   "explicacion": "El rozamiento transforma la energía del movimiento en calor.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El tambor",
+    "El eje",
+    "El cojinete",
+    "El piñón",
+    "El amortiguador",
+    "El muelle",
+    "El volante"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Solo exige convertir un metro en milímetros.",
+  "pregunta": {
+   "id": "fer-ing-11",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "ingenieria",
+   "nivel": 2,
+   "pregunta": "¿Cuántos milímetros separan los carriles de una vía de ancho métrico?",
+   "respuesta": "1 000",
+   "tambien_vale": [
+    "Mil"
+   ],
+   "explicacion": "Este ancho se ha utilizado en numerosos ferrocarriles de vía estrecha.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "600",
+    "750",
+    "900",
+    "1 100",
+    "1 200",
+    "1 435",
+    "1 668"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "ferrocarriles",
+  "motivo": "Pregunta por la ubicación autonómica de una localidad, no por sus ferrocarriles.",
+  "pregunta": {
+   "id": "fer-esp-10",
+   "v": 1,
+   "categoria": "ferrocarriles",
+   "subtema": "espana",
+   "nivel": 3,
+   "pregunta": "¿En qué comunidad autónoma está la estación internacional de Canfranc, inaugurada en 1928?",
+   "respuesta": "Aragón",
+   "tambien_vale": [],
+   "explicacion": "La estación se construyó en la provincia de Huesca, junto al paso ferroviario del Somport.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Cataluña",
+    "Navarra",
+    "La Rioja",
+    "País Vasco",
+    "Cantabria",
+    "Asturias",
+    "Castilla y León"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "harry_potter",
+  "motivo": "El amor se deduce del sacrificio materno sin conocer la saga.",
+  "pregunta": {
+   "id": "har-mag-15",
+   "v": 1,
+   "categoria": "harry_potter",
+   "subtema": "magia",
+   "nivel": 1,
+   "pregunta": "¿Qué sentimiento da origen a la protección que Lily deja a su hijo al sacrificarse por él?",
+   "respuesta": "El amor",
+   "tambien_vale": [
+    "Amor",
+    "El amor maternal",
+    "Amor maternal"
+   ],
+   "explicacion": "Quirrell sufre quemaduras al tocar a Harry debido a esa protección.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El miedo",
+    "El odio",
+    "La ira",
+    "La culpa",
+    "La tristeza",
+    "La vergüenza",
+    "La envidia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "harry_potter",
+  "motivo": "El caldero es un recipiente genérico de pociones y brujería.",
+  "pregunta": {
+   "id": "har-mag-16",
+   "v": 1,
+   "categoria": "harry_potter",
+   "subtema": "magia",
+   "nivel": 1,
+   "pregunta": "¿En qué recipiente preparan los alumnos sus mezclas en clase de Pociones?",
+   "respuesta": "Un caldero",
+   "tambien_vale": [
+    "Caldero",
+    "El caldero",
+    "Calderos"
+   ],
+   "explicacion": "La lista de material del primer curso pide uno de peltre.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un matraz",
+    "Un mortero",
+    "Una retorta",
+    "Un alambique",
+    "Una probeta",
+    "Un crisol",
+    "Un vaso de precipitados"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "harry_potter",
+  "motivo": "La descripción define un centauro sin necesitar saber Harry Potter.",
+  "pregunta": {
+   "id": "har-mag-63",
+   "v": 1,
+   "categoria": "harry_potter",
+   "subtema": "magia",
+   "nivel": 1,
+   "pregunta": "¿Qué criaturas del Bosque Prohibido tienen torso humano y cuerpo de caballo?",
+   "respuesta": "Los centauros",
+   "tambien_vale": [
+    "Centauros"
+   ],
+   "explicacion": "En la saga observan los astros e interpretan sus movimientos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los sátiros",
+    "Los minotauros",
+    "Los faunos",
+    "Los grifos",
+    "Los cíclopes",
+    "Los ogros",
+    "Los trolls"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "harry_potter",
+  "motivo": "Dato lingüístico externo a la historia, accesible sin conocer la saga.",
+  "pregunta": {
+   "id": "har-pel-12",
+   "v": 1,
+   "categoria": "harry_potter",
+   "subtema": "peliculas",
+   "nivel": 1,
+   "pregunta": "¿En qué idioma se rodaron originalmente las películas de Harry Potter?",
+   "respuesta": "Inglés",
+   "tambien_vale": [
+    "El inglés",
+    "En inglés"
+   ],
+   "explicacion": "El reparto principal reúne sobre todo a intérpretes británicos e irlandeses.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Español",
+    "Francés",
+    "Alemán",
+    "Italiano",
+    "Portugués",
+    "Japonés",
+    "Ruso"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "harry_potter",
+  "motivo": "Las branquias se deducen por su función sin conocer la saga.",
+  "pregunta": {
+   "id": "har-mag-17",
+   "v": 1,
+   "categoria": "harry_potter",
+   "subtema": "magia",
+   "nivel": 2,
+   "pregunta": "¿Qué órganos aparecen en el cuello al comer la planta que permite respirar bajo el agua en el Torneo de los Tres Magos?",
+   "respuesta": "Branquias",
+   "tambien_vale": [
+    "Las branquias",
+    "Agallas"
+   ],
+   "explicacion": "Las branquialgas también producen membranas entre los dedos de manos y pies.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Pulmones",
+    "Tráqueas",
+    "Espiráculos",
+    "Sacos aéreos",
+    "Vejigas natatorias",
+    "Fosas nasales",
+    "Riñones"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Las ciudades permiten responder por geografía, sin conocer la serie.",
+  "pregunta": {
+   "id": "jue-act-12",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "¿Qué país acogió rodajes de la serie en Córdoba, Cáceres y Gerona?",
+   "respuesta": "España",
+   "tambien_vale": [],
+   "explicacion": "El país se incorporó a las localizaciones de la serie a partir de la quinta temporada.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Francia",
+    "Portugal",
+    "Italia",
+    "Croacia",
+    "Grecia",
+    "Alemania",
+    "Reino Unido"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Solo evalúa geografía española.",
+  "pregunta": {
+   "id": "jue-act-13",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "¿A qué comunidad autónoma pertenece Almería, una de las provincias elegidas para rodar la serie?",
+   "respuesta": "Andalucía",
+   "tambien_vale": [],
+   "explicacion": "La Alcazaba almeriense se utilizó para representar espacios de Dorne.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Extremadura",
+    "Castilla-La Mancha",
+    "Región de Murcia",
+    "Comunidad Valenciana",
+    "Aragón",
+    "Cataluña",
+    "Castilla y León"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Solo evalúa geografía española.",
+  "pregunta": {
+   "id": "jue-act-18",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "¿A qué comunidad autónoma pertenece Guipúzcoa, donde se rodaron escenas de Rocadragón?",
+   "respuesta": "País Vasco",
+   "tambien_vale": [
+    "El País Vasco",
+    "Euskadi"
+   ],
+   "explicacion": "Su costa aportó parte de los paisajes que aparecen al llegar a la fortaleza.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Navarra",
+    "Cantabria",
+    "Asturias",
+    "Galicia",
+    "La Rioja",
+    "Aragón",
+    "Castilla y León"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "La ejecución y el verbo «cortar» permiten deducir la cabeza sin conocer la escena.",
+  "pregunta": {
+   "id": "jue-cas-62",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "casas",
+   "nivel": 1,
+   "pregunta": "¿Qué parte del cuerpo le cortan a Ned Stark durante su ejecución?",
+   "respuesta": "La cabeza",
+   "tambien_vale": [
+    "Cabeza"
+   ],
+   "explicacion": "Joffrey ordena ejecutarlo pese a que Ned ha confesado públicamente una supuesta traición.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La mano",
+    "La lengua",
+    "La pierna",
+    "La oreja",
+    "La nariz",
+    "La mandíbula",
+    "La muñeca"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Los dragones y la magia del enunciado revelan el género.",
+  "pregunta": {
+   "id": "jue-lib-11",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "libros",
+   "nivel": 1,
+   "pregunta": "¿A qué género literario pertenecen las novelas de «Juego de tronos», con sus dragones y su magia?",
+   "respuesta": "Fantasía",
+   "tambien_vale": [
+    "Fantasía épica",
+    "Literatura fantástica"
+   ],
+   "explicacion": "La intriga política comparte escenario con criaturas y fuerzas sobrenaturales.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Novela policíaca",
+    "Realismo social",
+    "Ciencia ficción",
+    "Novela costumbrista",
+    "Novela picaresca",
+    "Novela histórica",
+    "Realismo mágico"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "El caballo es la respuesta convencional sin necesitar conocimientos del tema.",
+  "pregunta": {
+   "id": "jue-lib-13",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "libros",
+   "nivel": 1,
+   "pregunta": "¿Qué animal sirve como principal montura de los guerreros dothrakis?",
+   "respuesta": "El caballo",
+   "tambien_vale": [
+    "Caballo",
+    "Los caballos"
+   ],
+   "explicacion": "Su cultura concede una enorme importancia a la equitación y a la vida nómada.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El camello",
+    "El elefante",
+    "El buey",
+    "El ciervo",
+    "El búfalo",
+    "El reno",
+    "El yak"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Repite el dato de jue-cas-63 («Se acerca el invierno»).",
+  "pregunta": {
+   "id": "jue-ser-61",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "serie",
+   "nivel": 1,
+   "pregunta": "¿Qué estación anuncia la frase «Se acerca el...»?",
+   "respuesta": "Invierno",
+   "tambien_vale": [
+    "El invierno"
+   ],
+   "explicacion": "El lema de los Stark sirve también como advertencia ante las dificultades que se avecinan.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Verano",
+    "Otoño",
+    "Primavera",
+    "Estío",
+    "Época seca",
+    "Temporada de lluvias",
+    "Monzón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Pregunta sobre Star Wars; no exige conocer Juego de tronos.",
+  "pregunta": {
+   "id": "jue-act-15",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 2,
+   "pregunta": "¿En qué serie de «Star Wars» interpreta Pedro Pascal al protagonista, Din Djarin?",
+   "respuesta": "The Mandalorian",
+   "tambien_vale": [
+    "El mandaloriano",
+    "Mandalorian"
+   ],
+   "explicacion": "Pascal pasó de interpretar a Oberyn Martell a encarnar a un cazarrecompensas que protege a Grogu.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Andor",
+    "Ahsoka",
+    "Obi-Wan Kenobi",
+    "El libro de Boba Fett",
+    "The Acolyte",
+    "Skeleton Crew",
+    "The Bad Batch"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Chris Martin permite identificar la banda sin saber nada de la serie.",
+  "pregunta": {
+   "id": "jue-act-27",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 2,
+   "pregunta": "¿Qué banda liderada por Chris Martin tuvo a su batería entre los músicos de la boda de Edmure Tully?",
+   "respuesta": "Coldplay",
+   "tambien_vale": [],
+   "explicacion": "Will Champion interpreta a uno de los músicos de la celebración.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Radiohead",
+    "Muse",
+    "Keane",
+    "Travis",
+    "Snow Patrol",
+    "Oasis",
+    "Blur"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Es un dato externo y fácilmente inferible, no conocimiento del universo.",
+  "pregunta": {
+   "id": "jue-lib-66",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "libros",
+   "nivel": 2,
+   "pregunta": "¿En qué idioma se escribieron originalmente las novelas de «Juego de tronos»?",
+   "respuesta": "Inglés",
+   "tambien_vale": [
+    "En inglés"
+   ],
+   "explicacion": "Los nombres españoles Poniente y Desembarco del Rey traducen Westeros y King's Landing.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Francés",
+    "Alemán",
+    "Español",
+    "Italiano",
+    "Sueco",
+    "Ruso",
+    "Portugués"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Tonks permite responder por Harry Potter sin conocer Juego de tronos.",
+  "pregunta": {
+   "id": "jue-act-19",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿En qué saga cinematográfica interpretó Natalia Tena a Tonks antes de encarnar a Osha?",
+   "respuesta": "Harry Potter",
+   "tambien_vale": [],
+   "explicacion": "Su primera aparición en esa saga fue en «Harry Potter y la Orden del Fénix».",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El señor de los anillos",
+    "Las crónicas de Narnia",
+    "Los juegos del hambre",
+    "Crepúsculo",
+    "Piratas del Caribe",
+    "Star Wars",
+    "Percy Jackson"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "La ciudad identifica el país por geografía, sin conocer el rodaje.",
+  "pregunta": {
+   "id": "jue-act-23",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿En qué país norteafricano se rodaron las escenas de Yunkai en la ciudad fortificada de Ait Ben Hadu?",
+   "respuesta": "Marruecos",
+   "tambien_vale": [],
+   "explicacion": "Las construcciones de tierra de este enclave sirvieron para los exteriores de la ciudad esclavista.",
+   "origen": "generada"
+  },
+  "opciones": null,
+  "no_apta": "No hay siete países norteafricanos alternativos sin ampliar de forma discutible el ámbito geográfico."
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Solo evalúa la ubicación geográfica de las Bardenas Reales.",
+  "pregunta": {
+   "id": "jue-act-29",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿En qué comunidad autónoma están las Bardenas Reales, utilizadas para representar paisajes del mar dothraki?",
+   "respuesta": "Navarra",
+   "tambien_vale": [
+    "Comunidad Foral de Navarra"
+   ],
+   "explicacion": "Sus formaciones erosionadas sirvieron de escenario al viaje de Daenerys con los dothrakis.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Aragón",
+    "La Rioja",
+    "Castilla y León",
+    "Castilla-La Mancha",
+    "Andalucía",
+    "Extremadura",
+    "Región de Murcia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "Cortar el pelo se deduce del propósito de hacerla pasar por un niño.",
+  "pregunta": {
+   "id": "jue-lib-72",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "libros",
+   "nivel": 3,
+   "pregunta": "En los libros, ¿qué cambio hace Yoren en el aspecto de Arya para ayudarla a pasar por un niño?",
+   "respuesta": "Le corta el pelo",
+   "tambien_vale": [
+    "Cortarle el pelo",
+    "Le corta el cabello",
+    "Un corte de pelo"
+   ],
+   "explicacion": "Después viaja hacia el norte entre los reclutas de la Guardia de la Noche.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Le tiñe el pelo",
+    "Le venda un ojo",
+    "Le pinta una barba",
+    "Le afeita las cejas",
+    "Le pone una peluca",
+    "Le tizna la cara",
+    "Le venda la cabeza"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "juego_de_tronos",
+  "motivo": "«Morir» se deduce por lógica sin conocer el lema ni la serie.",
+  "pregunta": {
+   "id": "jue-ser-68",
+   "v": 1,
+   "categoria": "juego_de_tronos",
+   "subtema": "serie",
+   "nivel": 3,
+   "pregunta": "¿Qué verbo completa el lema «Lo que está muerto no puede...»?",
+   "respuesta": "Morir",
+   "tambien_vale": [],
+   "explicacion": "La fórmula pertenece a la tradición religiosa de los hombres del hierro.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Vivir",
+    "Volver",
+    "Dormir",
+    "Sangrar",
+    "Caer",
+    "Huir",
+    "Vencer"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "Basta saber que Pekín está en China; no exige conocer League of Legends.",
+  "pregunta": {
+   "id": "lea-com-04",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "competicion",
+   "nivel": 1,
+   "pregunta": "¿Qué país acogió Worlds 2017, cuya final se celebró en el Estadio Nacional de Pekín?",
+   "respuesta": "China",
+   "tambien_vale": [
+    "República Popular China"
+   ],
+   "explicacion": "El estadio de la final también es conocido como el Nido de Pájaro.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Japón",
+    "Corea del Sur",
+    "Vietnam",
+    "Singapur",
+    "Tailandia",
+    "Malasia",
+    "Indonesia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "La pista de In the End permite responder solo con conocimientos musicales.",
+  "pregunta": {
+   "id": "lea-pro-62",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "producciones",
+   "nivel": 1,
+   "pregunta": "¿Qué banda de «In the End» interpreta «Heavy Is the Crown», el himno de Worlds 2024?",
+   "respuesta": "Linkin Park",
+   "tambien_vale": [],
+   "explicacion": "La canción también forma parte del álbum «From Zero».",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Evanescence",
+    "Muse",
+    "Green Day",
+    "Paramore",
+    "Foo Fighters",
+    "The Offspring",
+    "Thirty Seconds to Mars"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "La propia definición de música popular surcoreana revela K-pop.",
+  "pregunta": {
+   "id": "lea-pro-63",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "producciones",
+   "nivel": 1,
+   "pregunta": "¿Qué género de música popular surcoreana caracteriza al grupo que interpreta «MORE»?",
+   "respuesta": "K-pop",
+   "tambien_vale": [
+    "Kpop",
+    "Pop coreano"
+   ],
+   "explicacion": "La canción combina voces en coreano, inglés y mandarín.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "J-pop",
+    "Britpop",
+    "Europop",
+    "Cantopop",
+    "Mandopop",
+    "Electropop francés",
+    "Pop latino"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "Las nueve colas permiten deducir zorro por cultura general, sin conocer a Ahri.",
+  "pregunta": {
+   "id": "lea-run-62",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "runaterra",
+   "nivel": 1,
+   "pregunta": "Según la biografía de Ahri, ¿a qué animal recuerdan sus nueve colas?",
+   "respuesta": "Un zorro",
+   "tambien_vale": [
+    "Zorro"
+   ],
+   "explicacion": "Su historia la vincula con los vastaya y con la magia de los recuerdos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un lobo",
+    "Un león",
+    "Un tigre",
+    "Un caballo",
+    "Un conejo",
+    "Un ciervo",
+    "Un mapache"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "Repite el dato de lea-run-77 (las dos trenzas de Jinx).",
+  "pregunta": {
+   "id": "lea-run-66",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "runaterra",
+   "nivel": 1,
+   "pregunta": "¿En cuántas largas trenzas lleva recogido el pelo Jinx durante la primera temporada de «Arcane»?",
+   "respuesta": "2",
+   "tambien_vale": [
+    "Dos",
+    "Dos trenzas"
+   ],
+   "explicacion": "Sus largas trenzas mantienen uno de los rasgos visuales del personaje del videojuego.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "league_of_legends",
+  "motivo": "La pista de Old Town Road permite responder sin saber nada del juego.",
+  "pregunta": {
+   "id": "lea-pro-70",
+   "v": 1,
+   "categoria": "league_of_legends",
+   "subtema": "producciones",
+   "nivel": 2,
+   "pregunta": "¿Qué cantante de «Old Town Road» interpreta «STAR WALKIN'», el himno de Worlds 2022?",
+   "respuesta": "Lil Nas X",
+   "tambien_vale": [],
+   "explicacion": "El videoclip combina ciudades, jugadores profesionales y enormes robots.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Drake",
+    "Post Malone",
+    "Travis Scott",
+    "Kendrick Lamar",
+    "Jack Harlow",
+    "Lil Wayne",
+    "Kid Cudi"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "La pista de Indiana Jones permite responder sin saber nada de Marvel.",
+  "pregunta": {
+   "id": "mar-act-12",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "¿Qué actor que encarna a Indiana Jones interpreta a Thaddeus Ross en «Capitán América: Brave New World»?",
+   "respuesta": "Harrison Ford",
+   "tambien_vale": [
+    "Ford"
+   ],
+   "explicacion": "En esta película, su personaje se transforma en Hulk Rojo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "William Hurt",
+    "Clint Eastwood",
+    "Robert Redford",
+    "Michael Douglas",
+    "Tommy Lee Jones",
+    "Kurt Russell",
+    "Sylvester Stallone"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "La pista de La La Land permite responder sin conocer su papel en Marvel.",
+  "pregunta": {
+   "id": "mar-act-63",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "¿Qué actriz de «La La Land» interpreta a Gwen Stacy en las películas de «The Amazing Spider-Man»?",
+   "respuesta": "Emma Stone",
+   "tambien_vale": [
+    "Stone"
+   ],
+   "explicacion": "Gwen es compañera de estudios de Peter Parker y trabaja como becaria en Oscorp.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Emma Watson",
+    "Anne Hathaway",
+    "Margot Robbie",
+    "Amanda Seyfried",
+    "Kristen Stewart",
+    "Keira Knightley",
+    "Dakota Johnson"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Basta con conocer a la protagonista de Los juegos del hambre.",
+  "pregunta": {
+   "id": "mar-act-64",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 1,
+   "pregunta": "La protagonista de «Los juegos del hambre» también interpreta a Mística en «X-Men: Primera generación». ¿Qué actriz es?",
+   "respuesta": "Jennifer Lawrence",
+   "tambien_vale": [
+    "Lawrence"
+   ],
+   "explicacion": "Mística puede adoptar el aspecto de otras personas, aunque su apariencia natural tiene la piel azul.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Emma Watson",
+    "Margot Robbie",
+    "Anne Hathaway",
+    "Kristen Stewart",
+    "Megan Fox",
+    "Amanda Seyfried",
+    "Blake Lively"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Es vocabulario general de creación de cómics; no exige saber Marvel.",
+  "pregunta": {
+   "id": "mar-com-11",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "comics",
+   "nivel": 1,
+   "pregunta": "¿Qué profesional inventa la historia y escribe los diálogos de un cómic?",
+   "respuesta": "El guionista",
+   "tambien_vale": [
+    "Guionista"
+   ],
+   "explicacion": "Su trabajo indica qué sucede en las viñetas y qué dicen los personajes.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El entintador",
+    "El colorista",
+    "El rotulista",
+    "El impresor",
+    "El distribuidor",
+    "El librero",
+    "El encuadernador"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "La propia descripción permite deducir dibujante sin conocer Marvel.",
+  "pregunta": {
+   "id": "mar-com-12",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "comics",
+   "nivel": 1,
+   "pregunta": "¿Qué profesional realiza a lápiz las escenas y los personajes de las viñetas?",
+   "respuesta": "El dibujante",
+   "tambien_vale": [
+    "Dibujante",
+    "El dibujante a lápiz",
+    "El lápiz"
+   ],
+   "explicacion": "En muchos cómics de Marvel, otra persona se encarga después del entintado.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El guionista",
+    "El rotulista",
+    "El traductor",
+    "El impresor",
+    "El distribuidor",
+    "El encuadernador",
+    "El corrector"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Se acierta sin saber de Marvel: la editorial es estadounidense.",
+  "pregunta": {
+   "id": "mar-com-17",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "comics",
+   "nivel": 1,
+   "pregunta": "¿En qué país nació la editorial Marvel?",
+   "respuesta": "Estados Unidos",
+   "tambien_vale": [
+    "EE. UU",
+    "USA",
+    "Los Estados Unidos"
+   ],
+   "explicacion": "Sus orígenes editoriales se remontan a 1939.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Reino Unido",
+    "Canadá",
+    "Francia",
+    "Japón",
+    "Italia",
+    "Alemania",
+    "Australia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "La pista de Dominic Toretto identifica al actor sin conocimientos de Marvel.",
+  "pregunta": {
+   "id": "mar-act-14",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 2,
+   "pregunta": "¿Qué actor, famoso por interpretar a Dominic Toretto, pone la voz original a Groot?",
+   "respuesta": "Vin Diesel",
+   "tambien_vale": [
+    "Diesel"
+   ],
+   "explicacion": "También grabó la frase característica del personaje en varios idiomas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Dwayne Johnson",
+    "Jason Statham",
+    "Paul Walker",
+    "John Cena",
+    "Dave Bautista",
+    "Idris Elba",
+    "Mark Wahlberg"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Basta con saber quién interpreta a Padmé en Star Wars.",
+  "pregunta": {
+   "id": "mar-act-17",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 2,
+   "pregunta": "¿Qué actriz que interpreta a Jane Foster da vida a Padmé Amidala en las precuelas de «Star Wars»?",
+   "respuesta": "Natalie Portman",
+   "tambien_vale": [
+    "Portman"
+   ],
+   "explicacion": "Padmé es senadora de Naboo durante los episodios segundo y tercero.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Keira Knightley",
+    "Daisy Ridley",
+    "Felicity Jones",
+    "Scarlett Johansson",
+    "Elizabeth Olsen",
+    "Rachel McAdams",
+    "Brie Larson"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Colorista se deduce de la descripción y no requiere saber Marvel.",
+  "pregunta": {
+   "id": "mar-com-18",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "comics",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llama el profesional que aplica los colores a las páginas de un cómic?",
+   "respuesta": "El colorista",
+   "tambien_vale": [
+    "Colorista"
+   ],
+   "explicacion": "La iluminación y la atmósfera de una escena pueden cambiar mucho según su trabajo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El guionista",
+    "El entintador",
+    "El rotulista",
+    "El traductor",
+    "El corrector",
+    "El impresor",
+    "El encuadernador"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Es una definición lingüística general, independiente de Marvel.",
+  "pregunta": {
+   "id": "mar-com-19",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "comics",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llama una palabra que imita un sonido, como «bum», en una viñeta?",
+   "respuesta": "Onomatopeya",
+   "tambien_vale": [
+    "Una onomatopeya"
+   ],
+   "explicacion": "Su tamaño y su forma también pueden sugerir la intensidad del sonido.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Metáfora",
+    "Sinopsis",
+    "Acotación",
+    "Elipsis",
+    "Dedicatoria",
+    "Alegoría",
+    "Paráfrasis"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Se puede responder conociendo al protagonista de Mad Max, sin saber Marvel.",
+  "pregunta": {
+   "id": "mar-act-23",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿Qué actor que interpreta a Eddie Brock protagoniza «Mad Max: Furia en la carretera»?",
+   "respuesta": "Tom Hardy",
+   "tambien_vale": [
+    "Hardy"
+   ],
+   "explicacion": "En la película de 2015 comparte protagonismo con Charlize Theron.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Mel Gibson",
+    "Topher Grace",
+    "Tom Hiddleston",
+    "Christian Bale",
+    "Sam Worthington",
+    "Joel Edgerton",
+    "Gerard Butler"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "Saber quién interpreta a Neytiri basta para responder sin conocer Marvel.",
+  "pregunta": {
+   "id": "mar-act-65",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿Qué actriz interpreta a Gamora en Marvel y a Neytiri en «Avatar»?",
+   "respuesta": "Zoe Saldaña",
+   "tambien_vale": [
+    "Saldaña"
+   ],
+   "explicacion": "También interpreta a Uhura en las películas de «Star Trek» iniciadas en 2009.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Zoe Kravitz",
+    "Tessa Thompson",
+    "Naomie Harris",
+    "Rosario Dawson",
+    "Paula Patton",
+    "Halle Berry",
+    "Thandiwe Newton"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "marvel",
+  "motivo": "La pista de Poe Dameron permite responder solo con conocimientos de Star Wars.",
+  "pregunta": {
+   "id": "mar-act-66",
+   "v": 1,
+   "categoria": "marvel",
+   "subtema": "actores",
+   "nivel": 3,
+   "pregunta": "¿Qué actor interpreta a Poe Dameron en «Star Wars» y protagoniza «Caballero Luna»?",
+   "respuesta": "Oscar Isaac",
+   "tambien_vale": [
+    "Isaac"
+   ],
+   "explicacion": "En «Dune», de Denis Villeneuve, interpreta al duque Leto Atreides.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Pedro Pascal",
+    "Diego Luna",
+    "Adam Driver",
+    "John Boyega",
+    "Riz Ahmed",
+    "Gael García Bernal",
+    "Edgar Ramírez"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Se deduce del rasgo característico de Lickitung sin conocer el minijuego.",
+  "pregunta": {
+   "id": "pok-der-03",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 1,
+   "pregunta": "¿Qué parte del cuerpo utiliza Lickitung para recoger el sushi en su minijuego de Pokémon Stadium?",
+   "respuesta": "La lengua",
+   "tambien_vale": [
+    "Lengua"
+   ],
+   "explicacion": "Hay que recoger los platos antes que los rivales y evitar la comida picante.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La cola",
+    "La nariz",
+    "La pata",
+    "La oreja",
+    "La cabeza",
+    "La espalda",
+    "La aleta"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Cepillarse los dientes es una asociación cotidiana; no evalúa conocimientos de Pokémon.",
+  "pregunta": {
+   "id": "pok-der-10",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 1,
+   "pregunta": "¿Qué parte del cuerpo debes cepillarte mientras juegas a Pokémon Smile?",
+   "respuesta": "Los dientes",
+   "tambien_vale": [
+    "Dientes",
+    "La dentadura"
+   ],
+   "explicacion": "La aplicación utiliza la cámara para acompañar y animar el cepillado.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Las manos",
+    "Los pies",
+    "Las orejas",
+    "Los codos",
+    "Las rodillas",
+    "Los brazos",
+    "Los hombros"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Pregunta por elementos de cualquier pinball, no por conocimientos de Pokémon.",
+  "pregunta": {
+   "id": "pok-der-11",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 2,
+   "pregunta": "¿Qué piezas móviles de Pokémon Pinball golpean la bola desde la parte inferior del tablero?",
+   "respuesta": "Las paletas",
+   "tambien_vale": [
+    "Paletas",
+    "Los flippers",
+    "Flippers",
+    "Las aletas"
+   ],
+   "explicacion": "Su manejo permite devolver la bola hacia las zonas superiores y evitar que se pierda.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los muelles",
+    "Los imanes",
+    "Los rodillos",
+    "Las compuertas",
+    "Los pistones",
+    "Las rampas",
+    "Los topes"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Evalúa un concepto tecnológico general, no conocimientos específicos de Pokémon.",
+  "pregunta": {
+   "id": "pok-der-69",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 2,
+   "pregunta": "¿Qué tecnología permite ver Pokémon superpuestos al entorno real a través de la cámara en Pokémon GO?",
+   "respuesta": "Realidad aumentada",
+   "tambien_vale": [
+    "La realidad aumentada"
+   ],
+   "explicacion": "Combina la imagen del entorno captada por la cámara con elementos digitales.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Realidad virtual",
+    "Reconocimiento facial",
+    "Geolocalización",
+    "Holografía",
+    "Visión nocturna",
+    "Fotografía térmica",
+    "Captura de movimiento"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Se responde conociendo el accesorio de la consola, sin saber de Pokémon.",
+  "pregunta": {
+   "id": "pok-der-04",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 3,
+   "pregunta": "¿Con qué accesorio de Nintendo DS trazas los lazos de captura en Pokémon Ranger?",
+   "respuesta": "El lápiz táctil",
+   "tambien_vale": [
+    "Lápiz táctil",
+    "El stylus",
+    "Stylus"
+   ],
+   "explicacion": "Los trazos se dibujan directamente sobre la pantalla táctil de la consola.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El micrófono",
+    "El mando remoto",
+    "El joystick",
+    "El volante",
+    "El teclado",
+    "El ratón",
+    "La cámara"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "pokemon",
+  "motivo": "Repite la regla genérica de alinear tres de los puzles, con escaso contenido temático.",
+  "pregunta": {
+   "id": "pok-der-70",
+   "v": 1,
+   "categoria": "pokemon",
+   "subtema": "derivados",
+   "nivel": 3,
+   "pregunta": "¿Cuál es el mínimo de Pokémon iguales que debes alinear para eliminarlos en Pokémon Shuffle?",
+   "respuesta": "3",
+   "tambien_vale": [
+    "Tres"
+   ],
+   "explicacion": "Las combinaciones pueden formarse en horizontal o en vertical.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "2",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Definición general de un silenciador; no exige saber nada de esta guerra.",
+  "pregunta": {
+   "id": "seg-arm-13",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "armas",
+   "nivel": 1,
+   "pregunta": "¿Qué dispositivo acoplado a un arma de fuego reduce el ruido del disparo?",
+   "respuesta": "El silenciador",
+   "tambien_vale": [
+    "Silenciador",
+    "Supresor",
+    "El supresor"
+   ],
+   "explicacion": "Reduce el ruido, pero no convierte un disparo en un sonido completamente inaudible.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El cargador",
+    "El cerrojo",
+    "El bípode",
+    "El visor",
+    "El guardamonte",
+    "El culatín",
+    "El compensador"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Se responde con cultura general sobre comunicaciones, sin conocer la guerra.",
+  "pregunta": {
+   "id": "seg-arm-61",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "armas",
+   "nivel": 1,
+   "pregunta": "¿Qué código de puntos y rayas se utilizaba para transmitir mensajes militares?",
+   "respuesta": "El código morse",
+   "tambien_vale": [
+    "Morse",
+    "Código morse"
+   ],
+   "explicacion": "Los signos podían transmitirse mediante sonidos, destellos de luz o señales eléctricas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El código braille",
+    "El código César",
+    "El código binario",
+    "El código de barras",
+    "El código ASCII",
+    "El código hexadecimal",
+    "El código BCD"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Basta con saber cuál es la capital de Alemania.",
+  "pregunta": {
+   "id": "seg-eur-12",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 1,
+   "pregunta": "¿Qué capital alemana tomaron las fuerzas soviéticas en mayo de 1945?",
+   "respuesta": "Berlín",
+   "tambien_vale": [],
+   "explicacion": "La lucha en la ciudad terminó pocos días antes de la rendición alemana.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Múnich",
+    "Hamburgo",
+    "Colonia",
+    "Fráncfort",
+    "Bonn",
+    "Dresde",
+    "Leipzig"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Basta con identificar la capital británica; no hace falta conocer el Blitz.",
+  "pregunta": {
+   "id": "seg-eur-13",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 1,
+   "pregunta": "¿Qué capital británica sufrió los bombardeos alemanes conocidos como el «Blitz»?",
+   "respuesta": "Londres",
+   "tambien_vale": [],
+   "explicacion": "La población utilizó estaciones de metro como refugio antiaéreo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Edimburgo",
+    "Cardiff",
+    "Belfast",
+    "Mánchester",
+    "Liverpool",
+    "Birmingham",
+    "Glasgow"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "La capital Berna permite responder sin conocer la neutralidad suiza.",
+  "pregunta": {
+   "id": "seg-eur-15",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 1,
+   "pregunta": "¿Qué país alpino, cuya capital es Berna, se mantuvo neutral durante la Segunda Guerra Mundial?",
+   "respuesta": "Suiza",
+   "tambien_vale": [],
+   "explicacion": "Mantuvo una neutralidad armada y movilizó sus fuerzas para defender su territorio.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Austria",
+    "Italia",
+    "Francia",
+    "Alemania",
+    "Bélgica",
+    "Hungría",
+    "Rumanía"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Pregunta de geografía general sobre la capital japonesa.",
+  "pregunta": {
+   "id": "seg-pac-14",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "pacifico",
+   "nivel": 1,
+   "pregunta": "¿Qué ciudad era la capital de Japón durante la Segunda Guerra Mundial?",
+   "respuesta": "Tokio",
+   "tambien_vale": [
+    "Tokyo"
+   ],
+   "explicacion": "La ciudad sufrió un gran bombardeo incendiario la noche del 9 al 10 de marzo de 1945.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Kioto",
+    "Osaka",
+    "Hiroshima",
+    "Nagasaki",
+    "Yokohama",
+    "Nagoya",
+    "Kobe"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Basta con situar Brisbane y Sídney en Australia.",
+  "pregunta": {
+   "id": "seg-pac-15",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "pacifico",
+   "nivel": 1,
+   "pregunta": "¿En qué país estaban las bases aliadas de Brisbane y Sídney durante la guerra del Pacífico?",
+   "respuesta": "Australia",
+   "tambien_vale": [],
+   "explicacion": "Desde su territorio se apoyaron las campañas aliadas en Nueva Guinea y las islas cercanas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Nueva Zelanda",
+    "Canadá",
+    "India",
+    "Filipinas",
+    "Indonesia",
+    "Sudáfrica",
+    "Malasia"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "La teoría de la relatividad identifica a Einstein sin saber nada de su exilio.",
+  "pregunta": {
+   "id": "seg-per-11",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 1,
+   "pregunta": "¿Qué físico de la teoría de la relatividad se exilió en Estados Unidos tras la llegada de Hitler al poder?",
+   "respuesta": "Albert Einstein",
+   "tambien_vale": [
+    "Einstein"
+   ],
+   "explicacion": "Recibió el Nobel de Física por su explicación del efecto fotoeléctrico.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Max Planck",
+    "Niels Bohr",
+    "Enrico Fermi",
+    "Ernest Rutherford",
+    "Nikola Tesla",
+    "Marie Curie",
+    "Erwin Schrödinger"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Las pistas literarias permiten responder sin conocer la guerra.",
+  "pregunta": {
+   "id": "seg-per-12",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 1,
+   "pregunta": "¿Qué cuento sobre un niño que vive en un asteroide publicó en 1943 el piloto Antoine de Saint-Exupéry?",
+   "respuesta": "El principito",
+   "tambien_vale": [
+    "Principito",
+    "Le Petit Prince"
+   ],
+   "explicacion": "Lo escribió durante su estancia en Estados Unidos, antes de volver a volar con las fuerzas francesas.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Peter Pan",
+    "Pinocho",
+    "El libro de la selva",
+    "El mago de Oz",
+    "La isla del tesoro",
+    "El viento en los sauces",
+    "Alicia en el país de las maravillas"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Repite el dato de seg-per-14 (el diario de Ana Frank).",
+  "pregunta": {
+   "id": "seg-per-61",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 1,
+   "pregunta": "¿Qué tipo de texto escribió Ana Frank mientras se escondía de los nazis?",
+   "respuesta": "Un diario",
+   "tambien_vale": [
+    "Diario",
+    "Un diario personal"
+   ],
+   "explicacion": "Su familia permaneció escondida en un anexo de Ámsterdam antes de ser detenida en 1944.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Una novela",
+    "Un poemario",
+    "Una obra teatral",
+    "Un ensayo",
+    "Una biografía",
+    "Un guion",
+    "Un libro de viajes"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Basta con saber que Moscú era la capital soviética.",
+  "pregunta": {
+   "id": "seg-eur-20",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 2,
+   "pregunta": "¿Qué capital soviética era el objetivo de la ofensiva alemana denominada «Tifón» en 1941?",
+   "respuesta": "Moscú",
+   "tambien_vale": [],
+   "explicacion": "La contraofensiva soviética de diciembre de 1941 alejó a las fuerzas alemanas de la ciudad.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Kiev",
+    "Minsk",
+    "Smolensk",
+    "Odesa",
+    "Sebastopol",
+    "Járkov",
+    "Rostov"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Es una definición general de convoy, sin conocimiento específico de la guerra.",
+  "pregunta": {
+   "id": "seg-eur-64",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llamaban las agrupaciones de barcos mercantes que cruzaban el Atlántico con escolta militar?",
+   "respuesta": "Los convoyes",
+   "tambien_vale": [
+    "Convoyes",
+    "Convoy",
+    "Un convoy"
+   ],
+   "explicacion": "Agrupar los mercantes permitía concentrar los buques de escolta para protegerlos de los ataques.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Las líneas de batalla",
+    "Las divisiones navales",
+    "Los grupos de combate",
+    "Las fuerzas de choque",
+    "Las patrullas navales",
+    "Las escuadras de combate",
+    "Las flotillas de combate"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Las pistas geográficas identifican Gibraltar sin conocer su papel militar.",
+  "pregunta": {
+   "id": "seg-eur-65",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 2,
+   "pregunta": "¿Qué territorio británico al sur de España fue una base estratégica junto a la entrada del Mediterráneo?",
+   "respuesta": "Gibraltar",
+   "tambien_vale": [
+    "El peñón de Gibraltar"
+   ],
+   "explicacion": "Su posición permitía apoyar las operaciones navales entre el Atlántico y el Mediterráneo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Malta",
+    "Chipre",
+    "Menorca",
+    "Ceuta",
+    "Melilla",
+    "Tánger",
+    "Córcega"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Definición general de agente doble, ajena a conocimientos específicos del conflicto.",
+  "pregunta": {
+   "id": "seg-per-13",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llama al espía que finge servir a un servicio de inteligencia mientras trabaja en secreto para su adversario?",
+   "respuesta": "Agente doble",
+   "tambien_vale": [
+    "Un agente doble",
+    "Espía doble"
+   ],
+   "explicacion": "Puede entregar información falsa al servicio que cree estar utilizándolo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Agente durmiente",
+    "Agente de enlace",
+    "Analista de inteligencia",
+    "Oficial de cifrado",
+    "Correo diplomático",
+    "Observador militar",
+    "Agente provocador"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "La referencia a Fleming permite responder sin conocer la guerra.",
+  "pregunta": {
+   "id": "seg-per-16",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 2,
+   "pregunta": "¿Qué antibiótico descubierto por Alexander Fleming se produjo masivamente para tratar a los heridos aliados?",
+   "respuesta": "La penicilina",
+   "tambien_vale": [
+    "Penicilina"
+   ],
+   "explicacion": "Howard Florey y Ernst Chain fueron fundamentales para convertir aquel descubrimiento en un tratamiento.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La estreptomicina",
+    "La tetraciclina",
+    "La eritromicina",
+    "El cloranfenicol",
+    "La neomicina",
+    "La vancomicina",
+    "La bacitracina"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Pregunta por una profesión de cultura general, no por conocimientos de la guerra.",
+  "pregunta": {
+   "id": "seg-per-19",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 2,
+   "pregunta": "¿Qué profesión hizo famoso a Robert Capa, que documentó el desembarco de Normandía?",
+   "respuesta": "Fotógrafo",
+   "tambien_vale": [
+    "Fotoperiodista",
+    "Reportero gráfico",
+    "Fotógrafo de guerra"
+   ],
+   "criterio": "Debe mencionar la fotografía; «periodista» a secas no basta",
+   "explicacion": "Sus imágenes del Día D se publicaron en la revista «Life».",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Pintor",
+    "Escultor",
+    "Novelista",
+    "Actor",
+    "Compositor",
+    "Arquitecto",
+    "Caricaturista"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Los ecos submarinos definen el sonar sin necesidad de conocer esta guerra.",
+  "pregunta": {
+   "id": "seg-arm-16",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "armas",
+   "nivel": 3,
+   "pregunta": "¿Qué tecnología utilizaban los buques para detectar submarinos mediante ecos de sonido bajo el agua?",
+   "respuesta": "El sonar",
+   "tambien_vale": [
+    "Sonar",
+    "ASDIC",
+    "El ASDIC"
+   ],
+   "explicacion": "Los británicos empleaban el nombre ASDIC para sus equipos de detección acústica activa.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El radar",
+    "El periscopio",
+    "El hidrómetro",
+    "El sextante",
+    "El barómetro",
+    "El altímetro",
+    "El anemómetro"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Se resuelve con conocimientos generales sobre gases y dirigibles.",
+  "pregunta": {
+   "id": "seg-arm-18",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "armas",
+   "nivel": 3,
+   "pregunta": "¿Qué gas no inflamable mantenía en el aire los dirigibles antisubmarinos estadounidenses de la clase K?",
+   "respuesta": "El helio",
+   "tambien_vale": [
+    "Helio"
+   ],
+   "explicacion": "Estos dirigibles patrullaban el mar y escoltaban convoyes.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El hidrógeno",
+    "El oxígeno",
+    "El nitrógeno",
+    "El argón",
+    "El neón",
+    "El metano",
+    "El dióxido de carbono"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "Al excluir Noruega y Dinamarca, la geografía escandinava basta para responder.",
+  "pregunta": {
+   "id": "seg-eur-66",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "europa",
+   "nivel": 3,
+   "pregunta": "¿Qué país escandinavo se mantuvo neutral durante la guerra, a diferencia de Noruega y Dinamarca?",
+   "respuesta": "Suecia",
+   "tambien_vale": [],
+   "explicacion": "Aunque mantuvo su neutralidad, realizó concesiones comerciales y de tránsito a Alemania.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Finlandia",
+    "Islandia",
+    "Bélgica",
+    "Países Bajos",
+    "Estonia",
+    "Letonia",
+    "Lituania"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "La definición del servicio exterior británico permite responder sin conocer a Philby.",
+  "pregunta": {
+   "id": "seg-per-27",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 3,
+   "pregunta": "¿Con qué sigla se conoce al servicio secreto británico exterior en el que trabajó Kim Philby durante la guerra?",
+   "respuesta": "MI6",
+   "tambien_vale": [
+    "MI 6",
+    "SIS",
+    "Secret Intelligence Service"
+   ],
+   "explicacion": "Philby transmitía información a la Unión Soviética mientras trabajaba para ese servicio.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "MI5",
+    "CIA",
+    "OSS",
+    "SOE",
+    "GRU",
+    "NKVD",
+    "FBI"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "segunda_guerra",
+  "motivo": "El premio se puede adivinar por cultura periodística sin conocer a Ernie Pyle.",
+  "pregunta": {
+   "id": "seg-per-30",
+   "v": 1,
+   "categoria": "segunda_guerra",
+   "subtema": "personajes",
+   "nivel": 3,
+   "pregunta": "¿Qué premio periodístico recibió el corresponsal Ernie Pyle en 1944?",
+   "respuesta": "El Pulitzer",
+   "tambien_vale": [
+    "Pulitzer",
+    "Premio Pulitzer"
+   ],
+   "explicacion": "Sus crónicas se centraban en la vida cotidiana de los soldados de infantería estadounidenses.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El Peabody",
+    "El George Polk",
+    "El Ortega y Gasset",
+    "El Albert Londres",
+    "El Maria Moors Cabot",
+    "El World Press Photo",
+    "El European Press Prize"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Se responde por sentido común, sin conocer LEGO.",
+  "pregunta": {
+   "id": "sor-leg-12",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 1,
+   "pregunta": "¿Qué pieza giratoria permite que un coche LEGO ruede sobre el suelo?",
+   "respuesta": "Una rueda",
+   "tambien_vale": [
+    "Rueda",
+    "La rueda",
+    "Las ruedas"
+   ],
+   "explicacion": "En muchos modelos se montan neumáticos y llantas como elementos separados.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Una puerta",
+    "Una ventana",
+    "Una escalera",
+    "Una hélice",
+    "Una antena",
+    "Una valla",
+    "Una pala"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "La referencia a animales prehistóricos y parques jurásicos regala la respuesta.",
+  "pregunta": {
+   "id": "sor-leg-13",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 1,
+   "pregunta": "¿Qué animales prehistóricos protagonizan los parques del videojuego «LEGO Jurassic World»?",
+   "respuesta": "Los dinosaurios",
+   "tambien_vale": [
+    "Dinosaurios"
+   ],
+   "explicacion": "El juego permite controlar tanto a personajes humanos como a varios de estos animales.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los mamuts",
+    "Los trilobites",
+    "Los megaterios",
+    "Los gliptodontes",
+    "Los smilodones",
+    "Los ammonites",
+    "Los mastodontes"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Gotham y Robin permiten responder sin conocer los videojuegos de LEGO.",
+  "pregunta": {
+   "id": "sor-leg-14",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 1,
+   "pregunta": "¿Qué superhéroe de Gotham protagoniza varios videojuegos de LEGO acompañado por Robin?",
+   "respuesta": "Batman",
+   "tambien_vale": [
+    "Bruce Wayne"
+   ],
+   "explicacion": "El primer videojuego de LEGO protagonizado por este héroe se publicó en 2008.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Superman",
+    "Spider-Man",
+    "Iron Man",
+    "Thor",
+    "Hulk",
+    "Capitán América",
+    "Aquaman"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "La propia función de juzgar señala la respuesta, sin conocimientos de terrorismo.",
+  "pregunta": {
+   "id": "sor-ter-14",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "terrorismo",
+   "nivel": 1,
+   "pregunta": "¿Qué poder del Estado ejerce la función de juzgar los delitos de terrorismo?",
+   "respuesta": "El poder judicial",
+   "tambien_vale": [
+    "Poder judicial",
+    "El judicial",
+    "Judicial"
+   ],
+   "explicacion": "La separación de poderes distingue entre elaborar las leyes, ejecutarlas y juzgar su cumplimiento.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El poder ejecutivo",
+    "El poder legislativo",
+    "El poder municipal",
+    "El poder constituyente",
+    "El poder electoral",
+    "El poder diplomático",
+    "El poder militar"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Describe una bisagra corriente; no requiere conocimientos de LEGO.",
+  "pregunta": {
+   "id": "sor-leg-15",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 2,
+   "pregunta": "¿Qué mecanismo de unión permite que una puerta LEGO se abra y se cierre girando sobre un lado?",
+   "respuesta": "Una bisagra",
+   "tambien_vale": [
+    "Bisagra",
+    "La bisagra",
+    "Gozne",
+    "Charnela"
+   ],
+   "criterio": "Valen bisagra y sus sinónimos gozne o charnela.",
+   "explicacion": "También se utiliza para construir tapas y superficies que pueden inclinarse.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Una polea",
+    "Una cremallera",
+    "Una ventosa",
+    "Una tuerca",
+    "Una biela",
+    "Una correa",
+    "Una cadena"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "La atracción sin contacto permite deducir el imán sin conocer LEGO.",
+  "pregunta": {
+   "id": "sor-leg-16",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 2,
+   "pregunta": "¿Qué elemento permite unir muchos vagones LEGO mediante atracción, sin engancharlos con un gancho?",
+   "respuesta": "Un imán",
+   "tambien_vale": [
+    "Imán",
+    "El imán"
+   ],
+   "explicacion": "Los acoplamientos magnéticos permiten separar los vagones tirando de ellos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un muelle",
+    "Un tornillo",
+    "Un pasador",
+    "Un remache",
+    "Un clip",
+    "Un perno",
+    "Un cordón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Se responde por el material habitual de los neumáticos, sin conocer LEGO.",
+  "pregunta": {
+   "id": "sor-leg-17",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 2,
+   "pregunta": "¿De qué material elástico son los neumáticos negros de muchos vehículos LEGO?",
+   "respuesta": "El caucho",
+   "tambien_vale": [
+    "Caucho",
+    "Goma",
+    "La goma"
+   ],
+   "explicacion": "Su flexibilidad facilita montarlos sobre las llantas y mejora el agarre.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El corcho",
+    "El cuero",
+    "El fieltro",
+    "El cartón",
+    "El yeso",
+    "El vidrio",
+    "El aluminio"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Las casillas, reyes y alfiles identifican el ajedrez sin saber nada de LEGO.",
+  "pregunta": {
+   "id": "sor-leg-18",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 2,
+   "pregunta": "¿A qué juego corresponden los sets LEGO con un tablero de sesenta y cuatro casillas, reyes y alfiles?",
+   "respuesta": "El ajedrez",
+   "tambien_vale": [
+    "Ajedrez"
+   ],
+   "explicacion": "LEGO ha comercializado versiones en las que también se construyen las figuras del tablero.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El parchís",
+    "El dominó",
+    "El backgammon",
+    "El go",
+    "El mahjong",
+    "El Stratego",
+    "El Monopoly"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Es una definición jurídica general sin vínculo específico con el terrorismo.",
+  "pregunta": {
+   "id": "sor-ter-16",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "terrorismo",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llama la entrega de una persona por un Estado a otro para que sea juzgada o cumpla una condena?",
+   "respuesta": "La extradición",
+   "tambien_vale": [
+    "Extradición"
+   ],
+   "explicacion": "Los tratados que la regulan son instrumentos de cooperación internacional frente a delitos como el terrorismo.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La deportación",
+    "La amnistía",
+    "La repatriación",
+    "La recusación",
+    "La conmutación",
+    "La absolución",
+    "La prescripción"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Pregunta por una pieza de cualquier helicóptero; Vietnam es un añadido.",
+  "pregunta": {
+   "id": "sor-vie-15",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "vietnam",
+   "nivel": 2,
+   "pregunta": "¿Cómo se llama el conjunto de palas giratorias que permite elevarse a los helicópteros empleados en Vietnam?",
+   "respuesta": "El rotor",
+   "tambien_vale": [
+    "Rotor",
+    "El rotor principal",
+    "Rotor principal"
+   ],
+   "explicacion": "Sus palas generan la sustentación necesaria para mantener el helicóptero en el aire.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El alerón",
+    "El timón",
+    "El fuselaje",
+    "El tren de aterrizaje",
+    "El estabilizador",
+    "El depósito",
+    "El morro"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Describe un portaaviones sin exigir ningún conocimiento sobre Vietnam.",
+  "pregunta": {
+   "id": "sor-vie-17",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "vietnam",
+   "nivel": 2,
+   "pregunta": "¿Qué tipo de buque servía de pista flotante para los aviones estadounidenses que combatían en Vietnam?",
+   "respuesta": "Un portaaviones",
+   "tambien_vale": [
+    "Portaaviones",
+    "El portaaviones"
+   ],
+   "explicacion": "Estos buques permitían lanzar misiones aéreas desde el golfo de Tonkín.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un submarino",
+    "Un destructor",
+    "Un dragaminas",
+    "Un petrolero",
+    "Un acorazado",
+    "Un remolcador",
+    "Un patrullero"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Las tumbas y momias permiten responder por asociación sin conocer la colección.",
+  "pregunta": {
+   "id": "sor-leg-21",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 3,
+   "pregunta": "¿Qué civilización inspiró las tumbas y momias de la primera etapa de LEGO Adventurers?",
+   "respuesta": "La egipcia",
+   "tambien_vale": [
+    "Egipcia",
+    "Los egipcios",
+    "Egipto",
+    "El antiguo Egipto"
+   ],
+   "explicacion": "La temática reunía exploradores, vehículos y excavaciones en escenarios desérticos.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "La romana",
+    "La griega",
+    "La maya",
+    "La azteca",
+    "La inca",
+    "La persa",
+    "La china"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "sorpresa",
+  "motivo": "Se responde conociendo a los superhéroes, sin saber nada del videojuego de LEGO.",
+  "pregunta": {
+   "id": "sor-leg-22",
+   "v": 1,
+   "categoria": "sorpresa",
+   "subtema": "lego",
+   "nivel": 3,
+   "pregunta": "¿Qué grupo de superhéroes reúne a Iron Man, Thor y Hulk en un videojuego de LEGO de 2016?",
+   "respuesta": "Los Vengadores",
+   "tambien_vale": [
+    "Vengadores",
+    "Avengers",
+    "The Avengers"
+   ],
+   "explicacion": "El juego adapta acontecimientos de las dos primeras películas del grupo y de otras películas de Marvel.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Los X-Men",
+    "Los Cuatro Fantásticos",
+    "La Liga de la Justicia",
+    "Los Guardianes de la Galaxia",
+    "Los Inhumanos",
+    "Los Eternos",
+    "Los Jóvenes Titanes"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "star_wars",
+  "motivo": "La descripción de una sustancia fundida que fluye permite deducir lava sin conocer la saga.",
+  "pregunta": {
+   "id": "sta-pre-62",
+   "v": 1,
+   "categoria": "star_wars",
+   "subtema": "precuelas",
+   "nivel": 1,
+   "pregunta": "¿Qué sustancia fundida fluye bajo Anakin y Obi-Wan durante su duelo en Mustafar?",
+   "respuesta": "La lava",
+   "tambien_vale": [
+    "Lava",
+    "Roca fundida"
+   ],
+   "explicacion": "Los combatientes llegan a luchar sobre pequeñas plataformas que flotan encima de ella.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El mercurio",
+    "El hierro",
+    "El plomo",
+    "El oro",
+    "El cobre",
+    "El aluminio",
+    "El estaño"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "star_wars",
+  "motivo": "El fondo espacial se deduce del género y del propio título sin conocer las películas.",
+  "pregunta": {
+   "id": "sta-pre-65",
+   "v": 1,
+   "categoria": "star_wars",
+   "subtema": "precuelas",
+   "nivel": 1,
+   "pregunta": "¿Qué se ve de fondo mientras se aleja el texto amarillo al comienzo de cada precuela?",
+   "respuesta": "El espacio",
+   "tambien_vale": [
+    "Espacio",
+    "El espacio exterior",
+    "Un cielo estrellado",
+    "Las estrellas"
+   ],
+   "explicacion": "El texto inicial sitúa la historia antes de que comience la primera escena.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El mar",
+    "El desierto",
+    "El bosque",
+    "La ciudad",
+    "La montaña",
+    "La selva",
+    "El océano"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "star_wars",
+  "motivo": "La marca se deduce por las piezas de construcción sin saber nada de Star Wars.",
+  "pregunta": {
+   "id": "sta-ser-15",
+   "v": 1,
+   "categoria": "star_wars",
+   "subtema": "series",
+   "nivel": 1,
+   "pregunta": "¿Qué marca de juguetes da nombre a los videojuegos de Star Wars con personajes de piezas de construcción?",
+   "respuesta": "LEGO",
+   "tambien_vale": [],
+   "explicacion": "Estos juegos recrean las aventuras de la saga con figuras articuladas, construcciones desmontables y humor.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Playmobil",
+    "Meccano",
+    "Mattel",
+    "Hasbro",
+    "Famosa",
+    "Fisher-Price",
+    "Bandai"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "star_wars",
+  "motivo": "Un abrazo es la respuesta convencional a un encuentro afectuoso; aporta poco conocimiento.",
+  "pregunta": {
+   "id": "sta-sec-68",
+   "v": 1,
+   "categoria": "star_wars",
+   "subtema": "secuelas",
+   "nivel": 2,
+   "pregunta": "¿Qué gesto de afecto tiene Leia con Rey cuando se encuentran tras la muerte de Han Solo?",
+   "respuesta": "La abraza",
+   "tambien_vale": [
+    "Un abrazo",
+    "Abrazarla",
+    "Le da un abrazo"
+   ],
+   "explicacion": "El encuentro tiene lugar cuando los supervivientes regresan a la base de la Resistencia.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Le besa la frente",
+    "Le estrecha la mano",
+    "Le acaricia el pelo",
+    "Le besa la mejilla",
+    "Le da una palmada",
+    "Le hace una reverencia",
+    "Le guiña un ojo"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "star_wars",
+  "motivo": "El método de cocción es un detalle culinario de relleno, no conocimiento relevante de la saga.",
+  "pregunta": {
+   "id": "sta-sec-71",
+   "v": 1,
+   "categoria": "star_wars",
+   "subtema": "secuelas",
+   "nivel": 3,
+   "pregunta": "¿Cómo está cocinado el porg que Chewbacca se dispone a comer en «Los últimos Jedi»?",
+   "respuesta": "Asado",
+   "tambien_vale": [
+    "Está asado",
+    "Al fuego",
+    "A la brasa"
+   ],
+   "explicacion": "Otros porgs lo observan y Chewbacca termina renunciando a darle un bocado.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Hervido",
+    "Frito",
+    "Al vapor",
+    "Ahumado",
+    "Guisado",
+    "Rebozado",
+    "Escabechado"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "El tipo de recinto se deduce sin conocer sus conciertos.",
+  "pregunta": {
+   "id": "tay-esc-62",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 1,
+   "pregunta": "¿En qué tipo de recinto deportivo celebró Taylor Swift sus conciertos de Madrid de 2024?",
+   "respuesta": "Un estadio",
+   "tambien_vale": [
+    "Estadio",
+    "Un estadio de fútbol",
+    "Estadio de fútbol"
+   ],
+   "explicacion": "El Santiago Bernabéu acogió las dos actuaciones madrileñas de The Eras Tour.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Un velódromo",
+    "Un hipódromo",
+    "Un frontón",
+    "Un polideportivo",
+    "Un circuito",
+    "Un canódromo",
+    "Un pabellón"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La pista «reina del pop» permite responder sin saber nada de Taylor Swift.",
+  "pregunta": {
+   "id": "tay-esc-65",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 1,
+   "pregunta": "¿Qué cantante conocida como la «reina del pop» interpretó «Ghosttown» acompañada por Taylor Swift a la guitarra en 2015?",
+   "respuesta": "Madonna",
+   "tambien_vale": [],
+   "explicacion": "Compartieron escenario en los iHeartRadio Music Awards.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Cher",
+    "Kylie Minogue",
+    "Britney Spears",
+    "Christina Aguilera",
+    "Lady Gaga",
+    "Cyndi Lauper",
+    "Janet Jackson"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La referencia al Sena permite responder por geografía, sin conocer el videoclip.",
+  "pregunta": {
+   "id": "tay-pan-01",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "pantallas",
+   "nivel": 1,
+   "pregunta": "¿En qué ciudad pasea Taylor Swift junto al Sena en el videoclip de «Begin Again»?",
+   "respuesta": "París",
+   "tambien_vale": [],
+   "explicacion": "El vídeo incluye el Pont des Arts y escenas en una cafetería parisina.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Roma",
+    "Madrid",
+    "Berlín",
+    "Lisboa",
+    "Viena",
+    "Praga",
+    "Ámsterdam"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Pregunta por la protagonista de Hannah Montana, no por Taylor Swift.",
+  "pregunta": {
+   "id": "tay-pan-64",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "pantallas",
+   "nivel": 1,
+   "pregunta": "¿Qué cantante interpreta a la protagonista de «Hannah Montana: La película», donde Taylor Swift aparece cantando?",
+   "respuesta": "Miley Cyrus",
+   "tambien_vale": [
+    "Cyrus"
+   ],
+   "explicacion": "Taylor Swift interpreta «Crazier» durante una actuación dentro de la película.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Demi Lovato",
+    "Selena Gomez",
+    "Ariana Grande",
+    "Hilary Duff",
+    "Ashley Tisdale",
+    "Vanessa Hudgens",
+    "Bridgit Mendler"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Se responde con cultura literaria sin conocer a Taylor Swift.",
+  "pregunta": {
+   "id": "tay-can-05",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "canciones",
+   "nivel": 2,
+   "pregunta": "¿Qué dramaturgo creó a los dos amantes cuyos nombres aparecen en «Love Story»?",
+   "respuesta": "William Shakespeare",
+   "tambien_vale": [
+    "Shakespeare"
+   ],
+   "explicacion": "La canción transforma la tragedia de los amantes de Verona en una historia con desenlace feliz.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Charles Dickens",
+    "Miguel de Cervantes",
+    "Federico García Lorca",
+    "Oscar Wilde",
+    "Julio Verne",
+    "Victor Hugo",
+    "Hans Christian Andersen"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La traducción del título permite responder solo con conocimientos de inglés.",
+  "pregunta": {
+   "id": "tay-dis-68",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "discos",
+   "nivel": 2,
+   "pregunta": "¿Qué canción de «Lover» cuenta un romance secreto de verano y tiene un título que significa «verano cruel»?",
+   "respuesta": "Cruel Summer",
+   "tambien_vale": [],
+   "explicacion": "Su estribillo contrasta la intensidad del enamoramiento con el sufrimiento que provoca.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "False God",
+    "Paper Rings",
+    "Afterglow",
+    "Daylight",
+    "London Boy",
+    "Cornelia Street",
+    "The Archer"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La traducción literal revela el título sin necesitar conocimientos del tema.",
+  "pregunta": {
+   "id": "tay-dis-69",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "discos",
+   "nivel": 2,
+   "pregunta": "¿Qué canción de «1989» trata de una amistad rota y tiene un título que significa «mala sangre»?",
+   "respuesta": "Bad Blood",
+   "tambien_vale": [],
+   "explicacion": "La versión del álbum y la versión del sencillo tienen grabaciones distintas; esta segunda incorpora rap.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Clean",
+    "This Love",
+    "New Romantics",
+    "Wonderland",
+    "All You Had to Do Was Stay",
+    "How You Get the Girl",
+    "Say Don't Go"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Es una pregunta de vocabulario inglés disfrazada de pregunta musical.",
+  "pregunta": {
+   "id": "tay-dis-70",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "discos",
+   "nivel": 2,
+   "pregunta": "¿Qué canción de Taylor Swift se titula con un adjetivo inglés que significa «guapísimo» o «precioso»?",
+   "respuesta": "Gorgeous",
+   "tambien_vale": [],
+   "explicacion": "Forma parte de «Reputation» y comienza con una voz infantil pronunciando el título.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Fearless",
+    "Timeless",
+    "Innocent",
+    "Invisible",
+    "Untouchable",
+    "Breathless",
+    "Heartless"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Basta traducir al inglés las palabras que proporciona el enunciado.",
+  "pregunta": {
+   "id": "tay-dis-71",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "discos",
+   "nivel": 2,
+   "pregunta": "¿Qué canción de Taylor Swift tiene un título que se traduce literalmente como «Sueños más salvajes»?",
+   "respuesta": "Wildest Dreams",
+   "tambien_vale": [],
+   "explicacion": "La grabación original forma parte del álbum «1989».",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Sweet Dreams",
+    "Beautiful Dreams",
+    "Broken Dreams",
+    "Golden Dreams",
+    "Silent Dreams",
+    "Endless Dreams",
+    "Secret Dreams"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La descripción traduce prácticamente el título y permite responder sin conocerla.",
+  "pregunta": {
+   "id": "tay-dis-73",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "discos",
+   "nivel": 2,
+   "pregunta": "¿Qué canción de «1989» repite en su estribillo una pregunta sobre haber salido del bosque?",
+   "respuesta": "Out of the Woods",
+   "tambien_vale": [],
+   "explicacion": "El bosque funciona como una imagen de la incertidumbre y la ansiedad dentro de una relación.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Wildest Dreams",
+    "This Love",
+    "Clean",
+    "Wonderland",
+    "New Romantics",
+    "Slut!",
+    "Say Don't Go"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "El cantante canadiense de «Baby» se identifica sin conocer la gira.",
+  "pregunta": {
+   "id": "tay-esc-69",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 2,
+   "pregunta": "¿Qué cantante canadiense interpretó su éxito «Baby» como invitado de Taylor Swift en el Speak Now World Tour?",
+   "respuesta": "Justin Bieber",
+   "tambien_vale": [
+    "Bieber"
+   ],
+   "explicacion": "La colaboración tuvo lugar en el Staples Center de Los Ángeles en 2011.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Shawn Mendes",
+    "Michael Bublé",
+    "Bryan Adams",
+    "Drake",
+    "The Weeknd",
+    "Daniel Powter",
+    "Carly Rae Jepsen"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "NSYNC y «Mirrors» identifican al cantante sin saber nada de Taylor Swift.",
+  "pregunta": {
+   "id": "tay-esc-71",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 2,
+   "pregunta": "¿Qué antiguo miembro de NSYNC cantó «Mirrors» con Taylor Swift en el 1989 World Tour?",
+   "respuesta": "Justin Timberlake",
+   "tambien_vale": [
+    "Timberlake"
+   ],
+   "explicacion": "Fue uno de los invitados del concierto del Staples Center del 26 de agosto de 2015.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "JC Chasez",
+    "Lance Bass",
+    "Joey Fatone",
+    "Chris Kirkpatrick",
+    "Nick Carter",
+    "Brian Littrell",
+    "AJ McLean"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Basta saber en qué estado está Malibú; no exige conocer el videoclip.",
+  "pregunta": {
+   "id": "tay-pan-11",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "pantallas",
+   "nivel": 2,
+   "pregunta": "¿En qué estado estadounidense se rodó el videoclip de «22», con escenas en una casa y en la playa de Malibú?",
+   "respuesta": "California",
+   "tambien_vale": [],
+   "explicacion": "Malibú es una ciudad costera del condado de Los Ángeles.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Oregón",
+    "Washington",
+    "Hawái",
+    "Carolina del Norte",
+    "Carolina del Sur",
+    "Nueva Jersey",
+    "Massachusetts"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La descripción identifica el musical sin conocer la participación de Taylor.",
+  "pregunta": {
+   "id": "tay-pan-66",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "pantallas",
+   "nivel": 2,
+   "pregunta": "¿En qué musical de cine aparece Taylor Swift junto a personajes con bigotes, orejas y colas de felino?",
+   "respuesta": "Cats",
+   "tambien_vale": [],
+   "explicacion": "La película adapta el musical teatral de Andrew Lloyd Webber.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Wicked",
+    "Grease",
+    "Chicago",
+    "Hairspray",
+    "Annie",
+    "Cabaret",
+    "Matilda"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La pista «cantante de Espresso» da la respuesta sin conocer la gira.",
+  "pregunta": {
+   "id": "tay-esc-01",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 3,
+   "pregunta": "¿Qué cantante de «Espresso» fue telonera del Eras Tour en Australia en 2024?",
+   "respuesta": "Sabrina Carpenter",
+   "tambien_vale": [
+    "Carpenter"
+   ],
+   "explicacion": "También abrió conciertos de la gira en Latinoamérica y Singapur.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Dua Lipa",
+    "Olivia Rodrigo",
+    "Ariana Grande",
+    "Miley Cyrus",
+    "Demi Lovato",
+    "Billie Eilish",
+    "Meghan Trainor"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Se identifica a la cantante por «Complicated», sin conocer ese concierto.",
+  "pregunta": {
+   "id": "tay-esc-24",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 3,
+   "pregunta": "¿Qué cantante interpretó «Complicated» con Taylor durante el 1989 World Tour en San Diego?",
+   "respuesta": "Avril Lavigne",
+   "tambien_vale": [
+    "Avril",
+    "Lavigne"
+   ],
+   "explicacion": "La actuación reunió a ambas sobre el escenario en agosto de 2015.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Kelly Clarkson",
+    "Hilary Duff",
+    "Ashlee Simpson",
+    "Demi Lovato",
+    "Miley Cyrus",
+    "Vanessa Carlton",
+    "Michelle Branch"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "La descripción permite identificar el instrumento sin conocer la actuación.",
+  "pregunta": {
+   "id": "tay-esc-72",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 3,
+   "pregunta": "En su actuación de «Mean» en los Grammy, ¿qué instrumento de cuerda y cuerpo redondo tocaba Taylor Swift?",
+   "respuesta": "El banjo",
+   "tambien_vale": [
+    "Banjo",
+    "Un banjo",
+    "Un banjo de seis cuerdas"
+   ],
+   "explicacion": "La actuación de 2012 recreaba un ambiente rural y terminó con el público en pie.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "El violín",
+    "El contrabajo",
+    "El violonchelo",
+    "El arpa",
+    "El laúd",
+    "El ukelele",
+    "El bajo"
+   ]
+  },
+  "no_apta": null
+ },
+ {
+  "tema": "taylor_swift",
+  "motivo": "Take That y «Angels» identifican al cantante sin conocer la gira.",
+  "pregunta": {
+   "id": "tay-esc-73",
+   "v": 1,
+   "categoria": "taylor_swift",
+   "subtema": "escenarios",
+   "nivel": 3,
+   "pregunta": "¿Qué antiguo miembro de Take That interpretó «Angels» con Taylor Swift en Wembley durante el Reputation Stadium Tour?",
+   "respuesta": "Robbie Williams",
+   "tambien_vale": [
+    "Williams"
+   ],
+   "explicacion": "Su aparición como invitado se produjo en junio de 2018.",
+   "origen": "generada"
+  },
+  "opciones": {
+   "v": 1,
+   "incorrectas": [
+    "Gary Barlow",
+    "Mark Owen",
+    "Howard Donald",
+    "Jason Orange",
+    "Ronan Keating",
+    "Shane Filan",
+    "Brian McFadden"
+   ]
+  },
+  "no_apta": null
+ }
+]

@@ -41,7 +41,7 @@ Cada pregunta trae 7 opciones incorrectas: a solas se responde eligiendo entre e
 - `opciones_mal`: las opciones que fallan, copiadas tal cual.
 - `opciones_nuevas`: el mismo número de sustitutas: falsas sin ninguna duda, del mismo tipo y formato que la correcta, verosímiles para el nivel, de menos de 30 caracteres si se puede y distintas de las demás.
 
-Unas opciones flojas no son motivo para descartar ni corregir la pregunta: se arreglan aquí y el veredicto sigue siendo el de la pregunta. Si están bien, las dos listas van vacías.
+En los niveles 1 a 3 de un tema, que las opciones sean graciosas o disparatadas no es un fallo: lo pidió el usuario (salvo en los temas serios: guerras, terrorismo, medicamentos). Unas opciones flojas no son motivo para descartar ni corregir la pregunta: se arreglan aquí y el veredicto sigue siendo el de la pregunta. Si están bien, las dos listas van vacías.
 
 <!-- seccion: mapa -->
 ## Localízalo (preguntas de mapa)

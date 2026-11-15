@@ -87,9 +87,6 @@
     "har-mag-12": {"v": 1, "incorrectas": ["El roble centenario", "El olmo encantado", "El fresno retorcido", "El tejo guardián", "El abedul plateado", "El castaño espinoso", "El pino silbador"]},
     "har-mag-13": {"v": 1, "incorrectas": ["Pociones", "Transformaciones", "Encantamientos", "Astronomía", "Adivinación", "Aritmancia", "Runas Antiguas"]},
     "har-mag-14": {"v": 1, "incorrectas": ["Crucio", "Imperio", "Expelliarmus", "Petrificus Totalus", "Sectumsempra", "Stupefy", "Expecto Patronum"]},
-    "har-mag-15": {"v": 1, "incorrectas": ["El miedo", "El odio", "La ira", "La culpa", "La tristeza", "La vergüenza", "La envidia"]},
-    "har-mag-16": {"v": 1, "incorrectas": ["Un matraz", "Un mortero", "Una retorta", "Un alambique", "Una probeta", "Un crisol", "Un vaso de precipitados"]},
-    "har-mag-17": {"v": 1, "incorrectas": ["Pulmones", "Tráqueas", "Espiráculos", "Sacos aéreos", "Vejigas natatorias", "Fosas nasales", "Riñones"]},
     "har-mag-18": {"v": 1, "incorrectas": ["Los gnomos", "Los doxies", "Los imps", "Los pogrebins", "Los elfos domésticos", "Los duendes", "Los leprechauns"]},
     "har-mag-19": {"v": 1, "incorrectas": ["Una ardilla", "Una cobaya", "Una comadreja", "Una chinchilla", "Una musaraña", "Una liebre", "Una nutria"]},
     "har-mag-20": {"v": 1, "incorrectas": ["Las mandrágoras", "Las ortigas", "Las margaritas", "Las tentáculas venenosas", "Los geranios con colmillos", "Los bubotubérculos", "Los eléboros"]},
@@ -134,7 +131,6 @@
     "har-mag-59": {"v": 1, "incorrectas": ["El bubotubérculo", "La tentácula venenosa", "El geranio con colmillos", "El sauce boxeador", "La mandrágora", "El lazo del diablo", "El díctamo"]},
     "har-mag-60": {"v": 1, "incorrectas": ["Sicomoro", "Peral", "Alerce", "Serbal", "Endrino", "Avellano", "Laurel"]},
     "har-mag-61": {"v": 1, "incorrectas": ["Un vampiro", "Un centauro", "Un gigante", "Un ogro", "Un zombi", "Un demonio", "Un espectro"]},
-    "har-mag-63": {"v": 1, "incorrectas": ["Los sátiros", "Los minotauros", "Los faunos", "Los grifos", "Los cíclopes", "Los ogros", "Los trolls"]},
     "har-mag-64": {"v": 1, "incorrectas": ["Una trompa de elefante", "Unas orejas de burro", "Un pico de pato", "Unos cuernos de cabra", "Unas alas de gallina", "Una melena de león", "Un cuello de jirafa"]},
     "har-mag-65": {"v": 1, "incorrectas": ["Se encoge", "Se vuelve invisible", "Se convierte en piedra", "Se cubre de plumas", "Se vuelve transparente", "Se transforma en humo", "Se cubre de escamas"]},
     "har-mag-66": {"v": 1, "incorrectas": ["Caracoles", "Gusanos", "Sanguijuelas", "Escarabajos", "Cucarachas", "Saltamontes", "Renacuajos"]},
@@ -228,7 +224,6 @@
     "har-pel-09": {"v": 1, "incorrectas": ["Simon McBurney", "Warwick Davis", "Timothy Spall", "Jim Broadbent", "Andy Serkis", "Bill Nighy", "Jason Isaacs"]},
     "har-pel-10": {"v": 1, "incorrectas": ["Frank Dillane", "Hero Fiennes Tiffin", "Tom Sturridge", "Harry Lloyd", "Hugh Dancy", "Ben Whishaw", "Eddie Redmayne"]},
     "har-pel-11": {"v": 1, "incorrectas": ["5", "6", "7", "9", "10", "11", "12"]},
-    "har-pel-12": {"v": 1, "incorrectas": ["Español", "Francés", "Alemán", "Italiano", "Portugués", "Japonés", "Ruso"]},
     "har-pel-13": {"v": 1, "incorrectas": ["1", "3", "4", "5", "6", "7", "8"]},
     "har-pel-14": {"v": 1, "incorrectas": ["Las damas", "El parchís", "El dominó", "El go", "El backgammon", "El mahjong", "El tres en raya"]},
     "har-pel-15": {"v": 1, "incorrectas": ["Una moto", "Un autobús", "Un tren", "Una furgoneta", "Un camión", "Un carruaje", "Una bicicleta"]},
@@ -289,7 +284,16 @@
     "har-pel-72": {"v": 1, "incorrectas": ["Glenogle", "Culloden", "Findhorn", "Leaderfoot", "Ballochmyle", "Garrion", "Nethan"]},
     "har-pel-73": {"v": 1, "incorrectas": ["Loch Shiel", "Loch Morar", "Loch Arkaig", "Loch Garry", "Loch Quoich", "Loch Laggan", "Loch Treig"]},
     "har-pel-74": {"v": 1, "incorrectas": ["Un ogro", "Un gigante", "Un dragón", "Un duende", "Un centauro", "Un hombre lobo", "Un basilisco"]},
-    "har-pel-75": {"v": 1, "incorrectas": ["Una escama", "Una costilla", "Una vértebra", "Una lengua", "Un ojo", "Un cuerno", "Una garra"]}
+    "har-pel-75": {"v": 1, "incorrectas": ["Una escama", "Una costilla", "Una vértebra", "Una lengua", "Un ojo", "Un cuerno", "Una garra"]},
+    "har-mag-74": {"v": 1, "incorrectas": ["Un fontanero de Liverpool", "Un vampiro con gafas", "Un alfarero («potter», en inglés)", "Un hobbit", "Un pirata del Caribe", "Un detective de Londres", "Un jugador del Arsenal"]},
+    "har-mun-77": {"v": 1, "incorrectas": ["Pringados", "Humanillos", "Normalitos", "Terrícolas", "Sosainas", "Pardillos", "Mortadelos"]},
+    "har-mun-78": {"v": 1, "incorrectas": ["Saltar a la pata coja", "Decir «¡Ábrete, sésamo!»", "Enseñar el DNI", "Dar tres vueltas al revisor", "Cantar el himno del colegio", "Silbar a una lechuza", "Comprar un churro"]},
+    "har-mun-79": {"v": 1, "incorrectas": ["Cobran peaje", "Cantan villancicos", "Se derriten con el sol", "Te riñen si corres", "Bailan claqué", "Hacen cosquillas", "Se esconden los domingos"]},
+    "har-lib-74": {"v": 1, "incorrectas": ["Un patinete", "Un dragón bebé", "Unos calcetines de lana", "Una pecera", "Un balón de fútbol", "Una tostadora", "Un loro parlanchín"]},
+    "har-pel-76": {"v": 1, "incorrectas": ["Con el pie", "Con la escoba", "Con un cazamariposas", "Con el sombrero", "Con la oreja", "Con la capa", "Con un tarro de mermelada"]},
+    "har-mag-75": {"v": 1, "incorrectas": ["A moco", "A calcetín sucio", "A sardina", "A jabón", "A tierra", "A coles de Bruselas", "A pelo de gato"]},
+    "har-mag-76": {"v": 1, "incorrectas": ["Con chicle", "Con tiritas", "Con pegamento de barra", "Con plastilina", "Con un clavo", "Con chocolate fundido", "Con hilo dental"]},
+    "har-lib-75": {"v": 1, "incorrectas": ["Agatha Christie", "Jane Austen", "Enid Blyton", "Roald Dahl", "Mary Poppins", "La reina de Inglaterra", "Matilda"]}
   },
   "no_aptas": {
     "har-mun-03": "Solo hay tres tipos de pelota en el quidditch; no permite siete distractores verosímiles del mismo tipo sin inventarlos."

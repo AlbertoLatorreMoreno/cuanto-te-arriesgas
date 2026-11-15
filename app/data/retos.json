@@ -716,7 +716,7 @@
    ],
    "preguntas": [
     "sta-ser-01",
-    "sta-sec-02",
+    "sta-pre-79",
     "sta-pre-03",
     "sta-ori-04",
     "sta-ser-05",
@@ -804,7 +804,7 @@
    "preguntas": [
     "mar-pel-01",
     "mar-com-02",
-    "mar-act-03",
+    "mar-per-03",
     "mar-per-04",
     "mar-com-05",
     "mar-com-06",
@@ -918,7 +918,7 @@
     "juego_de_tronos"
    ],
    "preguntas": [
-    "jue-lib-01",
+    "jue-act-73",
     "jue-ser-02",
     "jue-cas-03",
     "jue-act-04",
@@ -1006,8 +1006,8 @@
    ],
    "preguntas": [
     "seg-per-14",
-    "seg-per-01",
-    "seg-eur-03",
+    "seg-pac-16",
+    "seg-pac-62",
     "seg-arm-04",
     "seg-per-05",
     "seg-pac-06",
@@ -1124,7 +1124,7 @@
     "sor-med-01",
     "sor-ter-02",
     "sor-vie-03",
-    "sor-leg-04",
+    "sor-leg-19",
     "sor-sam-05",
     "sor-leg-06",
     "sor-ter-07",

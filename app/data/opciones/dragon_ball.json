@@ -2,11 +2,8 @@
   "formato": 1,
   "opciones": {
     "dra-ada-01": {"v": 1, "incorrectas": ["Eiichiro Oda", "Masashi Kishimoto", "Tite Kubo", "Hiro Mashima", "Yoshihiro Togashi", "Takehiko Inoue", "Masami Kurumada"]},
-    "dra-ada-02": {"v": 1, "incorrectas": ["China", "Corea del Sur", "Estados Unidos", "Francia", "España", "Italia", "Taiwán"]},
-    "dra-ada-03": {"v": 1, "incorrectas": ["Ending", "Tráiler", "Teaser", "Recap", "Cliffhanger", "Remake", "Crossover"]},
     "dra-ada-04": {"v": 1, "incorrectas": ["Slug", "Turles", "Bojack", "Janemba", "Hildegarn", "Garlick Jr.", "Paragus"]},
     "dra-ada-05": {"v": 1, "incorrectas": ["Vegetto", "Gotenks", "Gohan", "Trunks", "Bardock", "Broly", "Goten"]},
-    "dra-ada-06": {"v": 1, "incorrectas": ["Castellano", "Gallego", "Euskera", "Francés", "Italiano", "Portugués", "Inglés"]},
     "dra-ada-07": {"v": 1, "incorrectas": ["El brazo derecho", "Ambos brazos", "La pierna izquierda", "La pierna derecha", "Ambas piernas", "La mano derecha", "El pie izquierdo"]},
     "dra-ada-08": {"v": 1, "incorrectas": ["16 y 17", "18 y 19", "19 y 20", "13 y 14", "14 y 15", "15 y 16", "16 y 18"]},
     "dra-ada-09": {"v": 1, "incorrectas": ["Minotia", "Paragus", "Bojack", "Turles", "Slug", "Cooler", "Garlick Jr."]},
@@ -216,7 +213,6 @@
     "dra-sag-67": {"v": 1, "incorrectas": ["Porunga", "Freezer", "Cell", "Nappa", "Raditz", "Dabura", "Ginyu"]},
     "dra-sag-68": {"v": 1, "incorrectas": ["La absorción", "La posesión", "La clonación", "La hipnosis", "La regeneración", "La telepatía", "La multiplicación"]},
     "dra-sag-69": {"v": 1, "incorrectas": ["Las lunas", "Las flechas", "Las espirales", "Las cruces", "Las flores", "Las coronas", "Las llamas"]},
-    "dra-sag-70": {"v": 1, "incorrectas": ["Un casco", "Una corona", "Un sombrero", "Una diadema", "Un lazo", "Un pañuelo", "Una capucha"]},
     "dra-sag-71": {"v": 1, "incorrectas": ["Un salto mortal", "Una carrera", "Una reverencia", "Un pulso", "Una voltereta", "Una flexión", "Una patada"]},
     "dra-sag-72": {"v": 1, "incorrectas": ["Entrenarla para luchar", "Buscar a su padre", "Regalarle una casa", "Llevarla de viaje", "Enseñarle a volar", "Presentarle a su abuelo", "Conseguirle un tesoro"]},
     "dra-sag-73": {"v": 1, "incorrectas": ["Una moto", "Un camión", "Un autobús", "Un tractor", "Un tanque", "Un avión", "Un helicóptero"]},
@@ -224,7 +220,7 @@
     "dra-sag-75": {"v": 1, "incorrectas": ["Hielo", "Madera", "Hierro", "Oro", "Arena", "Sal", "Arcilla"]},
     "dra-sag-76": {"v": 1, "incorrectas": ["Giran", "Bacterian", "Yamcha", "Krilin", "Jackie Chun", "Son Goku", "Ten Shin Han"]},
     "dra-sag-78": {"v": 1, "incorrectas": ["Un escudo", "Un carcaj", "Un paraguas", "Un saco", "Un tambor", "Un cofre", "Un flotador"]},
-    "dra-uni-01": {"v": 1, "incorrectas": ["Super Saiyan 2", "Super Saiyan 3", "Super Saiyan 4", "Super Saiyan Dios", "Super Saiyan Blue", "Ultra Instinto", "Ozaru"]},
+    "dra-uni-01": {"v": 1, "incorrectas": ["Ozaru", "Super Saiyan 3", "Ultra Instinto", "Kaioken", "Modo turbo", "Supermono dorado", "Goku gigante"]},
     "dra-uni-02": {"v": 1, "incorrectas": ["Sala de la Gravedad", "Sala del Péndulo", "Palacio de Uranai Baba", "Templo de Orin", "Palacio de Enma", "Laboratorio del doctor Gero", "Nave de Babidi"]},
     "dra-uni-03": {"v": 1, "incorrectas": ["Las habas rojas", "Las ciruelas secas", "Las bayas azules", "Las nueces doradas", "Las algas verdes", "Las setas blancas", "Las raíces dulces"]},
     "dra-uni-04": {"v": 1, "incorrectas": ["Las tarjetas", "Las pulseras", "Las monedas", "Las esferas", "Las botellas", "Las cajas", "Las pastillas"]},
@@ -293,7 +289,14 @@
     "dra-uni-74": {"v": 1, "incorrectas": ["Kikoho", "Sokidan", "Makankosappo", "Kienzan", "Masenko", "Galick Ho", "Big Bang Attack"]},
     "dra-uni-75": {"v": 1, "incorrectas": ["Corporación Umbrella", "Industrias Stark", "Empresas Wayne", "Industrias Oscorp", "Corporación Weyland", "Corporación Cyberdyne", "Corporación Tyrell"]},
     "dra-uni-76": {"v": 1, "incorrectas": ["Planeta Namek", "Planeta Vegeta", "Planeta Yardrat", "Planeta de Bills", "Planeta Vampa", "Planeta Sadala", "Planeta Nuevo Namek"]},
-    "dra-uni-77": {"v": 1, "incorrectas": ["Camino del Dragón", "Sendero de la Tortuga", "Ruta del Tigre", "Camino del Fénix", "Sendero de la Grulla", "Ruta del Mono", "Camino del Lobo"]}
+    "dra-uni-77": {"v": 1, "incorrectas": ["Camino del Dragón", "Sendero de la Tortuga", "Ruta del Tigre", "Camino del Fénix", "Sendero de la Grulla", "Ruta del Mono", "Camino del Lobo"]},
+    "dra-per-79": {"v": 1, "incorrectas": ["Hacer los deberes", "Ir de compras", "Hacer punto de cruz", "Ver telenovelas", "Estudiar matemáticas", "Bailar flamenco", "Jugar al golf"]},
+    "dra-uni-78": {"v": 1, "incorrectas": ["Cocinar paella", "Cantar ópera", "Echarse la siesta", "Dar consejos sentimentales", "Repartir caramelos", "Arreglar coches", "Hacer de taxi"]},
+    "dra-ada-80": {"v": 1, "incorrectas": ["Un torneo de pádel", "Una marca de chicles", "Un baile de los noventa", "Una bola de discoteca", "Un juego de bolos", "Un concurso de cocina", "Una pelota de playa"]},
+    "dra-per-80": {"v": 1, "incorrectas": ["Que se resfría", "Que se pierde", "Que se cae de la nube", "Que le roban las bolas de dragón", "Que se duerme en los combates", "Que se transforma en mono", "Que lo deja plantado la número 18"]},
+    "dra-per-81": {"v": 1, "incorrectas": ["Le crece como a Pinocho", "Le pica", "Estornuda", "Se le cae", "Le silba", "Se le hincha", "Le sale humo"]},
+    "dra-per-82": {"v": 1, "incorrectas": ["Rapado al cero", "Con tupé", "Con trenzas", "Con flequillo recto", "Con rastas", "Con moño", "Liso y por la cintura"]},
+    "dra-per-83": {"v": 1, "incorrectas": ["Un humano normal", "Un robot", "Un mono de verdad", "Un dios griego", "Un ninja", "Un fantasma", "Un dragón"]}
   },
   "no_aptas": {
   }

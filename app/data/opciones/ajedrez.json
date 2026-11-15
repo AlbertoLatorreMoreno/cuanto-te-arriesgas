@@ -150,9 +150,7 @@
     "aje-his-58": {"v": 1, "incorrectas": ["1", "2", "3", "5", "6", "7", "8"]},
     "aje-his-59": {"v": 1, "incorrectas": ["Frydman", "Appel", "Regedziński", "Kremer", "Makarczyk", "Pogorieły", "Tylkowski"]},
     "aje-his-60": {"v": 1, "incorrectas": ["Adolf Schwarz", "Max Weiss", "Josef Heral", "Berthold Englisch", "Julius Fleissig", "Wilhelm Hanstein", "Carl Jaenisch"]},
-    "aje-his-61": {"v": 1, "incorrectas": ["La Primera Guerra Mundial", "La Segunda Guerra Mundial", "La guerra de Crimea", "La guerra franco-prusiana", "La guerra de los Bóeres", "La guerra de Secesión", "La guerra de los Treinta Años"]},
     "aje-his-67": {"v": 1, "incorrectas": ["Suecia", "Dinamarca", "Finlandia", "Islandia", "Alemania", "Rusia", "Países Bajos"]},
-    "aje-his-69": {"v": 1, "incorrectas": ["Neville Longbottom", "Draco Malfoy", "Seamus Finnigan", "Dean Thomas", "Fred Weasley", "George Weasley", "Percy Weasley"]},
     "aje-his-71": {"v": 1, "incorrectas": ["0", "0,5", "1,5", "2", "2,5", "3", "4"]},
     "aje-his-73": {"v": 1, "incorrectas": ["Unas eliminatorias", "Unas partidas rápidas", "Unas partidas relámpago", "Unas partidas aplazadas", "Unas partidas por equipos", "Unas partidas de desempate", "Unas partidas de entrenamiento"]},
     "aje-his-74": {"v": 1, "incorrectas": ["A la descubierta", "Al toque", "En consulta", "Por equipos", "Por correspondencia", "A la ventaja", "En blitz"]},
@@ -217,7 +215,6 @@
     "aje-rec-58": {"v": 1, "incorrectas": ["Grimshaw", "Novotny", "Bristol", "Turton", "Loyd", "Indian", "Albino"]},
     "aje-rec-59": {"v": 1, "incorrectas": ["Chéron", "Salvio", "Szen", "Averbaj", "Fine", "Berger", "Kling"]},
     "aje-rec-60": {"v": 1, "incorrectas": ["Howard Staunton", "Frank Healey", "Henry Turton", "Walter Grimshaw", "William Shinkman", "Samuel Loyd", "Johannes Kohtz"]},
-    "aje-rec-61": {"v": 1, "incorrectas": ["0", "2", "3", "4", "5", "6", "7"]},
     "aje-rec-63": {"v": 1, "incorrectas": ["0", "0,1", "0,2", "0,25", "0,75", "1", "1,5"]},
     "aje-rec-64": {"v": 1, "incorrectas": ["0", "1", "3", "4", "5", "6", "8"]},
     "aje-rec-65": {"v": 1, "incorrectas": ["Un bloqueo", "Un enroque", "Un avance", "Un desarrollo", "Un ahogado", "Un desvío", "Un jaque perpetuo"]},
@@ -252,8 +249,6 @@
     "aje-tab-14": {"v": 1, "incorrectas": ["Sobreprotección", "Simplificación", "Desviación", "Intercepción", "Centralización", "Desclavada", "Liquidación"]},
     "aje-tab-15": {"v": 1, "incorrectas": ["La primera fila", "La segunda fila", "La tercera fila", "La quinta fila", "La sexta fila", "La séptima fila", "La octava fila"]},
     "aje-tab-16": {"v": 1, "incorrectas": ["Asterisco", "Signo más", "Signo igual", "Interrogación", "Exclamación", "Dos puntos", "Punto y coma"]},
-    "aje-tab-17": {"v": 1, "incorrectas": ["F2", "C2", "F6", "C5", "D6", "B6", "F3"]},
-    "aje-tab-18": {"v": 1, "incorrectas": ["1", "3", "4", "5", "6", "7", "8"]},
     "aje-tab-19": {"v": 1, "incorrectas": ["Abierta", "Cerrada", "Bloqueada", "Doblada", "Aislada", "Pasada", "Retrasada"]},
     "aje-tab-20": {"v": 1, "incorrectas": ["2", "4", "7", "8", "10", "15", "16"]},
     "aje-tab-21": {"v": 1, "incorrectas": ["7", "8", "12", "13", "15", "16", "21"]},
@@ -314,7 +309,12 @@
     "aje-rec-93": {"v": 1, "incorrectas": ["Jaque", "Mate", "Enroque", "Gambito", "Celada", "Abandono", "Clavada"]},
     "aje-ape-92": {"v": 1, "incorrectas": ["1", "3", "4", "5", "6", "7", "8"]},
     "aje-ape-93": {"v": 1, "incorrectas": ["8", "10", "12", "14", "18", "20", "32"]},
-    "aje-his-93": {"v": 1, "incorrectas": ["La FIFA", "La FIBA", "La FIA", "La UCI", "La FINA", "La ITF", "La UEFA"]}
+    "aje-his-93": {"v": 1, "incorrectas": ["La FIFA", "La FIBA", "La FIA", "La UCI", "La FINA", "La ITF", "La UEFA"]},
+    "aje-tab-72": {"v": 1, "incorrectas": ["Rojas y verdes", "De todos los colores del arcoíris", "Rosas y amarillas", "Azules y naranjas", "Transparentes", "Moradas y grises", "De cuadros escoceses"]},
+    "aje-tab-73": {"v": 1, "incorrectas": ["El caballo", "La torre", "El peón", "El rey de bastos", "La sota", "El alfil", "El reloj"]},
+    "aje-rec-84": {"v": 1, "incorrectas": ["Que tiene sueño", "Que ha ganado", "Que quiere un café", "Que pide tiempo muerto", "Que va al baño", "Que pide revancha", "Que el rey está cansado"]},
+    "aje-his-79": {"v": 1, "incorrectas": ["La casa de papel", "Jaque al rey", "Stranger Things", "El juego del calamar", "Las chicas del cable", "Peón de Troya", "Torre de Babel"]},
+    "aje-tab-74": {"v": 1, "incorrectas": ["Pedir perdón", "Limpiarla", "Darle un beso", "Avisar al árbitro", "Contar hasta diez", "Cambiarla de color", "Esconderla"]}
   },
   "no_aptas": {
   }
