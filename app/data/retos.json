@@ -341,7 +341,7 @@
     "geo-esp-02",
     "cie-qui-23",
     "mat-pro-27",
-    "his-pai-26",
+    "his-con-93",
     "his-ant-28",
     "ent-vid-31",
     "his-rel-143",
@@ -373,9 +373,9 @@
     "ent-vid-26",
     "mat-pro-11",
     "ent-mus-14",
-    "his-esp-33",
+    "his-pai-13",
     "mat-ser-33",
-    "mat-geo-19",
+    "mat-cal-20",
     "his-con-190"
    ]
   },
@@ -399,9 +399,9 @@
     "mat-pro-23",
     "mat-geo-22",
     "mat-log-05",
-    "mat-cal-09",
+    "mat-ser-07",
     "mat-ser-29",
-    "mat-ser-31",
+    "mat-log-13",
     "mat-cal-14",
     "mat-geo-35",
     "mat-ser-36",
@@ -429,7 +429,7 @@
     "mat-pro-24",
     "mat-cal-24",
     "ent-ser-26",
-    "ent-mus-12",
+    "ent-dep-11",
     "his-esp-30",
     "cie-qui-141",
     "geo-esp-30",
@@ -457,7 +457,7 @@
     "cie-cue-02",
     "his-ant-22",
     "geo-his-19",
-    "cie-ast-27",
+    "cie-fis-07",
     "mat-pro-29",
     "mat-geo-14",
     "ent-vid-33",
@@ -486,13 +486,13 @@
     "geo-lug-03",
     "cie-cue-03",
     "his-con-05",
-    "his-ant-26",
+    "his-rel-10",
     "mat-pro-21",
     "ent-cin-12",
     "cie-bio-16",
     "ent-mus-18",
     "mat-geo-37",
-    "mat-log-38"
+    "mat-ser-20"
    ]
   },
   {
@@ -515,7 +515,7 @@
     "geo-his-02",
     "geo-esp-05",
     "geo-lug-12",
-    "geo-esp-13",
+    "geo-esp-15",
     "geo-esp-20",
     "geo-lug-26",
     "geo-his-27",
@@ -542,15 +542,15 @@
    ],
    "preguntas": [
     "his-pai-22",
-    "ent-dep-24",
+    "ent-vid-07",
     "his-esp-04",
-    "ent-mus-10",
+    "ent-cin-10",
     "ent-ser-28",
     "cie-fis-31",
     "cie-ast-34",
     "mat-log-17",
     "geo-lug-31",
-    "mat-cal-39"
+    "mat-pro-39"
    ]
   },
   {
@@ -570,13 +570,13 @@
     "entretenimiento"
    ],
    "preguntas": [
-    "cie-qui-21",
+    "cie-ast-02",
     "mat-cal-23",
     "his-con-25",
     "geo-his-17",
     "his-rel-107",
-    "cie-cue-14",
-    "his-ant-18",
+    "cie-ast-12",
+    "his-esp-13",
     "ent-ser-36",
     "mat-ser-17",
     "ent-vid-39"
@@ -629,14 +629,14 @@
    ],
    "preguntas": [
     "cie-qui-22",
-    "geo-his-05",
+    "geo-lug-08",
     "ent-dep-08",
     "cie-fis-08",
     "mat-cal-11",
     "his-con-11",
     "ent-ser-141",
-    "mat-ser-35",
-    "his-esp-19",
+    "mat-log-32",
+    "his-ant-36",
     "cie-ast-39"
    ]
   },
@@ -662,7 +662,7 @@
     "ent-mus-25",
     "mat-ser-28",
     "ent-vid-30",
-    "geo-his-21",
+    "geo-esp-24",
     "ent-ser-15",
     "his-rel-155",
     "cie-ast-18",
@@ -687,12 +687,12 @@
    ],
    "preguntas": [
     "cie-ast-23",
-    "cie-bio-23",
+    "cie-fis-04",
     "his-esp-05",
     "cie-cue-27",
     "his-con-10",
     "mat-cal-29",
-    "mat-ser-15",
+    "mat-pro-16",
     "geo-esp-31",
     "ent-vid-18",
     "ent-ser-38"
@@ -752,7 +752,7 @@
     "his-rel-124",
     "geo-esp-23",
     "cie-ast-35",
-    "mat-log-19",
+    "mat-pro-38",
     "ent-dep-20"
    ]
   },
@@ -837,7 +837,7 @@
     "geo-esp-14",
     "mat-geo-27",
     "ent-ser-12",
-    "ent-vid-13",
+    "ent-mus-32",
     "his-ant-15",
     "cie-bio-37",
     "mat-ser-40"
@@ -861,13 +861,13 @@
    ],
    "preguntas": [
     "his-pai-02",
-    "mat-ser-23",
+    "mat-cal-03",
     "geo-his-11",
     "cie-bio-28",
     "ent-cin-09",
     "cie-fis-12",
     "mat-geo-33",
-    "his-ant-35",
+    "his-con-34",
     "his-rel-17",
     "ent-ser-40"
    ]
@@ -891,8 +891,8 @@
    "preguntas": [
     "cie-cue-21",
     "mat-geo-03",
-    "mat-cal-06",
-    "ent-dep-09",
+    "mat-ser-25",
+    "ent-mus-07",
     "geo-esp-17",
     "his-con-14",
     "cie-ast-14",
@@ -950,13 +950,13 @@
     "his-rel-01",
     "mat-ser-22",
     "cie-cue-26",
-    "ent-cin-27",
+    "ent-dep-33",
     "mat-geo-26",
-    "ent-vid-11",
+    "ent-ser-13",
     "ent-mus-141",
     "cie-qui-153",
     "geo-esp-35",
-    "his-esp-38"
+    "his-con-40"
    ]
   },
   {
@@ -1040,9 +1040,9 @@
     "his-pai-21",
     "his-rel-09",
     "geo-his-23",
-    "ent-dep-16",
+    "ent-cin-139",
     "ent-mus-16",
-    "mat-geo-17",
+    "mat-cal-18",
     "ent-ser-20"
    ]
   },
@@ -1067,10 +1067,10 @@
     "geo-esp-06",
     "cie-bio-24",
     "ent-vid-28",
-    "ent-mus-28",
+    "ent-dep-10",
     "mat-cal-15",
     "cie-cue-142",
-    "mat-pro-18",
+    "mat-ser-34",
     "his-pai-37",
     "cie-qui-38"
    ]
@@ -1097,7 +1097,7 @@
     "ent-ser-08",
     "his-esp-09",
     "cie-cue-29",
-    "geo-lug-20",
+    "geo-his-25",
     "his-pai-16",
     "his-ant-160",
     "mat-geo-36",
@@ -1180,10 +1180,10 @@
    ],
    "preguntas": [
     "cie-bio-21",
-    "mat-geo-05",
-    "ent-ser-25",
+    "mat-ser-24",
+    "ent-cin-07",
     "geo-esp-18",
-    "ent-vid-09",
+    "ent-dep-14",
     "cie-ast-32",
     "his-pai-139",
     "mat-cal-34",
@@ -1212,8 +1212,8 @@
     "cie-bio-05",
     "cie-qui-06",
     "cie-cue-07",
-    "cie-fis-09",
-    "cie-bio-12",
+    "cie-cue-33",
+    "cie-fis-13",
     "cie-fis-138",
     "cie-cue-16",
     "cie-fis-174",
@@ -1324,7 +1324,7 @@
     "historia"
    ],
    "preguntas": [
-    "his-pai-04",
+    "his-pai-01",
     "his-con-71",
     "his-esp-83",
     "his-rel-91",
@@ -1359,7 +1359,7 @@
     "mat-pro-100",
     "cie-fis-108",
     "his-ant-129",
-    "ent-mus-143",
+    "ent-ser-14",
     "his-esp-164",
     "cie-qui-170",
     "ent-dep-195"
@@ -1528,7 +1528,7 @@
    ],
    "preguntas": [
     "mat-geo-55",
-    "mat-pro-03",
+    "mat-pro-04",
     "mat-cal-88",
     "mat-ser-95",
     "mat-log-120",

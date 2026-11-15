@@ -603,7 +603,7 @@
     "cie-fis-06": {"v": 1, "incorrectas": ["En voltios", "En amperios", "En ohmios", "En julios", "En hercios", "En lúmenes", "En lux"]},
     "cie-fis-07": {"v": 1, "incorrectas": ["El higrómetro", "El anemómetro", "El pluviómetro", "El termómetro", "El luxómetro", "El sonómetro", "El densímetro"]},
     "cie-fis-08": {"v": 1, "incorrectas": ["Energía potencial gravitatoria", "Energía potencial elástica", "Energía química", "Energía nuclear", "Energía eléctrica", "Energía magnética", "Energía superficial"]},
-    "cie-fis-09": {"v": 1, "correcta": "300000 km/s", "incorrectas": ["30000 km/s", "150000 km/s", "270000 km/s", "290000 km/s", "310000 km/s", "450000 km/s", "600000 km/s"]},
+    "cie-fis-09": {"v": 1, "correcta": "300000 km/s", "incorrectas": ["30000 km/s", "150000 km/s", "200000 km/s", "270000 km/s", "450000 km/s", "1000000 km/s", "600000 km/s"]},
     "cie-fis-10": {"v": 1, "incorrectas": ["En voltios", "En ohmios", "En vatios", "En culombios", "En faradios", "En henrios", "En siemens"]},
     "cie-fis-100": {"v": 1, "incorrectas": ["La fuerza centrífuga", "La fuerza de Coriolis", "La fuerza de flotación", "La fuerza elástica", "La fuerza magnética", "La fuerza eléctrica", "La fuerza de arrastre"]},
     "cie-fis-101": {"v": 1, "incorrectas": ["La miopía", "La hipermetropía", "La presbicia", "El daltonismo", "La catarata", "El glaucoma", "El estrabismo"]},
