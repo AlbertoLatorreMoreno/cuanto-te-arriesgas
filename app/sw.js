@@ -1,7 +1,7 @@
 // Service worker: primero la red (siempre la última versión del banco y los ajustes)
 // y, sin conexión, la copia guardada. VERSION la pone herramientas/versionar.py (no la toques a mano).
 
-const VERSION = "cta-47274d6487";
+const VERSION = "cta-3153662a06";
 const ARCHIVOS = [
   "./",
   "index.html",
@@ -12,6 +12,7 @@ const ARCHIVOS = [
   "js/azar.js",
   "js/banco.js",
   "js/dom.js",
+  "js/duelo.js",
   "js/envio.js",
   "js/exportar.js",
   "js/geo.js",
@@ -22,6 +23,7 @@ const ARCHIVOS = [
   "js/util.js",
   "js/pantallas/comun.js",
   "js/pantallas/datos.js",
+  "js/pantallas/duelo.js",
   "js/pantallas/fin.js",
   "js/pantallas/inicio.js",
   "js/pantallas/juego.js",

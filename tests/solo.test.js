@@ -147,6 +147,7 @@ test("la escalera: cada acierto suma al bote, plantarse se lo queda y fallar lo 
 
   e = jugar([[true, 0], [true, 999999]]);
   assert.equal(e.final, "tiempo", "acertar fuera de tiempo es fallo");
+  assert.equal(e.resultados.at(-1).ms, e.resultados.at(-1).segundos * 1000, "sin tiempo se apunta el que había, no las horas con la app cerrada");
   assert.equal(e.bote, 0);
 
   e = jugar(Array.from({ length: 10 }, () => [true, 0]));

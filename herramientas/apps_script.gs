@@ -14,8 +14,9 @@ const CODIGO_DESCARGA = "";
 
 const HOJA = "registros";
 const COLUMNAS = ["recibido", "id", "tipo", "ts", "dispositivo", "registro"];
-// «solo» y «solo_fin»: el modo solo (desde el 5-11-2026). Con un script anterior, los móviles no los pueden enviar.
-const TIPOS = ["respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"];
+// «solo» y «solo_fin»: el modo solo (desde el 5-11-2026); «duelo» y «duelo_fin», el duelo (desde el 15-11-2026). Con
+// un script anterior, los móviles no los pueden enviar (las opiniones del duelo, que son «revision», sí).
+const TIPOS = ["respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin", "duelo", "duelo_fin"];
 const MAX_REGISTROS_POR_ENVIO = 500;
 const MAX_CARACTERES_REGISTRO = 20000; // una celda admite 50 000
 const MAX_FILAS_AL_DIA = 3000; // un grupo deja unos cientos en una quedada: más sería un abuso
@@ -105,7 +106,13 @@ function guardar(exp) {
     const deHoy = guardadas.filter((f) => String(f[0]).slice(0, 10) === hoy).length;
     if (deHoy + nuevas.length > MAX_FILAS_AL_DIA) return { ok: false, error: "cupo", mensaje: "La hoja ya ha recibido hoy todos los datos que admite." };
     if (nuevas.length) {
-      const rango = hoja.getRange(hoja.getLastRow() + 1, 1, nuevas.length, COLUMNAS.length);
+      // Arriba, bajo la cabecera, y la más reciente primero: la hoja va de lo nuevo a lo viejo. Quien la lee por el
+      // principio y se queda a medias (el panel, con la ficha de Google Drive, que corta hacia los 680 000
+      // caracteres) pierde lo más antiguo, que ya tiene en su copia, y no lo último que ha llegado.
+      nuevas.reverse();
+      if (hoja.getLastRow() > 1) hoja.insertRowsBefore(2, nuevas.length);
+      else hoja.insertRowsAfter(1, nuevas.length);
+      const rango = hoja.getRange(2, 1, nuevas.length, COLUMNAS.length);
       rango.setNumberFormat("@"); // texto tal cual: que la hoja no convierta las fechas
       rango.setValues(nuevas);
     }
@@ -115,7 +122,9 @@ function guardar(exp) {
   }
 }
 
-// Los registros guardados, por tandas: `desde` (empezando en 0) y como mucho `cuantos`.
+// Los registros guardados, por tandas: `desde` (empezando en 0) y como mucho `cuantos`. Van en el orden de la hoja,
+// y lo que llega mientras tanto entra arriba y empuja las filas hacia abajo: una tanda puede repetir alguna de la
+// anterior (descargar.py las quita), pero ninguna se salta.
 function descargar(desde, cuantos) {
   const inicio = Math.max(0, Math.floor(Number(desde) || 0));
   const n = Math.min(MAX_DESCARGA, Math.max(1, Math.floor(Number(cuantos) || MAX_DESCARGA)));

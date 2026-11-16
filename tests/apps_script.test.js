@@ -24,10 +24,13 @@ function hojaFalsa() {
     },
     setNumberFormat: (f) => formatos.push([fila, nf, f]),
   });
+  const vacias = (n) => Array.from({ length: n }, () => []);
   return {
     celdas,
     formatos,
     appendRow: (fila) => celdas.push([...fila]),
+    insertRowsBefore: (pos, n) => void celdas.splice(pos - 1, 0, ...vacias(n)),
+    insertRowsAfter: (pos, n) => void celdas.splice(pos, 0, ...vacias(n)),
     setFrozenRows() {},
     getLastRow: () => celdas.length,
     getRange: rango,
@@ -77,11 +80,11 @@ test("enviar no pide código; guarda cada registro una sola vez aunque se reenv�
   assert.deepEqual(enviar(s, [registro("a1"), registro("a2"), registro("a1")]), { ok: true, nuevos: 2, repetidos: 1 });
   assert.deepEqual(enviar(s, [registro("a2"), registro("a3", { tipo: "revision" })]), { ok: true, nuevos: 1, repetidos: 1 });
   assert.deepEqual(s.hoja().celdas.slice(1).map((f) => f.slice(1, 5)), [
-    ["a1", "respuesta", "2026-10-26T10:00:00.000Z", "movil-prueba-1"],
-    ["a2", "respuesta", "2026-10-26T10:00:00.000Z", "movil-prueba-1"],
     ["a3", "revision", "2026-10-26T10:00:00.000Z", "movil-prueba-1"],
-  ]);
-  assert.deepEqual(JSON.parse(s.hoja().celdas[1][5]), registro("a1"), "el registro entero, tal cual");
+    ["a2", "respuesta", "2026-10-26T10:00:00.000Z", "movil-prueba-1"],
+    ["a1", "respuesta", "2026-10-26T10:00:00.000Z", "movil-prueba-1"],
+  ], "lo último que llega, arriba");
+  assert.deepEqual(JSON.parse(s.hoja().celdas[3][5]), registro("a1"), "el registro entero, tal cual");
   assert.ok(s.hoja().formatos.every(([, , f]) => f === "@"), "las celdas nuevas, como texto");
   assert.deepEqual(s.get(), { ok: true, app: "cuanto-te-arriesgas", mensaje: "El script funciona. Los datos se envían desde la app." }, "abrir la dirección no enseña datos");
 });
@@ -111,7 +114,7 @@ test("probar códigos a ciegas cierra la descarga una hora, también para el có
   assert.deepEqual(enviar(s, [registro("a2")]), { ok: true, nuevos: 1, repetidos: 0 });
   // Pasada la hora (la caché caduca), vuelve a abrirse.
   s.cache.datos.clear();
-  assert.deepEqual(s.post({ accion: "descargar", codigo: CODIGO }).registros.map((r) => r.id), ["a1", "a2"]);
+  assert.deepEqual(s.post({ accion: "descargar", codigo: CODIGO }).registros.map((r) => r.id), ["a2", "a1"]);
 });
 
 test("enviar está abierto, así que rechaza lo raro: otra app, tipos desconocidos, fórmulas y tamaños", () => {
@@ -133,6 +136,25 @@ test("acepta los registros del modo solo", () => {
   assert.deepEqual(enviar(s, [registro("s1", { tipo: "solo" }), registro("s2", { tipo: "solo_fin" })]), { ok: true, nuevos: 2, repetidos: 0 });
 });
 
+test("acepta los registros del duelo", () => {
+  const s = cargar();
+  assert.deepEqual(enviar(s, [registro("d1-r1", { tipo: "duelo" }), registro("d1-fin1", { tipo: "duelo_fin" })]), { ok: true, nuevos: 2, repetidos: 0 });
+});
+
+test("lo nuevo entra arriba, bajo la cabecera; una tanda de la descarga puede repetir filas, pero no saltárselas", () => {
+  const s = cargar();
+  enviar(s, [registro("n1"), registro("n2")]);
+  enviar(s, [registro("n3"), registro("n2")]);
+  const ids = () => s.hoja().celdas.map((f) => f[1]);
+  assert.deepEqual(ids(), ["id", "n3", "n2", "n1"], "la cabecera sigue en la primera fila");
+  const r1 = s.post({ codigo: CODIGO, accion: "descargar", desde: 0, cuantos: 2 });
+  assert.deepEqual([r1.registros.map((r) => r.id), r1.siguiente], [["n3", "n2"], 2]);
+  enviar(s, [registro("n4")]); // llega algo entre dos tandas
+  const r2 = s.post({ codigo: CODIGO, accion: "descargar", desde: r1.siguiente, cuantos: 2 });
+  assert.deepEqual(r2.registros.map((r) => r.id), ["n2", "n1"], "n2 se repite (descargar.py la quita) y n1 no se pierde");
+  assert.ok(s.hoja().formatos.every(([fila, , f]) => fila === 2 && f === "@"), "las filas nuevas, como texto, justo bajo la cabecera");
+});
+
 test("como mucho 3000 filas nuevas al día", () => {
   const s = cargar();
   enviar(s, [registro("primero")]);
@@ -147,11 +169,11 @@ test("como mucho 3000 filas nuevas al día", () => {
 test("descarga por tandas, y salta las celdas tocadas a mano", () => {
   const s = cargar();
   enviar(s, Array.from({ length: 5 }, (_, i) => registro(`e${i}`)));
-  s.hoja().celdas[3][5] = "{roto";
+  s.hoja().celdas[3][5] = "{roto"; // la de e2: la hoja va de e4 (arriba) a e0
   const r1 = s.post({ codigo: CODIGO, accion: "descargar", desde: 0, cuantos: 3 });
-  assert.deepEqual([r1.ok, r1.total, r1.registros.map((r) => r.id), r1.ilegibles, r1.siguiente], [true, 5, ["e0", "e1"], 1, 3]);
+  assert.deepEqual([r1.ok, r1.total, r1.registros.map((r) => r.id), r1.ilegibles, r1.siguiente], [true, 5, ["e4", "e3"], 1, 3]);
   const r2 = s.post({ codigo: CODIGO, accion: "descargar", desde: r1.siguiente, cuantos: 3 });
-  assert.deepEqual([r2.registros.map((r) => r.id), r2.siguiente], [["e3", "e4"], null]);
+  assert.deepEqual([r2.registros.map((r) => r.id), r2.siguiente], [["e1", "e0"], null]);
   assert.deepEqual(s.post({ codigo: CODIGO, accion: "descargar", desde: 9 }).registros, []);
   assert.equal(cargar().post({ codigo: CODIGO, accion: "descargar" }).total, 0, "sin hoja todavía, vacía");
 });

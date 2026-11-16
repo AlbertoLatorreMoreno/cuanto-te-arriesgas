@@ -151,3 +151,28 @@ test("volver a jugar renueva la fecha: quien juega no se olvida", async () => {
   assert.deepEqual(almacen.olvidarInactivos({ ahora: AHORA, dias: 180 }), []);
   assert.equal(almacen.jugadoresConocidos().length, 1);
 });
+
+test("duelo: uno en curso por móvil, el historial sin repetidos, y olvidar a un jugador borra sus duelos y su pareja", async () => {
+  const almacen = await almacenDePrueba();
+  assert.equal(almacen.dueloEnCurso(), null);
+  const duelo = { id: "d1", jugadores: [{ clave: "ana" }, { clave: "jose" }], plan: [], resultados: [] };
+  assert.equal(almacen.guardarDuelo(duelo), true);
+  assert.equal(almacen.dueloEnCurso().id, "d1");
+  almacen.guardarDuelo(null);
+  assert.equal(almacen.dueloEnCurso(), null);
+  localStorage.setItem("cta.duelo.actual", JSON.stringify({ id: "roto", jugadores: [] }));
+  assert.equal(almacen.dueloEnCurso(), null, "uno estropeado no se retoma");
+
+  const resumen = (id, a, b) => ({ id, ts: haceDias(1), jugadores: [{ clave: a }, { clave: b }], ganador: a });
+  almacen.apuntarDuelo(resumen("d1", "ana", "jose"));
+  almacen.apuntarDuelo(resumen("d1", "ana", "jose"));
+  almacen.apuntarDuelo(resumen("d2", "ana", "luis"));
+  assert.deepEqual(almacen.historialDuelos().map((d) => d.id), ["d1", "d2"], "el mismo duelo dos veces cuenta una");
+  almacen.guardarPreferencia("dueloJugadores", [{ clave: "ana", nombre: "Ana" }, { clave: "jose", nombre: "José" }]);
+  almacen.guardarPreferencia("temasDuelo", { ana: "marvel", jose: "star_wars" });
+
+  almacen.olvidarJugador("jose");
+  assert.deepEqual(almacen.historialDuelos().map((d) => d.id), ["d2"]);
+  assert.equal(almacen.preferencia("dueloJugadores", null), null);
+  assert.deepEqual(almacen.preferencia("temasDuelo", null), { ana: "marvel" });
+});

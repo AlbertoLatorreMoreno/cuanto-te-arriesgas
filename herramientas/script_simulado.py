@@ -23,7 +23,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
 ID_VALIDO = re.compile(r"^[A-Za-z0-9][\w.-]{0,99}$")
-TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"}
+TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin", "duelo", "duelo_fin"}
 MAX_REGISTROS_POR_ENVIO = 500
 
 
@@ -33,7 +33,7 @@ class ScriptSimulado:
     def __init__(self, codigo: str, max_descarga: int = 2000):
         self.codigo = codigo
         self.max_descarga = max_descarga
-        self.filas: list[dict] = []  # los registros, en el orden en que llegaron
+        self.filas: list[dict] = []  # los registros, como en la hoja: lo último que ha llegado, arriba
         self.cerrojo = threading.Lock()
 
     def atender(self, peticion) -> dict:
@@ -57,12 +57,13 @@ class ScriptSimulado:
             return {"ok": False, "error": "formato", "mensaje": "Hay un registro sin id o de un tipo desconocido."}
         with self.cerrojo:
             guardados = {r["id"] for r in self.filas}
-            nuevos = 0
+            nuevas = []
             for r in registros:
                 if r["id"] not in guardados:
                     guardados.add(r["id"])
-                    self.filas.append(r)
-                    nuevos += 1
+                    nuevas.append(r)
+            self.filas[:0] = reversed(nuevas)
+            nuevos = len(nuevas)
         return {"ok": True, "nuevos": nuevos, "repetidos": len(registros) - nuevos}
 
     def descargar(self, desde, cuantos) -> dict:

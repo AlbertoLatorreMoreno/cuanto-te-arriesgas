@@ -4,7 +4,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { crearAlmacen } from "../app/js/almacen.js";
-import { TANDA, enviarRegistros, errorDireccion, partidasSinDecidir, porEnviar, revisionesSinDecidir, soloSinDecidir } from "../app/js/envio.js";
+import { TANDA, dueloSinDecidir, enviarRegistros, errorDireccion, partidasSinDecidir, porEnviar, revisionesSinDecidir, soloSinDecidir } from "../app/js/envio.js";
 
 const URL_SCRIPT = "https://script.google.com/macros/s/AKfy-prueba/exec";
 const VERSIONES = { banco: "b1", ajustes: "a1" };
@@ -141,10 +141,38 @@ test("sin decidir: las partidas acabadas por las que no se contestó, y no las v
     registro("a1"), registro("a2"), // p1: decidida
     registro("c1", { partida: "p3" }), registro("c2", { partida: "p3" }), // p3: sin contestar
     registro("d1", { partida: "p4" }), // p4: a medias
-    revision("r1"), revision("r2", { origen: "solo", escalera: "e1" }),
+    revision("r1"), revision("r2", { origen: "solo", escalera: "e1" }), revision("r3", { origen: "duelo", duelo: "d1" }),
+    { id: "d1-r1", tipo: "duelo", ts: "2026-10-26T10:00:00.000Z", duelo: "d1" }, { id: "d1-fin1", tipo: "duelo_fin", ts: "2026-10-26T10:00:00.000Z", duelo: "d1" },
   ];
   assert.deepEqual(partidasSinDecidir(registros, { p1: false }, "p4"), ["p3"]);
   assert.deepEqual(partidasSinDecidir(registros, { p1: true, p3: true }), ["p4"]);
   assert.deepEqual(revisionesSinDecidir(registros, {}).map((r) => r.id), ["r1"]);
   assert.deepEqual(soloSinDecidir(registros, {}).map((r) => r.id), ["r2"]);
+  assert.deepEqual(dueloSinDecidir(registros, {}).map((r) => r.id), ["r3", "d1-r1", "d1-fin1"]);
+  assert.deepEqual(dueloSinDecidir(registros, { "d1-r1": true }).map((r) => r.id), ["r3", "d1-fin1"]);
+});
+
+test("los del modo solo y los del duelo van al final, cada grupo en sus tandas: un script viejo que no los admite no frena a los demás", async () => {
+  const ts = (i) => `2026-10-26T10:00:${String(i).padStart(2, "0")}.000Z`;
+  // Mezclados en el tiempo: el duelo, lo más antiguo; las partidas, en medio; el modo solo, al final.
+  const registros = [
+    { id: "d1-r1", tipo: "duelo", ts: ts(1), duelo: "d1" },
+    { id: "d1-fin1", tipo: "duelo_fin", ts: ts(2), duelo: "d1" },
+    revision("d1-v1", { ts: ts(3), origen: "duelo", duelo: "d1" }),
+    registro("p1", { ts: ts(4) }),
+    { id: "e1-r1", tipo: "solo", ts: ts(5), escalera: "e1" },
+    registro("p2", { ts: ts(6) }),
+  ];
+  // Como el script desplegado antes del duelo: admite todo menos sus dos tipos nuevos.
+  const script = scriptFalso({
+    responder: (cuerpo) =>
+      cuerpo.exportacion.registros.some((x) => x.tipo === "duelo" || x.tipo === "duelo_fin") ? Response.json({ ok: false, error: "formato", mensaje: "Tipo desconocido." }) : null,
+  });
+  const r = await enviar(registros, script);
+  assert.deepEqual([r.ok, r.rechazados.sort()], [true, ["d1-fin1", "d1-r1"]]);
+  assert.deepEqual(r.enviados.sort(), ["d1-v1", "e1-r1", "p1", "p2"], "la opinión del duelo es una «revision»: va con las partidas");
+  const tandas = script.peticiones.map((p) => p.cuerpo.exportacion.registros.map((x) => x.id));
+  assert.deepEqual(tandas[0], ["d1-v1", "p1", "p2"]);
+  assert.deepEqual(tandas[1], ["e1-r1"], "el modo solo, en su tanda: no lo frena el duelo");
+  assert.deepEqual(tandas[2], ["d1-r1", "d1-fin1"]);
 });

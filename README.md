@@ -112,6 +112,10 @@ py herramientas/validar_opciones.py
 
 ---
 
+## Duelo: uno contra uno
+
+En «Duelo · uno contra uno», dos jugadores con un móvil. Cada uno elige un tema (o una categoría) y responde 8 preguntas: 4 difíciles de su tema (niveles 7 a 10) y 4 fáciles del tema del rival (niveles 1 a 4), en 4 vueltas; el duelo veloz es la mitad (4 preguntas cada uno: 2 fáciles y 2 difíciles). Como al jugar solo: 8 opciones, tiempo y 10 × nivel por la velocidad; un fallo no quita lo ganado, y gana quien sume más. Tras cada pregunta se puede opinar sobre su nivel o avisar de un fallo. Al acabar el primer duelo se pregunta una vez si se envían los duelos a la hoja: las opiniones llegan con el script ya desplegado; las respuestas y los finales (`duelo` y `duelo_fin`), cuando se despliegue la versión nueva de `herramientas/apps_script.gs`. Reglas y decisiones: [docs/modo_duelo.md](docs/modo_duelo.md).
+
 ## Envío de datos a la hoja del grupo
 
 Al acabar cada partida, la app pregunta: «¿Enviamos los datos de esta partida?». Si decís que sí, se envían en el momento (sin conexión, en cuanto la haya) a una hoja de cálculo de Google de la cuenta de la app; si decís que no, la app pregunta una vez más si estáis seguros («¿Seguro que no quieres mejorar el juego?») y, con ese segundo no, no se envía nada de esa partida, y en la pantalla final queda un botón por si cambiáis de opinión. Al salir de «Revisar preguntas» se pregunta lo mismo por las valoraciones. Nadie tiene que configurar nada en el móvil.
@@ -146,6 +150,7 @@ Mientras `app/data/config.json` no tenga la dirección del script, la app no pre
 
 - La dirección del script va en la app, que es pública: quien la mire podría enviar datos a la hoja. Por eso el script solo acepta registros con la forma de los de la app, como mucho 500 por envío y 3000 al día, y leer la hoja exige el código, que no está en ningún sitio público.
 - La hoja lleva los nombres de los jugadores: no la compartáis.
+- Lo nuevo entra arriba, bajo la cabecera, y lo más reciente va primero (desde el 15-11-2026; las filas anteriores siguen debajo, de lo viejo a lo nuevo). Si la ordenas a mano, que sea de lo nuevo a lo viejo: el panel de estadísticas lee la hoja desde arriba y solo le llega una parte.
 - Si cambias el script, en *Implementar → Gestionar implementaciones* edita la que hay y elige *Nueva versión*: así la dirección no cambia. Al pegar la versión nueva de `herramientas/apps_script.gs`, vuelve a poner tu código en la línea de `CODIGO_DESCARGA` (en el repositorio va vacía).
 - Tras 10 intentos con un código equivocado, la descarga se cierra una hora (también con el bueno), para que nadie lo adivine probando. Enviar no se cierra.
 - La app solo puede conectarse con el script de `config.json`: la dirección está también en la CSP de `app/index.html`. Si la cambias, cámbiala en los dos sitios (las pruebas de `herramientas` lo vigilan).
@@ -175,6 +180,7 @@ Son tres agentes, cada uno una llamada distinta a Codex, sin memoria de los otro
 - **Temas** (`herramientas/banco_temas.md`): propone temas con público, masivos (un videojuego, una artista) y de nicho (tanques, lingüística), con sus 4 subtemas y sus rincones, en `herramientas/banco_temas.json`. Los que marques con `"aprobado": true` pasan a ser un flujo más de `lanzar`; para incorporarlos a la app hay que añadirlos antes a `config.json` con `"en_preparacion": true`.
 - **Redactor** (`herramientas/banco_generar.md`): escribe un lote de unas 40 preguntas de un subtema, cada una con sus 7 opciones incorrectas del modo solo. El script las comprueba (formato, cálculo de mates, números en cifras en mates, palabras que caducan, duplicados con todo el banco y con lo nuevo, respuestas que salen en muchas otras preguntas, datos de las finales, opciones).
 - **Revisor** (`herramientas/banco_auditar.md`): audita el lote sin contexto. Responde cada pregunta por su cuenta, le pone nivel y notas y cambia las opciones flojas; en mates resuelve sin ver la respuesta y en Localízalo da las coordenadas sin ver las propuestas, y si no coinciden se descartan. Solo entra lo que aprueba; si corrige algo, se vuelve a auditar. Lo que descarta se le cuenta al redactor del lote siguiente.
+- **Nivelador** (`herramientas/nivelar_codex.py`): pone nivel a las preguntas de un tema sin ver el que tienen, en dos pasadas independientes, con la «prueba del casual» de la rúbrica (niveles 1 a 3, para quien conoce el tema de pasada; 4 a 6, el aficionado; 7 a 10, el experto). `estimar`, `informe` y `aplicar`: las generadas se recolocan en su nivel estimado sin perder sus opciones, y `banco_codex.py lanzar --solo <temas>` rellena después los huecos de los niveles bajos.
 
 Para gastar menos, cada mensaje lleva solo las secciones de las instrucciones y de la rúbrica que le tocan; el redactor recibe las respuestas ya usadas en vez de las preguntas enteras; el revisor contesta en corto, con detalles solo de las que fallan; y el razonamiento va en «medium», salvo el del revisor de mates y de mapa (`--esfuerzo-…` y `--modelo-…` lo cambian). Cada llamada apunta sus tokens en `herramientas/banco_lotes/tokens.jsonl`, y lo de cada ronda queda en `herramientas/banco_lotes/` (registro de cada pregunta, con el motivo de cada descarte). Una pregunta cuyas opciones no pasen la comprobación entra sin ellas: se le hacen después, como se explica arriba.
 

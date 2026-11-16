@@ -1707,3 +1707,147 @@ button.opcion:active {
   margin: 0 0 16px;
   user-select: all;
 }
+
+/* ---------------------------------------------------------------- duelo: uno contra uno (docs/modo_duelo.md) */
+
+.marcador-duelo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--fondo);
+  padding: 3px 0;
+}
+
+.duelo-jugador {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px;
+  border: 2px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background: var(--superficie);
+  overflow-wrap: anywhere;
+}
+
+.duelo-jugador.activo {
+  border-color: var(--primario);
+  background: var(--superficie-2);
+}
+
+.duelo-nombre {
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.duelo-tema {
+  color: var(--texto-suave);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.duelo-puntos {
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.duelo-emojis {
+  display: block;
+  min-height: 1.3em;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.marcador-duelo.compacto .duelo-jugador {
+  gap: 2px;
+  padding: 6px;
+}
+
+.marcador-duelo.compacto .duelo-nombre {
+  font-size: 0.85rem;
+}
+
+.marcador-duelo.compacto .duelo-puntos {
+  font-size: 1rem;
+}
+
+.marcador-duelo.compacto .duelo-emojis {
+  font-size: 0.75rem;
+}
+
+.duelo-pasar,
+.duelo-fin,
+.duelo-jugador-formulario {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.duelo-pasar h2 {
+  font-size: 1.9rem;
+  line-height: 1.15;
+}
+
+.duelo-ver {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* El nivel, siempre a la derecha de la etiqueta: si esta es larga, se parte ella en dos líneas, no la fila. */
+.duelo-meta .nivel-chip {
+  flex-shrink: 0;
+}
+
+.duelo-meta .etiqueta-cat {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.duelo-jugador-formulario .chip {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* «⚑ Avisar de un fallo», dentro de la tarjeta de la pregunta respondida. */
+.tarjeta .aviso-fallo {
+  align-self: flex-start;
+  padding-left: 0;
+  font-size: 0.85rem;
+}
+
+.duelo-historial {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.duelo-historial li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--borde);
+  overflow-wrap: anywhere;
+}
+
+.duelo-marcador-final {
+  position: static;
+  text-align: center;
+}
+
+.duelo-marcador-final .duelo-emojis {
+  font-size: 1.15rem;
+}
+
+@media (max-height: 650px) {
+  /* En móviles bajos no tapa la pregunta ni el mapa al desplazarse. */
+  .marcador-duelo {
+    position: static;
+  }
+}

@@ -147,6 +147,8 @@ Desde la fase 26 (30-10-2026), quien revisa juega la pregunta antes de valorarla
 
 Desde el 12-11-2026, quien juega a solas puede opinar sobre la dificultad de cada pregunta en la pantalla de su resultado («Más fácil», «Sí», «Más difícil»; es opcional). Esa opinión es también un registro `revision`, con `origen: "solo"`, `escalera` y `modo`, `evaluador` (quien juega), el `acierto` de la escalera y `valoracion` (`"facil"`, `"justa"` o `"dificil"`); su `id` es fijo, `<escalera>-v<escalón>`, y se guarda al dejar atrás esa pantalla (hasta entonces se puede cambiar). Se envía con la preferencia del modo solo, no con la pregunta de «Revisar preguntas». La calibración no las usa todavía, como las respuestas de ese modo: con 8 opciones a la vista y contra el reloj, la dificultad que se percibe es otra.
 
+Desde la fase 31 (15-11-2026), lo mismo en el duelo ([docs/modo_duelo.md](modo_duelo.md)): `origen: "duelo"`, `duelo` (su id), `papel` (`"propio"`: una difícil de su tema; `"rival"`: una fácil del tema del otro), `evaluador` (quien la respondió), su `acierto`, `valoracion` (`"facil"`, `"justa"`, `"dificil"` o `null`) y `mala` (el motivo de «⚑ Avisar de un fallo», o `null`). Hay registro si hay valoración o aviso; su `id` es `<duelo>-v<turno>`. Se envía con la preferencia del duelo. La calibración no usa sus valoraciones todavía; sus marcas de pregunta mala, sí.
+
 En la calibración, cada valoración acota el nivel que percibe quien valora (con el nivel mostrado L): «más fácil», por debajo de L − 0,5; «sí», entre L − 0,5 y L + 0,5; «más difícil», por encima de L + 0,5; y una horquilla «de a a b», entre a − 0,5 y b + 0,5, abierta por abajo si a = 1 y por arriba si b = 10. Así, «de 1 a L − 1» equivale a «más fácil», pero «de 4 a 5» dice mucho más. Una horquilla al revés o fuera de rango se descarta.
 
 ### `tipo: "ronda"`: una ronda divertida jugada
@@ -221,6 +223,28 @@ La calibración no los usa todavía: con 8 opciones se puede acertar por descart
 ### `tipo: "solo_fin"`: el final de una escalera
 
 `escalera`, `modo`, `reto`, `tema_dia`, `categoria_practica`, `jugador`, `pasos` (aciertos), `bote` (lo que se lleva: 0 si falló) y `final`: `"plantado"`, `"completo"` (acertó las 10), `"fallo"` o `"tiempo"`. Se guarda en cuanto se sabe el final (al plantarse, o al responder la pregunta que acaba la escalera) y, si se aceptó enviar las partidas a solas, se envía entonces: hasta el 12-11-2026 esperaba a que se tocara «Ver el resultado», y de quien cerraba la app al fallar no llegaba nada de esa escalera hasta que volvía a abrirla. Su `ts` es el de esa última respuesta (o el de plantarse).
+
+### `tipo: "duelo"`: una pregunta del duelo
+
+Desde la fase 31 (15-11-2026). Cada pregunta respondida en un duelo ([docs/modo_duelo.md](modo_duelo.md)). No lleva `partida`, sino `duelo`. Su `id` es fijo, `<duelo>-r<turno>` (los finales, `<duelo>-fin1` y `<duelo>-fin2`): al retomar un duelo se vuelven a guardar sin duplicarse. `version_banco` y `version_ajustes` son las de cuando se vio esa pregunta.
+
+| Campo | Descripción |
+|---|---|
+| `duelo`, `turno`, `vuelta` | Id del duelo, orden de la pregunta en el duelo (1 a 16; en el veloz, 1 a 8) y vuelta (1 a 4; en el veloz, 1 y 2). |
+| `modo_duelo` | `"normal"` o `"veloz"` (también en `duelo_fin` y en sus opiniones). |
+| `jugador`, `rival` | Claves de quien responde y de su rival. |
+| `tema_propio`, `tema_rival` | El tema (o categoría) que eligió cada uno. |
+| `papel`, `nivel` | `"propio"` (difícil, de su tema) o `"rival"` (fácil, del tema del otro), y el nivel del hueco (el que puntúa). |
+| `respuesta_dada`, `opciones` | Como en `solo`. |
+| `acierto`, `tiempo_agotado`, `ms`, `segundos`, `multiplicador`, `puntos` | Como en `solo` (un fallo da 0 puntos, pero no quita lo ganado). |
+| `total` | Puntos de ese jugador en el duelo tras responder. |
+| `lat_senalada`, `lon_senalada`, `distancia_km`, `distancia_max_km` | En las de mapa, como en una respuesta. |
+
+La calibración no los usa todavía.
+
+### `tipo: "duelo_fin"`: el final de un duelo, uno por jugador
+
+`duelo`, `jugador`, `rival`, `tema_propio`, `tema_rival`, `puntos`, `aciertos`, `puntos_rival`, `aciertos_rival`, `respondidas` (preguntas que respondió ese jugador), `resultado` (`"gana"`, `"pierde"`, `"empate"` o `"abandonado"`) y `final` (`"completo"` o `"abandonado"`). Su `ts` es el del final.
 
 ## Rondas divertidas — `app/data/rondas.json`
 
@@ -352,7 +376,7 @@ Etiquetas de entrenamiento: **mala** si la pregunta está retirada o tiene algun
 
 Un Apps Script de Google (`herramientas/apps_script.gs`), dentro de una hoja de cálculo de la cuenta de la app y publicado como aplicación web, recibe los registros de los móviles (`app/js/envio.js`) y se los da a `analisis/descargar.py`. Su dirección va en `app/data/config.json` (`envio.url`); vacía, la app no pregunta ni envía nada. Cómo crearlo: README, «Envío de datos a la hoja del grupo».
 
-**Permiso.** Solo se envía lo que el grupo acepta. Al mostrarse la pantalla final de una partida, la app pregunta «¿Enviamos los datos de esta partida?» una vez; la respuesta se guarda por partida (`cta.envio.partidas`) y cubre también lo que se juegue después en su ronda de oro. Si se cierra el diálogo sin contestar o se dice que no, la pantalla final deja un botón para enviarlos. Al salir de «Revisar preguntas», lo mismo con las valoraciones por las que aún no se ha preguntado (`cta.envio.revisiones`, por registro). Una partida que se abandona con «Terminar esta partida» no se pregunta. Las partidas a solas (`solo` y `solo_fin`) se preguntan una sola vez, al acabar la primera escalera: la respuesta se guarda en `cta.pref.envioSolo`, se aplica a todo lo del modo solo sin decidir al acabar cada escalera (por registro, en `cta.envio.revisiones`) y se puede cambiar en «Datos y exportación». Se envían al final y en tandas aparte, para que un script sin desplegar que aún no los acepta no frene los de las partidas.
+**Permiso.** Solo se envía lo que el grupo acepta. Al mostrarse la pantalla final de una partida, la app pregunta «¿Enviamos los datos de esta partida?» una vez; la respuesta se guarda por partida (`cta.envio.partidas`) y cubre también lo que se juegue después en su ronda de oro. Si se cierra el diálogo sin contestar o se dice que no, la pantalla final deja un botón para enviarlos. Al salir de «Revisar preguntas», lo mismo con las valoraciones por las que aún no se ha preguntado (`cta.envio.revisiones`, por registro). Una partida que se abandona con «Terminar esta partida» no se pregunta. Las partidas a solas (`solo` y `solo_fin`) se preguntan una sola vez, al acabar la primera escalera: la respuesta se guarda en `cta.pref.envioSolo`, se aplica a todo lo del modo solo sin decidir al acabar cada escalera (por registro, en `cta.envio.revisiones`) y se puede cambiar en «Datos y exportación». Se envían al final y en tandas aparte, para que un script sin desplegar que aún no los acepta no frene los de las partidas. Los duelos (`duelo`, `duelo_fin` y sus opiniones) igual, con su propia preferencia, `cta.pref.envioDuelo`, que se pregunta al acabar el primer duelo; van detrás de los del modo solo y en sus propias tandas (sus opiniones, que son `revision`, van con las de las partidas).
 
 **Lo que se queda sin preguntar.** Quien cierra la app sin pasar por la pantalla que pregunta dejaba datos sin decidir, que no se enviaban nunca. Desde el 12-11-2026: un «sí» a las valoraciones de «Revisar preguntas» se recuerda (`cta.pref.envioRevisiones`, que se quita en «Datos y exportación») y desde entonces cada valoración se envía al guardarla; cada envío aplica antes las respuestas recordadas (`envioSolo`, `envioRevisiones`) a lo que esté sin decidir; y el inicio avisa si quedan partidas acabadas o valoraciones por las que no se llegó a preguntar, con un botón para decidirlo.
 
@@ -367,11 +391,11 @@ Si algo falla: `{ ok: false, error, mensaje }`, con `error` igual a `codigo` (no
 
 **Quién puede leer los datos.** Solo quien tenga el código de descarga, y la hoja solo la puede abrir la cuenta de la app (acceso «Restringido»). Ninguna respuesta sin el código lleva datos: ni el `GET`, ni los errores, ni `enviar` (que solo dice cuántos registros eran nuevos). Para que nadie pueda adivinar el código a base de probar, tras 10 intentos con un código equivocado (`MAX_FALLOS`) la descarga se cierra durante una hora (`CIERRE_SEGUNDOS`), también para el código bueno; la cuenta se lleva en la caché del script, con el cerrojo puesto, y enviar sigue abierto. Si alguna vez `descargar.py` dice que está cerrada sin que hayas fallado tú, alguien está probando códigos.
 
-**Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`, y desde la fase 27 `solo` y `solo_fin`, que exigen desplegar la versión nueva del script), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
+**Límites, porque enviar está abierto.** Solo registros de los tipos de la app (`respuesta`, `anulacion`, `revision`, `ronda`, `ronda_anulada`, `final`, `final_anulada`, desde la fase 27 `solo` y `solo_fin`, y desde la fase 31 `duelo` y `duelo_fin`, que exigen desplegar la versión nueva del script), con un id sin caracteres que la hoja pueda tomar por una fórmula, de hasta 20 000 caracteres cada uno, 500 por envío y 3000 filas nuevas al día (`cupo`).
 
 El script rechaza el envío entero si no admite uno de sus registros (`formato` o `tamano`). La app parte entonces la tanda en dos hasta aislar el registro rechazado y envía los demás: así uno malo no deja sin enviar todo lo que venga detrás. Los rechazados no se reintentan hasta que se vuelve a abrir la app, siguen en el móvil y salen al exportar.
 
-**La hoja** (pestaña `registros`) tiene una fila por registro, sin repetidos por `id`: `recibido`, `id`, `tipo`, `ts`, `dispositivo` y `registro` (el registro entero en JSON). Todo se escribe como texto.
+**La hoja** (pestaña `registros`) tiene una fila por registro, sin repetidos por `id`: `recibido`, `id`, `tipo`, `ts`, `dispositivo` y `registro` (el registro entero en JSON). Todo se escribe como texto. Desde el 15-11-2026 lo nuevo se escribe arriba, bajo la cabecera, y lo más reciente va primero: el panel de estadísticas lee la hoja con el conector de Google Drive, que solo entrega unos 680 000 caracteres desde arriba, y así lo que no le llega es lo más antiguo (que tiene en su copia). Las filas de antes de esa fecha siguen debajo, de lo viejo a lo nuevo. La descarga va por tandas desde arriba: si llega algo a media descarga, la tanda siguiente repite alguna fila y `descargar.py` la quita.
 
 **Qué se envía y cuándo.** Lo aceptado que no consta en `cta.enviados`, salvo lo de la partida a medias (espera a que acabe, porque «Deshacer» puede borrar el registro de un turno ya cerrado). Se envía al decir que sí, al cerrar el último turno de una partida aceptada (tras su ronda de oro), al volver al inicio y al recuperar la conexión, y con «Reintentar ahora» en «Datos y exportación». Uno cada vez; si una tanda falla, lo anterior ya queda enviado.
 
@@ -400,15 +424,17 @@ Además del registro, cada móvil guarda en `localStorage`, con el prefijo `cta.
 | `cta.jugadores` | Jugadores recordados: `[{ clave, nombre, ultima }]`, donde `ultima` es la última vez que empezó una partida (jugando o narrando) o una revisión. Sirve para sugerir nombres. |
 | `cta.vistas` | Preguntas vistas por cada jugador: `{ clave: { idPregunta: fecha } }`. Sirve para no repetirle preguntas. |
 | `cta.revisadas` | Preguntas revisadas por cada evaluador, con el mismo formato. |
-| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa, quién juega solo (`jugadorSolo`) y qué practica (`practicaSolo`), si se envían las partidas a solas (`envioSolo`) y las valoraciones de «Revisar preguntas» (`envioRevisiones`, solo `true`), el último tema de cada jugador (`cta.pref.temas`: `{ clave: idTema }`) y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error, rechazados }`). |
+| `cta.pref.*` | Preferencias: meta, sorteo, narrador, cronómetro, rondas, quién revisa, quién juega solo (`jugadorSolo`) y qué practica (`practicaSolo`), si se envían las partidas a solas (`envioSolo`) y los duelos (`envioDuelo`), la última pareja del duelo (`dueloJugadores`) y su modo (`modoDuelo`) y el tema de cada uno en el duelo (`temasDuelo`: `{ clave: idTema }`) y las valoraciones de «Revisar preguntas» (`envioRevisiones`, solo `true`), el último tema de cada jugador (`cta.pref.temas`: `{ clave: idTema }`) y fecha de la última exportación. Con el envío a la hoja del grupo, `cta.pref.ultimoEnvio` (`{ ts, ok, nuevos, error, rechazados }`). |
 | `cta.envio.partidas`, `cta.envio.revisiones` | Lo que se respondió a «¿Enviamos los datos?»: `{ idPartida: true/false }` y, para las valoraciones de «Revisar preguntas», `{ idRegistro: true/false }`. |
 | `cta.enviados` | Ids de los registros que ya están en la hoja del grupo. Si se pierde, se reenvía lo aceptado, sin duplicar nada. |
 | `cta.solo.escalera` | La escalera del modo solo a medias (una por móvil), con su fase, el bote, las opciones barajadas y cuándo empezó la pregunta en pantalla (si se cierra la app, el tiempo sigue corriendo). |
 | `cta.solo.retos`, `cta.solo.practica` | Lo jugado en el modo solo por cada jugador: `{ clave: { fecha: { bote, paso, final, emojis, titulo, ts } } }` (un reto empezado lleva solo `empezado`, para no poder repetirlo) y `{ clave: { mejor, escaleras } }`. |
+| `cta.duelo.actual` | El duelo a medias (uno por móvil): los jugadores y sus temas, las 16 preguntas elegidas, la fase, lo respondido, las opciones barajadas y cuándo empezó la pregunta en pantalla. |
+| `cta.duelo.historial` | Los últimos 100 duelos acabados: `[{ id, modo, ts, jugadores: [{ clave, nombre, tema, puntos, aciertos }], ganador }]` (para el cara a cara, que junta los dos modos). |
 | `cta.dispositivo` | Identificador del móvil, que va en cada registro. |
 
 Si algo de esto tiene una forma inesperada (una versión anterior, una escritura a medias), se lee como vacío: nunca impide abrir la app. Con la app abierta dos veces en el mismo móvil (dos pestañas, o instalada y en el navegador), las preguntas vistas se combinan en vez de pisarse, y si una ventana cambia la partida, la otra deja de jugarla y vuelve al inicio.
 
-**Olvidar a un jugador** (pantalla «Datos», con confirmación) borra su entrada en `cta.jugadores`, `cta.vistas` y `cta.revisadas`, y las preferencias de narrador, de quién revisa o de su tema si lo nombran. Nunca toca el registro de IndexedDB: sus respuestas y valoraciones se siguen exportando y R las sigue usando. Si vuelve a jugar, le pueden salir preguntas que ya vio en ese móvil; R las reconoce en los registros y no usa esas respuestas para calcular niveles (ver «Preguntas ya vistas»). Lo mismo pasa si alguien juega en varios móviles.
+**Olvidar a un jugador** (pantalla «Datos», con confirmación) borra su entrada en `cta.jugadores`, `cta.vistas` y `cta.revisadas`, y las preferencias de narrador, de quién revisa o de su tema si lo nombran, y los duelos del historial en los que jugó. Nunca toca el registro de IndexedDB: sus respuestas y valoraciones se siguen exportando y R las sigue usando. Si vuelve a jugar, le pueden salir preguntas que ya vio en ese móvil; R las reconoce en los registros y no usa esas respuestas para calcular niveles (ver «Preguntas ya vistas»). Lo mismo pasa si alguien juega en varios móviles.
 
 **Olvido automático.** Al abrir la app se olvida a quien lleve más de `jugadores.olvidar_tras_dias` días (180, unos 6 meses) sin jugar ni revisar, salvo a quien esté en la partida a medias. El plazo es largo a propósito: un grupo que queda cada pocos meses no pierde sus nombres, y en cambio desaparecen solos los de prueba («yo», «tú») y los invitados de un día; tras medio año, además, volver a ver una pregunta importa poco, porque ya no se recuerda. Con 0 no se olvida a nadie.

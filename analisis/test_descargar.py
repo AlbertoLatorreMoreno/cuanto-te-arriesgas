@@ -151,6 +151,25 @@ class TestDescargar(unittest.TestCase):
         with self.assertRaises(descargar.ErrorDescarga):
             descargar.descargar("x", CODIGO, pedir=lambda url, cuerpo: ["no es un objeto"])
 
+    def test_lo_que_llega_entre_dos_tandas_no_duplica_ni_se_pierde(self):
+        # El script escribe lo nuevo arriba: lo que llega a media descarga empuja las filas hacia abajo.
+        self.enviar([registro(i) for i in range(6)])
+        tandas = []
+
+        def pedir(url, cuerpo):
+            r = self.script.atender(cuerpo)
+            tandas.append([x["id"] for x in r["registros"]])
+            if len(tandas) == 1:
+                self.enviar([registro(6), registro(7)])
+            return r
+
+        registros, ilegibles = descargar.descargar("x", CODIGO, pedir=pedir)
+        self.assertEqual(tandas[0], ["reg-005", "reg-004", "reg-003", "reg-002"], "lo último, arriba")
+        self.assertEqual(tandas[1][:2], ["reg-003", "reg-002"], "la segunda tanda repite las que bajaron")
+        self.assertEqual(sorted(r["id"] for r in registros), [f"reg-{i:03d}" for i in range(6)])
+        self.assertEqual(len(registros), len({r["id"] for r in registros}), "sin repetidos")
+        self.assertEqual(ilegibles, 0)
+
 
 class TestLoQueLlegaDeLaHoja(unittest.TestCase):
     """La dirección del script es pública: lo que se descarga lo puede haber enviado cualquiera."""
@@ -168,6 +187,15 @@ class TestLoQueLlegaDeLaHoja(unittest.TestCase):
                 "segundos": 25, "multiplicador": 1.83, "puntos": 55, "bote": 115, "tiempo_agotado": False, "opciones": "1a2b3c4d"}
         self.assertTrue(descargar.registro_valido(solo))
         self.assertTrue(descargar.registro_valido({**bueno, "tipo": "solo_fin", "escalera": "esc-1", "pasos": 3, "bote": 115, "final": "plantado"}))
+        # El duelo (fase 31): cada respuesta, el final de cada jugador y sus opiniones (revision con origen «duelo»).
+        duelo = {**bueno, "tipo": "duelo", "duelo": "d-1", "jugador": "ana", "rival": "luis", "tema_propio": "marvel", "tema_rival": "cafe",
+                 "turno": 7, "vuelta": 2, "papel": "propio", "nivel": 8, "ms": 9000, "segundos": 35, "multiplicador": 1.74, "puntos": 139,
+                 "total": 300, "tiempo_agotado": False}
+        self.assertTrue(descargar.registro_valido(duelo))
+        self.assertTrue(descargar.registro_valido({**bueno, "tipo": "duelo_fin", "duelo": "d-1", "jugador": "ana", "rival": "luis", "puntos": 520,
+                                                   "aciertos": 6, "puntos_rival": 430, "aciertos_rival": 5, "respondidas": 8,
+                                                   "resultado": "gana", "final": "completo"}))
+        self.assertFalse(descargar.registro_valido({**duelo, "vuelta": "2"}))
         raros = [
             {**solo, "multiplicador": "×1,8"},
             {**solo, "ms": 1.5},

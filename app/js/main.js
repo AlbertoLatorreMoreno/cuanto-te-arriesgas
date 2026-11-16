@@ -4,12 +4,13 @@ import { PREFIJO, crearAlmacen, pedirAlmacenamientoPersistente } from "./almacen
 import { rngReal } from "./azar.js";
 import { crearIndice, hayPreguntas } from "./banco.js";
 import { aviso, h, montar } from "./dom.js";
-import { enviarRegistros, errorDireccion, porEnviar, revisionesSinDecidir, soloSinDecidir } from "./envio.js";
+import { dueloSinDecidir, enviarRegistros, errorDireccion, porEnviar, revisionesSinDecidir, soloSinDecidir } from "./envio.js";
 import { construirExportacion, exportarArchivo, nombreArchivo } from "./exportar.js";
 import { ErrorJuego, FASE, clavesEnPartida, partidaAMedias, partidaReanudable } from "./motor.js";
 import { Sesion } from "./sesion.js";
 import { categoriasDelBanco, sinTemasEnPreparacion, versionBanco } from "./util.js";
 import { pantallaDatos } from "./pantallas/datos.js";
+import { pantallaDuelo } from "./pantallas/duelo.js";
 import { pantallaInicio } from "./pantallas/inicio.js";
 import { pantallaJuego } from "./pantallas/juego.js";
 import { pantallaNueva } from "./pantallas/nueva.js";
@@ -65,6 +66,7 @@ async function arrancar() {
   // Tampoco quien tiene una escalera del modo solo a medias.
   const protegidos = clavesEnPartida(almacen.cargarPartida()?.partida);
   if (almacen.escaleraSolo()) protegidos.add(almacen.escaleraSolo().jugador.clave);
+  for (const j of almacen.dueloEnCurso()?.jugadores ?? []) protegidos.add(j.clave);
   almacen.olvidarInactivos({ ahora: new Date(), dias: config.jugadores.olvidar_tras_dias, protegidos });
 
   const categorias = new Map(categoriasDelBanco(config).map((c) => [c.id, c]));
@@ -79,8 +81,10 @@ async function arrancar() {
       // (`envioSolo`) y, si se aceptó una vez, las valoraciones de «Revisar preguntas» (`envioRevisiones`). Así
       // llega también lo de quien cierra la app sin pasar por esa pantalla.
       const envioSolo = almacen.preferencia("envioSolo", null);
+      const envioDuelo = almacen.preferencia("envioDuelo", null);
       const recordadas = [
         ...(envioSolo === null ? [] : soloSinDecidir(registros, almacen.decisionesRevisiones()).map((r) => [r.id, envioSolo])),
+        ...(envioDuelo === null ? [] : dueloSinDecidir(registros, almacen.decisionesRevisiones()).map((r) => [r.id, envioDuelo])),
         ...(almacen.preferencia("envioRevisiones", null) === true ? revisionesSinDecidir(registros, almacen.decisionesRevisiones()).map((r) => [r.id, true]) : []),
       ];
       for (const si of [true, false]) {
@@ -137,14 +141,16 @@ async function arrancar() {
     ir(pantalla, params = {}) {
       app.navegacion++;
       app.pantalla = pantalla;
-      mantenerPantalla(pantalla === "juego" || pantalla === "solo");
-      if ((pantalla === "juego" || pantalla === "solo") && history.state?.pantalla !== pantalla) history.pushState({ pantalla }, "");
+      const jugando = ["juego", "solo", "duelo"].includes(pantalla);
+      mantenerPantalla(jugando);
+      if (jugando && history.state?.pantalla !== pantalla) history.pushState({ pantalla }, "");
       const pantallas = {
         inicio: () => pantallaInicio(app),
         nueva: () => pantallaNueva(app, params),
         juego: () => pantallaJuego(app),
         revision: () => pantallaRevision(app),
         solo: () => pantallaSolo(app, params),
+        duelo: () => pantallaDuelo(app, params),
         datos: () => pantallaDatos(app, params),
         reglas: () => pantallaReglas(app, params),
       };
@@ -270,10 +276,13 @@ async function arrancar() {
     } else if (app.pantalla === "solo") {
       if (almacen.escaleraSolo()) aviso("Escalera guardada. Puedes continuarla desde «Jugar solo».");
       app.ir("inicio");
+    } else if (app.pantalla === "duelo") {
+      if (almacen.dueloEnCurso()) aviso("Duelo guardado. Puedes continuarlo desde el inicio.");
+      app.ir("inicio");
     }
   });
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible" && (app.pantalla === "juego" || app.pantalla === "solo")) mantenerPantalla(true);
+    if (document.visibilityState === "visible" && ["juego", "solo", "duelo"].includes(app.pantalla)) mantenerPantalla(true);
   });
   window.addEventListener("online", () => app.sincronizar());
   // La app abierta dos veces (en dos pestañas, o instalada y en el navegador): si la otra cambia la
@@ -281,6 +290,10 @@ async function arrancar() {
   window.addEventListener("storage", (e) => {
     if ((e.key === null || e.key === PREFIJO + "solo.escalera") && app.pantalla === "solo") {
       aviso("La escalera ha cambiado en otra ventana de la app. Vuelve a «Jugar solo» para seguir con lo último.", { error: true, ms: 7000 });
+      app.ir("inicio");
+    }
+    if ((e.key === null || e.key === PREFIJO + "duelo.actual") && app.pantalla === "duelo") {
+      aviso("El duelo ha cambiado en otra ventana de la app. Vuelve a «Duelo» para seguir con lo último.", { error: true, ms: 7000 });
       app.ir("inicio");
     }
     if ((e.key === null || e.key === PREFIJO + "partida") && app.pantalla === "juego") {

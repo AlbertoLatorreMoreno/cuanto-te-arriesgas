@@ -34,6 +34,7 @@ function seccionEnvio(app, registros) {
     ultimo?.rechazados ? h("p", { class: "texto-suave pequeno" }, `Registros que la hoja no ha admitido: ${ultimo.rechazados}. Siguen en este móvil y salen al exportar.`) : null,
     pendientes ? h("button", { class: "boton boton-ancho", onClick: reintentar }, "Reintentar ahora") : null,
     lineaEnvioSolo(app),
+    lineaEnvioDuelo(app),
     lineaEnvioRevisiones(app),
   );
 }
@@ -81,6 +82,29 @@ function lineaEnvioSolo(app) {
         },
       },
       si ? "No enviarlas" : "Enviarlas",
+    ),
+  );
+}
+
+// Lo mismo con los duelos (preferencia `envioDuelo`, que se pregunta al acabar el primero).
+function lineaEnvioDuelo(app) {
+  const si = app.almacen.preferencia("envioDuelo", null);
+  if (si === null) return null;
+  return h(
+    "div",
+    { class: "fila-botones" },
+    h("p", { class: "texto-suave pequeno", style: { flex: "2" } }, si ? "Duelos: se envían." : "Duelos: no se envían."),
+    h(
+      "button",
+      {
+        class: "boton boton-pequeno",
+        onClick: () => {
+          app.almacen.guardarPreferencia("envioDuelo", !si);
+          aviso(si ? "Los próximos duelos no se enviarán." : "Los próximos duelos se enviarán.");
+          app.ir("datos");
+        },
+      },
+      si ? "No enviarlos" : "Enviarlos",
     ),
   );
 }
@@ -161,6 +185,7 @@ export async function pantallaDatos(app, params = {}) {
     ["Revisiones", revisiones.length],
     ["Preguntas cambiadas", anulaciones.length],
     ["Escaleras a solas", registros.filter((r) => r.tipo === "solo_fin").length],
+    ["Duelos", new Set(registros.filter((r) => r.tipo === "duelo_fin").map((r) => r.duelo)).size],
   ];
   const ultima = app.almacen.preferencia("ultimaExportacion", null);
   const resumen = resumenBanco(app.indice, app.almacen.vistoPorAlguien());

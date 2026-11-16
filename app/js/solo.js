@@ -336,7 +336,9 @@ export function responderPregunta(e, { config, acierto, ms, ts, elegida = null, 
   const mult = bien ? multiplicador(ms, segundos, reglas.multiplicador_max) : 0;
   const puntos = bien ? Math.round(reglas.puntos * mult) : 0;
   const bote = bien ? e.bote + puntos : 0;
-  const resultado = { pregunta: q.id, q, ts, nivel, acierto: bien, agotado, ms, segundos, multiplicador: mult, puntos, bote, elegida, ...(mapa ? { mapa } : {}) };
+  // Sin tiempo, se apunta el que había: con la app cerrada horas, `ms` llegaba a millones y descargar.py tira los
+  // registros con un entero de 10^6 o más (lo vio Codex al revisar el duelo, 15-11-2026).
+  const resultado = { pregunta: q.id, q, ts, nivel, acierto: bien, agotado, ms: agotado ? segundos * 1000 : ms, segundos, multiplicador: mult, puntos, bote, elegida, ...(mapa ? { mapa } : {}) };
   const final = !bien ? (agotado ? "tiempo" : "fallo") : nivel === PASOS ? "completo" : null;
   return { ...e, fase: "resultado", paso: e.paso + 1, bote, resultados: [...e.resultados, resultado], final, consumido: ms };
 }

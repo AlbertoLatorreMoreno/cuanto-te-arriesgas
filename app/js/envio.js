@@ -40,9 +40,18 @@ export function soloSinDecidir(registros, revisiones) {
   return registros.filter((r) => esDeSolo(r) && !(r.id in revisiones));
 }
 
+// Registros del duelo (duelo.js): las respuestas, el final de cada jugador y sus opiniones sobre las preguntas
+// (valoraciones con `origen: "duelo"`). Como los del modo solo: sin partida, con una sola pregunta para siempre
+// (la preferencia `envioDuelo`).
+export const TIPOS_DUELO = new Set(["duelo", "duelo_fin"]);
+export const esDeDuelo = (r) => TIPOS_DUELO.has(r.tipo) || (r.tipo === "revision" && r.origen === "duelo");
+export function dueloSinDecidir(registros, revisiones) {
+  return registros.filter((r) => esDeDuelo(r) && !(r.id in revisiones));
+}
+
 // Valoraciones de «Revisar preguntas» por las que aún no se ha preguntado.
 export function revisionesSinDecidir(registros, revisiones) {
-  return registros.filter((r) => r.tipo === "revision" && !r.partida && !esDeSolo(r) && !(r.id in revisiones));
+  return registros.filter((r) => r.tipo === "revision" && !r.partida && !esDeSolo(r) && !esDeDuelo(r) && !(r.id in revisiones));
 }
 
 // Partidas ya acabadas (o abandonadas) con registros y por las que no se llegó a contestar si se envían: la
@@ -86,19 +95,23 @@ async function peticion(url, cuerpo, fetch) {
 // conexión, cupo…), se para: lo anterior queda enviado.
 // El script rechaza la tanda entera si no admite uno de sus registros: entonces se parte en dos hasta aislarlo,
 // para que un registro malo no deje sin enviar todos los demás, ni los que vengan detrás, para siempre.
-// Los del modo solo van al final y en tandas aparte: un script desplegado antes de que existieran los rechaza
-// («tipo desconocido») hasta que se despliegue su versión nueva, y así no frenan los de las partidas.
+// Los del modo solo y los del duelo van al final, cada grupo en tandas aparte: un script desplegado antes de que
+// existieran los rechaza («tipo desconocido») hasta que se despliegue su versión nueva, y así no frenan los de las
+// partidas (ni los del duelo a los del modo solo). Sus opiniones (`revision`) van con las de las partidas: el script
+// las admite desde siempre.
 export async function enviarRegistros(registros, { url, dispositivo, versiones, fetch = globalThis.fetch, ahora = () => new Date().toISOString() }) {
   const todos = construirExportacion({ registros, dispositivo, versiones }).registros;
-  const ordenados = [...todos.filter((r) => !TIPOS_SOLO.has(r.tipo)), ...todos.filter((r) => TIPOS_SOLO.has(r.tipo))];
-  const deSolo = ordenados.findIndex((r) => TIPOS_SOLO.has(r.tipo));
+  const grupo = (r) => (TIPOS_SOLO.has(r.tipo) ? 1 : TIPOS_DUELO.has(r.tipo) ? 2 : 0);
+  const ordenados = [0, 1, 2].flatMap((g) => todos.filter((r) => grupo(r) === g));
   const enviados = [];
   const rechazados = [];
   let nuevos = 0;
-  // Cortes de las tandas: cada TANDA registros, y uno más donde empiezan los del modo solo.
+  // Cortes de las tandas: cada TANDA registros, y uno más donde empieza cada grupo.
   const cortes = [];
   for (let i = 0; i < ordenados.length; ) {
-    const fin = deSolo > i ? Math.min(i + TANDA, deSolo) : i + TANDA;
+    let fin = Math.min(i + TANDA, ordenados.length);
+    const otro = ordenados.findIndex((r, k) => k > i && grupo(r) !== grupo(ordenados[i]));
+    if (otro !== -1 && otro < fin) fin = otro;
     cortes.push([i, fin]);
     i = fin;
   }

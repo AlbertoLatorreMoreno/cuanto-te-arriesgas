@@ -49,6 +49,40 @@ function seccionSolo(app) {
   ];
 }
 
+// Duelo (docs/modo_duelo.md): uno contra uno, cada uno con su tema.
+function seccionDuelo(app) {
+  const d = app.config.duelo?.normal ?? app.config.duelo;
+  const veloz = app.config.duelo?.veloz;
+  if (!d?.facil || !app.config.solo) return [];
+  const s = app.config.solo;
+  const max = (d.facil.reduce((a, n) => a + s.puntos[n - 1], 0) + d.dificil.reduce((a, n) => a + s.puntos[n - 1], 0)) * s.multiplicador_max;
+  return [
+    h("h2", {}, "Duelo: uno contra uno ⚔"),
+    h(
+      "p",
+      {},
+      "Dos jugadores con un móvil. Cada uno elige un tema (uno de los temas o una categoría) y responde 8 preguntas: " +
+        `4 difíciles de su propio tema, de los niveles ${unirNombres(d.dificil.map(String))}, y 4 fáciles del tema del rival, de los niveles ${unirNombres(d.facil.map(String))}. ` +
+        "Van en 4 vueltas: en cada una, primero la fácil del rival y después la difícil de la tuya. El móvil cambia de manos al acabar cada uno su parte.",
+    ),
+    h(
+      "p",
+      {},
+      `Como al jugar solo: 8 opciones, tiempo para cada pregunta, y cada acierto suma 10 × su nivel por la velocidad (×${s.multiplicador_max} al instante, ×1 al acabarse el tiempo). ` +
+        `Un fallo no quita nada de lo ganado. Gana quien tenga más puntos (como mucho, ${max}); si empatan, quien tenga más aciertos. ` +
+        "Tras cada pregunta podéis decir si os ha parecido de su nivel o avisar de un fallo: se envía con los duelos, si lo aceptáis.",
+    ),
+    veloz
+      ? h(
+          "p",
+          {},
+          `Duelo veloz ⚡: la mitad. ${veloz.facil.length * 2} preguntas cada uno en ${veloz.facil.length} vueltas: las fáciles del rival, de los niveles ${unirNombres(veloz.facil.map(String))}, ` +
+            `y las difíciles de tu tema, de los niveles ${unirNombres(veloz.dificil.map(String))}.`,
+        )
+      : null,
+  ];
+}
+
 export function pantallaReglas(app, { volverA = "inicio" } = {}) {
   const [corta, media] = app.config.metas;
   const { nivel_base, nivel_max } = app.config.final;
@@ -161,6 +195,7 @@ export function pantallaReglas(app, { volverA = "inicio" } = {}) {
         h("li", {}, "Si se cierra la app, la partida se guarda y se puede continuar."),
       ),
       ...seccionSolo(app),
+      ...seccionDuelo(app),
       h("h2", {}, "Ayudad a mejorar las preguntas"),
       h(
         "p",

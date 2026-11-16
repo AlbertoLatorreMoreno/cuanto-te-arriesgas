@@ -33,13 +33,13 @@ POR_PETICION = 2000
 
 # Forma de un registro de la app (docs/esquema_datos.md). Lo que llega de la hoja lo puede haber enviado
 # cualquiera (la dirección del script es pública): lo que no tenga esta forma se descarta antes de calibrar.
-TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin"}
+TIPOS = {"respuesta", "anulacion", "revision", "ronda", "ronda_anulada", "final", "final_anulada", "solo", "solo_fin", "duelo", "duelo_fin"}
 ID_VALIDO = re.compile(r"^[A-Za-z0-9][\w.-]{0,99}$")
 TS_VALIDO = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$")
 LOGICOS = {"es_final", "acierto", "tiempo_agotado"}
 ENTEROS = {"turno", "v", "nivel_inicial", "nivel_mostrado", "apuesta", "nivel_desde", "nivel_hasta", "cronometro", "puntos", "nivel",
            "nivel_pedido", "ventaja", "rebaja", "ronda_oro", "aciertos", "minimo", "total", "leidos", "extra", "segundos",
-           "ms", "bote", "pasos"}
+           "ms", "bote", "pasos", "vuelta", "puntos_rival", "aciertos_rival", "respondidas"}
 NUMEROS = {"lat_senalada", "lon_senalada", "distancia_km", "distancia_max_km", "multiplicador"}
 LISTAS_DE_ENTEROS = {"marcados"}
 MAX_TEXTO = 200
@@ -123,8 +123,11 @@ def pedir(url: str, cuerpo: dict, espera: float = 120) -> dict:
 
 
 def descargar(url: str, codigo: str, pedir=pedir) -> tuple[list[dict], int]:
-    """Todos los registros de la hoja, por tandas, y cuántas filas no se han podido leer."""
+    """Todos los registros de la hoja, por tandas, y cuántas filas no se han podido leer. El script escribe lo nuevo
+    arriba: si llega algo entre dos tandas, empuja las filas hacia abajo y la siguiente tanda repite alguna de la
+    anterior, que aquí se quita (por su id)."""
     registros: list[dict] = []
+    vistos: set[str] = set()
     ilegibles = 0
     desde = 0
     while desde is not None:
@@ -132,7 +135,14 @@ def descargar(url: str, codigo: str, pedir=pedir) -> tuple[list[dict], int]:
         if not isinstance(r, dict) or r.get("ok") is not True:
             mensaje = r.get("mensaje") if isinstance(r, dict) else None
             raise ErrorDescarga(mensaje or "la respuesta no es la del script de la app.")
-        registros += [x for x in r.get("registros") or [] if isinstance(x, dict)]
+        for x in r.get("registros") or []:
+            if not isinstance(x, dict):
+                continue
+            if isinstance(x.get("id"), str):
+                if x["id"] in vistos:
+                    continue
+                vistos.add(x["id"])
+            registros.append(x)
         ilegibles += int(r.get("ilegibles") or 0)
         siguiente = r.get("siguiente")
         # Una respuesta que no avanza se cortaría aquí en vez de pedir lo mismo para siempre.

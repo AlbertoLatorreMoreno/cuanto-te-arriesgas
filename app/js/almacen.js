@@ -184,6 +184,18 @@ export async function crearAlmacen() {
         }
       }
       if (leer("pref.jugadorSolo", null)?.clave === clave) escribir("pref.jugadorSolo", undefined);
+      // Duelo: los duelos acabados en los que jugó (su historial) y la pareja recordada, si estaba en ella.
+      const historial = leer("duelo.historial", []);
+      if (Array.isArray(historial) && historial.some((x) => x?.jugadores?.some?.((j) => j?.clave === clave))) {
+        escribir("duelo.historial", historial.filter((x) => !x?.jugadores?.some?.((j) => j?.clave === clave)));
+      }
+      const pareja = leer("pref.dueloJugadores", null);
+      if (Array.isArray(pareja) && pareja.some((j) => j?.clave === clave)) escribir("pref.dueloJugadores", undefined);
+      const temasDuelo = leerMapa("pref.temasDuelo");
+      if (clave in temasDuelo) {
+        delete temasDuelo[clave];
+        escribir("pref.temasDuelo", temasDuelo);
+      }
     },
     // Olvida a los que llevan más de `dias` sin jugar; devuelve a quiénes.
     olvidarInactivos({ ahora, dias, protegidos }) {
@@ -210,6 +222,22 @@ export async function crearAlmacen() {
       const todos = leerMapa("solo.practica");
       todos[clave] = datos;
       return escribir("solo.practica", todos);
+    },
+
+    // --- duelo (duelo.js): el duelo en curso (uno por móvil) y el historial de los acabados (resumenDuelo), los
+    // más recientes al final.
+    dueloEnCurso() {
+      const d = leer("duelo.actual", null);
+      return d && typeof d === "object" && Array.isArray(d.plan) && Array.isArray(d.jugadores) && d.jugadores.length === 2 && Array.isArray(d.resultados) ? d : null;
+    },
+    guardarDuelo: (d) => escribir("duelo.actual", d ?? undefined),
+    historialDuelos() {
+      const x = leer("duelo.historial", []);
+      return Array.isArray(x) ? x.filter((d) => d && typeof d === "object" && Array.isArray(d.jugadores)) : [];
+    },
+    apuntarDuelo(resumen, max = 100) {
+      const todos = this.historialDuelos().filter((d) => d.id !== resumen.id);
+      return escribir("duelo.historial", [...todos, resumen].slice(-max));
     },
 
     // --- preferencias y metadatos
