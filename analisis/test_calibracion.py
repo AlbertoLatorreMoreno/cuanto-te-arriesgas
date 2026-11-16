@@ -124,15 +124,27 @@ class TestModelo(ConSimulaciones):
         r_est = rmse(self.res.ajuste.nivel_continuo[con3], real[con3])
         self.assertLess(r_est, 0.8 * r_ini, f"RMSE {r_est:.2f} frente a {r_ini:.2f}, {int(con3.sum())} preguntas")
 
-    def test_las_preguntas_sin_datos_no_empeoran(self):
-        d = self.res_peq.datos
+    @staticmethod
+    def _empeora_sin_datos(res, verdad) -> float:
+        """Cuánto más lejos del nivel real deja la calibración a las preguntas sin datos que el nivel del banco."""
+        d = res.datos
         sin = (contar([x["q"] for x in d.respuestas], len(BANCO)) == 0) & (contar([x["q"] for x in d.valoraciones], len(BANCO)) == 0)
-        real = self.verdad_peq["nivel_real"]
+        real = verdad["nivel_real"]
+        return rmse(res.ajuste.nivel_continuo[sin], real[sin]) - rmse(BANCO.nivel[sin], real[sin])
+
+    def test_las_preguntas_sin_datos_no_empeoran(self):
         # El margen era 0,02 con 1170 preguntas. Con 8570 y las mismas partidas simuladas, los ajustes por categoría y
         # por tema se estiman con los mismos datos repartidos entre siete veces más preguntas (y 11 temas más): 0,024.
-        # La diferencia depende de la semilla y del banco: el 15-11-2026, con seis semillas, fue de -0,032 a +0,039
-        # (media, cero). El margen cubre ese ruido; un empeoramiento de verdad sería mucho mayor.
-        self.assertLessEqual(rmse(self.res_peq.ajuste.nivel_continuo[sin], real[sin]), rmse(BANCO.nivel[sin], real[sin]) + 0.05)
+        # Con una sola semilla, la diferencia es ruido: con el banco del 16-11-2026 y doce semillas fue de -0,031 a
+        # +0,078 (la 7, la de la simulación compartida), con media cero. Por eso se mide la media de cinco simulaciones
+        # pequeñas: un empeoramiento de verdad la movería, y la mala suerte de una semilla no.
+        difs = [self._empeora_sin_datos(self.res_peq, self.verdad_peq)]
+        for semilla in (1, 2, 3, 4):
+            carpeta = self.tmp / f"peq-{semilla}"
+            verdad = simular_exportacion(CONFIG, BANCO, carpeta / "sim.json", semilla=semilla, n_partidas=3, revisiones_por_jugador=10)
+            difs.append(self._empeora_sin_datos(calibrar_callado(carpeta), verdad))
+        media = sum(difs) / len(difs)
+        self.assertLessEqual(media, 0.05, "por semilla: " + ", ".join(f"{x:+.3f}" for x in difs))
 
     def test_habilidades_y_efectos(self):
         u, m = self.res.ajuste.u, self.res.modelo
