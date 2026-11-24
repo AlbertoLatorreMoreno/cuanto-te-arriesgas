@@ -106,7 +106,9 @@ def banco_sintetico(por_celda=6):
 
 class TestGenerarRetos(unittest.TestCase):
     def test_calendario_en_orden_sin_repetir_y_temático_los_miércoles_y_domingos(self):
-        config, jugables = banco_sintetico()
+        # 8 por casilla: con 6, en 20 días una categoría podía quedarse sin las de un nivel según cómo cayera el azar
+        # (al añadir el tema Deporte, el 24-11-2026, Ciencias se quedó sin las de nivel 10 el último martes).
+        config, jugables = banco_sintetico(por_celda=8)
         inf = Informe()
         cal = gr.ampliar(config, {"dias": []}, jugables, date(2026, 11, 6), date(2026, 11, 25), inf)
         self.assertEqual(inf.errores, [])

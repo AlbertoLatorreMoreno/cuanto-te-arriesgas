@@ -20,7 +20,7 @@ function seccionTemas(app) {
       "p",
       {},
       (deFans.length ? `Los niveles de ${unirNombres(deFans.map((t) => t.nombre))} están pensados para quien elige el tema: una de nivel 5 la acierta la mitad de los que lo conocen bien, no la mitad de todos. ` : "") +
-        variados.map((t) => `${t.nombre} mezcla temas curiosos (${t.subtemas.map((s) => s.nombre).join(", ")}), con los niveles de siempre.`).join(" "),
+        (variados.length ? `Los de ${unirNombres(variados.map((t) => t.nombre))} llevan los niveles de siempre, los del jugador medio.` : ""),
     ),
   ];
 }

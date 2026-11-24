@@ -296,7 +296,10 @@ def validar_pregunta(p: dict, config: dict, inf: Informe):
     if p["subtema"] not in {s["id"] for s in cat["subtemas"]}:
         inf.error(donde, f"subtema desconocido «{p['subtema']}»")
     prefijo = f"{p['categoria'][:3]}-{p['subtema'][:3]}-"
-    if not re.fullmatch(re.escape(prefijo) + r"\d{2,4}", p["id"]):
+    # Una pregunta que pasa a otra categoría conserva su id (los ids son permanentes): su categoría declara los
+    # prefijos que heredó en «prefijos_heredados» (Deporte, que salió de Entretenimiento: «ent-dep-»).
+    prefijos = [prefijo, *cat.get("prefijos_heredados", [])]
+    if not any(re.fullmatch(re.escape(x) + r"\d{2,4}", p["id"]) for x in prefijos):
         inf.error(donde, f"el id debería tener la forma {prefijo}NN")
     if p["v"] < 1:
         inf.error(donde, "«v» empieza en 1")

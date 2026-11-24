@@ -76,8 +76,7 @@
         { "id": "cine", "nombre": "Cine" },
         { "id": "series", "nombre": "Series y televisión" },
         { "id": "musica", "nombre": "Música" },
-        { "id": "videojuegos", "nombre": "Videojuegos" },
-        { "id": "deportes", "nombre": "Deportes" }
+        { "id": "videojuegos", "nombre": "Videojuegos" }
       ]
     },
     {
@@ -346,6 +345,21 @@
           { "id": "origenes", "nombre": "Geografía e historia" },
           { "id": "herramientas", "nombre": "Tostado, molienda y cafeteras" },
           { "id": "bebidas", "nombre": "Preparaciones y vocabulario" }
+        ]
+      },
+      {
+        "id": "deporte",
+        "nombre": "Deporte",
+        "corto": "Deporte",
+        "color": "#4338ca",
+        "archivo": "data/temas/deporte.json",
+        "referencia": "medio",
+        "prefijos_heredados": ["ent-dep-"],
+        "subtemas": [
+          { "id": "equipo", "nombre": "Fútbol y deportes de equipo" },
+          { "id": "motor", "nombre": "Motor y ciclismo" },
+          { "id": "olimpicos", "nombre": "Juegos Olímpicos y atletismo" },
+          { "id": "raqueta", "nombre": "Raqueta, ajedrez y otros deportes" }
         ]
       }
     ]

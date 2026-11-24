@@ -32,7 +32,7 @@ Todos los archivos son JSON en UTF-8. Las fechas van en ISO 8601 UTC (`2026-10-1
 
 | Campo | Obligatorio | Descripción |
 |---|---|---|
-| `id` | sí | Único y permanente: `<cat>-<sub>-<nn>`. No incluye el nivel, porque el nivel cambia con la calibración. |
+| `id` | sí | Único y permanente: `<cat>-<sub>-<nn>`. No incluye el nivel, porque el nivel cambia con la calibración. Si una pregunta pasa a otra categoría o tema, conserva su id, y el destino declara el prefijo en `prefijos_heredados` (en `config.json`): las de Deporte, que salieron de Entretenimiento el 24-11-2026, siguen siendo `ent-dep-NN`. |
 | `v` | sí | Versión. **Súbela si cambias la pregunta, la respuesta, `tambien_vale` o `criterio`.** |
 | `categoria`, `subtema` | sí | Ids de `config.json`. |
 | `nivel` | sí | Nivel **inicial** (1–10) según la rúbrica. La calibración no lo toca: escribe sus correcciones en `ajustes.json`. |
@@ -65,7 +65,7 @@ El generador con la API no hace preguntas de mapa (necesitan coordenadas comprob
 
 ## Temas — `app/data/temas/<tema>.json`
 
-Preguntas de un tema que elige cada jugador al crear la partida (fase 23): Harry Potter, Star Wars, Marvel, Juego de tronos, Segunda Guerra Mundial y Sorpresa. Tienen el mismo formato que las del banco, y su `categoria` es el id del tema. En `config.json`, `temas.lista` tiene la misma forma que `categorias` (id, nombre, color, archivo y subtemas), más `corto` (el nombre en la tabla de «Datos») y `referencia`: `fan` si el nivel está pensado para quien elige el tema (ha visto las películas o leído los libros, sin ser experto) o `medio` si es el del jugador medio (Sorpresa, que se elige por variedad). Ver la rúbrica.
+Preguntas de un tema que elige cada jugador al crear la partida (fase 23): Harry Potter, Star Wars, Marvel, Juego de tronos, Segunda Guerra Mundial y Sorpresa. Tienen el mismo formato que las del banco, y su `categoria` es el id del tema. En `config.json`, `temas.lista` tiene la misma forma que `categorias` (id, nombre, color, archivo y subtemas), más `corto` (el nombre en la tabla de «Datos») y `referencia`: `fan` si el nivel está pensado para quien elige el tema (ha visto las películas o leído los libros, sin ser experto) o `medio` si es el del jugador medio (Sorpresa y Etimologías, que se eligen por variedad, y Deporte, cuyas preguntas se escribieron para el tablero, cuando eran un subtema de Entretenimiento). Ver la rúbrica.
 
 - **Cuándo salen.** Nunca en el tablero. En cada tanda de `temas.cada` (5) turnos normales de un jugador (ni final ni ronda ★), uno al azar entre el 2.º y el penúltimo es de su tema: así nunca salen dos seguidos ni en el primer turno, y todos tienen las mismas por partida. Se anuncia como cualquier pregunta, con su subtema, y se arriesga y se puntúa igual. Las ★ y las finales no cuentan como turnos normales: la pregunta de tema espera al siguiente.
 - **En la partida guardada**, cada jugador lleva `tema` (id o `null`), `turnosNormales` (los que lleva) y `turnoTema` (en cuál le toca la siguiente); el turno, `tema` (el id, si es de tema). Deshacer y reanudar funcionan igual, porque todo va en la partida. Una partida de antes de la fase 23, sin esos campos, se juega sin temas.

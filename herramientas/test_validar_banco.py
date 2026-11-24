@@ -87,6 +87,18 @@ class TestValidarPregunta(unittest.TestCase):
     def test_correcta(self):
         self.assertEqual(self.errores(self.base()), [])
 
+    def test_ids_heredados_de_otra_categoria(self):
+        # Deporte salió de Entretenimiento con sus ids («ent-dep-NN»); las nuevas llevan los del tema.
+        dep = dict(categoria="deporte", subtema="motor", pregunta="¿Qué color identifica a Ferrari?", respuesta="Rojo",
+                   verificacion=None, _archivo="deporte.json")
+        self.assertEqual(self.errores(self.base(id="ent-dep-47", **dep)), [])
+        self.assertEqual(self.errores(self.base(id="dep-mot-01", **dep)), [])
+        for id_ in ("ent-cin-47", "ent-dep-x"):
+            with self.subTest(id=id_):
+                self.assertTrue(any("el id debería" in e for e in self.errores(self.base(id=id_, **dep))))
+        # En otra categoría, el prefijo heredado no vale.
+        self.assertTrue(any("el id debería" in e for e in self.errores(self.base(id="ent-dep-48"))))
+
     def test_respuesta_que_no_cuadra(self):
         errores = self.errores(self.base(respuesta="54"))
         self.assertTrue(any("no coincide" in e for e in errores))

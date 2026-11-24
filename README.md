@@ -231,7 +231,7 @@ py herramientas/generar_mapa.py ruta/ne_50m_admin_0_countries.geojson
 
 ## Temas: la pregunta de cada jugador
 
-Al crear la partida, cada jugador puede elegir un tema (Harry Potter, Star Wars, Marvel, Juego de tronos, Segunda Guerra Mundial o Sorpresa) y, en una de cada 5 de sus preguntas normales, le toca una de su tema en vez de la de la casilla. Las preguntas están en `app/data/temas/<tema>.json`, con el mismo formato que el banco, y los temas, en `config.json` (`temas`). Sus niveles son para quien elige el tema (salvo en Sorpresa): ver la rúbrica. Por qué así y cuántas hacen falta: [docs/informe_temas.md](docs/informe_temas.md).
+Al crear la partida, cada jugador puede elegir un tema (Harry Potter, Star Wars, Pokémon, Deporte… la lista está en `config.json`) y, en una de cada 5 de sus preguntas normales, le toca una de su tema en vez de la de la casilla. Las preguntas están en `app/data/temas/<tema>.json`, con el mismo formato que el banco, y los temas, en `config.json` (`temas`). Sus niveles son para quien elige el tema (salvo en Sorpresa): ver la rúbrica. Por qué así y cuántas hacen falta: [docs/informe_temas.md](docs/informe_temas.md).
 
 - Para añadir preguntas a un tema, escríbelas en su archivo con un id nuevo de su subtema (`har-pel-11`…) y valida con `py herramientas/validar_banco.py --actualizar`. Basta con una por subtema y nivel, pero si un tema se elige mucho conviene llegar a dos.
 - Para un tema nuevo: añádelo a `config.json` (`temas.lista`), crea su archivo y súmalo a `ARCHIVOS` en `app/sw.js` (si no, no se podrá jugar sin conexión).

@@ -1,7 +1,7 @@
 // Service worker: primero la red (siempre la última versión del banco y los ajustes)
 // y, sin conexión, la copia guardada. VERSION la pone herramientas/versionar.py (no la toques a mano).
 
-const VERSION = "cta-3153662a06";
+const VERSION = "cta-656f344274";
 const ARCHIVOS = [
   "./",
   "index.html",
@@ -57,6 +57,7 @@ const ARCHIVOS = [
   "data/temas/ferrocarriles.json",
   "data/temas/etimologias.json",
   "data/temas/cafe.json",
+  "data/temas/deporte.json",
   "data/mapa.json",
   "data/retos.json",
   "data/opciones/ciencias.json",
@@ -80,6 +81,7 @@ const ARCHIVOS = [
   "data/opciones/ferrocarriles.json",
   "data/opciones/etimologias.json",
   "data/opciones/cafe.json",
+  "data/opciones/deporte.json",
   "icons/icono-180.png",
   "icons/icono-192.png",
   "icons/icono-512.png",
